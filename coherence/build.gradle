@@ -4,10 +4,15 @@ dependencies {
 
     api "io.micronaut:micronaut-inject"
 
+    compileOnly "com.oracle.coherence.ce:coherence"
+    
     testImplementation("org.spockframework:spock-core:${spockVersion}") {
         exclude module:'groovy-all'
     }
     testImplementation "io.micronaut.test:micronaut-test-spock:$micronautTestVersion"
+    testImplementation("io.micronaut.test:micronaut-test-junit5")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
+    testAnnotationProcessor "io.micronaut:micronaut-inject-java"
 }
 
 tasks.withType(Test) {

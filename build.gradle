@@ -11,12 +11,26 @@ buildscript {
 }
 
 subprojects { Project subproject ->
-    group "io.micronaut.xxx"
+    group "io.micronaut.coherence"
 
     apply plugin: "io.micronaut.build.common"
     apply plugin: "io.micronaut.build.dependency-updates"
 
     apply plugin: "io.micronaut.build.publishing"
+
+    dependencies {
+        implementation(platform("com.oracle.coherence.ce:coherence-bom:${coherenceVersion}"))
+    }
+
+    repositories {
+        maven {
+            url "https://oss.sonatype.org/content/repositories/snapshots"
+            mavenContent {
+                snapshotsOnly()
+            }
+        }
+    }
+
 }
 
 apply plugin: "io.micronaut.build.docs"
