@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<cache-config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://xmlns.oracle.com/coherence/coherence-cache-config"
+        xmlns:m="class://io.micronaut.coherence.namespace.MicronautNamespaceHandler"
+        xsi:schemaLocation="http://xmlns.oracle.com/coherence/coherence-cache-config coherence-cache-config.xsd">
+
+    <caching-scheme-mapping>
+        <cache-mapping>
+            <cache-name>foo</cache-name>
+            <scheme-name>foo-scheme</scheme-name>
+        </cache-mapping>
+        <cache-mapping>
+            <cache-name>bar</cache-name>
+            <scheme-name>bar-scheme</scheme-name>
+        </cache-mapping>
+    </caching-scheme-mapping>
+
+    <caching-schemes>
+        <distributed-scheme>
+            <scheme-name>foo-scheme</scheme-name>
+            <backing-map-scheme>
+                <read-write-backing-map-scheme>
+                    <internal-cache-scheme>
+                        <local-scheme/>
+                    </internal-cache-scheme>
+                    <cachestore-scheme>
+                        <m:bean>TestStoreOne</m:bean>
+                    </cachestore-scheme>
+                </read-write-backing-map-scheme>
+            </backing-map-scheme>
+        </distributed-scheme>
+
+        <distributed-scheme>
+            <scheme-name>bar-scheme</scheme-name>
+            <backing-map-scheme>
+                <read-write-backing-map-scheme>
+                    <internal-cache-scheme>
+                        <local-scheme/>
+                    </internal-cache-scheme>
+                    <cachestore-scheme>
+                        <m:bean system-property="test.bean.name">TestStoreOne</m:bean>
+                    </cachestore-scheme>
+                </read-write-backing-map-scheme>
+            </backing-map-scheme>
+        </distributed-scheme>
+    </caching-schemes>
+</cache-config>

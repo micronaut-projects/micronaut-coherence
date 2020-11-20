@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="class://io.micronaut.coherence.namespace.MicronautNamespaceHandler"
+            xmlns="class://io.micronaut.coherence.namespace.MicronautNamespaceHandler"
+            elementFormDefault="qualified"
+            version="1.0">
+
+    <xsd:complexType name="coherence-string-type">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="system-property" type="xsd:normalizedString" use="optional" />
+                <xsd:anyAttribute namespace="##other" processContents="lax"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+
+    <xsd:element name="bean" type="coherence-string-type">
+        <xsd:annotation>
+            <xsd:documentation>
+                A reference to a Micronaut bean.
+                The value of the bean element is used as the name
+                of a bean to lookup in the Micronaut bean context.
+            </xsd:documentation>
+        </xsd:annotation>
+    </xsd:element>
+
+</xsd:schema>
