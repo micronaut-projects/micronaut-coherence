@@ -45,7 +45,7 @@ import io.micronaut.inject.InjectionPoint;
  * @since 1.0
  */
 @Factory
-class MapEventTransformerFactories implements AnnotatedMapListener.MapEventTransformerProducer {
+public class MapEventTransformerFactories implements AnnotatedMapListener.MapEventTransformerProducer {
 
     /**
      * The Micronaut bean context.
@@ -58,7 +58,7 @@ class MapEventTransformerFactories implements AnnotatedMapListener.MapEventTrans
      * @param ctx the Micronaut bean context
      */
     @Inject
-    public MapEventTransformerFactories(ApplicationContext ctx) {
+    MapEventTransformerFactories(ApplicationContext ctx) {
         this.ctx = ctx;
     }
 

@@ -49,7 +49,7 @@ import io.micronaut.inject.InjectionPoint;
  * @since 1.0
  */
 @Factory
-class FilterFactories implements AnnotatedMapListener.FilterProducer {
+public class FilterFactories implements AnnotatedMapListener.FilterProducer {
 
     /**
      * The Micronaut bean context.
@@ -97,6 +97,15 @@ class FilterFactories implements AnnotatedMapListener.FilterProducer {
         };
     }
 
+    /**
+     * Create a {@link Filter} bean based on the annotations present
+     * on an injection point.
+     *
+     * @param injectionPoint  the {@link io.micronaut.inject.InjectionPoint} to
+     *                        create the {@link Filter} for
+     * @return a {@link Filter} bean based on the annotations present
+     *         on the injection point
+     */
     @Prototype
     @SuppressWarnings({"rawtypes", "unchecked"})
     Filter<?> filter(InjectionPoint<?> injectionPoint) {

@@ -14,6 +14,7 @@ dependencies {
         exclude module:'groovy-all'
     }
     testImplementation "io.micronaut.test:micronaut-test-spock:$micronautTestVersion"
+    testImplementation "com.oracle.bedrock:bedrock-testing-support:$bedrockVersion"
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
     testAnnotationProcessor "io.micronaut:micronaut-inject-java"
 }
