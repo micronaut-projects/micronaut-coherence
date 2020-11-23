@@ -33,7 +33,8 @@ import io.micronaut.context.env.Environment;
  * is bound to the Micronaut context to ensure it is eagerly instantiated before
  * any Coherence class that might need properties.</p>
  *
- * @author Jonathan Knight  2020.10.21
+ * @author Jonathan Knight
+ * @since 1.0
  */
 @Singleton
 @Context

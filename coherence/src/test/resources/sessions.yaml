@@ -2,6 +2,8 @@ coherence:
   cluster: test-cluster
   role: test
   ttl: 0
+  distributed:
+    localstorage: true
   session:
     default:
       config: coherence-cache-config.xml
