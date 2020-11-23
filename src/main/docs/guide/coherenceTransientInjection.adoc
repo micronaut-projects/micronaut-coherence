@@ -1,0 +1,74 @@
+Using Micronaut to inject Coherence objects into your application classes, and Micronaut beans into Coherence-managed objects will
+allow you to support many use cases where dependency injection may be useful, but it doesn't cover an important use
+case that is somewhat specific to Coherence.
+
+Coherence is a distributed system, and it uses serialization in order to send both the data and the  processing requests
+from one cluster member (or remote client) to another, as well as to store data, both in memory and on disk.
+
+Processing requests, such as entry processors and aggregators, have to be deserialized on a target cluster member(s) in
+order to be executed. In some cases, they could benefit from dependency injection in order to avoid service lookups.
+
+Similarly, while the data is stored in a serialized, binary format, it may need to be deserialized into user supplied
+classes for server-side processing, such as when executing entry processors and aggregators. In this case, data classes
+can often also benefit from dependency injection (in order to support Domain-Driven Design (DDD), for example).
+
+While these transient objects are not managed by the Micronaut container, Coherence Micronaut does support their injection during
+deserialization, but for performance reasons requires that you explicitly opt-in by implementing
+`com.oracle.coherence.cdi.Injectable` interface.
+
+== Making transient classes `Injectable`
+
+While not technically a true marker interface, `com.oracle.coherence.inject.Injectable` can be treated as such for
+all intents and purposes.
+All you need to do is add it to the `implements` clause of your class in order for injection on deserialization to
+kick in:
+
+[source,java]
+----
+public class InjectableBean
+        implements Injectable, Serializable {
+
+    @Inject
+    private Converter<String, String> converter;
+
+    private String text;
+
+    InjectableBean() {
+    }
+
+    InjectableBean(String text) {
+        this.text = text;
+    }
+
+    String getConvertedText() {
+        return converter.convert(text);
+    }
+}
+----
+
+Assuming that you have the following `Converter` service implementation in your application, it will be injected
+into `InjectableBean` during deserialization, and the `getConvertedText` method will return the value of the `text`
+field converted to upper case:
+
+[source,java]
+----
+@ApplicationScoped
+public class ToUpperConverter
+        implements Converter<String, String> {
+    @Override
+    public String convert(String s) {
+        return s.toUpperCase();
+    }
+}
+----
+
+NOTE: If your `Injectable` class has `@PostConstruct` callback method, it will be called after the injection.
+However, because we have no control over object's lifecycle after that point, `@PreDestroy` callback will *never* be called).
+
+You should note that the above functionality is not dependent on the serialization format and will work with both
+Java and POF serialization (or any other custom serializer), and for any object that is  deserialized on any Coherence
+member (or even on a remote client).
+
+While the deserialized transient objects are not true Micronaut managed beans, being able to inject Micronaut managed dependencies
+into them upon deserialization will likely satisfy most dependency injection requirements you will ever have in those
+application components.

@@ -1,0 +1,77 @@
+You can inject Micronaut bean into the standard Coherence cache configuration file by using the Coherence Micronaut
+custom namespace handler.
+
+Custom namespace handlers are a standard feature of Coherence that allow the cache configuration file to be customized considerably.
+
+The Coherence Micronaut custom namespace handler provides a single additional XML element named `<bean>` that is
+used to declare a named Micronaut bean for injection into the configuration.
+
+To use the Coherence Micronaut custom namespace handler it must be declared in the XML configuration file alongside the
+other XSD values:
+
+[source,xml]
+----
+<?xml version="1.0"?>
+<cache-config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://xmlns.oracle.com/coherence/coherence-cache-config"
+        xmlns:m="class://io.micronaut.coherence.namespace.MicronautNamespaceHandler"   <1>
+        xsi:schemaLocation="http://xmlns.oracle.com/coherence/coherence-cache-config coherence-cache-config.xsd">
+----
+<1> The namespace is decalred as `xmlns:m="class://io.micronaut.coherence.namespace.MicronautNamespaceHandler"`
+where `io.micronaut.coherence.namespace.MicronautNamespaceHandler` is actually the class implementing the custom
+namespace handler. The `m` prefix in `xmlns:m` means that the custom XML elements should be prefixed with `m:`
+so in this case `<m:bean>beanName</m:bean>`
+
+The `<bean>` element can be used anywhere in the configuration that an `instance` element would be used, for example
+when declaring interceptors, cache stores, listeners, etc.
+
+For examples, with the following entry event interceptor:
+
+[source,java]
+----
+import javax.inject.Singleton;
+
+import com.tangosol.net.events.EventInterceptor;
+import com.tangosol.net.events.annotation.EntryEvents;
+import com.tangosol.net.events.annotation.Interceptor;
+import com.tangosol.net.events.partition.cache.EntryEvent;
+
+@Singleton
+@Named("Foo")   // <1>
+@Interceptor
+@EntryEvents({EntryEvent.Type.INSERTED, EntryEvent.Type.UPDATED, EntryEvent.Type.REMOVED})
+public class MyInterceptor implements EventInterceptor<EntryEvent<?, ?>> {
+    @Override
+    public void onEvent(EntryEvent<?, ?> event) {
+        // process the event.
+    }
+}
+----
+
+<1> The interceptor is a `@Singleton` bean `@Named` with the name `Foo`
+
+This bean can be referenced in the cache configuration file, for example as an interceptor in a cache mapping:
+
+[source,xml]
+----
+<?xml version="1.0"?>
+<cache-config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://xmlns.oracle.com/coherence/coherence-cache-config"
+        xmlns:m="class://io.micronaut.coherence.namespace.MicronautNamespaceHandler"
+        xsi:schemaLocation="http://xmlns.oracle.com/coherence/coherence-cache-config coherence-cache-config.xsd">
+
+    <caching-scheme-mapping>
+        <cache-mapping>
+            <cache-name>*</cache-name>
+            <scheme-name>distributed-scheme</scheme-name>
+            <interceptors>
+                <interceptor>
+                    <instance>
+                        <m:bean>Foo</m:bean>   <1>
+                    </instance>
+                </interceptor>
+            </interceptors>
+        </cache-mapping>
+----
+<1> The `Foo` interceptor will be injected into the cache mapping.
+

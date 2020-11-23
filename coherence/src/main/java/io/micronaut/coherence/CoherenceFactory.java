@@ -18,16 +18,14 @@ package io.micronaut.coherence;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
+import com.oracle.coherence.inject.Name;
+
 import com.tangosol.net.CacheFactory;
+import com.tangosol.net.Cluster;
 import com.tangosol.net.Coherence;
 import com.tangosol.net.CoherenceConfiguration;
-import com.tangosol.net.ConfigurableCacheFactory;
 import com.tangosol.net.Session;
 import com.tangosol.net.SessionConfiguration;
-import com.tangosol.net.events.EventInterceptor;
-import com.tangosol.net.events.annotation.Interceptor;
-import com.tangosol.net.events.annotation.LifecycleEvents;
-import com.tangosol.net.events.application.LifecycleEvent;
 
 import io.micronaut.coherence.events.CoherenceEventListenerProcessor;
 import io.micronaut.context.annotation.Bean;
@@ -68,7 +66,6 @@ class CoherenceFactory {
         CoherenceConfiguration cfg = CoherenceConfiguration.builder()
                 .withSessions(configurations)
                 .withSessionProviders(configProvider)
-                .withEventInterceptor(new Listener())
                 .withEventInterceptors(listenerProcessor.getInterceptors())
                 .build();
 
@@ -87,24 +84,21 @@ class CoherenceFactory {
     @Prototype
     @Named("Name")
     Session getSession(InjectionPoint<?> injectionPoint) {
-//        String sName = injectionPoint.findAnnotation(Name.class)
-//                .flatMap(value -> value.getValue(String.class))
-//                .orElse(Coherence.DEFAULT_NAME);
-        String sName = Coherence.DEFAULT_NAME;
+        String sName = injectionPoint.findAnnotation(Name.class)
+                .flatMap(value -> value.getValue(String.class))
+                .orElse(Coherence.DEFAULT_NAME);
 
         return Coherence.findSession(sName)
                 .orElseThrow(() -> new IllegalStateException("No Session has been configured with the name " + sName));
     }
 
-    // ToDo: remove this when we pick up the Coherence version that properly cleans up
-    @Interceptor
-    @LifecycleEvents(LifecycleEvent.Type.DISPOSING)
-    private static class Listener
-            implements EventInterceptor<LifecycleEvent> {
-        @Override
-        public void onEvent(LifecycleEvent event) {
-            ConfigurableCacheFactory ccf = event.getConfigurableCacheFactory();
-            CacheFactory.getCacheFactoryBuilder().release(ccf);
-        }
+    /**
+     * Return the Coherence {@link Cluster}.
+     *
+     * @return the Coherence {@link Cluster} (which may or may not be running)
+     */
+    @Singleton
+    Cluster getCluster() {
+        return CacheFactory.getCluster();
     }
 }
