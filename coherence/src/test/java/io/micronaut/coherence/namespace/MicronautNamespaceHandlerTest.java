@@ -41,7 +41,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
  * @author Jonathan Knight
  * @since 1.0
  */
-@MicronautTest(startApplication = false)
+@MicronautTest(startApplication = false, propertySources = "classpath:micronaut-namespacehandler-test.yaml")
 class MicronautNamespaceHandlerTest {
 
     private static ExtensibleConfigurableCacheFactory eccf;
@@ -49,8 +49,6 @@ class MicronautNamespaceHandlerTest {
     @BeforeAll
     static void setup() {
         String xml = "micronaut-namespace-handler-test-config.xml";
-        System.setProperty("test.bean.name", "TestStoreTwo");
-        System.setProperty("coherence.ttl", "0");
         ExtensibleConfigurableCacheFactory.Dependencies deps
                 = ExtensibleConfigurableCacheFactory.DependenciesHelper.newInstance(xml);
         eccf = new ExtensibleConfigurableCacheFactory(deps);

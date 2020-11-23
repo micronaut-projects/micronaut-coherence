@@ -1,0 +1,6 @@
+coherence:
+  ttl: 0
+test:
+  bean:
+    name: TestStoreTwo
+
