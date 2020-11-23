@@ -42,11 +42,6 @@ public class CoherenceServer
     private final ApplicationContext ctx;
 
     /**
-     * The Coherence application configuration.
-     */
-    private final DefaultCoherenceConfiguration config;
-
-    /**
      * The {@link com.tangosol.net.Coherence} instance to run.
      */
     private final Coherence coherence;
@@ -55,19 +50,16 @@ public class CoherenceServer
      * Create a {@link CoherenceServer}.
      *
      * @param ctx       the Micronaut {@link io.micronaut.context.ApplicationContext}
-     * @param config    the server configuration
      * @param coherence the {@link com.tangosol.net.Coherence} instance to run
      */
     @Inject
-    public CoherenceServer(ApplicationContext ctx, DefaultCoherenceConfiguration config, Coherence coherence) {
+    public CoherenceServer(ApplicationContext ctx, Coherence coherence) {
         this.ctx = ctx;
-        this.config = config;
         this.coherence = coherence;
     }
 
     @Override
     public ApplicationConfiguration getApplicationConfiguration() {
-//        return config.getApplicationConfiguration();
         return null;
     }
 

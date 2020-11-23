@@ -36,10 +36,6 @@ import static org.hamcrest.CoreMatchers.sameInstance;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-/**
- * @author Jonathan Knight
- * @since 1.0
- */
 @MicronautTest(startApplication = false)
 class BeanBuilderTest {
 

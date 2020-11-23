@@ -23,12 +23,6 @@ import static org.hamcrest.CoreMatchers.sameInstance;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.mock;
 
-/**
- * Unit test for CoherenceContext.
- *
- * @author Jonathan Knight
- * @since 1.0
- */
 class CoherenceContextTest {
 
     @Test

@@ -38,11 +38,7 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-/**
- * @author Jonathan Knight
- * @since 1.0
- */
-@MicronautTest(startApplication = false, propertySources = "classpath:sessions.yaml")
+@MicronautTest(startApplication = false, propertySources = "classpath:session-test.yaml")
 class SessionConfigurationBeanTest {
 
     @Inject

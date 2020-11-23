@@ -35,12 +35,6 @@ import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-/**
- * Tests for {@link MicronautNamespaceHandler}.
- *
- * @author Jonathan Knight
- * @since 1.0
- */
 @MicronautTest(startApplication = false, propertySources = "classpath:micronaut-namespacehandler-test.yaml")
 class MicronautNamespaceHandlerTest {
 

@@ -1,0 +1,8 @@
+coherence:
+  session:
+    foo:
+      config: foo-config.xml
+      scopeName: Foo
+    bar:
+    default:
+      config: coherence-config.xml

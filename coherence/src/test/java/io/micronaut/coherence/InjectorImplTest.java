@@ -38,12 +38,6 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-/**
- * Integration test for {@link InjectorImpl}.
- *
- * @author Jonathan Knight
- * @since 1.0
- */
 @MicronautTest(startApplication = false)
 class InjectorImplTest {
 

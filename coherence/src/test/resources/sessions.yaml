@@ -1,8 +1,10 @@
 coherence:
+  cluster: test-cluster
+  role: test
+  ttl: 0
   session:
-    foo:
-      config: foo-config.xml
-      scopeName: Foo
-    bar:
     default:
-      config: coherence-config.xml
+      config: coherence-cache-config.xml
+    test:
+      scopeName: Test
+      config: test-coherence-config.xml
