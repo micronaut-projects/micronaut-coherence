@@ -154,7 +154,7 @@ class FilterFactories implements AnnotatedMapListener.FilterProducer {
      */
     @SuppressWarnings("rawtypes")
     static class FilterFactoryQualifier implements Qualifier<FilterFactory> {
-        private final Class<? extends Annotation> m_class;
+        private final Class<? extends Annotation> type;
 
         /**
          * Create a qualifier that matches the specific {@link com.oracle.coherence.inject.FilterFactory} type.
@@ -162,13 +162,13 @@ class FilterFactories implements AnnotatedMapListener.FilterProducer {
          * @param cls the {@link com.oracle.coherence.inject.FilterFactory} to match
          */
         FilterFactoryQualifier(Class<? extends Annotation> cls) {
-            m_class = cls;
+            type = cls;
         }
 
         @Override
         public <BT extends BeanType<FilterFactory>> Stream<BT> reduce(Class<FilterFactory> beanType,
                                                                       Stream<BT> candidates) {
-            return candidates.filter(bt -> bt.isAnnotationPresent(m_class));
+            return candidates.filter(bt -> bt.isAnnotationPresent(type));
         }
     }
 }
