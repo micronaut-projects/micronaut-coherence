@@ -1,0 +1,18 @@
+coherence:
+  cluster: test-cluster
+  role: test
+  ttl: 0
+  distributed:
+    localstorage: true
+
+  grpc:
+    channel:
+      foo:
+        hostname: 127.0.0.1
+        port: 1408
+
+  session:
+    default:
+      config: coherence-cache-config.xml
+    test:
+      channelName: default

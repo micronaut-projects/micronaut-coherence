@@ -1,3 +1,5 @@
 rootProject.name = 'coherence'
 
 include 'coherence'
+include 'coherence-grpc-client'
+include 'coherence-grpc-test'

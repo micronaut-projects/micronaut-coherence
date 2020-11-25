@@ -15,6 +15,10 @@
  */
 package io.micronaut.coherence;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.inject.Named;
 import javax.inject.Singleton;
 
@@ -52,7 +56,7 @@ class CoherenceFactory {
      * beans or {@link com.tangosol.net.SessionConfiguration.Provider} beans.</p>
      *
      * @param configurations    zero or more {@link com.tangosol.net.SessionConfiguration} beans
-     * @param configProvider    zero or more {@link com.tangosol.net.SessionConfiguration} beans
+     * @param providers         zero or more {@link com.tangosol.net.SessionConfiguration} beans
      * @param listenerProcessor the CoherenceEventListenerProcessor that discovers event interceptor methods
      *
      * @return the default {@link com.tangosol.net.Coherence} instance used by the Micronaut
@@ -60,12 +64,11 @@ class CoherenceFactory {
     @Singleton
     @Named(Coherence.DEFAULT_NAME)
     Coherence getCoherence(SessionConfiguration[] configurations,
-                           SessionConfiguration.Provider[] configProvider,
+                           SessionConfiguration.Provider[] providers,
                            CoherenceEventListenerProcessor listenerProcessor) {
 
         CoherenceConfiguration cfg = CoherenceConfiguration.builder()
-                .withSessions(configurations)
-                .withSessionProviders(configProvider)
+                .withSessions(CoherenceFactory.collectConfigurations(configurations, providers))
                 .withEventInterceptors(listenerProcessor.getInterceptors())
                 .build();
 
@@ -100,5 +103,43 @@ class CoherenceFactory {
     @Singleton
     Cluster getCluster() {
         return CacheFactory.getCluster();
+    }
+
+    /**
+     * Collect all of the {@link SessionConfiguration} and {@link SessionConfiguration.Provider} beans into
+     * a definitive collection of configurations.
+     * <p>If two configurations with the same {@link com.tangosol.net.SessionConfiguration#getName() name} are found
+     * the first one discovered wins unless the subsequent beans are annotated with the
+     * {@link io.micronaut.coherence.SessionConfigurationBean.Replaces} annotation</p>
+     *
+     * @param configurations the {@link com.tangosol.net.SessionConfiguration} beans
+     * @param providers      the {@link com.tangosol.net.SessionConfiguration.Provider} beans
+     *
+     * @return the definitive collection of configurations to use
+     */
+    static Collection<SessionConfiguration> collectConfigurations(SessionConfiguration[] configurations,
+                                                                  SessionConfiguration.Provider[] providers) {
+
+        Map<String, SessionConfiguration> configMap = new HashMap<>();
+        for (SessionConfiguration cfg : configurations) {
+            if (cfg != null && cfg.isEnabled()) {
+                String name = cfg.getName();
+                if (!configMap.containsKey(name) || cfg.getClass().isAnnotationPresent(SessionConfigurationBean.Replaces.class)) {
+                    configMap.put(name, cfg);
+                }
+            }
+        }
+
+        for (SessionConfiguration.Provider provider : providers) {
+            SessionConfiguration cfg = provider.getConfiguration();
+            if (cfg != null && cfg.isEnabled()) {
+                String name = cfg.getName();
+                if (!configMap.containsKey(name) || provider.getClass().isAnnotationPresent(SessionConfigurationBean.Replaces.class)) {
+                    configMap.put(name, cfg);
+                }
+            }
+        }
+
+        return configMap.values();
     }
 }

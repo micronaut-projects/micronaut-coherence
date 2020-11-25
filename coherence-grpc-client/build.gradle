@@ -2,12 +2,11 @@ dependencies {
     annotationProcessor "io.micronaut:micronaut-inject-java"
     annotationProcessor "io.micronaut.docs:micronaut-docs-asciidoc-config-props:$micronautDocsVersion"
 
+    api project(':coherence')
     api "io.micronaut:micronaut-inject"
     api "io.micronaut:micronaut-runtime"
-    api "com.oracle.coherence.ce:coherence"
+    api "com.oracle.coherence.ce:coherence-java-client"
 
-    compileOnly "com.oracle.coherence.ce:coherence-json"
-    compileOnly "com.oracle.coherence.ce:coherence-grpc-proxy"
 
     testImplementation "org.mockito:mockito-core:3.6.0"
     testImplementation "org.hamcrest:hamcrest:2.2"

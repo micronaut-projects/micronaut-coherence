@@ -1,10 +1,9 @@
 coherence:
   session:
-    session-one:
+    foo:
       config: foo-config.xml
       scopeName: Foo
-    session-two:
-      name: SessionTwo
-    session-three:
+    bar:
+      channelName: default
     default:
       config: coherence-config.xml

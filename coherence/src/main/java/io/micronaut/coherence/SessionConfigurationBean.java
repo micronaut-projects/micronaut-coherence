@@ -15,67 +15,86 @@
  */
 package io.micronaut.coherence;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 import com.tangosol.net.Coherence;
-import com.tangosol.net.Session;
 import com.tangosol.net.SessionConfiguration;
-import com.tangosol.net.options.WithConfiguration;
-import com.tangosol.net.options.WithName;
-import com.tangosol.net.options.WithScopeName;
 
 import io.micronaut.context.annotation.EachProperty;
 import io.micronaut.context.annotation.Parameter;
 
 /**
+ * A {@link SessionConfiguration} bean that will be created for
+ * each named session in the application configuration properties.
+ * <p>Sessions are configured with the {@code coherence.session} prefix,
+ * for example {@code coherence.session.foo} configures a session named
+ * foo.</p>
+ * <p>The session name {@code default} is a special case that configures
+ * the default session named {@link com.tangosol.net.Coherence#DEFAULT_NAME}.</p>
+ *
  * @author Jonathan Knight
  * @since 1.0
  */
-@EachProperty("coherence.session")
-class SessionConfigurationBean implements SessionConfiguration {
+@EachProperty(value = "coherence.session", primary = "default")
+public class SessionConfigurationBean implements SessionConfiguration.Provider {
 
-    private final String name;
+    /**
+     * The name of the session.
+     */
+    private String name;
 
+    /**
+     * The scope name for the session.
+     */
     private String scopeName;
 
+    /**
+     * The Coherence cache configuration URI for the session.
+     */
     private String configUri;
 
-    SessionConfigurationBean(@Parameter String name) {
-        this.name = "default".equalsIgnoreCase(name) ? Coherence.DEFAULT_NAME : name;
+    /**
+     * The priority order to use when starting the {@link com.tangosol.net.Session}.
+     * <p>
+     * Sessions will be started lowest priority first.
+     * @see com.tangosol.net.SessionConfiguration#DEFAULT_PRIORITY
+     */
+    private int priority = SessionConfiguration.DEFAULT_PRIORITY;
+
+    /**
+     * Create a named {@link SessionConfigurationBean}.
+     *
+     * @param name the name for the session
+     */
+    protected SessionConfigurationBean(@Parameter String name) {
+        setName(name);
     }
 
     @Override
-    public Session.Option[] getOptions() {
-        List<Session.Option> options = new ArrayList<>();
+    public SessionConfiguration getConfiguration() {
+        SessionConfiguration.Builder builder = SessionConfiguration
+                .builder()
+                .named(name)
+                .withPriority(priority);
 
-        if ("default".equalsIgnoreCase(name)) {
-            options.add(WithName.defaultName());
-        } else {
-            options.add(WithName.of(name));
+        if (scopeName != null) {
+            builder = builder.withScopeName(scopeName);
         }
-
-        options.add(WithScopeName.of(getScopeName()));
-
         if (configUri != null) {
-            options.add(WithConfiguration.using(configUri));
+            builder = builder.withConfigUri(configUri);
         }
-
-        return options.toArray(new Session.Option[0]);
+        return builder.build();
     }
 
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public String getScopeName() {
-        if (scopeName == null) {
-            return Coherence.DEFAULT_NAME.equals(name) ? Coherence.DEFAULT_SCOPE : name;
-        } else {
-            return scopeName;
-        }
+    /**
+     * Set the name of this configuration.
+     *
+     * @param name the name of this configuration
+     */
+    public void setName(String name) {
+        this.name = "default".equalsIgnoreCase(name) ? Coherence.DEFAULT_NAME : name;
     }
 
     /**
@@ -103,5 +122,27 @@ class SessionConfigurationBean implements SessionConfiguration {
      */
     public void setConfig(String configUri) {
         this.configUri = configUri;
+    }
+
+    /**
+     * Set the priority for this configuration.
+     * <p>{@link com.tangosol.net.Session Sessions} are started lowest priority first
+     * and closed in reverse order.</p>
+     *
+     * @param priority the priority for this configuration
+     * @see com.tangosol.net.SessionConfiguration#getPriority()
+     */
+    public void setPriority(int priority) {
+        this.priority = priority;
+    }
+
+    /**
+     * A marker annotation on a {@link com.tangosol.net.SessionConfiguration} or
+     * a {@link com.tangosol.net.SessionConfiguration.Provider} to indicate that
+     * it replaces another configuration with the same name.
+     */
+    @Documented
+    @Retention(RetentionPolicy.RUNTIME)
+    public @interface Replaces {
     }
 }

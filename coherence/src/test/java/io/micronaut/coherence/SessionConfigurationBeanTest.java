@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import com.oracle.coherence.common.util.Options;
 
@@ -30,6 +31,7 @@ import com.tangosol.net.options.WithName;
 import com.tangosol.net.options.WithScopeName;
 
 import io.micronaut.context.ApplicationContext;
+import io.micronaut.context.annotation.Requires;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import org.junit.jupiter.api.Test;
 
@@ -38,7 +40,7 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-@MicronautTest(startApplication = false, propertySources = "classpath:session-test.yaml")
+@MicronautTest(startApplication = false, propertySources = "classpath:session-test.yaml", environments = "SessionConfigurationBeanTest")
 class SessionConfigurationBeanTest {
 
     @Inject
@@ -46,32 +48,46 @@ class SessionConfigurationBeanTest {
 
     @Test
     void shouldConfigureSessions() {
-        Map<String, SessionConfiguration> beans = ctx.getBeansOfType(SessionConfiguration.class)
+        SessionConfiguration.Provider[] providers = ctx.getBeansOfType(SessionConfiguration.Provider.class)
+                .toArray(new SessionConfiguration.Provider[0]);
+
+        Map<String, SessionConfiguration> beans = CoherenceFactory.collectConfigurations(new SessionConfiguration[0], providers)
                 .stream()
                 .collect(Collectors.toMap(SessionConfiguration::getName, cfg -> cfg));
 
-        assertThat(beans.size(), is(3));
+        assertThat(beans.size(), is(4));
 
-        SessionConfiguration beanFoo = beans.get("foo");
-        assertThat(beanFoo, is(notNullValue()));
-        assertThat(beanFoo.getScopeName(), is("Foo"));
-        Options<Session.Option> optionsFoo = Options.from(Session.Option.class, beanFoo.getOptions());
+        SessionConfiguration beanOne = beans.get("session-one");
+        assertThat(beanOne, is(notNullValue()));
+        assertThat(beanOne.getScopeName(), is("Foo"));
+        Options<Session.Option> optionsFoo = Options.from(Session.Option.class, beanOne.getOptions());
         assertThat(optionsFoo.get(WithName.class), is(notNullValue()));
-        assertThat(optionsFoo.get(WithName.class).getName(), is("foo"));
+        assertThat(optionsFoo.get(WithName.class).getName(), is("session-one"));
         assertThat(optionsFoo.get(WithScopeName.class), is(notNullValue()));
         assertThat(optionsFoo.get(WithScopeName.class).getScopeName(), is("Foo"));
         assertThat(optionsFoo.get(WithConfiguration.class), is(notNullValue()));
         assertThat(optionsFoo.get(WithConfiguration.class).getLocation(), is("foo-config.xml"));
 
-        SessionConfiguration beanBar = beans.get("bar");
-        assertThat(beanBar, is(notNullValue()));
-        assertThat(beanBar.getScopeName(), is("bar"));
-        Options<Session.Option> optionsBar = Options.from(Session.Option.class, beanBar.getOptions());
-        assertThat(optionsBar.get(WithName.class), is(notNullValue()));
-        assertThat(optionsBar.get(WithName.class).getName(), is("bar"));
-        assertThat(optionsBar.get(WithScopeName.class), is(notNullValue()));
-        assertThat(optionsBar.get(WithScopeName.class).getScopeName(), is("bar"));
-        assertThat(optionsBar.get(WithConfiguration.class, null), is(nullValue()));
+        SessionConfiguration beanTwo = beans.get("SessionTwo");
+        assertThat(beanTwo, is(notNullValue()));
+        assertThat(beanTwo.getScopeName(), is("SessionTwo"));
+        Options<Session.Option> optionsTwo = Options.from(Session.Option.class, beanTwo.getOptions());
+        assertThat(optionsTwo.get(WithName.class), is(notNullValue()));
+        assertThat(optionsTwo.get(WithName.class).getName(), is("SessionTwo"));
+        assertThat(optionsTwo.get(WithScopeName.class), is(notNullValue()));
+        assertThat(optionsTwo.get(WithScopeName.class).getScopeName(), is("SessionTwo"));
+        assertThat(optionsTwo.get(WithConfiguration.class, null), is(nullValue()));
+
+        SessionConfiguration beanThree = beans.get("session-three");
+        assertThat(beanThree, is(notNullValue()));
+        assertThat(beanThree.getScopeName(), is("session-three"));
+        Options<Session.Option> optionsThree = Options.from(Session.Option.class, beanThree.getOptions());
+        assertThat(optionsThree.get(WithName.class), is(notNullValue()));
+        assertThat(optionsThree.get(WithName.class).getName(), is("session-three"));
+        assertThat(optionsThree.get(WithScopeName.class), is(notNullValue()));
+        assertThat(optionsThree.get(WithScopeName.class).getScopeName(), is("session-three"));
+        assertThat(optionsThree.get(WithConfiguration.class), is(notNullValue()));
+        assertThat(optionsThree.get(WithConfiguration.class).getLocation(), is("three.xml"));
 
         SessionConfiguration beanDefault = beans.get(Coherence.DEFAULT_NAME);
         assertThat(beanDefault, is(notNullValue()));
@@ -83,5 +99,18 @@ class SessionConfigurationBeanTest {
         assertThat(optionsDefault.get(WithScopeName.class).getScopeName(), is(Coherence.DEFAULT_SCOPE));
         assertThat(optionsDefault.get(WithConfiguration.class), is(notNullValue()));
         assertThat(optionsDefault.get(WithConfiguration.class).getLocation(), is("coherence-config.xml"));
+    }
+
+    @Singleton
+    @Requires(env = "SessionConfigurationBeanTest") // only enabled for this test
+    @SessionConfigurationBean.Replaces
+    static class Config implements SessionConfiguration.Provider {
+        @Override
+        public SessionConfiguration getConfiguration() {
+            return SessionConfiguration.builder()
+                    .named("session-three")
+                    .withConfigUri("three.xml")
+                    .build();
+        }
     }
 }
