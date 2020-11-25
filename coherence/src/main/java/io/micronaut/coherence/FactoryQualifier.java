@@ -37,7 +37,7 @@ class FactoryQualifier<T> implements Qualifier<T> {
     private final Class<? extends Annotation> type;
 
     /**
-     * If the annotation is a {@literal}{@link java.lang.annotation.Repeatable} annotation
+     * If the annotation is a {@literal @}{@link java.lang.annotation.Repeatable} annotation
      * this is its holder annotation.
      */
     private final Class<? extends Annotation> holder;
