@@ -19,7 +19,6 @@ import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Stream;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -35,11 +34,9 @@ import com.tangosol.util.Filters;
 import com.tangosol.util.QueryHelper;
 
 import io.micronaut.context.ApplicationContext;
-import io.micronaut.context.Qualifier;
 import io.micronaut.context.annotation.Factory;
 import io.micronaut.context.annotation.Prototype;
 import io.micronaut.core.annotation.AnnotationMetadata;
-import io.micronaut.inject.BeanType;
 import io.micronaut.inject.InjectionPoint;
 
 /**
@@ -113,7 +110,7 @@ public class FilterFactories implements AnnotatedMapListener.FilterProducer {
         List<Class<? extends Annotation>> bindings = metadata.getAnnotationTypesByStereotype(FilterBinding.class);
 
         for (Class<? extends Annotation> type : bindings) {
-            FilterFactory filterFactory = ctx.findBean(FilterFactory.class, new FilterFactoryQualifier(type))
+            FilterFactory filterFactory = ctx.findBean(FilterFactory.class, new FactoryQualifier<>(type))
                     .orElse(null);
             if (filterFactory != null) {
                 return filterFactory.create(injectionPoint.synthesize(type));
@@ -138,7 +135,7 @@ public class FilterFactories implements AnnotatedMapListener.FilterProducer {
         for (Annotation annotation : annotations) {
             Class<? extends Annotation> type = annotation.annotationType();
             if (type.isAnnotationPresent(FilterBinding.class)) {
-                FilterFactory factory = ctx.findBean(FilterFactory.class, new FilterFactoryQualifier(type)).orElse(null);
+                FilterFactory factory = ctx.findBean(FilterFactory.class, new FactoryQualifier<>(type)).orElse(null);
                 if (factory != null) {
                     list.add(factory.create(annotation));
                 } else {
@@ -155,29 +152,6 @@ public class FilterFactories implements AnnotatedMapListener.FilterProducer {
             return aFilters[0];
         } else {
             return Filters.all(aFilters);
-        }
-    }
-
-    /**
-     * A {@link Qualifier} that qualifies on {@link FilterFactory} types.
-     */
-    @SuppressWarnings("rawtypes")
-    static class FilterFactoryQualifier implements Qualifier<FilterFactory> {
-        private final Class<? extends Annotation> type;
-
-        /**
-         * Create a qualifier that matches the specific {@link com.oracle.coherence.inject.FilterFactory} type.
-         *
-         * @param cls the {@link com.oracle.coherence.inject.FilterFactory} to match
-         */
-        FilterFactoryQualifier(Class<? extends Annotation> cls) {
-            type = cls;
-        }
-
-        @Override
-        public <BT extends BeanType<FilterFactory>> Stream<BT> reduce(Class<FilterFactory> beanType,
-                                                                      Stream<BT> candidates) {
-            return candidates.filter(bt -> bt.isAnnotationPresent(type));
         }
     }
 }

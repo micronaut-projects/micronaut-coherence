@@ -16,8 +16,10 @@
 package io.micronaut.coherence;
 
 import java.lang.annotation.Documented;
+import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.Arrays;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -29,6 +31,7 @@ import com.oracle.coherence.inject.WhereFilter;
 
 import com.tangosol.util.Filter;
 import com.tangosol.util.QueryHelper;
+import com.tangosol.util.filter.AllFilter;
 
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import org.junit.jupiter.api.Test;
@@ -52,10 +55,34 @@ class FilterFactoriesTest {
     @CustomFilter("testing")
     Filter<?> filterThree;
 
+    @Inject
+    @CustomFilterTwo("four")
+    Filter<?> filterFour;
+
+    @Inject
+    @CustomFilterTwo("five.1")
+    @CustomFilterTwo("five.2")
+    Filter<?> filterFive;
+
     @FilterBinding
     @Documented
     @Retention(RetentionPolicy.RUNTIME)
     public @interface CustomFilter {
+        String value();
+    }
+
+    @FilterBinding
+    @Documented
+    @Retention(RetentionPolicy.RUNTIME)
+    public @interface CustomFilterTwoHolder {
+        CustomFilterTwo[] value() default {};
+    }
+
+    @FilterBinding
+    @Documented
+    @Retention(RetentionPolicy.RUNTIME)
+    @Repeatable(CustomFilterTwoHolder.class)
+    public @interface CustomFilterTwo {
         String value();
     }
 
@@ -76,6 +103,23 @@ class FilterFactoriesTest {
         assertThat(((FilterStub<?>) filterThree).getValue(), is("testing"));
     }
 
+    @Test
+    void shouldInjectRepeatebleQualifiedFilter() {
+        assertThat(filterFour, is(instanceOf(FilterStub.class)));
+        assertThat(((FilterStub<?>) filterFour).getValue(), is("four"));
+    }
+
+    @Test
+    void shouldInjectRepeatebleHolderQualifiedFilter() {
+        assertThat(filterFive, is(instanceOf(AllFilter.class)));
+        Filter<?>[] filters = ((AllFilter) filterFive).getFilters();
+        assertThat(filters.length, is(2));
+        assertThat(filters[0], is(instanceOf(FilterStub.class)));
+        assertThat(((FilterStub<?>) filters[0]).getValue(), is("five.1"));
+        assertThat(filters[1], is(instanceOf(FilterStub.class)));
+        assertThat(((FilterStub<?>) filters[1]).getValue(), is("five.2"));
+    }
+
 
     @Singleton
     @CustomFilter("")
@@ -83,6 +127,30 @@ class FilterFactoriesTest {
         @Override
         public Filter<T> create(CustomFilter annotation) {
             return new FilterStub<>(annotation.value());
+        }
+    }
+
+
+    @Singleton
+    @CustomFilterTwo("")
+    public static class CustomFactoryTwo<T> implements FilterFactory<CustomFilterTwo, T> {
+        @Override
+        public Filter<T> create(CustomFilterTwo annotation) {
+            return new FilterStub<>(annotation.value());
+        }
+    }
+
+    @Singleton
+    @CustomFilterTwoHolder
+    public static class CustomFactoryTwoX<T> implements FilterFactory<CustomFilterTwoHolder, T> {
+        @SuppressWarnings("unchecked")
+        @Override
+        public Filter<T> create(CustomFilterTwoHolder holder) {
+            Filter<T>[] filters = Arrays.stream(holder.value())
+                    .map(ann -> new FilterStub<>(ann.value()))
+                    .toArray(FilterStub[]::new);
+
+            return filters.length == 1 ? filters[0] : new AllFilter(filters);
         }
     }
 

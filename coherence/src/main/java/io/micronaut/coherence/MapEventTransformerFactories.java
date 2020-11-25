@@ -19,7 +19,6 @@ import java.lang.annotation.Annotation;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Stream;
 
 import javax.inject.Inject;
 
@@ -31,11 +30,9 @@ import com.oracle.coherence.inject.MapEventTransformerFactory;
 import com.tangosol.util.MapEventTransformer;
 
 import io.micronaut.context.ApplicationContext;
-import io.micronaut.context.Qualifier;
 import io.micronaut.context.annotation.Factory;
 import io.micronaut.context.annotation.Prototype;
 import io.micronaut.core.annotation.AnnotationMetadata;
-import io.micronaut.inject.BeanType;
 import io.micronaut.inject.InjectionPoint;
 
 /**
@@ -87,7 +84,7 @@ public class MapEventTransformerFactories implements AnnotatedMapListener.MapEve
             Annotation annotation = optionalTransformer.get();
             Class<? extends Annotation> type = annotation.annotationType();
             MapEventTransformerFactory factory
-                    = ctx.findBean(MapEventTransformerFactory.class, new TransformerFactoryQualifier(type)).orElse(null);
+                    = ctx.findBean(MapEventTransformerFactory.class, new FactoryQualifier<>(type)).orElse(null);
             if (factory != null) {
                 return factory.create(annotation);
             } else {
@@ -121,36 +118,12 @@ public class MapEventTransformerFactories implements AnnotatedMapListener.MapEve
 
         for (Class<? extends Annotation> type : bindings) {
             MapEventTransformerFactory factory
-                    = ctx.findBean(MapEventTransformerFactory.class, new TransformerFactoryQualifier(type)).orElse(null);
+                    = ctx.findBean(MapEventTransformerFactory.class, new FactoryQualifier<>(type)).orElse(null);
             if (factory != null) {
                 return factory.create(injectionPoint.synthesize(type));
             }
         }
 
         return null;
-    }
-
-
-    /**
-     * A {@link io.micronaut.context.Qualifier} that qualifies on {@link MapEventTransformerFactory} types.
-     */
-    @SuppressWarnings("rawtypes")
-    static class TransformerFactoryQualifier implements Qualifier<MapEventTransformerFactory> {
-        private final Class<? extends Annotation> type;
-
-        /**
-         * Create a qualifier that matches the specific {@link com.oracle.coherence.inject.FilterFactory} type.
-         *
-         * @param cls the {@link com.oracle.coherence.inject.FilterFactory} to match
-         */
-        TransformerFactoryQualifier(Class<? extends Annotation> cls) {
-            type = cls;
-        }
-
-        @Override
-        public <BT extends BeanType<MapEventTransformerFactory>> Stream<BT>
-        reduce(Class<MapEventTransformerFactory> beanType, Stream<BT> candidates) {
-            return candidates.filter(bt -> bt.isAnnotationPresent(type));
-        }
     }
 }
