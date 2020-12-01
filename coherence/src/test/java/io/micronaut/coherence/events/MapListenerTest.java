@@ -45,8 +45,10 @@ import com.tangosol.util.MapEvent;
 import com.oracle.bedrock.testsupport.deferred.Eventually;
 import data.Person;
 import data.PhoneNumber;
+import io.micronaut.coherence.annotation.CoherenceEventListener;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.annotation.Context;
+import io.micronaut.context.annotation.Requires;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import org.junit.jupiter.api.Test;
 
@@ -54,7 +56,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.number.OrderingComparison.greaterThanOrEqualTo;
 
-@MicronautTest(propertySources = "classpath:sessions.yaml")
+@MicronautTest(propertySources = "classpath:sessions.yaml", environments = "MapListenerTest")
 class MapListenerTest {
     @Inject
     @Name("test")
@@ -129,6 +131,7 @@ class MapListenerTest {
 
     @Singleton
     @Context
+    @Requires(env = "MapListenerTest")
     public static class TestListener {
         private final Map<Integer, Integer> events = new ConcurrentHashMap<>();
 

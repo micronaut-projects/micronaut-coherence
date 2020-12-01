@@ -34,6 +34,8 @@ import io.micronaut.context.annotation.Prototype;
 import io.micronaut.context.annotation.Type;
 import io.micronaut.core.annotation.AnnotationMetadata;
 import io.micronaut.inject.InjectionPoint;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A Micronaut factory for producing Coherence {@link com.tangosol.net.topic.NamedTopic},
@@ -45,6 +47,7 @@ import io.micronaut.inject.InjectionPoint;
  */
 @Factory
 class NamedTopicFactories {
+    private static final Logger LOG = LoggerFactory.getLogger(NamedTopicFactories.class);
 
     @Bean(preDestroy = "release")
     @Prototype
@@ -114,10 +117,15 @@ class NamedTopicFactories {
                     "Cannot determine topic name. No @Name qualifier and injection point is not named");
         }
 
-        Session session = Coherence.findSession(sessionName)
-                .orElseThrow(() -> new IllegalStateException("No Session is configured with name " + sessionName));
+        try {
+            Session session = Coherence.findSession(sessionName)
+                    .orElseThrow(() -> new IllegalStateException("No Session is configured with name " + sessionName));
 
-        return session.getTopic(name);
+            return session.getTopic(name);
+        } catch (Throwable t) {
+            LOG.error("Error getting NamedTopic " + name + " from session " + sessionName, t);
+            throw new IllegalStateException("Failed getting NamedTopic " + name + " from session " + sessionName);
+        }
     }
 
     /**

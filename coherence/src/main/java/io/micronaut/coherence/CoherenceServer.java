@@ -24,6 +24,8 @@ import edu.umd.cs.findbugs.annotations.NonNull;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.runtime.ApplicationConfiguration;
 import io.micronaut.runtime.EmbeddedApplication;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * An {@link EmbeddedApplication} that will start the default
@@ -33,8 +35,8 @@ import io.micronaut.runtime.EmbeddedApplication;
  * @since 1.0
  */
 @Singleton
-public class CoherenceServer
-        implements EmbeddedApplication<CoherenceServer> {
+public class CoherenceServer implements EmbeddedApplication<CoherenceServer> {
+    private static final Logger LOG = LoggerFactory.getLogger(CoherenceServer.class);
 
     /**
      * The bean context.
@@ -81,6 +83,7 @@ public class CoherenceServer
     @NonNull
     @Override
     public synchronized CoherenceServer start() {
+        LOG.info("Starting Coherence");
         // ToDo: blocking until Coherence has started - do we need to??
         coherence.start().join();
         return this;
@@ -89,10 +92,13 @@ public class CoherenceServer
     @NonNull
     @Override
     public synchronized CoherenceServer stop() {
-        if (coherence != null) {
-            coherence.close();
+        ApplicationContext applicationContext = getApplicationContext();
+        if (applicationContext != null && applicationContext.isRunning()) {
+            LOG.info("Stopping Coherence");
+            Coherence.closeAll();
+            LOG.info("Stopped Coherence");
+            applicationContext.stop();
         }
-        Coherence.closeAll();
         return this;
     }
 }

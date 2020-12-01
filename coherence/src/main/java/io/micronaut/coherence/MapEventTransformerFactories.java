@@ -124,6 +124,7 @@ public class MapEventTransformerFactories implements AnnotatedMapListener.MapEve
             }
         }
 
-        return null;
+        throw new IllegalStateException(
+                "Unsatisfied dependency - no MapEventTransformerFactory bean found for bindings " + bindings);
     }
 }

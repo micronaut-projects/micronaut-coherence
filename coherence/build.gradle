@@ -3,6 +3,7 @@ dependencies {
     annotationProcessor "io.micronaut.docs:micronaut-docs-asciidoc-config-props:$micronautDocsVersion"
 
     api "io.micronaut:micronaut-inject"
+    api "io.micronaut:micronaut-messaging"
     api "io.micronaut:micronaut-runtime"
     api "com.oracle.coherence.ce:coherence"
 
@@ -20,4 +21,8 @@ dependencies {
 
 tasks.withType(Test) {
     useJUnitPlatform()
+}
+
+test {
+    systemProperty("java.net.preferIPv4Stack", "true")
 }

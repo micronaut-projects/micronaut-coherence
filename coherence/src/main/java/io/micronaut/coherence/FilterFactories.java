@@ -137,7 +137,10 @@ public class FilterFactories implements AnnotatedMapListener.FilterProducer {
             if (type.isAnnotationPresent(FilterBinding.class)) {
                 FilterFactory factory = ctx.findBean(FilterFactory.class, new FactoryQualifier<>(type)).orElse(null);
                 if (factory != null) {
-                    list.add(factory.create(annotation));
+                    Filter filter = factory.create(annotation);
+                    if (filter != null) {
+                        list.add(filter);
+                    }
                 } else {
                     throw new IllegalStateException("Unsatisfied dependency - no FilterFactory bean found annotated with " + annotation);
                 }

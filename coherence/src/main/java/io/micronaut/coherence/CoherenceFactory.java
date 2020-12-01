@@ -23,19 +23,14 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 import com.oracle.coherence.inject.Name;
+import com.tangosol.net.*;
 
-import com.tangosol.net.CacheFactory;
-import com.tangosol.net.Cluster;
-import com.tangosol.net.Coherence;
-import com.tangosol.net.CoherenceConfiguration;
-import com.tangosol.net.Session;
-import com.tangosol.net.SessionConfiguration;
-
-import io.micronaut.coherence.events.CoherenceEventListenerProcessor;
 import io.micronaut.context.annotation.Bean;
 import io.micronaut.context.annotation.Factory;
 import io.micronaut.context.annotation.Prototype;
 import io.micronaut.inject.InjectionPoint;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A factory to provide Coherence resources as Micronaut beans.
@@ -45,6 +40,8 @@ import io.micronaut.inject.InjectionPoint;
  */
 @Factory
 class CoherenceFactory {
+    private static final Logger LOG = LoggerFactory.getLogger(CoherenceFactory.class);
+
     /**
      * Creates the default {@link com.tangosol.net.Coherence} instance used by the Micronaut
      * Coherence server.
@@ -55,20 +52,26 @@ class CoherenceFactory {
      * and any other sessions configured from any {@link com.tangosol.net.SessionConfiguration}
      * beans or {@link com.tangosol.net.SessionConfiguration.Provider} beans.</p>
      *
-     * @param configurations    zero or more {@link com.tangosol.net.SessionConfiguration} beans
-     * @param providers         zero or more {@link com.tangosol.net.SessionConfiguration} beans
-     * @param listenerProcessor the CoherenceEventListenerProcessor that discovers event interceptor methods
+     * @param configurations     zero or more {@link com.tangosol.net.SessionConfiguration} beans
+     * @param providers          zero or more {@link com.tangosol.net.SessionConfiguration} beans
+     * @param lifecycleListeners zero or more {@link com.tangosol.net.Coherence.LifecycleListener} beans
+     * @param listenerProcessor  the CoherenceEventListenerProcessor that discovers event interceptor methods
      *
      * @return the default {@link com.tangosol.net.Coherence} instance used by the Micronaut
      */
     @Singleton
+    @Bean(preDestroy = "close")
     @Named(Coherence.DEFAULT_NAME)
     Coherence getCoherence(SessionConfiguration[] configurations,
                            SessionConfiguration.Provider[] providers,
+                           Coherence.LifecycleListener[] lifecycleListeners,
                            CoherenceEventListenerProcessor listenerProcessor) {
+
+        LOG.info("Creating default Coherence instance.");
 
         CoherenceConfiguration cfg = CoherenceConfiguration.builder()
                 .withSessions(CoherenceFactory.collectConfigurations(configurations, providers))
+                .withEventInterceptors(lifecycleListeners)
                 .withEventInterceptors(listenerProcessor.getInterceptors())
                 .build();
 
@@ -83,7 +86,6 @@ class CoherenceFactory {
      *                       will be injected into
      * @return a {@link com.tangosol.net.Session}
      */
-    @Bean
     @Prototype
     @Named("Name")
     Session getSession(InjectionPoint<?> injectionPoint) {
@@ -100,7 +102,8 @@ class CoherenceFactory {
      *
      * @return the Coherence {@link Cluster} (which may or may not be running)
      */
-    @Singleton
+    @Prototype
+//    @Bean(preDestroy = "shutdown")
     Cluster getCluster() {
         return CacheFactory.getCluster();
     }
@@ -142,4 +145,11 @@ class CoherenceFactory {
 
         return configMap.values();
     }
+//
+//    @CoherenceEventListener
+//    @Synchronous
+//    void cleanup(@Disposing LifecycleEvent event) {
+//        ConfigurableCacheFactory ccf = event.getConfigurableCacheFactory();
+//        CacheFactory.getCacheFactoryBuilder().release(ccf);
+//    }
 }

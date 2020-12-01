@@ -39,7 +39,6 @@ import com.oracle.coherence.event.ServiceName;
 import com.oracle.coherence.event.Updated;
 import com.oracle.coherence.inject.Name;
 
-import com.tangosol.net.Coherence;
 import com.tangosol.net.NamedCache;
 import com.tangosol.net.Session;
 import com.tangosol.net.events.CoherenceLifecycleEvent;
@@ -55,6 +54,9 @@ import com.tangosol.util.InvocableMap;
 import data.Person;
 import data.PhoneNumber;
 
+import io.micronaut.coherence.annotation.CoherenceEventListener;
+import io.micronaut.context.ApplicationContext;
+import io.micronaut.context.annotation.Requires;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 
 import org.junit.jupiter.api.Test;
@@ -64,8 +66,11 @@ import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-@MicronautTest(propertySources = "classpath:sessions.yaml")
+@MicronautTest(propertySources = "classpath:sessions.yaml", environments = "InterceptorsTest")
 class InterceptorsTest {
+
+    @Inject
+    ApplicationContext context;
 
     @Inject
     @Name("test")
@@ -89,7 +94,7 @@ class InterceptorsTest {
         people.truncate();
         people.destroy();
 
-        Coherence.closeAll();
+        context.close();
 
         Set<Enum<?>> events = observers.getEvents();
 
@@ -132,6 +137,7 @@ class InterceptorsTest {
     }
 
     @Singleton
+    @Requires(env = "InterceptorsTest")
     public static class TestObservers {
         private final Map<Enum<?>, Boolean> events = new ConcurrentHashMap<>();
 

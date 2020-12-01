@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.micronaut.coherence.events;
+package io.micronaut.coherence;
 
 import java.lang.annotation.Annotation;
 import java.util.Arrays;
@@ -41,8 +41,7 @@ import com.tangosol.net.events.partition.cache.CacheLifecycleEvent;
 import com.tangosol.util.MapEvent;
 import com.tangosol.util.SafeLinkedList;
 
-import io.micronaut.coherence.FilterFactories;
-import io.micronaut.coherence.MapEventTransformerFactories;
+import io.micronaut.coherence.annotation.CoherenceEventListener;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.annotation.Context;
 import io.micronaut.context.processor.ExecutableMethodProcessor;
@@ -58,7 +57,7 @@ import io.micronaut.inject.ExecutableMethod;
 
 /**
  * A {@link ExecutableMethodProcessor} that processes methods annotated with
- * {@literal @}{@link CoherenceEventListener}.
+ * {@literal @}{@link io.micronaut.coherence.annotation.CoherenceEventListener}.
  *
  * @author Jonathan Knight
  * @since 1.0
@@ -69,8 +68,14 @@ public class CoherenceEventListenerProcessor
         extends AnnotatedMapListenerManager
         implements ExecutableMethodProcessor<CoherenceEventListener> {
 
+    /**
+     * The Micronaut bean context.
+     */
     private final ApplicationContext ctx;
 
+    /**
+     * The event argument binder registry.
+     */
     private final EventArgumentBinderRegistry<?> binderRegistry;
 
     @SuppressWarnings("unchecked")
@@ -119,17 +124,17 @@ public class CoherenceEventListenerProcessor
         Class<?> type = arguments.length == 1 ? arguments[0].getType() : null;
         if (type != null && (Event.class.isAssignableFrom(type) || MapEvent.class.isAssignableFrom(type))) {
             Class<?> clsBeanType = beanDefinition.getBeanType();
-            Object oBean = ctx.getBean(clsBeanType);
+            Object bean = ctx.getBean(clsBeanType);
 
             if (Event.class.isAssignableFrom(type)) {
-                ExecutableMethodEventObserver observer = new ExecutableMethodEventObserver(oBean, method, binderRegistry);
+                ExecutableMethodEventObserver observer = new ExecutableMethodEventObserver(bean, method, binderRegistry);
                 EventObserverSupport.EventHandler handler = EventObserverSupport
                         .createObserver((Class<? extends Event>) type, observer);
                 NamedEventInterceptor interceptor = new NamedEventInterceptor(observer.getId(), handler);
                 interceptors.add(interceptor);
             } else {
                 // type is MapEvent
-                ExecutableMethodMapListener listener = new ExecutableMethodMapListener(oBean, method, binderRegistry);
+                ExecutableMethodMapListener listener = new ExecutableMethodMapListener(bean, method, binderRegistry);
                 AnnotatedMapListener mapListener = new AnnotatedMapListener(listener, listener.getObservedQualifiers());
                 addMapListener(mapListener);
             }
@@ -170,8 +175,6 @@ public class CoherenceEventListenerProcessor
         }
     }
 
-    // ----- inner class: ExecutableMethodMapListener -----------------------
-
     /**
      * An {@link io.micronaut.core.bind.ArgumentBinder} for Coherence events.
      *
@@ -186,8 +189,6 @@ public class CoherenceEventListenerProcessor
         }
     }
 
-    // ----- data members ---------------------------------------------------
-
     /**
      * A Coherence event observer implementation that wraps an {@link io.micronaut.inject.ExecutableMethod}.
      *
@@ -196,30 +197,30 @@ public class CoherenceEventListenerProcessor
      * @param <R> the executable method's return type
      */
     static class BaseExecutableMethodObserver<E, T, R> {
-        protected final T f_oBean;
-        protected final ExecutableMethod<T, R> f_method;
-        protected final EventArgumentBinderRegistry<E> f_binderRegistry;
+        protected final T bean;
+        protected final ExecutableMethod<T, R> method;
+        protected final EventArgumentBinderRegistry<E> binderRegistry;
 
         public BaseExecutableMethodObserver(T oBean,
                                             ExecutableMethod<T, R> method,
                                             EventArgumentBinderRegistry<E> binderRegistry) {
-            f_oBean = oBean;
-            f_method = method;
-            f_binderRegistry = binderRegistry;
+            bean = oBean;
+            this.method = method;
+            this.binderRegistry = binderRegistry;
         }
 
         public String getId() {
-            return f_method.toString();
+            return method.toString();
         }
 
         public Set<Annotation> getObservedQualifiers() {
-            return Stream.concat(Arrays.stream(f_method.getTargetMethod().getParameterAnnotations()[0]),
-                                 Arrays.stream(f_method.getTargetMethod().getAnnotations()))
+            return Stream.concat(Arrays.stream(method.getTargetMethod().getParameterAnnotations()[0]),
+                                 Arrays.stream(method.getTargetMethod().getAnnotations()))
                     .collect(Collectors.toSet());
         }
 
         public boolean isAsync() {
-            return !f_method.hasAnnotation(Synchronous.class);
+            return !method.hasAnnotation(Synchronous.class);
         }
     }
 
@@ -243,8 +244,8 @@ public class CoherenceEventListenerProcessor
         public void notify(E event) {
             Map<Argument<?>, Object> mapBindings = Collections.singletonMap(Argument.of(LifecycleEvent.class), event);
             ExecutableBinder<E> batchBinder = new DefaultExecutableBinder<>(mapBindings);
-            BoundExecutable<T, R> boundExecutable = batchBinder.bind(f_method, f_binderRegistry, event);
-            boundExecutable.invoke(f_oBean);
+            BoundExecutable<T, R> boundExecutable = batchBinder.bind(method, binderRegistry, event);
+            boundExecutable.invoke(bean);
         }
     }
 
@@ -259,10 +260,10 @@ public class CoherenceEventListenerProcessor
 
         @Override
         public void notify(MapEvent<K, V> event) {
-            Map<Argument<?>, Object> mapBindings = Collections.singletonMap(Argument.of(LifecycleEvent.class), event);
+            Map<Argument<?>, Object> mapBindings = Collections.singletonMap(Argument.of(MapEvent.class), event);
             ExecutableBinder<MapEvent<K, V>> batchBinder = new DefaultExecutableBinder<>(mapBindings);
-            BoundExecutable<T, R> boundExecutable = batchBinder.bind(f_method, f_binderRegistry, event);
-            boundExecutable.invoke(f_oBean);
+            BoundExecutable<T, R> boundExecutable = batchBinder.bind(method, binderRegistry, event);
+            boundExecutable.invoke(bean);
         }
     }
 }

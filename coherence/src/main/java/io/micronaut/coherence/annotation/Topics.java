@@ -13,10 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package io.micronaut.coherence.annotation;
+
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
 /**
- * Classes applicable to Coherence events.
+ * Repeatable annotation for one or many {@link io.micronaut.coherence.annotation.Topic} annotations.
  *
  * @author Jonathan Knight
  * @since 1.0
  */
-package io.micronaut.coherence.events;
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.METHOD, ElementType.TYPE})
+public @interface Topics {
+
+    /**
+     * @return The Topics specified
+     */
+    Topic[] value() default {};
+}

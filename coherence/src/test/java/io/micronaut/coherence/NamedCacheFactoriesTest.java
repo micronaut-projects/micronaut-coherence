@@ -23,6 +23,7 @@ import com.tangosol.util.ObservableMap;
 import com.tangosol.util.QueryMap;
 
 import io.micronaut.context.ApplicationContext;
+import io.micronaut.context.annotation.Requires;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import org.junit.jupiter.api.Test;
 
@@ -32,7 +33,7 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.sameInstance;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-@MicronautTest(propertySources = "classpath:sessions.yaml")
+@MicronautTest(propertySources = "classpath:sessions.yaml", environments = "NamedCacheFactoriesTest")
 @SuppressWarnings("rawtypes")
 class NamedCacheFactoriesTest {
 
@@ -183,6 +184,7 @@ class NamedCacheFactoriesTest {
     // ----- test beans -----------------------------------------------------
 
     @Singleton
+    @Requires(env = "NamedCacheFactoriesTest")
     static class NamedCacheFieldsBean {
         @Inject
         private NamedCache numbers;
@@ -223,6 +225,7 @@ class NamedCacheFactoriesTest {
     }
 
     @Singleton
+    @Requires(env = "NamedCacheFactoriesTest")
     static class AsyncNamedCacheFieldsBean {
         @Inject
         private AsyncNamedCache numbers;
@@ -263,6 +266,7 @@ class NamedCacheFactoriesTest {
     }
 
     @Singleton
+    @Requires(env = "NamedCacheFactoriesTest")
     static class DifferentSessionBean {
         @Inject
         @Name("numbers")
@@ -300,6 +304,7 @@ class NamedCacheFactoriesTest {
     }
 
     @Singleton
+    @Requires(env = "NamedCacheFactoriesTest")
     static class CtorBean {
 
         private final NamedCache<Integer, String> numbers;
@@ -324,6 +329,7 @@ class NamedCacheFactoriesTest {
     }
 
     @Singleton
+    @Requires(env = "NamedCacheFactoriesTest")
     static class SuperTypesBean {
         @Inject
         @Name("numbers")
