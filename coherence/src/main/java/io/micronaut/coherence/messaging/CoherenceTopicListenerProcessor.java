@@ -156,7 +156,7 @@ class CoherenceTopicListenerProcessor
     @SuppressWarnings({"unchecked", "rawtypes"})
     void createSubscribers(Coherence coherence) {
         for (MethodHolder holder : methods) {
-            List<Subscriber.Option<?, ?>> options = new ArrayList<>();
+            List<Subscriber.Option> options = new ArrayList<>();
             ExecutableMethod<?, ?> method = holder.getMethod();
 
             String topicName = Utils.getFirstTopicName(method)
@@ -198,7 +198,7 @@ class CoherenceTopicListenerProcessor
                         .map(method::synthesize)
                         .collect(Collectors.toSet());
 
-                Filter<?> filter = filterFactories.resolve(annotations);
+                Filter filter = filterFactories.resolve(annotations);
                 options.add(Subscriber.Filtered.by(filter));
             }
 
