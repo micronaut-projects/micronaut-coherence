@@ -88,17 +88,4 @@ public class CoherenceServer implements EmbeddedApplication<CoherenceServer> {
         coherence.start().join();
         return this;
     }
-
-    @NonNull
-    @Override
-    public synchronized CoherenceServer stop() {
-        ApplicationContext applicationContext = getApplicationContext();
-        if (applicationContext != null && applicationContext.isRunning()) {
-            LOG.info("Stopping Coherence");
-            Coherence.closeAll();
-            LOG.info("Stopped Coherence");
-            applicationContext.stop();
-        }
-        return this;
-    }
 }

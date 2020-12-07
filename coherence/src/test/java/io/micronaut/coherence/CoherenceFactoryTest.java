@@ -25,12 +25,14 @@ import com.tangosol.net.Session;
 
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 @MicronautTest(propertySources = "classpath:sessions.yaml")
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class CoherenceFactoryTest {
 
     @Inject

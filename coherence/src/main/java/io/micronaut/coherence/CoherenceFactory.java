@@ -19,12 +19,14 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.PreDestroy;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
 import com.oracle.coherence.inject.Name;
 import com.tangosol.net.*;
 
+import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.annotation.Bean;
 import io.micronaut.context.annotation.Factory;
 import io.micronaut.context.annotation.Prototype;
@@ -103,7 +105,6 @@ class CoherenceFactory {
      * @return the Coherence {@link Cluster} (which may or may not be running)
      */
     @Prototype
-//    @Bean(preDestroy = "shutdown")
     Cluster getCluster() {
         return CacheFactory.getCluster();
     }
@@ -145,11 +146,22 @@ class CoherenceFactory {
 
         return configMap.values();
     }
-//
-//    @CoherenceEventListener
-//    @Synchronous
-//    void cleanup(@Disposing LifecycleEvent event) {
-//        ConfigurableCacheFactory ccf = event.getConfigurableCacheFactory();
-//        CacheFactory.getCacheFactoryBuilder().release(ccf);
-//    }
+
+    /**
+     * Ensure that Coherence is fully shutdown when the application context is closed.
+     * <p>This behaviour can be overridden by setting the configuration property
+     * {@code coherence.micronaut.autoCleanup} to {@code false}.</p>
+     *
+     * @param ctx the application context
+     */
+    @PreDestroy
+    public void shutdownCoherence(ApplicationContext ctx) {
+        Boolean cleanUp = ctx.getEnvironment().getProperty("coherence.micronaut.autoCleanup", Boolean.class)
+                .orElse(Boolean.TRUE);
+        if (cleanUp) {
+            LOG.info("Stopping Coherence");
+            Coherence.closeAll();
+            LOG.info("Stopped Coherence");
+        }
+    }
 }

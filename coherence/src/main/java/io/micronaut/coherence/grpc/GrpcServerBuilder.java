@@ -15,6 +15,11 @@
  */
 package io.micronaut.coherence.grpc;
 
+import com.oracle.coherence.grpc.proxy.GrpcServerBuilderProvider;
+import io.grpc.ServerBuilder;
+import io.grpc.inprocess.InProcessServerBuilder;
+import io.micronaut.coherence.CoherenceContext;
+
 /**
  * An implementation of a {@link com.oracle.coherence.grpc.proxy.GrpcServerBuilderProvider} that
  * locates a {@link com.oracle.coherence.grpc.proxy.GrpcServerBuilderProvider} bean to proxy the
@@ -23,26 +28,15 @@ package io.micronaut.coherence.grpc;
  * @author Jonathan Knight
  * @since 1.0
  */
-public class GrpcServerBuilder { //implements GrpcServerBuilderProvider {
+public class GrpcServerBuilder implements GrpcServerBuilderProvider {
+    @Override
+    public ServerBuilder<?> getServerBuilder(int port) {
+        return CoherenceContext.getApplicationContext().findBean(ServerBuilder.class)
+                .orElse(INSTANCE.getServerBuilder(port));
+    }
 
-//    private GrpcServerBuilderProvider bean;
-//
-//    @Override
-//    public ServerBuilder<?> getServerBuilder() {
-//        return null;
-//    }
-//
-//    @Override
-//    public int getPriority() {
-//        return 0;
-//    }
-//
-//    private synchronized GrpcServerBuilderProvider ensureBean() {
-//        if (bean == null) {
-//            CoherenceContext.getApplicationContext()
-//                    .findBean(GrpcServerBuilderProvider.class)
-//                    .
-//        }
-//    }
-
+    @Override
+    public InProcessServerBuilder getInProcessServerBuilder(String name) {
+        return INSTANCE.getInProcessServerBuilder(name);
+    }
 }

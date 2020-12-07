@@ -19,11 +19,13 @@ import com.tangosol.net.topic.Subscriber;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
+import org.junit.jupiter.api.TestInstance;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 @MicronautTest(propertySources = "classpath:sessions.yaml", environments = "NamedTopicPreDestroyTest")
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class NamedTopicPreDestroyTest {
 
     @Inject

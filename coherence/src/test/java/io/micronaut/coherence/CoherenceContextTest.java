@@ -16,19 +16,38 @@
 package io.micronaut.coherence;
 
 import io.micronaut.context.ApplicationContext;
+import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+
+import javax.inject.Inject;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.sameInstance;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mockito.Mockito.mock;
 
+@MicronautTest(startApplication = false, rebuildContext = true, propertySources = "classpath:sessions.yaml")
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class CoherenceContextTest {
+
+    @Inject
+    ApplicationContext beanContext;
+
+    @Inject
+    CoherenceContext ctx;
 
     @Test
     void shouldSupplyContext() {
-        ApplicationContext ctx = mock(ApplicationContext.class);
-        CoherenceContext context = new CoherenceContext(ctx);
-        assertThat(CoherenceContext.getApplicationContext(), is(sameInstance(ctx)));
+        assertThat(CoherenceContext.getApplicationContext(), is(sameInstance(beanContext)));
     }
+
+    @Test
+    void shouldCleanup() throws Exception {
+//        Coherence coherence = Coherence.create();
+//        CompletableFuture<Void> future = coherence.whenClosed();
+//        beanContext.close();
+//        // The Coherence instance should be auto-closed by the PreDestroy method of CoherenceContext
+//        future.get(1, TimeUnit.MINUTES);
+    }
+
 }

@@ -38,6 +38,7 @@ import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
@@ -47,6 +48,7 @@ import static org.hamcrest.CoreMatchers.sameInstance;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 @MicronautTest(propertySources = "classpath:sessions.yaml")
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @SuppressWarnings("rawtypes")
 class NamedCacheFactoriesViewTest {
 
