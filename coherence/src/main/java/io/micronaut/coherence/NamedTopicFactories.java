@@ -129,7 +129,7 @@ class NamedTopicFactories {
             options.add(Subscriber.Filtered.by(filter));
         }
         if (metadata.hasStereotype(ExtractorBinding.class)) {
-            ValueExtractor<?, ?> extractor = extractorFactory.extractor(injectionPoint);
+            ValueExtractor extractor = extractorFactory.extractor(injectionPoint);
             options.add(Subscriber.Convert.using(extractor));
         }
         NamedTopic<V> topic = getTopicInternal(injectionPoint);
