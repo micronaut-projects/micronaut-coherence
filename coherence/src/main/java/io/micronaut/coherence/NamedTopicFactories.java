@@ -116,16 +116,16 @@ class NamedTopicFactories {
     @Named("Name")
     @Type(Subscriber.class)
     @Primary
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "rawtypes"})
     <V> Subscriber<V> getSubscriber(InjectionPoint<?> injectionPoint) {
         AnnotationMetadata metadata = injectionPoint.getAnnotationMetadata();
-        List<Subscriber.Option<?, ?>> options = new ArrayList<>();
+        List<Subscriber.Option> options = new ArrayList<>();
         String groupName = metadata.getValue(SubscriberGroup.class, String.class).orElse(null);
         if (StringUtils.isNotEmpty(groupName)) {
             options.add(Subscriber.Name.of(groupName));
         }
         if (metadata.hasStereotype(FilterBinding.class)) {
-            Filter<?> filter = filterFactory.filter(injectionPoint);
+            Filter filter = filterFactory.filter(injectionPoint);
             options.add(Subscriber.Filtered.by(filter));
         }
         if (metadata.hasStereotype(ExtractorBinding.class)) {
