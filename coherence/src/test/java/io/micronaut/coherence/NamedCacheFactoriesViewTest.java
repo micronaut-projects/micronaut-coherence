@@ -34,6 +34,7 @@ import com.tangosol.util.QueryMap;
 import data.Person;
 import data.PhoneNumber;
 import io.micronaut.context.ApplicationContext;
+import io.micronaut.context.annotation.Requires;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
@@ -47,7 +48,7 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.sameInstance;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-@MicronautTest(propertySources = "classpath:sessions.yaml")
+@MicronautTest(propertySources = "classpath:sessions.yaml", environments = "NamedCacheFactoriesViewTest")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @SuppressWarnings("rawtypes")
 class NamedCacheFactoriesViewTest {
@@ -188,39 +189,37 @@ class NamedCacheFactoriesViewTest {
         }
     }
 
-// ToDo: Add back when we have ValueExtractor support
-//
-//    @Test
-//    void shouldInjectContinuousQueryCacheWithTransformer() {
-//        WithTransformersBean bean = ctx.getBean(WithTransformersBean.class);
-//        NamedCache<String, Person> cache = bean.getNamedCache();
-//        ContinuousQueryCache<String, Person, String> names = bean.getNames();
-//
-//        // populate the underlying cache
-//        populate(cache);
-//
-//        assertThat(names.size(), is(cache.size()));
-//        for (Map.Entry<String, Person> entry : cache.entrySet()) {
-//            MatcherAssert.assertThat(names.get(entry.getKey()), CoreMatchers.is(entry.getValue().getFirstName()));
-//        }
-//    }
-//
-//    @Test
-//    void shouldInjectContinuousQueryCacheWithTransformerAndFilter() {
-//        WithTransformersBean bean = ctx.getBean(WithTransformersBean.class);
-//        NamedCache<String, Person> cache = bean.getNamedCache();
-//        ContinuousQueryCache<String, Person, String> filtered = bean.getFilteredNames();
-//
-//        // populate the underlying cache
-//        populate(cache);
-//
-//        Set<Map.Entry<String, Person>> entries = cache.entrySet(Filters.equal("lastName", "foo"));
-//        assertThat(filtered.size(), is(entries.size()));
-//        for (Map.Entry<String, Person> entry : entries) {
-//            MatcherAssert
-//                    .assertThat(filtered.get(entry.getKey()), CoreMatchers.is(entry.getValue().getPhoneNumber().getNumber()));
-//        }
-//    }
+    @Test
+    void shouldInjectContinuousQueryCacheWithTransformer() {
+        WithTransformersBean bean = ctx.getBean(WithTransformersBean.class);
+        NamedCache<String, Person> cache = bean.getNamedCache();
+        ContinuousQueryCache<String, Person, String> names = bean.getNames();
+
+        // populate the underlying cache
+        populate(cache);
+
+        assertThat(names.size(), is(cache.size()));
+        for (Map.Entry<String, Person> entry : cache.entrySet()) {
+            MatcherAssert.assertThat(names.get(entry.getKey()), CoreMatchers.is(entry.getValue().getFirstName()));
+        }
+    }
+
+    @Test
+    void shouldInjectContinuousQueryCacheWithTransformerAndFilter() {
+        WithTransformersBean bean = ctx.getBean(WithTransformersBean.class);
+        NamedCache<String, Person> cache = bean.getNamedCache();
+        ContinuousQueryCache<String, Person, String> filtered = bean.getFilteredNames();
+
+        // populate the underlying cache
+        populate(cache);
+
+        Set<Map.Entry<String, Person>> entries = cache.entrySet(Filters.equal("lastName", "foo"));
+        assertThat(filtered.size(), is(entries.size()));
+        for (Map.Entry<String, Person> entry : entries) {
+            MatcherAssert
+                    .assertThat(filtered.get(entry.getKey()), CoreMatchers.is(entry.getValue().getPhoneNumber().getNumber()));
+        }
+    }
 
     @Test
     void shouldInjectContinuousQueryCacheWithKeysOnly() {
@@ -250,6 +249,7 @@ class NamedCacheFactoriesViewTest {
     // ----- test beans -----------------------------------------------------
 
     @Singleton
+    @Requires(env = "NamedCacheFactoriesViewTest")
     static class ContinuousQueryCacheFieldsBean {
         @Inject
         private ContinuousQueryCache numbers;
@@ -294,6 +294,7 @@ class NamedCacheFactoriesViewTest {
     }
 
     @Singleton
+    @Requires(env = "NamedCacheFactoriesViewTest")
     static class ContinuousQueryCacheWithFiltersBean {
         @Inject
         private NamedCache<String, Person> beans;
@@ -324,6 +325,7 @@ class NamedCacheFactoriesViewTest {
     }
 
     @Singleton
+    @Requires(env = "NamedCacheFactoriesViewTest")
     static class DifferentSessionsBean {
         @Inject
         @Name("numbers")
@@ -346,6 +348,7 @@ class NamedCacheFactoriesViewTest {
     }
 
     @Singleton
+    @Requires(env = "NamedCacheFactoriesViewTest")
     static class CtorBean {
         private final NamedCache<Integer, String> view;
 
@@ -368,6 +371,7 @@ class NamedCacheFactoriesViewTest {
     }
 
     @Singleton
+    @Requires(env = "NamedCacheFactoriesViewTest")
     static class SuperTypesBean {
         @Inject
         @Name("numbers")
@@ -434,6 +438,7 @@ class NamedCacheFactoriesViewTest {
     }
 
     @Singleton
+    @Requires(env = "NamedCacheFactoriesViewTest")
     static class WithTransformersBean {
         @Inject
         @Name("people")

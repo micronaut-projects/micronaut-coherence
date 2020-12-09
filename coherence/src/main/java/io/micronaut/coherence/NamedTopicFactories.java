@@ -17,9 +17,7 @@ package io.micronaut.coherence;
 
 import javax.inject.Named;
 
-import com.oracle.coherence.inject.Name;
-import com.oracle.coherence.inject.SessionName;
-import com.oracle.coherence.inject.SubscriberGroup;
+import com.oracle.coherence.inject.*;
 
 import com.tangosol.net.Coherence;
 import com.tangosol.net.Session;
@@ -27,15 +25,21 @@ import com.tangosol.net.topic.NamedTopic;
 import com.tangosol.net.topic.Publisher;
 import com.tangosol.net.topic.Subscriber;
 
+import com.tangosol.util.Filter;
+import com.tangosol.util.ValueExtractor;
 import io.micronaut.context.annotation.Bean;
 import io.micronaut.context.annotation.Factory;
 import io.micronaut.context.annotation.Primary;
 import io.micronaut.context.annotation.Prototype;
 import io.micronaut.context.annotation.Type;
 import io.micronaut.core.annotation.AnnotationMetadata;
+import io.micronaut.core.util.StringUtils;
 import io.micronaut.inject.InjectionPoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A Micronaut factory for producing Coherence {@link com.tangosol.net.topic.NamedTopic},
@@ -48,6 +52,21 @@ import org.slf4j.LoggerFactory;
 @Factory
 class NamedTopicFactories {
     private static final Logger LOG = LoggerFactory.getLogger(NamedTopicFactories.class);
+
+    /**
+     * The filter factory for use when creating {@link com.tangosol.util.Filter Filters}.
+     */
+    private final FilterFactories filterFactory;
+
+    /**
+     * The extractor factory for use when creating {@link com.tangosol.util.ValueExtractor ValueExtractors}.
+     */
+    private final ExtractorFactories extractorFactory;
+
+    NamedTopicFactories(FilterFactories filterFactory, ExtractorFactories extractorFactory) {
+        this.filterFactory = filterFactory;
+        this.extractorFactory = extractorFactory;
+    }
 
     @Bean(preDestroy = "release")
     @Prototype
@@ -100,11 +119,23 @@ class NamedTopicFactories {
     @SuppressWarnings("unchecked")
     <V> Subscriber<V> getSubscriber(InjectionPoint<?> injectionPoint) {
         AnnotationMetadata metadata = injectionPoint.getAnnotationMetadata();
+        List<Subscriber.Option<?, ?>> options = new ArrayList<>();
         String groupName = metadata.getValue(SubscriberGroup.class, String.class).orElse(null);
+        if (StringUtils.isNotEmpty(groupName)) {
+            options.add(Subscriber.Name.of(groupName));
+        }
+        if (metadata.hasStereotype(FilterBinding.class)) {
+            Filter<?> filter = filterFactory.filter(injectionPoint);
+            options.add(Subscriber.Filtered.by(filter));
+        }
+        if (metadata.hasStereotype(ExtractorBinding.class)) {
+            ValueExtractor<?, ?> extractor = extractorFactory.extractor(injectionPoint);
+            options.add(Subscriber.Convert.using(extractor));
+        }
         NamedTopic<V> topic = getTopicInternal(injectionPoint);
-        return groupName == null
+        return options.isEmpty()
                ? topic.createSubscriber()
-               : topic.createSubscriber(Subscriber.Name.of(groupName));
+               : topic.createSubscriber(options.toArray(new Subscriber.Option[0]));
     }
 
     private <V> NamedTopic<V> getTopicInternal(InjectionPoint<?> injectionPoint) {

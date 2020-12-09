@@ -28,6 +28,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
+import com.oracle.coherence.inject.ExtractorBinding;
 import com.oracle.coherence.inject.FilterBinding;
 import com.oracle.coherence.inject.SessionName;
 import com.oracle.coherence.inject.SubscriberGroup;
@@ -40,6 +41,8 @@ import com.tangosol.net.topic.Publisher;
 import com.tangosol.net.topic.Subscriber;
 import com.tangosol.util.Filter;
 
+import com.tangosol.util.ValueExtractor;
+import io.micronaut.coherence.ExtractorFactories;
 import io.micronaut.coherence.FilterFactories;
 import io.micronaut.coherence.annotation.CoherenceTopicListener;
 import io.micronaut.coherence.annotation.Utils;
@@ -97,6 +100,11 @@ class CoherenceTopicListenerProcessor
     private final FilterFactories filterFactories;
 
     /**
+     * The filter factory to use to produce {@link com.tangosol.util.ValueExtractor ValueExtractors}.
+     */
+    private final ExtractorFactories extractorFactories;
+
+    /**
      * The discovered methods annotated with {@literal @}{@link CoherenceTopicListener}.
      */
     private final List<MethodHolder> methods = new ArrayList<>();
@@ -119,17 +127,21 @@ class CoherenceTopicListenerProcessor
     /**
      * Create a {@link CoherenceTopicListenerProcessor}.
      *
-     * @param executorService  the executor service
-     * @param context          the Micronaut bean context
-     * @param filterFactories  the filter factory to use to produce {@link com.tangosol.util.Filter Filters}
+     * @param executorService     the executor service
+     * @param context             the Micronaut bean context
+     * @param filterFactories     the filter factory to use to produce {@link com.tangosol.util.Filter Filters}
+     * @param extractorFactories  the extractor factory to use to produce
+     *                            {@link com.tangosol.util.ValueExtractor ValueExtractors}
      */
     @Inject
     public CoherenceTopicListenerProcessor(@Named(TaskExecutors.MESSAGE_CONSUMER) ExecutorService executorService,
                                            ApplicationContext context,
-                                           FilterFactories filterFactories) {
+                                           FilterFactories filterFactories,
+                                           ExtractorFactories extractorFactories) {
         this.scheduler = Schedulers.from(executorService);
         this.context = context;
         this.filterFactories = filterFactories;
+        this.extractorFactories = extractorFactories;
         this.registry = new ElementArgumentBinderRegistry<>();
     }
 
@@ -190,16 +202,33 @@ class CoherenceTopicListenerProcessor
             }
 
             method.stringValue(SubscriberGroup.class).ifPresent(name -> options.add(Subscriber.Name.of(name)));
-            List<String> list = method.getAnnotationNamesByStereotype(FilterBinding.class);
-            if (list.size() > 0) {
-                Set<Annotation> annotations = list.stream()
+
+            List<String> filterBindings = method.getAnnotationNamesByStereotype(FilterBinding.class);
+            if (filterBindings.size() > 0) {
+                Set<Annotation> annotations = filterBindings.stream()
                         .map(s -> method.getAnnotationType(s).orElse(null))
                         .filter(Objects::nonNull)
                         .map(method::synthesize)
                         .collect(Collectors.toSet());
 
                 Filter filter = filterFactories.resolve(annotations);
-                options.add(Subscriber.Filtered.by(filter));
+                if (filter != null) {
+                    options.add(Subscriber.Filtered.by(filter));
+                }
+            }
+
+            List<String> extractorBindings = method.getAnnotationNamesByStereotype(ExtractorBinding.class);
+            if (extractorBindings.size() > 0) {
+                Set<Annotation> annotations = extractorBindings.stream()
+                        .map(s -> method.getAnnotationType(s).orElse(null))
+                        .filter(Objects::nonNull)
+                        .map(method::synthesize)
+                        .collect(Collectors.toSet());
+
+                ValueExtractor extractor = extractorFactories.resolve(annotations);
+                if (extractor != null) {
+                    options.add(Subscriber.Convert.using(extractor));
+                }
             }
 
             BeanDefinition<?> beanDefinition = holder.getBeanDefinition();

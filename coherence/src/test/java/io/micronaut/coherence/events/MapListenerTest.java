@@ -15,6 +15,10 @@
  */
 package io.micronaut.coherence.events;
 
+import java.lang.annotation.Documented;
+import java.lang.annotation.Inherited;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -33,9 +37,7 @@ import com.oracle.coherence.event.ScopeName;
 import com.oracle.coherence.event.ServiceName;
 import com.oracle.coherence.event.Synchronous;
 import com.oracle.coherence.event.Updated;
-import com.oracle.coherence.inject.Name;
-import com.oracle.coherence.inject.PropertyExtractor;
-import com.oracle.coherence.inject.WhereFilter;
+import com.oracle.coherence.inject.*;
 
 import com.tangosol.net.NamedCache;
 import com.tangosol.net.Session;
@@ -43,6 +45,7 @@ import com.tangosol.util.InvocableMap;
 import com.tangosol.util.MapEvent;
 
 import com.oracle.bedrock.testsupport.deferred.Eventually;
+import com.tangosol.util.MapEventTransformer;
 import data.Person;
 import data.PhoneNumber;
 import io.micronaut.coherence.annotation.CoherenceEventListener;
@@ -73,7 +76,7 @@ class MapListenerTest {
         NamedCache<String, Person> people = session.getCache("people");
 
         // Wait for the listener registration as it is async
-        Eventually.assertDeferred(() -> EventsHelper.getListenerCount(people), is(greaterThanOrEqualTo(2)));
+        Eventually.assertDeferred(() -> EventsHelper.getListenerCount(people), is(greaterThanOrEqualTo(3)));
 
         people.put("homer", new Person("Homer", "Simpson", LocalDate.now(), new PhoneNumber(1, "555-123-9999")));
         people.put("marge", new Person("Marge", "Simpson", LocalDate.now(), new PhoneNumber(1, "555-123-9999")));
@@ -107,13 +110,22 @@ class MapListenerTest {
         assertThat(eventTwo.getNewValue().getLastName(), is("SIMPSON"));
 
         // Transformed events should just be inserts with the person's firstName as the new value
+        List<MapEvent<String, String>> transformedWithExtractorEvents = listener.getTransformedWithExtractorEvents();
+        Eventually.assertDeferred(transformedWithExtractorEvents::size, is(5));
+        assertThat(transformedWithExtractorEvents.get(0).getNewValue(), is("Homer"));
+        assertThat(transformedWithExtractorEvents.get(1).getNewValue(), is("Marge"));
+        assertThat(transformedWithExtractorEvents.get(2).getNewValue(), is("Bart"));
+        assertThat(transformedWithExtractorEvents.get(3).getNewValue(), is("Lisa"));
+        assertThat(transformedWithExtractorEvents.get(4).getNewValue(), is("Maggie"));
+
+        // Transformed events should just be inserts with the person's firstName in uppercase as the new value
         List<MapEvent<String, String>> transformedEvents = listener.getTransformedEvents();
         Eventually.assertDeferred(transformedEvents::size, is(5));
-        //        assertThat(transformedEvents.get(0).getNewValue(), is("Homer"));
-        //        assertThat(transformedEvents.get(1).getNewValue(), is("Marge"));
-        //        assertThat(transformedEvents.get(2).getNewValue(), is("Bart"));
-        //        assertThat(transformedEvents.get(3).getNewValue(), is("Lisa"));
-        //        assertThat(transformedEvents.get(4).getNewValue(), is("Maggie"));
+        assertThat(transformedEvents.get(0).getNewValue(), is("HOMER"));
+        assertThat(transformedEvents.get(1).getNewValue(), is("MARGE"));
+        assertThat(transformedEvents.get(2).getNewValue(), is("BART"));
+        assertThat(transformedEvents.get(3).getNewValue(), is("LISA"));
+        assertThat(transformedEvents.get(4).getNewValue(), is("MAGGIE"));
     }
 
     // ---- helper classes --------------------------------------------------
@@ -139,6 +151,8 @@ class MapListenerTest {
 
         private final List<MapEvent<String, String>> transformedEvents = Collections.synchronizedList(new ArrayList<>());
 
+        private final List<MapEvent<String, String>> transformedWithExtractorEvents = Collections.synchronizedList(new ArrayList<>());
+
         Integer getEvents(int id) {
             return events.get(id);
         }
@@ -149,6 +163,10 @@ class MapListenerTest {
 
         public List<MapEvent<String, String>> getTransformedEvents() {
             return transformedEvents;
+        }
+
+        public List<MapEvent<String, String>> getTransformedWithExtractorEvents() {
+            return transformedWithExtractorEvents;
         }
 
         @Synchronous
@@ -174,6 +192,13 @@ class MapListenerTest {
         @Synchronous
         @PropertyExtractor("firstName")
         @CoherenceEventListener
+        void onPersonInsertedTransformedWithExtractor(@Inserted @MapName("people") MapEvent<String, String> event) {
+            transformedWithExtractorEvents.add(event);
+        }
+
+        @Synchronous
+        @UppercaseName
+        @CoherenceEventListener
         void onPersonInsertedTransformed(@Inserted @MapName("people") MapEvent<String, String> event) {
             transformedEvents.add(event);
         }
@@ -189,6 +214,44 @@ class MapListenerTest {
         private void record(MapEvent<String, Person> event) {
             System.out.println("Received event: " + event);
             events.compute(event.getId(), (k, v) -> v == null ? 1 : v + 1);
+        }
+    }
+
+    @Inherited
+    @MapEventTransformerBinding
+    @Documented
+    @Retention(RetentionPolicy.RUNTIME)
+    public @interface UppercaseName {
+    }
+
+    @Singleton
+    @UppercaseName
+    public static class UppercaseTransformerFactory implements MapEventTransformerFactory<UppercaseName, String, Person, String> {
+        @Override
+        public MapEventTransformer<String, Person, String> create(UppercaseName annotation) {
+            return new UppercaseNameTransformer();
+        }
+    }
+
+    /**
+     * A custom implementation of a {@link MapEventTransformer}.
+     */
+    static class UppercaseNameTransformer implements MapEventTransformer<String, Person, String> {
+
+        @Override
+        @SuppressWarnings("unchecked")
+        public MapEvent<String, String> transform(MapEvent<String, Person> event) {
+            String sOldName = transform(event.getOldValue());
+            String sNewName = transform(event.getNewValue());
+            return new MapEvent<String, String>(event.getMap(), event.getId(), event.getKey(), sOldName, sNewName);
+        }
+
+        public String transform(Person person) {
+            if (person == null) {
+                return null;
+            }
+            String name = person.getFirstName();
+            return name == null ? null : name.toUpperCase();
         }
     }
 }

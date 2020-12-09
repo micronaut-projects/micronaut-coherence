@@ -23,6 +23,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import com.oracle.coherence.inject.ExtractorBinding;
 import com.oracle.coherence.inject.Name;
 import com.oracle.coherence.inject.SessionName;
 import com.oracle.coherence.inject.View;
@@ -60,13 +61,19 @@ class NamedCacheFactories {
     private final FilterFactories filterFactory;
 
     /**
+     * The extractor factory for use when creating views.
+     */
+    private final ExtractorFactories extractorFactory;
+
+    /**
      * A map of previously created views.
      */
     private final Map<ViewId, WeakReference<ContinuousQueryCache>> views = new ConcurrentHashMap<>();
 
     @Inject
-    public NamedCacheFactories(FilterFactories filters) {
-        this.filterFactory = filters;
+    public NamedCacheFactories(FilterFactories filters, ExtractorFactories extractors) {
+        this.filterFactory    = filters;
+        this.extractorFactory = extractors;
     }
 
     @Bean(preDestroy = "release")
@@ -121,7 +128,7 @@ class NamedCacheFactories {
         if (isCQC || metadata.hasAnnotation(View.class)) {
             boolean hasValues = metadata.booleanValue(View.class, "cacheValues").orElse(true);
             Filter filter = filterFactory.filter(injectionPoint);
-            ValueExtractor extractor = null; // ToDo: createExtractor(qualifiers);
+            ValueExtractor extractor = getExtractor(injectionPoint);
             ViewId id = new ViewId(name, sessionName, filter, hasValues, extractor);
 
             WeakReference<ContinuousQueryCache> refCQC = views.compute(id, (key, ref) -> {
@@ -165,6 +172,23 @@ class NamedCacheFactories {
     private String getName(InjectionPoint<?> injectionPoint) {
         if (injectionPoint instanceof io.micronaut.core.naming.Named) {
             return ((io.micronaut.core.naming.Named) injectionPoint).getName();
+        }
+        return null;
+    }
+
+    /**
+     * If the injection point is annotated with an annotation with a stereotype
+     * of {@link ExtractorBinding} then return the corresponding {@link ValueExtractor}
+     * otherwise return {@code null}.
+     *
+     * @param injectionPoint  the injection point to create the extractor for
+     *
+     * @return  the {@link ValueExtractor} from the annotated injection point
+     *          or {@code null} if there are no extractor annotations
+     */
+    private ValueExtractor<?, ?> getExtractor(InjectionPoint<?> injectionPoint) {
+        if (injectionPoint.getAnnotationMetadata().hasStereotype(ExtractorBinding.class)) {
+            return extractorFactory.extractor(injectionPoint);
         }
         return null;
     }

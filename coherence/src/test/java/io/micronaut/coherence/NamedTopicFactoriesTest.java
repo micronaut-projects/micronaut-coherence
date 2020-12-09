@@ -6,6 +6,7 @@
  */
 package io.micronaut.coherence;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
@@ -13,14 +14,16 @@ import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import com.oracle.coherence.inject.Name;
-import com.oracle.coherence.inject.SessionName;
+import com.oracle.coherence.inject.*;
 
 import com.tangosol.net.topic.NamedTopic;
 import com.tangosol.net.topic.Publisher;
 import com.tangosol.net.topic.Subscriber;
 
+import data.Person;
+import data.PhoneNumber;
 import io.micronaut.context.ApplicationContext;
+import io.micronaut.context.annotation.Requires;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
@@ -32,7 +35,7 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.sameInstance;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-@MicronautTest(propertySources = "classpath:sessions.yaml")
+@MicronautTest(propertySources = "classpath:sessions.yaml", environments = "NamedTopicFactoriesTest")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class NamedTopicFactoriesTest {
 
@@ -98,16 +101,66 @@ class NamedTopicFactoriesTest {
     }
 
     @Test
-    void testCtorInjection() {
+    void shouldInjectIntoConstructor() {
         CtorBean bean = ctx.getBean(CtorBean.class);
 
         assertThat(bean.getNumbers(), Matchers.notNullValue());
         assertThat(bean.getNumbers().getName(), Matchers.is("numbers"));
     }
 
+    @Test
+    public void shouldInjectPublisher() throws Exception {
+        NamedTopicPublisherFieldsBean publisherBean = ctx.getBean(NamedTopicPublisherFieldsBean.class);
+        NamedTopicSubscriberFieldsBean subscriberBean = ctx.getBean(NamedTopicSubscriberFieldsBean.class);
+
+        Publisher<Integer> numbersPublisher = publisherBean.getNumbers();
+        assertThat(numbersPublisher, is(notNullValue()));
+
+        Publisher<Person> peoplePublisher = publisherBean.getPeople();
+        assertThat(peoplePublisher, is(notNullValue()));
+
+        Subscriber<Integer> numbersSubscriber = subscriberBean.getNumbers();
+        assertThat(numbersSubscriber, is(notNullValue()));
+
+        Subscriber<Person> peopleSubscriber = subscriberBean.getPeople();
+        assertThat(peopleSubscriber, is(notNullValue()));
+
+        Subscriber<String> peopleFirstNamesSubscriber = subscriberBean.getPeopleFirstNames();
+        assertThat(peopleFirstNamesSubscriber, is(notNullValue()));
+
+        Subscriber<Person> peopleFilteredSubscriber = subscriberBean.getPeopleFiltered();
+        assertThat(peopleFilteredSubscriber, is(notNullValue()));
+
+        CompletableFuture<Subscriber.Element<Integer>> receiveNumber = numbersSubscriber.receive();
+        numbersPublisher.send(19).join();
+        Subscriber.Element<Integer> element = receiveNumber.get(1, TimeUnit.MINUTES);
+        assertThat(element.getValue(), is(19));
+
+        Person homer = new Person("Homer", "Simpson", LocalDate.now(), new PhoneNumber(1, "555-123-9999"));
+        Person bart = new Person("Bart", "Simpson", LocalDate.now(), new PhoneNumber(1, "555-123-9999"));
+
+        CompletableFuture<Subscriber.Element<Person>> receivePerson = peopleSubscriber.receive();
+        CompletableFuture<Subscriber.Element<String>> receiveName = peopleFirstNamesSubscriber.receive();
+        CompletableFuture<Subscriber.Element<Person>> receiveFiltered = peopleFilteredSubscriber.receive();
+
+        peoplePublisher.send(homer).join();
+
+        Subscriber.Element<Person> personElement = receivePerson.get(1, TimeUnit.MINUTES);
+        Subscriber.Element<String> nameElement = receiveName.get(1, TimeUnit.MINUTES);
+        assertThat(personElement.getValue(), is(homer));
+        assertThat(nameElement.getValue(), is(homer.getFirstName()));
+
+        assertThat(receiveFiltered.isDone(), is(false));
+        peoplePublisher.send(bart).join();
+        personElement = receiveFiltered.get(1, TimeUnit.MINUTES);
+        assertThat(personElement.getValue(), is(bart));
+    }
+
+
     // ----- test beans -----------------------------------------------------
 
     @Singleton
+    @Requires(env = "NamedTopicFactoriesTest")
     static class NamedTopicFieldsBean {
         @Inject
         private NamedTopic<String> numbers;
@@ -141,72 +194,63 @@ class NamedTopicFactoriesTest {
     }
 
     @Singleton
+    @Requires(env = "NamedTopicFactoriesTest")
     static class NamedTopicPublisherFieldsBean {
         @Inject
-        private Publisher<String> numbers;
+        private Publisher<Person> people;
 
         @Inject
         @Name("numbers")
-        private Publisher<String> namedTopic;
+        private Publisher<Integer> numbersPublisher;
 
-        @Inject
-        @Name("numbers")
-        private Publisher<Integer> genericTopic;
-
-        @Inject
-        private Publisher<List<String>> genericValues;
-
-        public Publisher<Integer> getGenericPublisher() {
-            return genericTopic;
+        public Publisher<Integer> getNumbers() {
+            return numbersPublisher;
         }
 
-        public Publisher<List<String>> getGenericValuesPublisher() {
-            return genericValues;
-        }
-
-        public Publisher<String> getNumbers() {
-            return numbers;
-        }
-
-        public Publisher<String> getPublisher() {
-            return namedTopic;
+        public Publisher<Person> getPeople() {
+            return people;
         }
     }
 
     @Singleton
+    @Requires(env = "NamedTopicFactoriesTest")
     static class NamedTopicSubscriberFieldsBean {
         @Inject
-        private Subscriber<String> numbers;
+        private Subscriber<Person> people;
 
         @Inject
         @Name("numbers")
-        private Subscriber<String> namedTopic;
+        private Subscriber<Integer> namedTopic;
 
         @Inject
-        @Name("numbers")
-        private Subscriber<Integer> genericTopic;
+        @Name("people")
+        @PropertyExtractor("firstName")
+        private Subscriber<String> peopleFirstNames;
 
         @Inject
-        private Subscriber<List<String>> genericValues;
+        @Name("people")
+        @WhereFilter("firstName == 'Bart'")
+        private Subscriber<Person> peopleFiltered;
 
-        public Subscriber<Integer> getGenericSubscriber() {
-            return genericTopic;
-        }
-
-        public Subscriber<List<String>> getGenericValuesSubscriber() {
-            return genericValues;
-        }
-
-        public Subscriber<String> getNumbers() {
-            return numbers;
-        }
-
-        public Subscriber<String> getSubscriber() {
+        public Subscriber<Integer> getNumbers() {
             return namedTopic;
+        }
+
+        public Subscriber<Person> getPeople() {
+            return people;
+        }
+
+        public Subscriber<String> getPeopleFirstNames() {
+            return peopleFirstNames;
+        }
+
+        public Subscriber<Person> getPeopleFiltered() {
+            return peopleFiltered;
         }
     }
 
     @Singleton
+    @Requires(env = "NamedTopicFactoriesTest")
     static class DifferentSessionBean {
         @Inject
         @Name("numbers")
@@ -261,6 +305,7 @@ class NamedTopicFactoriesTest {
     }
 
     @Singleton
+    @Requires(env = "NamedTopicFactoriesTest")
     static class CtorBean {
         private final NamedTopic<Integer> numbers;
 

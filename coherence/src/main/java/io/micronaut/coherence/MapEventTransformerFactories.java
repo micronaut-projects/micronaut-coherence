@@ -29,6 +29,8 @@ import com.oracle.coherence.inject.MapEventTransformerFactory;
 
 import com.tangosol.util.MapEventTransformer;
 
+import com.tangosol.util.ValueExtractor;
+import com.tangosol.util.transformer.ExtractorEventTransformer;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.annotation.Factory;
 import io.micronaut.context.annotation.Prototype;
@@ -50,13 +52,20 @@ public class MapEventTransformerFactories implements AnnotatedMapListener.MapEve
     protected final ApplicationContext ctx;
 
     /**
+     * The extractor factory for use when creating views.
+     */
+    protected final ExtractorFactories extractorFactory;
+
+    /**
      * Create a {@link MapEventTransformerFactories}.
      *
      * @param ctx the Micronaut bean context
+     * @param extractorFactory  the factory to use to produce {@link ValueExtractor ValueExtractors}
      */
     @Inject
-    MapEventTransformerFactories(ApplicationContext ctx) {
+    MapEventTransformerFactories(ApplicationContext ctx, ExtractorFactories extractorFactory) {
         this.ctx = ctx;
+        this.extractorFactory = extractorFactory;
     }
 
     /**
@@ -92,11 +101,9 @@ public class MapEventTransformerFactories implements AnnotatedMapListener.MapEve
                         "Unsatisfied dependency - no MapEventTransformerFactory bean found annotated with " + annotation);
             }
         } else if (optionalExtractor.isPresent()) {
-            return null;
-            // ToDo: Add this back when we have ValueExtractor injection
-            // there is one or more ExtractorBinding annotations
-            // ValueExtractor<Object, Object> extractor = f_extractorProducer.resolve(annotations);
-            // return new ExtractorEventTransformer(extractor);
+             // there is one or more ExtractorBinding annotations
+             ValueExtractor<Object, Object> extractor = extractorFactory.resolve(annotations);
+             return new ExtractorEventTransformer(extractor);
         }
 
         // there are no transformer or extractor annotations.

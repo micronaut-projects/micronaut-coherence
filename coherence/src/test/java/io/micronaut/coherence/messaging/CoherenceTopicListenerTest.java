@@ -24,6 +24,7 @@ import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import com.oracle.coherence.inject.PropertyExtractor;
 import com.oracle.coherence.inject.SubscriberGroup;
 import com.oracle.coherence.inject.WhereFilter;
 
@@ -96,13 +97,25 @@ class CoherenceTopicListenerTest {
     @Test
     void shouldHaveSubscribedWithFilter() throws Exception {
         try (Publisher<Person> publisher = getPublisher("Three")) {
+            Person homer = new Person("Homer", "Simpson", LocalDate.now(), null);
             publisher.send(new Person("Ned", "Flanders", LocalDate.now(), null));
-            publisher.send(new Person("Homer", "Simpson", LocalDate.now(), null));
+            publisher.send(homer);
             publisher.send(new Person("Apu", "Nahasapeemapetilon", LocalDate.now(), null));
 
             assertThat(listenerOne.latchThree.await(1, TimeUnit.MINUTES), is(true));
             assertThat(listenerOne.messageThree, is(notNullValue()));
-            assertThat(listenerOne.messageThree.getFirstName(), is("Homer"));
+            assertThat(listenerOne.messageThree, is(homer));
+        }
+    }
+
+    @Test
+    void shouldHaveSubscribedWithConverter() throws Exception {
+        try (Publisher<Person> publisher = getPublisher("People")) {
+            publisher.send(new Person("Homer", "Simpson", LocalDate.now(), null));
+
+            assertThat(listenerOne.latchPeopleConverted.await(1, TimeUnit.MINUTES), is(true));
+            assertThat(listenerOne.messagePeopleConverted, is(notNullValue()));
+            assertThat(listenerOne.messagePeopleConverted, is("Homer"));
         }
     }
 
@@ -256,6 +269,8 @@ class CoherenceTopicListenerTest {
         private String messageTwoBar;
         private final CountDownLatch latchThree = new CountDownLatch(1);
         private Person messageThree;
+        private final CountDownLatch latchPeopleConverted = new CountDownLatch(1);
+        private String messagePeopleConverted;
         private final CountDownLatch latchFour = new CountDownLatch(1);
         private String messageFour;
 
@@ -284,6 +299,13 @@ class CoherenceTopicListenerTest {
         void listenThree(Person value) {
             messageThree = value;
             latchThree.countDown();
+        }
+
+        @Topic("People")
+        @PropertyExtractor("firstName")
+        void listenThreeConverted(String value) {
+            messagePeopleConverted = value;
+            latchPeopleConverted.countDown();
         }
 
         void four(String value) {
