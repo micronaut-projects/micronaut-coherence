@@ -23,6 +23,7 @@ import io.micronaut.core.annotation.AnnotationMetadata;
 import io.micronaut.inject.BeanDefinition;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -35,6 +36,7 @@ import static org.hamcrest.collection.ArrayMatching.arrayContainingInAnyOrder;
  * @since 1.0
  */
 @MicronautTest(startApplication = false)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class UtilsTest {
 
     @Inject

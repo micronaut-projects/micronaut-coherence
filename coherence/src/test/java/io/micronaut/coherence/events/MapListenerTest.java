@@ -54,12 +54,14 @@ import io.micronaut.context.annotation.Context;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.number.OrderingComparison.greaterThanOrEqualTo;
 
 @MicronautTest(propertySources = "classpath:sessions.yaml", environments = "MapListenerTest")
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class MapListenerTest {
     @Inject
     @Name("test")

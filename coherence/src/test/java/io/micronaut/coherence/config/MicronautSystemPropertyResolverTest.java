@@ -19,6 +19,7 @@ import com.tangosol.coherence.config.Config;
 
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -31,6 +32,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
  * @since 1.0
  */
 @MicronautTest(startApplication = false, propertySources = "classpath:micronaut-system-property-resolver-test.yaml")
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class MicronautSystemPropertyResolverTest {
     @Test
     void shouldGetRoleFromMicronaut() {

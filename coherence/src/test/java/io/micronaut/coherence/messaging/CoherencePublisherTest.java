@@ -33,12 +33,14 @@ import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 @MicronautTest(propertySources = "classpath:sessions.yaml", environments = "CoherencePublisherTest")
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class CoherencePublisherTest {
 
     @Inject
