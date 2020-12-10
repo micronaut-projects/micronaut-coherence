@@ -15,14 +15,10 @@
  */
 package io.micronaut.coherence.test.grpc;
 
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.TimeUnit;
-
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import com.oracle.coherence.grpc.proxy.GrpcServerConfiguration;
-import com.oracle.coherence.grpc.proxy.GrpcServerController;
 
 import com.tangosol.net.Coherence;
 
@@ -32,7 +28,6 @@ import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -44,15 +39,9 @@ class GrpcServerConfigurerTest {
     @Inject
     ApplicationContext context;
 
-    @BeforeEach
-    void assertStarted() {
-        try {
-            CompletableFuture<Void> future = GrpcServerController.INSTANCE.whenStarted().toCompletableFuture();
-            future.get(1, TimeUnit.MINUTES);
-        } catch (Exception e) {
-            throw new AssertionError(e.getMessage());
-        }
-    }
+    // We need to inject Coherence to trigger the bootstrap
+    @Inject
+    Coherence coherence;
 
     @AfterAll
     static void cleanup() {

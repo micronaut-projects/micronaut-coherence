@@ -23,6 +23,7 @@ import com.tangosol.net.Cluster;
 import com.tangosol.net.Coherence;
 import com.tangosol.net.Session;
 
+import io.micronaut.context.BeanContext;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -36,7 +37,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 class CoherenceFactoryTest {
 
     @Inject
-    Coherence coherence;
+    BeanContext context;
 
     @Inject
     Session defaultSession;
@@ -49,17 +50,19 @@ class CoherenceFactoryTest {
     Cluster cluster;
 
     @Test
-    void shouldInjectCoherence() {
-        assertThat(coherence, is(notNullValue()));
-    }
-
-    @Test
     public void shouldInjectSessions() {
         assertThat(defaultSession, is(notNullValue()));
         assertThat(defaultSession.getScopeName(), is(Coherence.DEFAULT_SCOPE));
 
         assertThat(testSession, is(notNullValue()));
         assertThat(testSession.getScopeName(), is("Test"));
+    }
+
+    @Test
+    public void shouldGetSessionByName() {
+        Session session = context.createBean(Session.class, "test");
+        assertThat(session, is(notNullValue()));
+        assertThat(session.getScopeName(), is("Test"));
     }
 
     @Test

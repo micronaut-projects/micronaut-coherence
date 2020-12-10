@@ -25,6 +25,7 @@ import javax.inject.Singleton;
 import com.oracle.coherence.inject.SessionName;
 
 import com.tangosol.net.Coherence;
+import com.tangosol.net.Session;
 import com.tangosol.net.topic.Publisher;
 
 import io.micronaut.aop.MethodInterceptor;
@@ -33,6 +34,7 @@ import io.micronaut.coherence.annotation.CoherencePublisher;
 import io.micronaut.coherence.annotation.Topic;
 import io.micronaut.coherence.annotation.Topics;
 import io.micronaut.coherence.annotation.Utils;
+import io.micronaut.context.BeanContext;
 import io.micronaut.core.async.publisher.Publishers;
 import io.micronaut.core.bind.annotation.Bindable;
 import io.micronaut.core.convert.ConversionService;
@@ -58,19 +60,21 @@ import org.slf4j.LoggerFactory;
 public class CoherencePublisherIntroductionAdvice implements MethodInterceptor<Object, Object>, AutoCloseable {
     private static final Logger LOG = LoggerFactory.getLogger(CoherencePublisherIntroductionAdvice.class);
 
+    private final BeanContext beanContext;
+
     private final ConversionService<?> conversionService;
-    private final Coherence coherence;
+
     private final Map<TopicKey, Publisher<Object>> publisherMap = new ConcurrentHashMap<>();
 
     /**
      * Creates the introduction advice for the given arguments.
      *
+     * @param beanContext       the Micronaut bean context
      * @param conversionService the conversion service
-     * @param coherence         the default {@link Coherence} instance
      */
-    CoherencePublisherIntroductionAdvice(ConversionService<?> conversionService, Coherence coherence) {
+    CoherencePublisherIntroductionAdvice(BeanContext beanContext, ConversionService<?> conversionService) {
+        this.beanContext = beanContext;
         this.conversionService = conversionService;
-        this.coherence = coherence;
     }
 
     @Override
@@ -235,9 +239,8 @@ public class CoherencePublisherIntroductionAdvice implements MethodInterceptor<O
             if (publisher != null) {
                 return publisher;
             }
-            return coherence.getSession(sessionName)
-                    .getTopic(topicName)
-                    .createPublisher();
+            Session session = beanContext.createBean(Session.class, sessionName);
+            return session.getTopic(topicName).createPublisher();
         });
     }
 

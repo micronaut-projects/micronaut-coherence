@@ -19,18 +19,22 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.Nullable;
 import javax.annotation.PreDestroy;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
 import com.oracle.coherence.inject.Name;
+
 import com.tangosol.net.*;
 
 import io.micronaut.context.ApplicationContext;
-import io.micronaut.context.annotation.Bean;
-import io.micronaut.context.annotation.Factory;
-import io.micronaut.context.annotation.Prototype;
+import io.micronaut.context.BeanContext;
+import io.micronaut.context.annotation.*;
+import io.micronaut.core.util.StringUtils;
 import io.micronaut.inject.InjectionPoint;
+import io.micronaut.inject.qualifiers.Qualifiers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,6 +47,21 @@ import org.slf4j.LoggerFactory;
 @Factory
 class CoherenceFactory {
     private static final Logger LOG = LoggerFactory.getLogger(CoherenceFactory.class);
+
+    /**
+     * The micronaut bean context.
+     */
+    private final BeanContext beanContext;
+
+    /**
+     * Create a {@link CacheFactory} bean.
+     *
+     * @param beanContext  the micronaut bean context
+     */
+    @Inject
+    public CoherenceFactory(BeanContext beanContext) {
+        this.beanContext = beanContext;
+    }
 
     /**
      * Creates the default {@link com.tangosol.net.Coherence} instance used by the Micronaut
@@ -77,26 +96,41 @@ class CoherenceFactory {
                 .withEventInterceptors(listenerProcessor.getInterceptors())
                 .build();
 
-        return Coherence.builder(cfg).build();
+        Coherence coherence = Coherence.builder(cfg).build();
+        // start Coherence and wait for it to be started
+        coherence.start().join();
+        return coherence;
     }
 
     /**
      * Create a {@link com.tangosol.net.Session} from the qualifiers on the specified
      * injection point.
      *
-     * @param injectionPoint the injection point that the {@link com.tangosol.net.Session}
+     * @param injectionPoint the optional injection point that the {@link com.tangosol.net.Session}
      *                       will be injected into
+     * @param name           the optional name of the session to return
+     *
      * @return a {@link com.tangosol.net.Session}
      */
     @Prototype
     @Named("Name")
-    Session getSession(InjectionPoint<?> injectionPoint) {
-        String sName = injectionPoint.findAnnotation(Name.class)
-                .flatMap(value -> value.getValue(String.class))
-                .orElse(Coherence.DEFAULT_NAME);
+    Session getSession(@Nullable InjectionPoint<?> injectionPoint, @Parameter @Nullable String name) {
+        String sessionName;
+        if (injectionPoint != null) {
+            sessionName = injectionPoint.findAnnotation(Name.class)
+                    .flatMap(value -> value.getValue(String.class))
+                    .orElse(Coherence.DEFAULT_NAME);
+        } else if (StringUtils.isNotEmpty(name)) {
+            sessionName = name;
+        } else {
+            sessionName = Coherence.DEFAULT_NAME;
+        }
 
-        return Coherence.findSession(sName)
-                .orElseThrow(() -> new IllegalStateException("No Session has been configured with the name " + sName));
+        // ensure that Coherence is started before attempting to get a session
+        beanContext.getBean(Coherence.class, Qualifiers.byName(Coherence.DEFAULT_NAME));
+
+        return Coherence.findSession(sessionName)
+                .orElseThrow(() -> new IllegalStateException("No Session has been configured with the name " + sessionName));
     }
 
     /**

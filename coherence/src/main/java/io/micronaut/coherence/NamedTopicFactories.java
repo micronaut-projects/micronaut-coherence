@@ -27,6 +27,7 @@ import com.tangosol.net.topic.Subscriber;
 
 import com.tangosol.util.Filter;
 import com.tangosol.util.ValueExtractor;
+import io.micronaut.context.BeanContext;
 import io.micronaut.context.annotation.Bean;
 import io.micronaut.context.annotation.Factory;
 import io.micronaut.context.annotation.Primary;
@@ -54,6 +55,11 @@ class NamedTopicFactories {
     private static final Logger LOG = LoggerFactory.getLogger(NamedTopicFactories.class);
 
     /**
+     * The micronaut bean context.
+     */
+    private final BeanContext beanContext;
+
+    /**
      * The filter factory for use when creating {@link com.tangosol.util.Filter Filters}.
      */
     private final FilterFactories filterFactory;
@@ -63,7 +69,8 @@ class NamedTopicFactories {
      */
     private final ExtractorFactories extractorFactory;
 
-    NamedTopicFactories(FilterFactories filterFactory, ExtractorFactories extractorFactory) {
+    NamedTopicFactories(BeanContext beanContext, FilterFactories filterFactory, ExtractorFactories extractorFactory) {
+        this.beanContext = beanContext;
         this.filterFactory = filterFactory;
         this.extractorFactory = extractorFactory;
     }
@@ -149,8 +156,7 @@ class NamedTopicFactories {
         }
 
         try {
-            Session session = Coherence.findSession(sessionName)
-                    .orElseThrow(() -> new IllegalStateException("No Session is configured with name " + sessionName));
+            Session session = beanContext.createBean(Session.class, sessionName);
 
             return session.getTopic(name);
         } catch (Throwable t) {

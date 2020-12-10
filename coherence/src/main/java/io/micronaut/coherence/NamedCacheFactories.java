@@ -36,6 +36,7 @@ import com.tangosol.net.cache.ContinuousQueryCache;
 import com.tangosol.util.Filter;
 import com.tangosol.util.ValueExtractor;
 
+import io.micronaut.context.BeanContext;
 import io.micronaut.context.annotation.Bean;
 import io.micronaut.context.annotation.Factory;
 import io.micronaut.context.annotation.Primary;
@@ -43,6 +44,7 @@ import io.micronaut.context.annotation.Prototype;
 import io.micronaut.context.annotation.Secondary;
 import io.micronaut.context.annotation.Type;
 import io.micronaut.core.annotation.AnnotationMetadata;
+import io.micronaut.core.util.StringUtils;
 import io.micronaut.inject.InjectionPoint;
 
 /**
@@ -54,6 +56,11 @@ import io.micronaut.inject.InjectionPoint;
 @Factory
 @SuppressWarnings({"rawtypes", "unchecked"})
 class NamedCacheFactories {
+
+    /**
+     * The micronaut bean context.
+     */
+    private final BeanContext beanContext;
 
     /**
      * The filter factory for use when creating views.
@@ -71,8 +78,9 @@ class NamedCacheFactories {
     private final Map<ViewId, WeakReference<ContinuousQueryCache>> views = new ConcurrentHashMap<>();
 
     @Inject
-    public NamedCacheFactories(FilterFactories filters, ExtractorFactories extractors) {
-        this.filterFactory    = filters;
+    public NamedCacheFactories(BeanContext context, FilterFactories filters, ExtractorFactories extractors) {
+        this.beanContext = context;
+        this.filterFactory = filters;
         this.extractorFactory = extractors;
     }
 
@@ -115,13 +123,12 @@ class NamedCacheFactories {
         String sessionName = metadata.getValue(SessionName.class, String.class).orElse(Coherence.DEFAULT_NAME);
         String name = metadata.getValue(Name.class, String.class).orElse(getName(injectionPoint));
 
-        if (name == null || name.trim().isEmpty()) {
+        if (StringUtils.isEmpty(name)) {
             throw new IllegalArgumentException(
                     "Cannot determine cache/map name. No @Name qualifier and injection point is not named");
         }
 
-        Session session = Coherence.findSession(sessionName)
-                .orElseThrow(() -> new IllegalStateException("No Session is configured with name " + sessionName));
+        Session session = beanContext.createBean(Session.class, sessionName);
 
         NamedCache<K, V> cache = session.getCache(name);
 

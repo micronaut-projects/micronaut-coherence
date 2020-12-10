@@ -83,7 +83,7 @@ class GrpcSessionConfigurationBean implements SessionConfiguration.Provider {
      * Sessions will be started lowest priority first.
      * @see com.tangosol.net.SessionConfiguration#DEFAULT_PRIORITY
      */
-    private int priority = SessionConfiguration.DEFAULT_PRIORITY;
+    private int priority = SessionConfiguration.DEFAULT_PRIORITY + 1;
 
     /**
      * Create a named {@link io.micronaut.coherence.client.GrpcSessionConfigurationBean}.

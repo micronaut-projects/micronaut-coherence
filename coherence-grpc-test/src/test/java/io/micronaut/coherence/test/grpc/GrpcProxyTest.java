@@ -15,13 +15,9 @@
  */
 package io.micronaut.coherence.test.grpc;
 
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.TimeUnit;
-
 import javax.inject.Inject;
 
 import com.oracle.coherence.client.GrpcRemoteSession;
-import com.oracle.coherence.grpc.proxy.GrpcServerController;
 
 import com.tangosol.net.Coherence;
 import com.tangosol.net.NamedCache;
@@ -30,7 +26,6 @@ import com.tangosol.net.Session;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
@@ -42,16 +37,6 @@ class GrpcProxyTest {
 
     @Inject
     ApplicationContext context;
-
-    @BeforeEach
-    void assertStarted() {
-        try {
-            CompletableFuture<Void> future = GrpcServerController.INSTANCE.whenStarted().toCompletableFuture();
-            future.get(1, TimeUnit.MINUTES);
-        } catch (Exception e) {
-            throw new AssertionError(e.getMessage());
-        }
-    }
 
     @AfterAll
     static void cleanup() {
