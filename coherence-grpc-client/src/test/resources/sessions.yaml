@@ -11,8 +11,9 @@ coherence:
         hostname: 127.0.0.1
         port: 1408
 
-  session:
+  sessions:
     default:
       config: coherence-cache-config.xml
     test:
+      type: grpc
       channelName: default

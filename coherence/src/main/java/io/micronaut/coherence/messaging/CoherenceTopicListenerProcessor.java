@@ -125,6 +125,11 @@ class CoherenceTopicListenerProcessor
     private final Scheduler scheduler;
 
     /**
+     * A flag indicating whether all of the discovered subscriber methods have been subscribed.
+     */
+    private volatile boolean subscribed;
+
+    /**
      * Create a {@link CoherenceTopicListenerProcessor}.
      *
      * @param executorService     the executor service
@@ -165,6 +170,15 @@ class CoherenceTopicListenerProcessor
         subscribers.clear();
     }
 
+    /**
+     * Return {@code true} if all subscriber methods have been subscribed.
+     *
+     * @return {@code true} if all subscriber methods have been subscribed
+     */
+    public boolean isSubscribed() {
+        return subscribed;
+    }
+
     @SuppressWarnings({"unchecked", "rawtypes"})
     void createSubscribers(Coherence coherence) {
         for (MethodHolder holder : methods) {
@@ -194,7 +208,7 @@ class CoherenceTopicListenerProcessor
                     sendToPublishers = new PublisherHolder[sendToTopics.length];
                     for (int i = 0; i < sendToTopics.length; i++) {
                         NamedTopic<?> topic = session.getTopic(sendToTopics[i]);
-                        sendToPublishers[i] = new PublisherHolder(topicName, topic.createPublisher());
+                        sendToPublishers[i] = new PublisherHolder(sendToTopics[i], topic.createPublisher());
                     }
                 }
             } else {
@@ -240,8 +254,11 @@ class CoherenceTopicListenerProcessor
             Subscriber<?> subscriber = topic.createSubscriber(options.toArray(options.toArray(new Subscriber.Option[0])));
             TopicSubscriber<?, ?, ?> topicSubscriber = new TopicSubscriber(topicName, subscriber, sendToPublishers, bean, method, registry, scheduler);
             subscribers.add(topicSubscriber);
+System.err.println("****** Starting subscriber " + topicName);
+
             topicSubscriber.nextMessage();
         }
+        subscribed = true;
     }
 
     /**
@@ -346,7 +363,7 @@ class CoherenceTopicListenerProcessor
          * end and the {@link com.tangosol.net.topic.Subscriber} will be closed.</p>
          */
         private void nextMessage() {
-            CompletableFuture.runAsync(() -> subscriber.receive().handle(this::handleMessage))
+            subscriber.receive().handle(this::handleMessage)
                 .handle((v, err) -> {
                     if (err != null) {
                         LOG.error("Error requesting message from topic " + topicName

@@ -15,37 +15,73 @@
  */
 package io.micronaut.coherence.grpc;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 import com.oracle.coherence.grpc.proxy.GrpcServerConfiguration;
 
 import io.grpc.ServerBuilder;
 import io.grpc.inprocess.InProcessServerBuilder;
-import io.micronaut.coherence.CoherenceContext;
-import io.micronaut.context.ApplicationContext;
+import io.micronaut.context.BeanContext;
+import io.micronaut.context.event.StartupEvent;
+import io.micronaut.runtime.event.annotation.EventListener;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 /**
- * A {@link GrpcServerConfiguration} implementation that forwards the
- * {@link #configure(io.grpc.ServerBuilder, io.grpc.inprocess.InProcessServerBuilder)}
- * method call to all discovered beans of type {@link GrpcServerConfiguration}.
+ * A bean that collects {@link GrpcServerConfiguration} beans.
  *
  * @author Jonathan Knight
  * @since 1.0
  */
-public class GrpcServerConfigurer implements GrpcServerConfiguration {
+@Singleton
+class GrpcServerConfigurer {
+
+    private static final List<GrpcServerConfiguration> CONFIGS = Collections.synchronizedList(new ArrayList<>());
+
+    private final BeanContext beanContext;
 
     /**
-     * Public constructor used by Coherence to load this class via the {@link java.util.ServiceLoader}.
+     * Create a {@link GrpcServerConfigurer}.
+     *
+     * @param beanContext  the Micronaut bean context
      */
-    public GrpcServerConfigurer() {
+    @Inject
+    GrpcServerConfigurer(BeanContext beanContext) {
+        this.beanContext = beanContext;
     }
 
-    @Override
-    public void configure(ServerBuilder<?> serverBuilder, InProcessServerBuilder inProcessServerBuilder) {
-        ApplicationContext context = CoherenceContext.getApplicationContext();
-        Collection<GrpcServerConfiguration> beans = context.getBeansOfType(GrpcServerConfiguration.class);
-        for (GrpcServerConfiguration bean : beans) {
-            bean.configure(serverBuilder, inProcessServerBuilder);
+    /**
+     * Discover any {@link GrpcServerConfiguration} beans on startup.
+     *
+     * @param event  the startup event
+     */
+    @EventListener
+    void onSampleEvent(StartupEvent event) {
+        Collection<GrpcServerConfiguration> beans = beanContext.getBeansOfType(GrpcServerConfiguration.class);
+        CONFIGS.addAll(beans);
+    }
+
+    /**
+     * An implementation of {@link GrpcServerConfiguration} that uses the discovered
+     * {@link GrpcServerConfiguration} beans to configure the gRPC servers.
+     */
+    public static class GrpcServerConfigurationBean implements GrpcServerConfiguration {
+
+        /**
+         * Public constructor used by Coherence to load this class via the {@link java.util.ServiceLoader}.
+         */
+        public GrpcServerConfigurationBean() {
+        }
+
+        @Override
+        public void configure(ServerBuilder<?> serverBuilder, InProcessServerBuilder inProcessServerBuilder) {
+            for (GrpcServerConfiguration bean : CONFIGS) {
+                bean.configure(serverBuilder, inProcessServerBuilder);
+            }
         }
     }
 }

@@ -20,18 +20,18 @@ import java.util.Optional;
 import com.oracle.coherence.client.GrpcSessionConfiguration;
 
 import com.tangosol.io.Serializer;
-import com.tangosol.net.SessionConfiguration;
 
+import com.tangosol.net.SessionConfiguration;
 import io.grpc.Channel;
-import io.micronaut.coherence.SessionConfigurationBean;
+import io.micronaut.coherence.AbstractSessionConfigurationBean;
+import io.micronaut.coherence.SessionType;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.annotation.EachProperty;
 import io.micronaut.context.annotation.Parameter;
-import io.micronaut.context.exceptions.ConfigurationException;
 import io.micronaut.inject.qualifiers.Qualifiers;
 
 /**
- * A {@link com.tangosol.net.SessionConfiguration.Provider} bean that will be
+ * A {@link com.oracle.coherence.client.GrpcSessionConfiguration} bean that will be
  * created for each named session in the application configuration properties.
  *
  * <p>This configuration bean specifically produces {@link GrpcSessionConfiguration}
@@ -48,19 +48,13 @@ import io.micronaut.inject.qualifiers.Qualifiers;
  * @author Jonathan Knight
  * @since 1.0
  */
-@EachProperty(value = "coherence.session")
-@SessionConfigurationBean.Replaces
-class GrpcSessionConfigurationBean implements SessionConfiguration.Provider {
+@EachProperty(value = "coherence.sessions")
+class GrpcSessionConfigurationBean extends AbstractSessionConfigurationBean {
 
     /**
      * The Micronaut bean context.
      */
     private final ApplicationContext ctx;
-
-    /**
-     * The name of the {@link com.tangosol.net.Session}.
-     */
-    private final String name;
 
     /**
      * The name of the gRPC {@link Channel} bean.
@@ -78,38 +72,35 @@ class GrpcSessionConfigurationBean implements SessionConfiguration.Provider {
     private boolean tracingEnabled;
 
     /**
-     * The priority order to use when starting the {@link com.tangosol.net.Session}.
-     * <p>
-     * Sessions will be started lowest priority first.
-     * @see com.tangosol.net.SessionConfiguration#DEFAULT_PRIORITY
-     */
-    private int priority = SessionConfiguration.DEFAULT_PRIORITY + 1;
-
-    /**
      * Create a named {@link io.micronaut.coherence.client.GrpcSessionConfigurationBean}.
      *
      * @param name the name for the session
      * @param ctx  the Micronaut bean context
      */
     GrpcSessionConfigurationBean(@Parameter String name, ApplicationContext ctx) {
-        this.name = name;
+        super(name);
         this.ctx = ctx;
     }
 
     @Override
-    public SessionConfiguration getConfiguration() {
-        if (channelName == null || channelName.trim().isEmpty()) {
-            // there is no channel name so this is not a gRPC configuration.
-            return null;
+    public Optional<SessionConfiguration> getConfiguration() {
+        if (getType() != SessionType.grpc) {
+            return Optional.empty();
         }
 
-        Channel channel = ctx.findBean(Channel.class, Qualifiers.byName(channelName))
-                .orElseThrow(() -> new ConfigurationException("No bean of type io.grpc.Channel is configured with name " + channelName));
+        GrpcSessionConfiguration.Builder builder;
 
-        GrpcSessionConfiguration.Builder builder = GrpcSessionConfiguration.builder(channel)
-                .named(name)
+        if (channelName == null || channelName.trim().isEmpty()) {
+            builder = GrpcSessionConfiguration.builder(GrpcSessionConfiguration.DEFAULT_HOST);
+        } else {
+            Optional<Channel> bean = ctx.findBean(Channel.class, Qualifiers.byName(channelName));
+            builder = bean.map(GrpcSessionConfiguration::builder)
+                          .orElseGet(() -> GrpcSessionConfiguration.builder(channelName));
+        }
+        builder = builder.named(getName())
+                .withScopeName(getScopeName())
                 .withTracing(tracingEnabled)
-                .withPriority(priority);
+                .withPriority(getPriority());
 
         if (serializer != null && serializer.trim().isEmpty()) {
             Optional<Serializer> optional = ctx.findBean(Serializer.class, Qualifiers.byName(serializer));
@@ -120,7 +111,7 @@ class GrpcSessionConfigurationBean implements SessionConfiguration.Provider {
             }
         }
 
-        return builder.build();
+        return Optional.of(builder.build());
     }
 
     /**
@@ -148,17 +139,5 @@ class GrpcSessionConfigurationBean implements SessionConfiguration.Provider {
      */
     public void setTracing(boolean enabled) {
         this.tracingEnabled = enabled;
-    }
-
-    /**
-     * Set the priority for this configuration.
-     * <p>{@link com.tangosol.net.Session Sessions} are started lowest priority first
-     * and closed in reverse order.</p>
-     *
-     * @param priority the priority for this configuration
-     * @see com.tangosol.net.SessionConfiguration#getPriority()
-     */
-    public void setPriority(int priority) {
-        this.priority = priority;
     }
 }

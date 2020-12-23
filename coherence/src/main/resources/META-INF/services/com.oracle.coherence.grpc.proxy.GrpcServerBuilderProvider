@@ -14,5 +14,4 @@
 # limitations under the License.
 #
 
-
-io.micronaut.coherence.grpc.GrpcServerConfigurer$GrpcServerConfigurationBean
+io.micronaut.coherence.grpc.GrpcServerBuilder$GrpcServerBuilderProviderBean

@@ -4,9 +4,14 @@ coherence:
   ttl: 0
   distributed:
     localstorage: true
-  session:
+  sessions:
     default:
+      type: server
       config: coherence-cache-config.xml
     test:
+      type: server
       scopeName: Test
       config: test-coherence-config.xml
+    client:
+      type: grpc
+      channel: foo

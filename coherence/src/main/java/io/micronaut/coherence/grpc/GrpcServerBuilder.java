@@ -18,7 +18,16 @@ package io.micronaut.coherence.grpc;
 import com.oracle.coherence.grpc.proxy.GrpcServerBuilderProvider;
 import io.grpc.ServerBuilder;
 import io.grpc.inprocess.InProcessServerBuilder;
-import io.micronaut.coherence.CoherenceContext;
+import io.micronaut.context.BeanContext;
+import io.micronaut.context.event.StartupEvent;
+import io.micronaut.runtime.event.annotation.EventListener;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * An implementation of a {@link com.oracle.coherence.grpc.proxy.GrpcServerBuilderProvider} that
@@ -28,15 +37,59 @@ import io.micronaut.coherence.CoherenceContext;
  * @author Jonathan Knight
  * @since 1.0
  */
-public class GrpcServerBuilder implements GrpcServerBuilderProvider {
-    @Override
-    public ServerBuilder<?> getServerBuilder(int port) {
-        return CoherenceContext.getApplicationContext().findBean(ServerBuilder.class)
-                .orElse(INSTANCE.getServerBuilder(port));
+@Singleton
+@SuppressWarnings("rawtypes")
+class GrpcServerBuilder {
+
+    private static final List<ServerBuilder> BUILDERS = Collections.synchronizedList(new ArrayList<>());
+
+    private final BeanContext beanContext;
+
+    /**
+     * Create a {@link GrpcServerBuilder}.
+     *
+     * @param beanContext  the Micronaut bean context
+     */
+    @Inject
+    GrpcServerBuilder(BeanContext beanContext) {
+        this.beanContext = beanContext;
     }
 
-    @Override
-    public InProcessServerBuilder getInProcessServerBuilder(String name) {
-        return INSTANCE.getInProcessServerBuilder(name);
+    /**
+     * Discover any {@link ServerBuilder} beans on startup.
+     *
+     * @param event  the startup event
+     */
+    @EventListener
+    void onSampleEvent(StartupEvent event) {
+        Collection<ServerBuilder> beans = beanContext.getBeansOfType(ServerBuilder.class);
+        BUILDERS.addAll(beans);
+    }
+
+    /**
+     * An implementation of {@link GrpcServerBuilderProvider} that uses the discovered
+     * {@link GrpcServerBuilderProvider} beans to supply the gRPC {@link ServerBuilder}.
+     */
+    public static class GrpcServerBuilderProviderBean implements GrpcServerBuilderProvider {
+
+        /**
+         * Public constructor used by Coherence to load this class via the {@link java.util.ServiceLoader}.
+         */
+        public GrpcServerBuilderProviderBean() {
+        }
+
+        @Override
+        public ServerBuilder<?> getServerBuilder(int port) {
+            if (BUILDERS.isEmpty()) {
+                return INSTANCE.getServerBuilder(port);
+            } else {
+                return BUILDERS.get(0);
+            }
+        }
+
+        @Override
+        public InProcessServerBuilder getInProcessServerBuilder(String name) {
+            return INSTANCE.getInProcessServerBuilder(name);
+        }
     }
 }

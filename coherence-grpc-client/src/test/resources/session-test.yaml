@@ -1,9 +1,10 @@
 coherence:
-  session:
+  sessions:
     foo:
       config: foo-config.xml
       scopeName: Foo
     bar:
+      type: grpc
       channelName: default
     default:
       config: coherence-config.xml

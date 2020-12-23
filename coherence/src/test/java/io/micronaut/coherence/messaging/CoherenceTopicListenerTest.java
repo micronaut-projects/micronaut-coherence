@@ -24,6 +24,7 @@ import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import com.oracle.bedrock.testsupport.deferred.Eventually;
 import com.oracle.coherence.inject.PropertyExtractor;
 import com.oracle.coherence.inject.SubscriberGroup;
 import com.oracle.coherence.inject.WhereFilter;
@@ -41,6 +42,7 @@ import io.micronaut.messaging.annotation.SendTo;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import io.reactivex.Observable;
 import io.reactivex.Single;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
@@ -65,6 +67,19 @@ class CoherenceTopicListenerTest {
 
     @Inject
     ListenerTwo listenerTwo;
+
+    @Inject
+    ListenerThree listenerThree;
+
+    @Inject
+    CoherenceTopicListenerProcessor processor;
+
+    @BeforeEach
+    void setup() {
+        // ensure that all subscriber methods are subscribed before the tests start
+        // as subscription is async
+        Eventually.assertDeferred(() -> processor.isSubscribed(), is(true));
+    }
 
     @Test
     void shouldHaveSubscribed() throws Exception {
@@ -143,7 +158,9 @@ class CoherenceTopicListenerTest {
             CompletableFuture<Subscriber.Element<String>> future = subscriber.receive();
 
             String message = "message five";
-            publisher.send(message);
+System.err.println("****** Publishing message to topic Five");
+            publisher.send(message).join();
+System.err.println("****** Published message to topic Five");
 
             Subscriber.Element<String> element = future.get(1, TimeUnit.MINUTES);
             assertThat(element, is(notNullValue()));

@@ -15,9 +15,7 @@
  */
 package io.micronaut.coherence;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import javax.annotation.Nullable;
 import javax.annotation.PreDestroy;
@@ -71,10 +69,10 @@ class CoherenceFactory {
      * <p>The Coherence {@link com.tangosol.net.Session Sessions} created by the Coherence instance
      * will include the default session using the default cache configuration
      * and any other sessions configured from any {@link com.tangosol.net.SessionConfiguration}
-     * beans or {@link com.tangosol.net.SessionConfiguration.Provider} beans.</p>
+     * beans.</p>
      *
      * @param configurations     zero or more {@link com.tangosol.net.SessionConfiguration} beans
-     * @param providers          zero or more {@link com.tangosol.net.SessionConfiguration} beans
+     * @param providers          zero or more {@link SessionConfigurationProvider} beans
      * @param lifecycleListeners zero or more {@link com.tangosol.net.Coherence.LifecycleListener} beans
      * @param listenerProcessor  the CoherenceEventListenerProcessor that discovers event interceptor methods
      *
@@ -84,7 +82,7 @@ class CoherenceFactory {
     @Bean(preDestroy = "close")
     @Named(Coherence.DEFAULT_NAME)
     Coherence getCoherence(SessionConfiguration[] configurations,
-                           SessionConfiguration.Provider[] providers,
+                           SessionConfigurationProvider[] providers,
                            Coherence.LifecycleListener[] lifecycleListeners,
                            CoherenceEventListenerProcessor listenerProcessor) {
 
@@ -96,7 +94,7 @@ class CoherenceFactory {
                 .withEventInterceptors(listenerProcessor.getInterceptors())
                 .build();
 
-        Coherence coherence = Coherence.builder(cfg).build();
+        Coherence coherence = Coherence.clusterMember(cfg);
         // start Coherence and wait for it to be started
         coherence.start().join();
         return coherence;
@@ -144,35 +142,34 @@ class CoherenceFactory {
     }
 
     /**
-     * Collect all of the {@link SessionConfiguration} and {@link SessionConfiguration.Provider} beans into
+     * Collect all of the {@link SessionConfiguration} and {@link SessionConfigurationProvider} beans into
      * a definitive collection of configurations.
      * <p>If two configurations with the same {@link com.tangosol.net.SessionConfiguration#getName() name} are found
-     * the first one discovered wins unless the subsequent beans are annotated with the
-     * {@link io.micronaut.coherence.SessionConfigurationBean.Replaces} annotation</p>
+     * the first one discovered wins.</p>
      *
      * @param configurations the {@link com.tangosol.net.SessionConfiguration} beans
-     * @param providers      the {@link com.tangosol.net.SessionConfiguration.Provider} beans
+     * @param providers      the {@link SessionConfigurationProvider} beans
      *
      * @return the definitive collection of configurations to use
      */
     static Collection<SessionConfiguration> collectConfigurations(SessionConfiguration[] configurations,
-                                                                  SessionConfiguration.Provider[] providers) {
+                                                                  SessionConfigurationProvider[] providers) {
+
+        List<SessionConfiguration> allConfigs = new ArrayList<>(Arrays.asList(configurations));
+        Arrays.stream(providers)
+                .map(SessionConfigurationProvider::getConfiguration)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .forEach(allConfigs::add);
+
+        // sort the configurations by priority - highest first
+        allConfigs.sort(Comparator.reverseOrder());
 
         Map<String, SessionConfiguration> configMap = new HashMap<>();
-        for (SessionConfiguration cfg : configurations) {
+        for (SessionConfiguration cfg : allConfigs) {
             if (cfg != null && cfg.isEnabled()) {
                 String name = cfg.getName();
-                if (!configMap.containsKey(name) || cfg.getClass().isAnnotationPresent(SessionConfigurationBean.Replaces.class)) {
-                    configMap.put(name, cfg);
-                }
-            }
-        }
-
-        for (SessionConfiguration.Provider provider : providers) {
-            SessionConfiguration cfg = provider.getConfiguration();
-            if (cfg != null && cfg.isEnabled()) {
-                String name = cfg.getName();
-                if (!configMap.containsKey(name) || provider.getClass().isAnnotationPresent(SessionConfigurationBean.Replaces.class)) {
+                if (!configMap.containsKey(name)) {
                     configMap.put(name, cfg);
                 }
             }

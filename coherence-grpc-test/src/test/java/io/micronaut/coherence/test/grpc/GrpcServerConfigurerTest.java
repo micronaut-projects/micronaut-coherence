@@ -27,7 +27,7 @@ import io.grpc.inprocess.InProcessServerBuilder;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
-import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -43,18 +43,10 @@ class GrpcServerConfigurerTest {
     @Inject
     Coherence coherence;
 
-    @AfterAll
-    static void cleanup() {
-        // Close the gRPC session for faster test clean-up
-        // ToDo: Should be able to remove this when start/stop ordering is in Coherence
-        Coherence.findSession("grpc-client")
-                .ifPresent(s -> {
-                    try {
-                        s.close();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                });
+    @BeforeEach
+    void ensureCoherenceStarted() {
+        // Coherence bootstrap is async, so we need to wait for it to have started
+        coherence.whenStarted().join();
     }
 
     @Test

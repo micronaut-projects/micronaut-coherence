@@ -5,8 +5,9 @@ coherence:
   distributed:
     localstorage: true
 
-  session:
+  sessions:
     default:
       config: coherence-cache-config.xml
     grpc-client:
+      type: grpc
       channelName: default

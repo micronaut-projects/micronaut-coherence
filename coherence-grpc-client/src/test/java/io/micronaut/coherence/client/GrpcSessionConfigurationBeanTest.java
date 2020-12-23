@@ -16,22 +16,16 @@
 package io.micronaut.coherence.client;
 
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
-import com.oracle.coherence.common.util.Options;
-
 import com.tangosol.net.Coherence;
-import com.tangosol.net.Session;
 import com.tangosol.net.SessionConfiguration;
-import com.tangosol.net.options.WithConfiguration;
-import com.tangosol.net.options.WithName;
-import com.tangosol.net.options.WithScopeName;
 
 import io.grpc.Channel;
+import io.micronaut.coherence.SessionConfigurationProvider;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.inject.qualifiers.Qualifiers;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
@@ -39,10 +33,9 @@ import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-@MicronautTest(startApplication = false, propertySources = "classpath:session-test.yaml")
+@MicronautTest(propertySources = "classpath:session-test.yaml")
 class GrpcSessionConfigurationBeanTest {
 
     @Inject
@@ -52,8 +45,9 @@ class GrpcSessionConfigurationBeanTest {
     void shouldConfigureSessions() {
         Map<String, SessionConfiguration> beans = ctx.getBeansOfType(GrpcSessionConfigurationBean.class)
                 .stream()
-                .map(SessionConfiguration.Provider::getConfiguration)
-                .filter(Objects::nonNull)
+                .map(SessionConfigurationProvider::getConfiguration)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
                 .collect(Collectors.toMap(SessionConfiguration::getName, cfg -> cfg));
 
         Optional<Channel> optional = ctx.findBean(Channel.class, Qualifiers.byName("default"));
@@ -64,12 +58,7 @@ class GrpcSessionConfigurationBeanTest {
 
         SessionConfiguration beanBar = beans.get("bar");
         assertThat(beanBar, is(notNullValue()));
+        assertThat(beanBar.getName(), is("bar"));
         assertThat(beanBar.getScopeName(), is(Coherence.DEFAULT_SCOPE));
-        Options<Session.Option> optionsBar = Options.from(Session.Option.class, beanBar.getOptions());
-        assertThat(optionsBar.get(WithName.class), is(notNullValue()));
-        assertThat(optionsBar.get(WithName.class).getName(), is("bar"));
-        assertThat(optionsBar.get(WithScopeName.class), is(notNullValue()));
-        assertThat(optionsBar.get(WithScopeName.class).getScopeName(), is(Coherence.DEFAULT_SCOPE));
-        assertThat(optionsBar.get(WithConfiguration.class, null), is(nullValue()));
     }
 }

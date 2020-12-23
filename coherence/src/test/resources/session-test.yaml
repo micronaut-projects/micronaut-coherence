@@ -1,5 +1,5 @@
 coherence:
-  session:
+  sessions:
     session-one:
       config: foo-config.xml
       scopeName: Foo
