@@ -1,0 +1,34 @@
+To use Coherence as a Micronaut HTTP session store add dependency:
+
+.build.gradle
+[source,groovy]
+----
+implementation "io.micronaut.coherence:micronaut-coherence"
+----
+
+To enable Coherence sessions via configuration in `application.yml`:
+
+.Enabling Coherence Sessions
+[source,yaml]
+----
+micronaut:
+  session:
+    http:
+      coherence:
+        enabled: true
+        # Optional: name of the cache that will be used for sessions.
+        # By default 'http-sessions' cache will be used.
+        cache-name: http-session-cache
+----
+
+Coherence cache will be obtained by using default Coherence session.
+
+In case that cache is configured to usie POF serialization additional POF configuration for class `io.micronaut.coherence.httpsession.CoherenceSessionStore$CoherenceHttpSession` has to be added to the POF config. User can pick appropriate value for `type-id`.
+
+[source,xml]
+----
+    <user-type>
+      <type-id>2001</type-id>
+      <class-name>io.micronaut.coherence.httpsession.CoherenceSessionStore$CoherenceHttpSession</class-name>
+    </user-type>
+----

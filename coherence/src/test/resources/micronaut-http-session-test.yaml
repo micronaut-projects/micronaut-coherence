@@ -1,0 +1,12 @@
+micronaut:
+  session:
+    max-inactive-interval: 60m
+    http:
+      coherence:
+        enabled: true
+        cache-name: http-session-cache
+coherence:
+  cluster: session-test-cluster
+  sessions:
+    default:
+      config: micronaut-http-session-test-config.xml

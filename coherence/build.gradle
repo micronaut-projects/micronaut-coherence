@@ -5,6 +5,7 @@ dependencies {
     api "io.micronaut:micronaut-inject"
     api "io.micronaut:micronaut-messaging"
     api "io.micronaut:micronaut-runtime"
+    api "io.micronaut:micronaut-session"
     api "com.oracle.coherence.ce:coherence"
 
     compileOnly "com.oracle.coherence.ce:coherence-json"
@@ -13,6 +14,9 @@ dependencies {
     testImplementation "org.mockito:mockito-core:3.6.0"
     testImplementation "org.hamcrest:hamcrest:2.2"
     testImplementation "io.micronaut.test:micronaut-test-junit5:2.1.1"
+
+    testImplementation "io.micronaut:micronaut-http-client"
+    testRuntimeOnly "io.micronaut:micronaut-http-server-netty"
 
     testImplementation "com.oracle.bedrock:bedrock-testing-support:$bedrockVersion"
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
