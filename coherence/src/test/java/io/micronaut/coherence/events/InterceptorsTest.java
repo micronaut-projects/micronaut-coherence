@@ -16,6 +16,7 @@
 package io.micronaut.coherence.events;
 
 import com.oracle.coherence.common.collections.ConcurrentHashMap;
+import com.tangosol.net.Coherence;
 import com.tangosol.net.NamedCache;
 import com.tangosol.net.Session;
 import com.tangosol.net.events.CoherenceLifecycleEvent;
@@ -43,6 +44,7 @@ import java.util.Comparator;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.concurrent.CompletableFuture;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -63,6 +65,12 @@ class InterceptorsTest {
 
     @Test
     void testEventInterceptorMethods() {
+        Coherence coherence = Coherence.getInstance();
+        CompletableFuture<Void> closeFuture = coherence.whenClosed();
+
+        // Ensure that Coherence has started before stating the test
+        coherence.whenStarted().join();
+
         NamedCache<String, Person> people = session.getCache("people");
         people.put("homer", new Person("Homer", "Simpson", LocalDate.now(), new PhoneNumber(1, "555-123-9999")));
         people.put("marge", new Person("Marge", "Simpson", LocalDate.now(), new PhoneNumber(1, "555-123-9999")));
@@ -77,6 +85,9 @@ class InterceptorsTest {
         people.destroy();
 
         context.close();
+
+        // ensure that Coherence is closed so that we should have the Stopped event
+        closeFuture.join();
 
         Set<Enum<?>> events = observers.getEvents();
 
@@ -99,10 +110,10 @@ class InterceptorsTest {
         assertThat(events, hasItem(EntryEvent.Type.UPDATED));
         assertThat(events, hasItem(EntryEvent.Type.REMOVING));
         assertThat(events, hasItem(EntryEvent.Type.REMOVED));
-        assertThat(events, hasItem(CoherenceLifecycleEvent.Type.STARTED));
         assertThat(events, hasItem(CoherenceLifecycleEvent.Type.STARTING));
-        assertThat(events, hasItem(CoherenceLifecycleEvent.Type.STOPPED));
+        assertThat(events, hasItem(CoherenceLifecycleEvent.Type.STARTED));
         assertThat(events, hasItem(CoherenceLifecycleEvent.Type.STOPPING));
+        assertThat(events, hasItem(CoherenceLifecycleEvent.Type.STOPPED));
     }
 
     /**
