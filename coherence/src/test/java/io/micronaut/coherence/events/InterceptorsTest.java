@@ -15,7 +15,7 @@
  */
 package io.micronaut.coherence.events;
 
-import com.oracle.coherence.common.collections.ConcurrentHashMap;
+import com.oracle.bedrock.testsupport.deferred.Eventually;
 import com.tangosol.net.Coherence;
 import com.tangosol.net.NamedCache;
 import com.tangosol.net.Session;
@@ -45,6 +45,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -89,31 +90,29 @@ class InterceptorsTest {
         // ensure that Coherence is closed so that we should have the Stopped event
         closeFuture.join();
 
-        Set<Enum<?>> events = observers.getEvents();
+        observers.getEvents().forEach(System.err::println);
 
-        events.forEach(System.err::println);
-
-        assertThat(events, hasItem(LifecycleEvent.Type.ACTIVATING));
-        assertThat(events, hasItem(LifecycleEvent.Type.ACTIVATED));
-        assertThat(events, hasItem(LifecycleEvent.Type.DISPOSING));
-        assertThat(events, hasItem(CacheLifecycleEvent.Type.CREATED));
-        assertThat(events, hasItem(CacheLifecycleEvent.Type.DESTROYED));
-        assertThat(events, hasItem(CacheLifecycleEvent.Type.TRUNCATED));
-        assertThat(events, hasItem(TransferEvent.Type.ASSIGNED));
-        assertThat(events, hasItem(TransactionEvent.Type.COMMITTING));
-        assertThat(events, hasItem(TransactionEvent.Type.COMMITTED));
-        assertThat(events, hasItem(EntryProcessorEvent.Type.EXECUTING));
-        assertThat(events, hasItem(EntryProcessorEvent.Type.EXECUTED));
-        assertThat(events, hasItem(EntryEvent.Type.INSERTING));
-        assertThat(events, hasItem(EntryEvent.Type.INSERTED));
-        assertThat(events, hasItem(EntryEvent.Type.UPDATING));
-        assertThat(events, hasItem(EntryEvent.Type.UPDATED));
-        assertThat(events, hasItem(EntryEvent.Type.REMOVING));
-        assertThat(events, hasItem(EntryEvent.Type.REMOVED));
-        assertThat(events, hasItem(CoherenceLifecycleEvent.Type.STARTING));
-        assertThat(events, hasItem(CoherenceLifecycleEvent.Type.STARTED));
-        assertThat(events, hasItem(CoherenceLifecycleEvent.Type.STOPPING));
-        assertThat(events, hasItem(CoherenceLifecycleEvent.Type.STOPPED));
+        Eventually.assertDeferred(() -> observers.getEvents(), hasItem(LifecycleEvent.Type.ACTIVATING));
+        Eventually.assertDeferred(() -> observers.getEvents(), hasItem(LifecycleEvent.Type.ACTIVATED));
+        Eventually.assertDeferred(() -> observers.getEvents(), hasItem(LifecycleEvent.Type.DISPOSING));
+        Eventually.assertDeferred(() -> observers.getEvents(), hasItem(CacheLifecycleEvent.Type.CREATED));
+        Eventually.assertDeferred(() -> observers.getEvents(), hasItem(CacheLifecycleEvent.Type.DESTROYED));
+        Eventually.assertDeferred(() -> observers.getEvents(), hasItem(CacheLifecycleEvent.Type.TRUNCATED));
+        Eventually.assertDeferred(() -> observers.getEvents(), hasItem(TransferEvent.Type.ASSIGNED));
+        Eventually.assertDeferred(() -> observers.getEvents(), hasItem(TransactionEvent.Type.COMMITTING));
+        Eventually.assertDeferred(() -> observers.getEvents(), hasItem(TransactionEvent.Type.COMMITTED));
+        Eventually.assertDeferred(() -> observers.getEvents(), hasItem(EntryProcessorEvent.Type.EXECUTING));
+        Eventually.assertDeferred(() -> observers.getEvents(), hasItem(EntryProcessorEvent.Type.EXECUTED));
+        Eventually.assertDeferred(() -> observers.getEvents(), hasItem(EntryEvent.Type.INSERTING));
+        Eventually.assertDeferred(() -> observers.getEvents(), hasItem(EntryEvent.Type.INSERTED));
+        Eventually.assertDeferred(() -> observers.getEvents(), hasItem(EntryEvent.Type.UPDATING));
+        Eventually.assertDeferred(() -> observers.getEvents(), hasItem(EntryEvent.Type.UPDATED));
+        Eventually.assertDeferred(() -> observers.getEvents(), hasItem(EntryEvent.Type.REMOVING));
+        Eventually.assertDeferred(() -> observers.getEvents(), hasItem(EntryEvent.Type.REMOVED));
+        Eventually.assertDeferred(() -> observers.getEvents(), hasItem(CoherenceLifecycleEvent.Type.STARTING));
+        Eventually.assertDeferred(() -> observers.getEvents(), hasItem(CoherenceLifecycleEvent.Type.STARTED));
+        Eventually.assertDeferred(() -> observers.getEvents(), hasItem(CoherenceLifecycleEvent.Type.STOPPING));
+        Eventually.assertDeferred(() -> observers.getEvents(), hasItem(CoherenceLifecycleEvent.Type.STOPPED));
     }
 
     /**
