@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2020 original authors
+ * Copyright 2017-2021 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,30 +15,7 @@
  */
 package io.micronaut.coherence.events;
 
-import java.time.LocalDate;
-import java.util.Comparator;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import com.oracle.coherence.common.collections.ConcurrentHashMap;
-import com.oracle.coherence.event.CacheName;
-import com.oracle.coherence.event.Created;
-import com.oracle.coherence.event.Destroyed;
-import com.oracle.coherence.event.Executed;
-import com.oracle.coherence.event.Executing;
-import com.oracle.coherence.event.Inserted;
-import com.oracle.coherence.event.MapName;
-import com.oracle.coherence.event.Processor;
-import com.oracle.coherence.event.Removed;
-import com.oracle.coherence.event.ScopeName;
-import com.oracle.coherence.event.ServiceName;
-import com.oracle.coherence.event.Updated;
-import com.oracle.coherence.inject.Name;
-
 import com.tangosol.net.NamedCache;
 import com.tangosol.net.Session;
 import com.tangosol.net.events.CoherenceLifecycleEvent;
@@ -50,21 +27,24 @@ import com.tangosol.net.events.partition.cache.CacheLifecycleEvent;
 import com.tangosol.net.events.partition.cache.EntryEvent;
 import com.tangosol.net.events.partition.cache.EntryProcessorEvent;
 import com.tangosol.util.InvocableMap;
-
 import data.Person;
 import data.PhoneNumber;
-
-import io.micronaut.coherence.annotation.CoherenceEventListener;
+import io.micronaut.coherence.annotation.*;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
-import static org.hamcrest.CoreMatchers.hasItem;
-import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.hamcrest.CoreMatchers.is;
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import java.time.LocalDate;
+import java.util.Comparator;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
+
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 @MicronautTest(propertySources = "classpath:sessions.yaml", environments = "InterceptorsTest")

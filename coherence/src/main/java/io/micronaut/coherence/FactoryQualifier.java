@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2020 original authors
+ * Copyright 2017-2021 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,9 +43,9 @@ class FactoryQualifier<T> implements Qualifier<T> {
     private final Class<? extends Annotation> holder;
 
     /**
-     * Create a qualifier that matches the specific {@link com.oracle.coherence.inject.FilterFactory} type.
+     * Create a qualifier that matches the specific {@link FilterFactory} type.
      *
-     * @param cls the {@link com.oracle.coherence.inject.FilterFactory} to match
+     * @param cls the {@link FilterFactory} to match
      */
     FactoryQualifier(Class<? extends Annotation> cls) {
         type = cls;

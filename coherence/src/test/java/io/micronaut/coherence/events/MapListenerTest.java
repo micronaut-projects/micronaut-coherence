@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2020 original authors
+ * Copyright 2017-2021 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,26 @@
  */
 package io.micronaut.coherence.events;
 
+import com.oracle.bedrock.testsupport.deferred.Eventually;
+import com.oracle.coherence.common.collections.ConcurrentHashMap;
+import com.tangosol.net.NamedCache;
+import com.tangosol.net.Session;
+import com.tangosol.util.InvocableMap;
+import com.tangosol.util.MapEvent;
+import com.tangosol.util.MapEventTransformer;
+import data.Person;
+import data.PhoneNumber;
+import io.micronaut.coherence.MapEventTransformerFactory;
+import io.micronaut.coherence.annotation.*;
+import io.micronaut.context.ApplicationContext;
+import io.micronaut.context.annotation.Context;
+import io.micronaut.context.annotation.Requires;
+import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
@@ -24,37 +44,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
-import com.oracle.coherence.common.collections.ConcurrentHashMap;
-import com.oracle.coherence.event.CacheName;
-import com.oracle.coherence.event.Deleted;
-import com.oracle.coherence.event.Inserted;
-import com.oracle.coherence.event.MapName;
-import com.oracle.coherence.event.ScopeName;
-import com.oracle.coherence.event.ServiceName;
-import com.oracle.coherence.event.Synchronous;
-import com.oracle.coherence.event.Updated;
-import com.oracle.coherence.inject.*;
-
-import com.tangosol.net.NamedCache;
-import com.tangosol.net.Session;
-import com.tangosol.util.InvocableMap;
-import com.tangosol.util.MapEvent;
-
-import com.oracle.bedrock.testsupport.deferred.Eventually;
-import com.tangosol.util.MapEventTransformer;
-import data.Person;
-import data.PhoneNumber;
-import io.micronaut.coherence.annotation.CoherenceEventListener;
-import io.micronaut.context.ApplicationContext;
-import io.micronaut.context.annotation.Context;
-import io.micronaut.context.annotation.Requires;
-import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;

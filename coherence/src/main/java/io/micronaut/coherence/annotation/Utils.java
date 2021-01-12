@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2020 original authors
+ * Copyright 2017-2021 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,13 +15,13 @@
  */
 package io.micronaut.coherence.annotation;
 
-import java.lang.annotation.Annotation;
-import java.util.*;
-
 import io.micronaut.core.annotation.AnnotationMetadata;
 import io.micronaut.core.annotation.AnnotationValue;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.messaging.annotation.SendTo;
+
+import java.lang.annotation.Annotation;
+import java.util.*;
 
 /**
  * Annotation utilities.
@@ -66,10 +66,10 @@ public final class Utils {
                     .toArray(String[]::new);
         } else {
             return metadata.stringValue(Topic.class)
-                           .map(name -> new String[]{name})
-                                   .orElse(metadata.stringValue(Topic.class)
-                                   .map(name -> new String[]{name})
-                           .orElse(EMPTY));
+                    .map(name -> new String[]{name})
+                    .orElse(metadata.stringValue(Topic.class)
+                            .map(name -> new String[]{name})
+                            .orElse(EMPTY));
         }
     }
 

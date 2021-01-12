@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2020 original authors
+ * Copyright 2017-2021 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,10 +24,9 @@ import java.util.Arrays;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import com.oracle.coherence.inject.AlwaysFilter;
-import com.oracle.coherence.inject.FilterBinding;
-import com.oracle.coherence.inject.FilterFactory;
-import com.oracle.coherence.inject.WhereFilter;
+import io.micronaut.coherence.annotation.AlwaysFilter;
+import io.micronaut.coherence.annotation.FilterBinding;
+import io.micronaut.coherence.annotation.WhereFilter;
 
 import com.tangosol.util.Filter;
 import com.tangosol.util.QueryHelper;

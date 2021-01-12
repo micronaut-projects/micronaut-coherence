@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2020 original authors
+ * Copyright 2017-2021 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,13 +15,9 @@
  */
 package io.micronaut.coherence.annotation;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
 import io.micronaut.context.annotation.Executable;
+
+import java.lang.annotation.*;
 
 /**
  * <p>An {@link Executable} advice annotation that allows listening for Coherence events.</p>
@@ -40,7 +36,6 @@ import io.micronaut.context.annotation.Executable;
  *   public void onEvent(CacheLifecycleEvent event) {
  *   }
  * </code></pre>
- *
  *
  * @author Jonathan Knight
  * @since 1.0

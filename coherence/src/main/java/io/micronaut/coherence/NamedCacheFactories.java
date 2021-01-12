@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2020 original authors
+ * Copyright 2017-2021 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,28 +21,19 @@ import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.inject.Inject;
-import javax.inject.Named;
 
-import com.oracle.coherence.inject.ExtractorBinding;
-import com.oracle.coherence.inject.Name;
-import com.oracle.coherence.inject.SessionName;
-import com.oracle.coherence.inject.View;
+import com.tangosol.net.*;
+import io.micronaut.coherence.annotation.ExtractorBinding;
+import io.micronaut.coherence.annotation.Name;
+import io.micronaut.coherence.annotation.SessionName;
+import io.micronaut.coherence.annotation.View;
 
-import com.tangosol.net.AsyncNamedCache;
-import com.tangosol.net.Coherence;
-import com.tangosol.net.NamedCache;
-import com.tangosol.net.Session;
 import com.tangosol.net.cache.ContinuousQueryCache;
 import com.tangosol.util.Filter;
 import com.tangosol.util.ValueExtractor;
 
 import io.micronaut.context.BeanContext;
-import io.micronaut.context.annotation.Bean;
-import io.micronaut.context.annotation.Factory;
-import io.micronaut.context.annotation.Primary;
-import io.micronaut.context.annotation.Prototype;
-import io.micronaut.context.annotation.Secondary;
-import io.micronaut.context.annotation.Type;
+import io.micronaut.context.annotation.*;
 import io.micronaut.core.annotation.AnnotationMetadata;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.inject.InjectionPoint;
@@ -84,44 +75,62 @@ class NamedCacheFactories {
         this.extractorFactory = extractors;
     }
 
+    /**
+     * The primary factory method for creating {@link NamedCache} beans.
+     *
+     * @param injectionPoint  the injection point to inject the cache into
+     * @param <K>             the type of the cache keys
+     * @param <V>             they type of the cache values
+     *
+     * @return  the required {@link NamedCache}
+     */
     @Bean(preDestroy = "release")
     @Prototype
-    @Named("View")
-    @Type(ContinuousQueryCache.class)
-    <K, V_BACK, V_FRONT> ContinuousQueryCache<K, V_BACK, V_FRONT> getView(InjectionPoint<?> injectionPoint) {
-        return (ContinuousQueryCache<K, V_BACK, V_FRONT>) getCacheInternal(injectionPoint, true);
+    @Type({NamedCache.class})
+    @Primary
+    <K, V> NamedCache<K, V> getCache(InjectionPoint<?> injectionPoint) {
+        return getCacheInternal(injectionPoint, false);
     }
 
+    /**
+     * A secondary cache factory method specifically for injection of {@link ContinuousQueryCache} beans.
+     *
+     * @param injectionPoint  the injection point to inject the cache into
+     * @param <K>             the type of the cache keys
+     * @param <V_BACK>        the type of the underlying cache values
+     * @param <V_FRONT>       the type of the view cache values
+     *
+     * @return  the required {@link ContinuousQueryCache}
+     */
     @Bean(preDestroy = "release")
     @Prototype
-    @Named("Name")
     @Type(ContinuousQueryCache.class)
     @Secondary
     <K, V_BACK, V_FRONT> ContinuousQueryCache<K, V_BACK, V_FRONT> getNamedView(InjectionPoint<?> injectionPoint) {
         return (ContinuousQueryCache<K, V_BACK, V_FRONT>) getCacheInternal(injectionPoint, true);
     }
 
-    @Bean(preDestroy = "release")
+    /**
+     * A factory method specifically for injection of {@link AsyncNamedCache} beans.
+     *
+     * @param injectionPoint  the injection point to inject the cache into
+     * @param <K>             the type of the cache keys
+     * @param <V>             they type of the cache values
+     *
+     * @return  the required {@link AsyncNamedCache}
+     */
     @Prototype
-    @Named("SessionName")
-    @Type(NamedCache.class)
-    <K, V> NamedCache<K, V> getCacheForSession(InjectionPoint<?> injectionPoint) {
-        return getCache(injectionPoint);
-    }
-
-    @Bean(preDestroy = "release")
-    @Prototype
-    @Named("Name")
-    @Type(NamedCache.class)
-    @Primary
-    <K, V> NamedCache<K, V> getCache(InjectionPoint<?> injectionPoint) {
-        return getCacheInternal(injectionPoint, false);
+    <K, V> AsyncNamedCache<K, V> getAsyncCache(InjectionPoint<?> injectionPoint) {
+        NamedCache<K, V> cache = getCacheInternal(injectionPoint, false);
+        return cache.async();
     }
 
     private <K, V> NamedCache<K, V> getCacheInternal(InjectionPoint<?> injectionPoint, boolean isCQC) {
         AnnotationMetadata metadata = injectionPoint.getAnnotationMetadata();
         String sessionName = metadata.getValue(SessionName.class, String.class).orElse(Coherence.DEFAULT_NAME);
         String name = metadata.getValue(Name.class, String.class).orElse(getName(injectionPoint));
+
+        isCQC = isCQC || injectionPoint.isAnnotationPresent(View.class);
 
         if (StringUtils.isEmpty(name)) {
             throw new IllegalArgumentException(
@@ -152,21 +161,6 @@ class NamedCacheFactories {
         } else {
             return cache;
         }
-    }
-
-    @Prototype
-    @Named("Name")
-    @Primary
-    <K, V> AsyncNamedCache<K, V> getAsyncCache(InjectionPoint<?> injectionPoint) {
-        NamedCache<K, V> cache = getCache(injectionPoint);
-        return cache.async();
-    }
-
-    @Prototype
-    @Named("SessionName")
-    <K, V> AsyncNamedCache<K, V> getAsyncCacheForSession(InjectionPoint<?> injectionPoint) {
-        NamedCache<K, V> cache = getCache(injectionPoint);
-        return cache.async();
     }
 
     /**

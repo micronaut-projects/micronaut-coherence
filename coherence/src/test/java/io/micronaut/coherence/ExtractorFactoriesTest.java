@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2020 original authors
+ * Copyright 2017-2021 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,22 +16,17 @@
 package io.micronaut.coherence;
 
 
-import com.oracle.coherence.inject.ChainedExtractor;
-import com.oracle.coherence.inject.ExtractorBinding;
-import com.oracle.coherence.inject.ExtractorFactory;
-import com.oracle.coherence.inject.PofExtractor;
-import com.oracle.coherence.inject.PropertyExtractor;
 import com.tangosol.io.Serializer;
 import com.tangosol.io.pof.ConfigurablePofContext;
 import com.tangosol.net.BackingMapContext;
 import com.tangosol.net.cache.BackingMapBinaryEntry;
-import com.tangosol.util.Binary;
-import com.tangosol.util.ExternalizableHelper;
-import com.tangosol.util.InvocableMapHelper;
-import com.tangosol.util.MapIndex;
-import com.tangosol.util.ValueExtractor;
+import com.tangosol.util.*;
 import data.Person;
 import data.PhoneNumber;
+import io.micronaut.coherence.annotation.ChainedExtractor;
+import io.micronaut.coherence.annotation.ExtractorBinding;
+import io.micronaut.coherence.annotation.PofExtractor;
+import io.micronaut.coherence.annotation.PropertyExtractor;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import org.junit.jupiter.api.BeforeEach;
@@ -65,16 +60,13 @@ import static org.mockito.Mockito.when;
 @MicronautTest
 class ExtractorFactoriesTest {
 
+    @Inject
+    ApplicationContext context; //refers to the current application context within the scope of the test
     private ConfigurablePofContext pofContext = new ConfigurablePofContext("pof-config.xml");
-
     private Person person;
-
     private PhoneNumber phoneNumber;
-
     private Binary binaryKey;
-
     private Binary binaryPerson;
-
     private Map.Entry<String, Person> entry;
 
     @BeforeEach
@@ -114,9 +106,6 @@ class ExtractorFactoriesTest {
             }
         };
     }
-
-    @Inject
-    ApplicationContext context; //refers to the current application context within the scope of the test
 
     @Test
     void shouldInjectPropertyExtractor() {
@@ -221,45 +210,38 @@ class ExtractorFactoriesTest {
 
     @Singleton
     private static class ExtractorBean {
-        public ExtractorBean() {
-        }
-
         @Inject
         @PropertyExtractor("firstName")
         private ValueExtractor<Person, String> firstNameExtractor;
-
         @Inject
         @ChainedExtractor({"phoneNumber", "number"})
         private ValueExtractor<Person, String> chainedExtractor;
-
         @Inject
         @TestExtractor
         private ValueExtractor<Person, String> customExtractor;
-
         @Inject
         @PofExtractor(index = {3, 0})
         private ValueExtractor<Person, Integer> pofExtractor;
-
         @Inject
         @TestExtractor
         @PropertyExtractor("firstName")
         @ChainedExtractor({"phoneNumber", "number"})
         private ValueExtractor<Person, List<?>> multiExtractor;
-
         @Inject
         @PropertyExtractor("firstName")
         @PropertyExtractor("lastName")
         private ValueExtractor<Person, List<?>> multiPropertyExtractor;
-
         @Inject
         @ChainedExtractor({"phoneNumber", "countryCode"})
         @ChainedExtractor({"phoneNumber", "number"})
         private ValueExtractor<Person, List<?>> multiChainedExtractor;
-
         @Inject
         @PofExtractor(index = {3, 0})
         @PofExtractor(index = {3, 1})
         private ValueExtractor<Person, List<?>> multiPofExtractor;
+
+        public ExtractorBean() {
+        }
 
         public ValueExtractor<Person, String> getFirstNameExtractor() {
             return firstNameExtractor;

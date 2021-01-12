@@ -14,7 +14,7 @@ can often also benefit from dependency injection (in order to support Domain-Dri
 
 While these transient objects are not managed by the Micronaut container, Coherence Micronaut does support their injection during
 deserialization, but for performance reasons requires that you explicitly opt-in by implementing
-`com.oracle.coherence.cdi.Injectable` interface.
+`com.oracle.coherence.inject.Injectable` interface.
 
 == Making transient classes `Injectable`
 

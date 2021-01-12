@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2020 original authors
+ * Copyright 2017-2021 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,8 +23,7 @@ import java.lang.annotation.RetentionPolicy;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import com.oracle.coherence.inject.MapEventTransformerBinding;
-import com.oracle.coherence.inject.MapEventTransformerFactory;
+import io.micronaut.coherence.annotation.MapEventTransformerBinding;
 
 import com.tangosol.util.MapEvent;
 import com.tangosol.util.MapEventTransformer;

@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2020 original authors
+ * Copyright 2017-2021 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@ package io.micronaut.coherence;
 
 import javax.inject.Inject;
 
-import com.oracle.coherence.inject.Name;
+import io.micronaut.coherence.annotation.Name;
 
 import com.tangosol.net.Cluster;
 import com.tangosol.net.Coherence;

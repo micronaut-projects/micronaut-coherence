@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2020 original authors
+ * Copyright 2017-2021 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,11 +16,10 @@
 package io.micronaut.coherence;
 
 
-import com.oracle.coherence.inject.ChainedExtractor;
-import com.oracle.coherence.inject.ExtractorBinding;
-import com.oracle.coherence.inject.ExtractorFactory;
-import com.oracle.coherence.inject.PofExtractor;
-import com.oracle.coherence.inject.PropertyExtractor;
+import io.micronaut.coherence.annotation.ChainedExtractor;
+import io.micronaut.coherence.annotation.ExtractorBinding;
+import io.micronaut.coherence.annotation.PofExtractor;
+import io.micronaut.coherence.annotation.PropertyExtractor;
 import com.tangosol.util.Extractors;
 import com.tangosol.util.ValueExtractor;
 import io.micronaut.context.ApplicationContext;

@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2020 original authors
+ * Copyright 2017-2021 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,10 +23,11 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
-import com.oracle.coherence.inject.Name;
+import io.micronaut.coherence.annotation.Name;
 
 import com.tangosol.net.*;
 
+import io.micronaut.coherence.event.CoherenceEventListenerProcessor;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.BeanContext;
 import io.micronaut.context.annotation.*;
@@ -111,7 +112,6 @@ class CoherenceFactory {
      * @return a {@link com.tangosol.net.Session}
      */
     @Prototype
-    @Named("Name")
     Session getSession(@Nullable InjectionPoint<?> injectionPoint, @Parameter @Nullable String name) {
         String sessionName;
         if (injectionPoint != null) {

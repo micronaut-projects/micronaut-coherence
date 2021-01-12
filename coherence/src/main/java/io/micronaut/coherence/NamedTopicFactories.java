@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2020 original authors
+ * Copyright 2017-2021 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,9 +15,7 @@
  */
 package io.micronaut.coherence;
 
-import javax.inject.Named;
-
-import com.oracle.coherence.inject.*;
+import io.micronaut.coherence.annotation.*;
 
 import com.tangosol.net.Coherence;
 import com.tangosol.net.Session;
@@ -30,7 +28,6 @@ import com.tangosol.util.ValueExtractor;
 import io.micronaut.context.BeanContext;
 import io.micronaut.context.annotation.Bean;
 import io.micronaut.context.annotation.Factory;
-import io.micronaut.context.annotation.Primary;
 import io.micronaut.context.annotation.Prototype;
 import io.micronaut.context.annotation.Type;
 import io.micronaut.core.annotation.AnnotationMetadata;
@@ -77,34 +74,14 @@ class NamedTopicFactories {
 
     @Bean(preDestroy = "release")
     @Prototype
-    @Named("SessionName")
     @Type(NamedTopic.class)
-    <V> NamedTopic<V> getTopicFromSession(InjectionPoint<?> injectionPoint) {
-        return getTopic(injectionPoint);
-    }
-
-    @Bean(preDestroy = "release")
-    @Prototype
-    @Named("Name")
-    @Type(NamedTopic.class)
-    @Primary
     <V> NamedTopic<V> getTopic(InjectionPoint<?> injectionPoint) {
         return getTopicInternal(injectionPoint);
     }
 
     @Bean(preDestroy = "close")
     @Prototype
-    @Named("SessionName")
     @Type(Publisher.class)
-    <V> Publisher<V> getPublisherFromSession(InjectionPoint<?> injectionPoint) {
-        return getPublisher(injectionPoint);
-    }
-
-    @Bean(preDestroy = "close")
-    @Prototype
-    @Named("Name")
-    @Type(Publisher.class)
-    @Primary
     <V> Publisher<V> getPublisher(InjectionPoint<?> injectionPoint) {
         NamedTopic<V> topic = getTopicInternal(injectionPoint);
         return topic.createPublisher();
@@ -112,17 +89,7 @@ class NamedTopicFactories {
 
     @Bean(preDestroy = "close")
     @Prototype
-    @Named("SessionName")
     @Type(Subscriber.class)
-    <V> Subscriber<V> getSubscriberFromSession(InjectionPoint<?> injectionPoint) {
-        return getSubscriber(injectionPoint);
-    }
-
-    @Bean(preDestroy = "close")
-    @Prototype
-    @Named("Name")
-    @Type(Subscriber.class)
-    @Primary
     @SuppressWarnings({"unchecked", "rawtypes"})
     <V> Subscriber<V> getSubscriber(InjectionPoint<?> injectionPoint) {
         AnnotationMetadata metadata = injectionPoint.getAnnotationMetadata();

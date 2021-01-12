@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2020 original authors
+ * Copyright 2017-2021 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,10 +28,10 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
-import com.oracle.coherence.inject.ExtractorBinding;
-import com.oracle.coherence.inject.FilterBinding;
-import com.oracle.coherence.inject.SessionName;
-import com.oracle.coherence.inject.SubscriberGroup;
+import io.micronaut.coherence.annotation.ExtractorBinding;
+import io.micronaut.coherence.annotation.FilterBinding;
+import io.micronaut.coherence.annotation.SessionName;
+import io.micronaut.coherence.annotation.SubscriberGroup;
 
 import com.tangosol.net.Coherence;
 import com.tangosol.net.Session;
