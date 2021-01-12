@@ -47,6 +47,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 @Singleton
@@ -218,7 +219,6 @@ public class CoherenceSessionStore implements SessionStore<CoherenceSessionStore
         public <T> Optional<T> get(CharSequence name, ArgumentConversionContext<T> conversionContext) {
             Object value = attributes.get(name.toString());
             if (value != null) {
-                // TODO configurable ConversionService?
                 return ConversionService.SHARED.convert(value, conversionContext);
             }
             return Optional.empty();
@@ -231,7 +231,7 @@ public class CoherenceSessionStore implements SessionStore<CoherenceSessionStore
             maxInactiveInterval = pofReader.readObject(2);
             lastAccessedTime = pofReader.readObject(3);
             isNew = pofReader.readBoolean(4);
-            attributes = pofReader.readMap(5, new HashMap<>());
+            attributes = pofReader.readMap(5, new ConcurrentHashMap<>());
         }
 
         @Override

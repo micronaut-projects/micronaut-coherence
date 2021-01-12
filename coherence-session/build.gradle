@@ -2,19 +2,15 @@ dependencies {
     annotationProcessor "io.micronaut:micronaut-inject-java"
     annotationProcessor "io.micronaut.docs:micronaut-docs-asciidoc-config-props:$micronautDocsVersion"
 
-    api "io.micronaut:micronaut-inject"
-    api "io.micronaut:micronaut-messaging"
-    api "io.micronaut:micronaut-runtime"
-    api "com.oracle.coherence.ce:coherence"
+    api project(':coherence')
+    api "io.micronaut:micronaut-session"
 
-    compileOnly "com.oracle.coherence.ce:coherence-json"
-    compileOnly "com.oracle.coherence.ce:coherence-grpc-proxy"
+    testImplementation "io.micronaut:micronaut-http-client"
+    testRuntimeOnly "io.micronaut:micronaut-http-server-netty"
 
-    testImplementation "org.mockito:mockito-core:3.6.0"
     testImplementation "org.hamcrest:hamcrest:2.2"
     testImplementation "io.micronaut.test:micronaut-test-junit5:2.1.1"
 
-    testImplementation "com.oracle.bedrock:bedrock-testing-support:$bedrockVersion"
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
     testAnnotationProcessor "io.micronaut:micronaut-inject-java"
 }

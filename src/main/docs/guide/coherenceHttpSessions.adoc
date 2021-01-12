@@ -3,7 +3,7 @@ To use Coherence as a Micronaut HTTP session store add dependency:
 .build.gradle
 [source,groovy]
 ----
-implementation "io.micronaut.coherence:micronaut-coherence"
+implementation "io.micronaut.coherence:coherence-session"
 ----
 
 To enable Coherence sessions via configuration in `application.yml`:

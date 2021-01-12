@@ -21,10 +21,8 @@
  */
 @Configuration
 @Requires(property = "micronaut.session.http.coherence.enabled", value = StringUtils.TRUE)
-@Requires(classes = SessionStore.class)
 package io.micronaut.coherence.httpsession;
 
 import io.micronaut.context.annotation.Configuration;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.core.util.StringUtils;
-import io.micronaut.session.SessionStore;
