@@ -16,13 +16,13 @@
 package io.micronaut.coherence.httpsession;
 
 
-import com.oracle.coherence.inject.Name;
 import com.tangosol.io.pof.PofReader;
 import com.tangosol.io.pof.PofWriter;
 import com.tangosol.io.pof.PortableObject;
 import com.tangosol.net.NamedCache;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.Nullable;
+import io.micronaut.coherence.annotation.Name;
 import io.micronaut.context.annotation.Primary;
 import io.micronaut.context.annotation.Replaces;
 import io.micronaut.context.annotation.Requires;
