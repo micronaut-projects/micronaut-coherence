@@ -3,5 +3,6 @@ introduction:
 releaseHistory: Release History
 quickStart:
   title: Quick Start
+coherenceHttpSessions: Using Coherence to store HTTP sessions
 repository: Repository
 
