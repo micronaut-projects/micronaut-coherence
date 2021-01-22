@@ -15,8 +15,6 @@
  */
 package io.micronaut.coherence.event;
 
-import com.oracle.coherence.inject.Name;
-import com.oracle.coherence.inject.SessionName;
 import com.tangosol.net.CacheService;
 import com.tangosol.net.ConfigurableCacheFactory;
 import com.tangosol.net.PartitionedService;
