@@ -9,7 +9,7 @@ dependencies {
     testRuntimeOnly "io.micronaut:micronaut-http-server-netty"
 
     testImplementation "org.hamcrest:hamcrest:2.2"
-    testImplementation "io.micronaut.test:micronaut-test-junit5:2.1.1"
+    testImplementation "io.micronaut.test:micronaut-test-junit5:2.3.2"
 
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
     testAnnotationProcessor "io.micronaut:micronaut-inject-java"
