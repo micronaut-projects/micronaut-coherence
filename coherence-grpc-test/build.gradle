@@ -12,7 +12,7 @@ dependencies {
 
     testImplementation "org.mockito:mockito-core:3.7.7"
     testImplementation "org.hamcrest:hamcrest:2.2"
-    testImplementation "io.micronaut.test:micronaut-test-junit5:2.1.1"
+    testImplementation "io.micronaut.test:micronaut-test-junit5:2.3.2"
 
     testImplementation "com.oracle.bedrock:bedrock-testing-support:$bedrockVersion"
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
