@@ -1,0 +1,10 @@
+micronaut:
+  application:
+    name: hello-world
+  config-client:
+    enabled: true
+coherence:
+  client:
+    enabled: true
+#    host: localhost
+#    port: 1408

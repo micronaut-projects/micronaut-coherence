@@ -1,0 +1,27 @@
+dependencies {
+    annotationProcessor "io.micronaut:micronaut-inject-java"
+    annotationProcessor "io.micronaut.docs:micronaut-docs-asciidoc-config-props:$micronautDocsVersion"
+
+    api project(':coherence')
+    implementation project(':coherence-grpc-client')
+    api "io.micronaut:micronaut-inject"
+    api "io.micronaut:micronaut-runtime"
+    implementation(platform("com.oracle.coherence.ce:coherence-bom:${coherenceVersion}"))
+    implementation "com.oracle.coherence.ce:coherence"
+
+    testImplementation "org.mockito:mockito-core:3.7.7"
+    testImplementation "org.mockito:mockito-inline:3.7.7"
+    testImplementation "org.hamcrest:hamcrest:2.2"
+    testImplementation "io.micronaut.test:micronaut-test-junit5:2.1.1"
+
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
+    testAnnotationProcessor "io.micronaut:micronaut-inject-java"
+}
+
+tasks.withType(Test) {
+    useJUnitPlatform()
+}
+
+test {
+    systemProperty("java.net.preferIPv4Stack", "true")
+}
