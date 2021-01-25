@@ -9,6 +9,7 @@ dependencies {
     api "com.oracle.coherence.ce:coherence-grpc-proxy"
     api "com.oracle.coherence.ce:coherence-json"
 
+    implementation(platform("com.oracle.coherence.ce:coherence-bom:${coherenceVersion}"))
 
     testImplementation "org.mockito:mockito-core:3.7.7"
     testImplementation "org.hamcrest:hamcrest:2.2"

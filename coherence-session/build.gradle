@@ -4,6 +4,9 @@ dependencies {
 
     api project(':coherence')
     api "io.micronaut:micronaut-session"
+    api "com.oracle.coherence.ce:coherence"
+
+    implementation(platform("com.oracle.coherence.ce:coherence-bom:${coherenceVersion}"))
 
     testImplementation "io.micronaut:micronaut-http-client"
     testRuntimeOnly "io.micronaut:micronaut-http-server-netty"

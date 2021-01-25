@@ -5,10 +5,14 @@ dependencies {
     api "io.micronaut:micronaut-inject"
     api "io.micronaut:micronaut-messaging"
     api "io.micronaut:micronaut-runtime"
-    api "com.oracle.coherence.ce:coherence"
 
+    compileOnly(platform("com.oracle.coherence.ce:coherence-bom:${coherenceVersion}"))
+    compileOnly "com.oracle.coherence.ce:coherence"
     compileOnly "com.oracle.coherence.ce:coherence-json"
     compileOnly "com.oracle.coherence.ce:coherence-grpc-proxy"
+
+    testImplementation(platform("com.oracle.coherence.ce:coherence-bom:${coherenceVersion}"))
+    testImplementation "com.oracle.coherence.ce:coherence:${coherenceVersion}"
 
     testImplementation "org.mockito:mockito-core:3.7.7"
     testImplementation "org.hamcrest:hamcrest:2.2"
