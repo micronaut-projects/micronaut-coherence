@@ -89,6 +89,7 @@ public class CoherenceSessionStore implements SessionStore<CoherenceSessionStore
     @Override
     public CompletableFuture<CoherenceHttpSession> save(CoherenceHttpSession session) {
         session.setNew(false);
+        session.setModified(false);
         long expireIn = session.getMaxInactiveInterval().toMillis();
         return cache.async()
                 .put(session.getId(), session, expireIn)
@@ -115,6 +116,7 @@ public class CoherenceSessionStore implements SessionStore<CoherenceSessionStore
         private Duration maxInactiveInterval;
         private Instant lastAccessedTime;
         private boolean isNew;
+        private boolean isModified;
         private Map<String, Object> attributes;
 
         public CoherenceHttpSession() {
@@ -184,24 +186,31 @@ public class CoherenceSessionStore implements SessionStore<CoherenceSessionStore
 
         @Override
         public boolean isModified() {
-            return isNew;
+            return isModified;
+        }
+
+        void setModified(boolean isModified) {
+            this.isModified = isModified;
         }
 
         @Override
         public MutableConvertibleValues<Object> put(CharSequence key, @Nullable Object value) {
             attributes.put(key.toString(), value);
+            isModified = true;
             return this;
         }
 
         @Override
         public MutableConvertibleValues<Object> remove(CharSequence key) {
             attributes.remove(key.toString());
+            isModified = true;
             return this;
         }
 
         @Override
         public MutableConvertibleValues<Object> clear() {
             attributes.clear();
+            isModified = true;
             return this;
         }
 
