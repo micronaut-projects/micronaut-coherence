@@ -83,7 +83,7 @@ public class CoherenceSessionStore implements SessionStore<CoherenceSessionStore
     public CompletableFuture<Boolean> deleteSession(String id) {
         return cache.async()
                 .remove(id)
-                .handle((session, t) -> session != null && t == null);
+                .handleAsync((session, t) -> session != null && t == null);
     }
 
     @Override
@@ -93,9 +93,10 @@ public class CoherenceSessionStore implements SessionStore<CoherenceSessionStore
         long expireIn = session.getMaxInactiveInterval().toMillis();
         return cache.async()
                 .put(session.getId(), session, expireIn)
-                .thenApply(unused -> session);
+                .thenApplyAsync(unused -> session);
     }
 
+    @SuppressWarnings("unchecked")
     private CompletableFuture<Optional<CoherenceHttpSession>> findSessionInternal(String id, boolean allowExpired) {
         return cache.async()
                 .invoke(id, entry -> {
@@ -107,7 +108,7 @@ public class CoherenceSessionStore implements SessionStore<CoherenceSessionStore
                     entry.setValue(session);
                     entry.asBinaryEntry().expire(session.getMaxInactiveInterval().toMillis());
                     return Optional.of(session);
-                });
+                }).thenApplyAsync(session -> (Optional<CoherenceHttpSession>) session);
     }
 
     public static class CoherenceHttpSession implements Session, PortableObject, Serializable {
