@@ -15,13 +15,14 @@
  */
 package io.micronaut.coherence.event;
 
-import com.oracle.coherence.inject.Name;
-import com.oracle.coherence.inject.SessionName;
 import com.tangosol.net.CacheService;
 import com.tangosol.net.ConfigurableCacheFactory;
 import com.tangosol.net.PartitionedService;
 import com.tangosol.net.events.*;
 import com.tangosol.net.events.application.LifecycleEvent;
+import com.tangosol.net.events.federation.FederatedChangeEvent;
+import com.tangosol.net.events.federation.FederatedConnectionEvent;
+import com.tangosol.net.events.federation.FederatedPartitionEvent;
 import com.tangosol.net.events.internal.CoherenceEventDispatcher;
 import com.tangosol.net.events.internal.ConfigurableCacheFactoryDispatcher;
 import com.tangosol.net.events.internal.SessionEventDispatcher;
@@ -34,10 +35,13 @@ import com.tangosol.net.events.partition.cache.CacheLifecycleEventDispatcher;
 import com.tangosol.net.events.partition.cache.EntryEvent;
 import com.tangosol.net.events.partition.cache.EntryProcessorEvent;
 import io.micronaut.coherence.annotation.*;
+import io.micronaut.coherence.annotation.Error;
 
 import java.lang.annotation.Annotation;
 import java.util.EnumSet;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Function;
 
 /**
  * Manages registration of observer methods with {@link InterceptorRegistry}
@@ -74,6 +78,15 @@ public class EventObserverSupport {
         }
         if (UnsolicitedCommitEvent.class.equals(type)) {
             return (EventHandler<E, T>) new UnsolicitedCommitEventHandler((ExecutableMethodEventObserver<UnsolicitedCommitEvent, ?, ?>) observer);
+        }
+        if (FederatedChangeEvent.class.equals(type)) {
+            return (EventHandler<E, T>) new FederatedChangeEventHandler((ExecutableMethodEventObserver<FederatedChangeEvent, ?, ?>) observer);
+        }
+        if (FederatedConnectionEvent.class.equals(type)) {
+            return (EventHandler<E, T>) new FederatedConnectionEventHandler((ExecutableMethodEventObserver<FederatedConnectionEvent, ?, ?>) observer);
+        }
+        if (FederatedPartitionEvent.class.equals(type)) {
+            return (EventHandler<E, T>) new FederatedPartitionEventHandler((ExecutableMethodEventObserver<FederatedPartitionEvent, ?, ?>) observer);
         }
         throw new IllegalArgumentException("Unsupported event type: " + type);
     }
@@ -239,7 +252,8 @@ public class EventObserverSupport {
     /**
      * Handler for {@link CoherenceLifecycleEvent}s.
      */
-    static class CoherenceLifecycleEventHandler extends EventHandler<CoherenceLifecycleEvent, CoherenceLifecycleEvent.Type> {
+    static class CoherenceLifecycleEventHandler
+            extends EventHandler<CoherenceLifecycleEvent, CoherenceLifecycleEvent.Type> {
 
         private String name;
 
@@ -276,7 +290,7 @@ public class EventObserverSupport {
 
         private String name;
 
-        public SessionLifecycleEventHandler(ExecutableMethodEventObserver<SessionLifecycleEvent, ?, ?> observer) {
+        SessionLifecycleEventHandler(ExecutableMethodEventObserver<SessionLifecycleEvent, ?, ?> observer) {
             super(observer, SessionLifecycleEvent.Type.class);
 
             for (Annotation a : observer.getObservedQualifiers()) {
@@ -307,9 +321,8 @@ public class EventObserverSupport {
     /**
      * Handler for {@link LifecycleEvent}s.
      */
-    public static class LifecycleEventHandler
-            extends EventHandler<LifecycleEvent, LifecycleEvent.Type> {
-        public LifecycleEventHandler(ExecutableMethodEventObserver<LifecycleEvent, ?, ?> observer) {
+    static class LifecycleEventHandler extends EventHandler<LifecycleEvent, LifecycleEvent.Type> {
+        LifecycleEventHandler(ExecutableMethodEventObserver<LifecycleEvent, ?, ?> observer) {
             super(observer, LifecycleEvent.Type.class);
 
             for (Annotation a : observer.getObservedQualifiers()) {
@@ -444,7 +457,7 @@ public class EventObserverSupport {
     /**
      * Handler for {@link EntryProcessorEvent}s.
      */
-    public static class EntryProcessorEventHandler
+    static class EntryProcessorEventHandler
             extends CacheEventHandler<EntryProcessorEvent, EntryProcessorEvent.Type> {
         private final Class<?> m_classProcessor;
 
@@ -484,7 +497,7 @@ public class EventObserverSupport {
 
         protected final String serviceName;
 
-        protected ServiceEventHandler(ExecutableMethodEventObserver<E, ?, ?> observer, Class<T> classType) {
+        ServiceEventHandler(ExecutableMethodEventObserver<E, ?, ?> observer, Class<T> classType) {
             super(observer, classType);
 
             String service = null;
@@ -545,9 +558,9 @@ public class EventObserverSupport {
     /**
      * Handler for {@link TransactionEvent}s.
      */
-    public static class TransferEventHandler extends ServiceEventHandler<TransferEvent, TransferEvent.Type> {
+    static class TransferEventHandler extends ServiceEventHandler<TransferEvent, TransferEvent.Type> {
 
-        public TransferEventHandler(ExecutableMethodEventObserver<TransferEvent, ?, ?> observer) {
+        TransferEventHandler(ExecutableMethodEventObserver<TransferEvent, ?, ?> observer) {
             super(observer, TransferEvent.Type.class);
 
             for (Annotation a : observer.getObservedQualifiers()) {
@@ -581,6 +594,117 @@ public class EventObserverSupport {
             for (Annotation a : observer.getObservedQualifiers()) {
                 if (a instanceof Committed) {
                     addType(UnsolicitedCommitEvent.Type.COMMITTED);
+                }
+            }
+        }
+    }
+
+
+    /**
+     * Abstract base class for all observer-based federation interceptors.
+     *
+     * @param <E> the type of {@link com.tangosol.net.events.Event} this interceptor accepts
+     * @param <T> the enumeration of event types E supports
+     */
+    abstract static class FederationEventHandler<E extends Event<T>, T extends Enum<T>> extends ServiceEventHandler<E, T> {
+
+        protected final String participantName;
+        protected final Function<E, String> participantNameFunction;
+
+        FederationEventHandler(ExecutableMethodEventObserver<E, ?, ?> observer, Class<T> type,
+                                         Function<E, String> participantNameFunction) {
+            super(observer, type);
+
+            this.participantNameFunction = participantNameFunction;
+
+            String participantName = null;
+
+            for (Annotation a : observer.getObservedQualifiers()) {
+                if (a instanceof ParticipantName) {
+                    participantName = ((ParticipantName) a).value();
+                }
+            }
+
+            this.participantName = participantName;
+        }
+
+        @Override
+        @SuppressWarnings("rawtypes")
+        protected boolean isApplicable(EventDispatcher dispatcher, String sScopeName) {
+            Set<Enum> setSupported = dispatcher.getSupportedTypes();
+            boolean fMatch = eventTypes().stream().anyMatch(setSupported::contains);
+            return fMatch && super.isApplicable(dispatcher, sScopeName);
+        }
+
+        @Override
+        protected boolean shouldFire(E event) {
+            return participantName == null || participantName.equals(participantNameFunction.apply(event));
+        }
+    }
+
+    /**
+     * Handler for {@link FederatedConnectionEvent}s.
+     */
+    static class FederatedConnectionEventHandler
+            extends FederationEventHandler<FederatedConnectionEvent, FederatedConnectionEvent.Type> {
+
+        FederatedConnectionEventHandler(ExecutableMethodEventObserver<FederatedConnectionEvent, ?, ?> observer) {
+            super(observer, FederatedConnectionEvent.Type.class, FederatedConnectionEvent::getParticipantName);
+
+            for (Annotation a : observer.getObservedQualifiers()) {
+                if (a instanceof Connecting) {
+                    addType(FederatedConnectionEvent.Type.CONNECTING);
+                } else if (a instanceof Disconnected) {
+                    addType(FederatedConnectionEvent.Type.DISCONNECTED);
+                } else if (a instanceof Backlog) {
+                    Backlog backlog = (Backlog) a;
+                    if (backlog.value() == Backlog.Type.EXCESSIVE) {
+                        addType(FederatedConnectionEvent.Type.BACKLOG_EXCESSIVE);
+                    } else {
+                        addType(FederatedConnectionEvent.Type.BACKLOG_NORMAL);
+                    }
+                } else if (a instanceof Error) {
+                    addType(FederatedConnectionEvent.Type.ERROR);
+                }
+            }
+        }
+    }
+
+    /**
+     * Handler for {@link FederatedChangeEvent}s.
+     */
+    static class FederatedChangeEventHandler
+            extends FederationEventHandler<FederatedChangeEvent, FederatedChangeEvent.Type> {
+
+        FederatedChangeEventHandler(ExecutableMethodEventObserver<FederatedChangeEvent, ?, ?> observer) {
+            super(observer, FederatedChangeEvent.Type.class, FederatedChangeEvent::getParticipant);
+
+            for (Annotation a : observer.getObservedQualifiers()) {
+                if (a instanceof CommittingLocal) {
+                    addType(FederatedChangeEvent.Type.COMMITTING_LOCAL);
+                } else if (a instanceof CommittingRemote) {
+                    addType(FederatedChangeEvent.Type.COMMITTING_REMOTE);
+                } else if (a instanceof Replicating) {
+                    addType(FederatedChangeEvent.Type.REPLICATING);
+                }
+            }
+        }
+    }
+
+    /**
+     * Handler for {@link FederatedPartitionEvent}s.
+     */
+    static class FederatedPartitionEventHandler
+            extends FederationEventHandler<FederatedPartitionEvent, FederatedPartitionEvent.Type> {
+
+        FederatedPartitionEventHandler(ExecutableMethodEventObserver<FederatedPartitionEvent, ?, ?> observer) {
+            super(observer, FederatedPartitionEvent.Type.class, FederatedPartitionEvent::getParticipant);
+
+            for (Annotation a : observer.getObservedQualifiers()) {
+                if (a instanceof Syncing) {
+                    addType(FederatedPartitionEvent.Type.SYNCING);
+                } else if (a instanceof Synced) {
+                    addType(FederatedPartitionEvent.Type.SYNCED);
                 }
             }
         }
