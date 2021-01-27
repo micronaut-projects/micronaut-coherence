@@ -1,0 +1,7 @@
+io.micronaut.coherence
+io.micronaut.coherence.annotation
+io.micronaut.coherence.config
+io.micronaut.coherence.event
+io.micronaut.coherence.httpsession
+io.micronaut.coherence.messaging
+io.micronaut.coherence.namespace
