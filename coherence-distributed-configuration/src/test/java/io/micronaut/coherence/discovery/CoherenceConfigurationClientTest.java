@@ -17,7 +17,6 @@ package io.micronaut.coherence.discovery;
 
 import com.oracle.coherence.client.GrpcSessionConfiguration;
 
-import com.tangosol.net.Coherence;
 import com.tangosol.net.NamedCache;
 import com.tangosol.net.Session;
 
@@ -31,9 +30,9 @@ import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 
 import io.reactivex.Flowable;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import org.junit.jupiter.api.TestInstance;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.reactivestreams.Publisher;
@@ -58,24 +57,17 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @MicronautTest(startApplication = false, environments = "backend")
+@TestInstance(TestInstance.Lifecycle.PER_METHOD)
 class CoherenceConfigurationClientTest {
 
     @Inject
     ApplicationContext context;
 
-    // We need to inject Coherence to trigger the bootstrap
     @Inject
-    Coherence coherence;
-
-    @BeforeEach
-    void ensureCoherenceStarted() {
-        // Coherence bootstrap is async, so we need to wait for it to have started
-        coherence.whenStarted().join();
-    }
+    Session session;
 
     @Test
     public void shouldProvidePropertySources() {
-        Session session = coherence.getSession();
         NamedCache<String, Object> cache = session.getCache("config-cache");
 
         cache.put("hello", "error");
