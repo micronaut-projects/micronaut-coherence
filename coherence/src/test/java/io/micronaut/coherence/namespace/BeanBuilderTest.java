@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2020 original authors
+ * Copyright 2017-2021 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,9 +27,12 @@ import com.tangosol.config.ConfigurationException;
 import com.tangosol.config.expression.ParameterResolver;
 import com.tangosol.config.expression.SystemPropertyParameterResolver;
 
+import com.tangosol.net.CacheFactory;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.sameInstance;
@@ -37,11 +40,17 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @MicronautTest(startApplication = false)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class BeanBuilderTest {
 
     @Inject ApplicationContext ctx;
 
     @Inject FooBean fooBean;
+
+    @AfterAll
+    static void cleanup() {
+        CacheFactory.shutdown();
+    }
 
     @Test
     void shouldRealizeNamedBean() {

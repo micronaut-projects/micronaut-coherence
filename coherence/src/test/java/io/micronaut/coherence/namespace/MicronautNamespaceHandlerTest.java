@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2020 original authors
+ * Copyright 2017-2021 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,11 +18,7 @@ package io.micronaut.coherence.namespace;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
-import com.tangosol.net.BackingMapContext;
-import com.tangosol.net.BackingMapManager;
-import com.tangosol.net.BackingMapManagerContext;
-import com.tangosol.net.ExtensibleConfigurableCacheFactory;
-import com.tangosol.net.NamedCache;
+import com.tangosol.net.*;
 import com.tangosol.net.cache.CacheStore;
 import com.tangosol.net.cache.ReadWriteBackingMap;
 
@@ -51,6 +47,7 @@ class MicronautNamespaceHandlerTest {
     @AfterAll
     static void cleanup() {
         eccf.dispose();
+        CacheFactory.shutdown();
     }
 
     @Test
