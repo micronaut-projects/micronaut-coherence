@@ -5,6 +5,6 @@ coherence:
   distributed:
     localstorage: true
   sessions:
-    default:
+    config:
       type: server
       config: coherence-cache-config.xml

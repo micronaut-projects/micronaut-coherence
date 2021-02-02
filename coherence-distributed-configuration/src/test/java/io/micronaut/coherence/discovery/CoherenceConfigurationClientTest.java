@@ -23,6 +23,7 @@ import com.tangosol.net.Session;
 import io.grpc.Channel;
 import io.grpc.ManagedChannelBuilder;
 
+import io.micronaut.coherence.annotation.Name;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.env.PropertySource;
 import io.micronaut.runtime.ApplicationConfiguration;
@@ -64,6 +65,7 @@ class CoherenceConfigurationClientTest {
     ApplicationContext context;
 
     @Inject
+    @Name("config")
     Session session;
 
     @Test
