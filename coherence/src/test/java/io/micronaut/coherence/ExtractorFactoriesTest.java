@@ -31,6 +31,7 @@ import io.micronaut.context.ApplicationContext;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -57,7 +58,8 @@ import static org.mockito.Mockito.when;
  * @author Vaso Putica 2020.11.26
  */
 @SuppressWarnings("unchecked")
-@MicronautTest
+@MicronautTest(startApplication = false)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ExtractorFactoriesTest {
 
     @Inject
