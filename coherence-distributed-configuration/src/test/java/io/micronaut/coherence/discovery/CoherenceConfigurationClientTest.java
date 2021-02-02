@@ -56,7 +56,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@MicronautTest(startApplication = false, environments = "backend")
+@MicronautTest(startApplication = false, environments = "backend", propertySources = "classpath:sessions.yaml")
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
 class CoherenceConfigurationClientTest {
 
