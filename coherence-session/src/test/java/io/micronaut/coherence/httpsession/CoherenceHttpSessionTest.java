@@ -105,9 +105,7 @@ public class CoherenceHttpSessionTest {
         assertFalse(retrieved.isExpired());
         assertEquals(Duration.of(10, ChronoUnit.MINUTES), retrieved.getMaxInactiveInterval());
         assertEquals(retrieved.getCreationTime().getLong(ChronoField.MILLI_OF_SECOND), saved.getCreationTime().getLong(ChronoField.MILLI_OF_SECOND));
-        assertEquals(retrieved.getLastAccessedTime().getLong(ChronoField.MILLI_OF_SECOND),
-                now.getLong(ChronoField.MILLI_OF_SECOND),
-                15);
+        assertTrue(retrieved.getLastAccessedTime().isAfter(now));
         assertNotNull(retrieved.getId());
         assertFalse(retrieved.contains("username"));
         assertEquals("stuff", retrieved.get("more", String.class).get());
