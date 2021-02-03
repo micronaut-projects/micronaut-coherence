@@ -138,6 +138,8 @@
 <div class="block">An annotation literal for the <a href="io/micronaut/coherence/annotation/Assigned.html" title="annotation in io.micronaut.coherence.annotation"><code>Assigned</code></a>
  annotation.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/cache/coherence/CoherenceSyncCache.html#async--">async()</a></span> - Method in class io.micronaut.cache.coherence.<a href="io/micronaut/cache/coherence/CoherenceSyncCache.html" title="class in io.micronaut.cache.coherence">CoherenceSyncCache</a></dt>
+<dd>&nbsp;</dd>
 </dl>
 <a name="I:B">
 <!--   -->
@@ -199,6 +201,18 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/httpsession/CoherenceSessionStore.html#COHERENCE_SESSION_ENABLED">COHERENCE_SESSION_ENABLED</a></span> - Static variable in class io.micronaut.coherence.httpsession.<a href="io/micronaut/coherence/httpsession/CoherenceSessionStore.html" title="class in io.micronaut.coherence.httpsession">CoherenceSessionStore</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="io/micronaut/cache/coherence/CoherenceAsyncCache.html" title="class in io.micronaut.cache.coherence"><span class="typeNameLink">CoherenceAsyncCache</span></a> - Class in <a href="io/micronaut/cache/coherence/package-summary.html">io.micronaut.cache.coherence</a></dt>
+<dd>
+<div class="block">A <code>AsyncCache</code> implementation based on Coherence.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/cache/coherence/CoherenceAsyncCache.html#CoherenceAsyncCache-io.micronaut.core.convert.ConversionService-com.tangosol.net.NamedCache-java.util.concurrent.ExecutorService-">CoherenceAsyncCache(ConversionService&lt;?&gt;, NamedCache&lt;Object, Object&gt;, ExecutorService)</a></span> - Constructor for class io.micronaut.cache.coherence.<a href="io/micronaut/cache/coherence/CoherenceAsyncCache.html" title="class in io.micronaut.cache.coherence">CoherenceAsyncCache</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/cache/coherence/CoherenceCacheManager.html" title="class in io.micronaut.cache.coherence"><span class="typeNameLink">CoherenceCacheManager</span></a> - Class in <a href="io/micronaut/cache/coherence/package-summary.html">io.micronaut.cache.coherence</a></dt>
+<dd>
+<div class="block">A <code>CacheManager</code> implementation for Coherence.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/cache/coherence/CoherenceCacheManager.html#CoherenceCacheManager-io.micronaut.core.convert.ConversionService-java.util.concurrent.ExecutorService-com.tangosol.net.Coherence-">CoherenceCacheManager(ConversionService&lt;?&gt;, ExecutorService, Coherence)</a></span> - Constructor for class io.micronaut.cache.coherence.<a href="io/micronaut/cache/coherence/CoherenceCacheManager.html" title="class in io.micronaut.cache.coherence">CoherenceCacheManager</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io/micronaut/coherence/CoherenceContext.html" title="class in io.micronaut.coherence"><span class="typeNameLink">CoherenceContext</span></a> - Class in <a href="io/micronaut/coherence/package-summary.html">io.micronaut.coherence</a></dt>
 <dd>
 <div class="block">A utility class to capture the <code>ApplicationContext</code>
@@ -240,6 +254,12 @@
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/httpsession/CoherenceSessionStore.html#CoherenceSessionStore-io.micronaut.session.SessionIdGenerator-io.micronaut.coherence.httpsession.CoherenceHttpSessionConfiguration-com.tangosol.net.NamedCache-">CoherenceSessionStore(SessionIdGenerator, CoherenceHttpSessionConfiguration, NamedCache&lt;String, CoherenceSessionStore.CoherenceHttpSession&gt;)</a></span> - Constructor for class io.micronaut.coherence.httpsession.<a href="io/micronaut/coherence/httpsession/CoherenceSessionStore.html" title="class in io.micronaut.coherence.httpsession">CoherenceSessionStore</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/coherence/httpsession/CoherenceSessionStore.CoherenceHttpSession.html" title="class in io.micronaut.coherence.httpsession"><span class="typeNameLink">CoherenceSessionStore.CoherenceHttpSession</span></a> - Class in <a href="io/micronaut/coherence/httpsession/package-summary.html">io.micronaut.coherence.httpsession</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/cache/coherence/CoherenceSyncCache.html" title="class in io.micronaut.cache.coherence"><span class="typeNameLink">CoherenceSyncCache</span></a> - Class in <a href="io/micronaut/cache/coherence/package-summary.html">io.micronaut.cache.coherence</a></dt>
+<dd>
+<div class="block">A <code>SyncCache</code> implementation based on Coherence.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/cache/coherence/CoherenceSyncCache.html#CoherenceSyncCache-io.micronaut.core.convert.ConversionService-com.tangosol.net.NamedCache-java.util.concurrent.ExecutorService-">CoherenceSyncCache(ConversionService&lt;?&gt;, NamedCache&lt;Object, Object&gt;, ExecutorService)</a></span> - Constructor for class io.micronaut.cache.coherence.<a href="io/micronaut/cache/coherence/CoherenceSyncCache.html" title="class in io.micronaut.cache.coherence">CoherenceSyncCache</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/coherence/annotation/CoherenceTopicListener.html" title="annotation in io.micronaut.coherence.annotation"><span class="typeNameLink">CoherenceTopicListener</span></a> - Annotation Type in <a href="io/micronaut/coherence/annotation/package-summary.html">io.micronaut.coherence.annotation</a></dt>
 <dd>
@@ -507,12 +527,18 @@
 </a>
 <h2 class="title">G</h2>
 <dl>
+<dt><span class="memberNameLink"><a href="io/micronaut/cache/coherence/CoherenceAsyncCache.html#get-java.lang.Object-io.micronaut.core.type.Argument-">get(Object, Argument&lt;T&gt;)</a></span> - Method in class io.micronaut.cache.coherence.<a href="io/micronaut/cache/coherence/CoherenceAsyncCache.html" title="class in io.micronaut.cache.coherence">CoherenceAsyncCache</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/cache/coherence/CoherenceAsyncCache.html#get-java.lang.Object-io.micronaut.core.type.Argument-java.util.function.Supplier-">get(Object, Argument&lt;T&gt;, Supplier&lt;T&gt;)</a></span> - Method in class io.micronaut.cache.coherence.<a href="io/micronaut/cache/coherence/CoherenceAsyncCache.html" title="class in io.micronaut.cache.coherence">CoherenceAsyncCache</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/httpsession/CoherenceSessionStore.CoherenceHttpSession.html#get-java.lang.CharSequence-io.micronaut.core.convert.ArgumentConversionContext-">get(CharSequence, ArgumentConversionContext&lt;T&gt;)</a></span> - Method in class io.micronaut.coherence.httpsession.<a href="io/micronaut/coherence/httpsession/CoherenceSessionStore.CoherenceHttpSession.html" title="class in io.micronaut.coherence.httpsession">CoherenceSessionStore.CoherenceHttpSession</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/CoherenceContext.html#getApplicationContext--">getApplicationContext()</a></span> - Static method in class io.micronaut.coherence.<a href="io/micronaut/coherence/CoherenceContext.html" title="class in io.micronaut.coherence">CoherenceContext</a></dt>
 <dd>
 <div class="block">Returns the <code>ApplicationContext</code>.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/cache/coherence/CoherenceCacheManager.html#getCache-java.lang.String-">getCache(String)</a></span> - Method in class io.micronaut.cache.coherence.<a href="io/micronaut/cache/coherence/CoherenceCacheManager.html" title="class in io.micronaut.cache.coherence">CoherenceCacheManager</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/httpsession/CoherenceHttpSessionConfiguration.html#getCacheName--">getCacheName()</a></span> - Method in class io.micronaut.coherence.httpsession.<a href="io/micronaut/coherence/httpsession/CoherenceHttpSessionConfiguration.html" title="class in io.micronaut.coherence.httpsession">CoherenceHttpSessionConfiguration</a></dt>
 <dd>
 <div class="block">Get HTTP session cache name.</div>
@@ -550,10 +576,16 @@
 </dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/httpsession/CoherenceSessionStore.CoherenceHttpSession.html#getMaxInactiveInterval--">getMaxInactiveInterval()</a></span> - Method in class io.micronaut.coherence.httpsession.<a href="io/micronaut/coherence/httpsession/CoherenceSessionStore.CoherenceHttpSession.html" title="class in io.micronaut.coherence.httpsession">CoherenceSessionStore.CoherenceHttpSession</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/cache/coherence/CoherenceAsyncCache.html#getName--">getName()</a></span> - Method in class io.micronaut.cache.coherence.<a href="io/micronaut/cache/coherence/CoherenceAsyncCache.html" title="class in io.micronaut.cache.coherence">CoherenceAsyncCache</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/cache/coherence/CoherenceSyncCache.html#getName--">getName()</a></span> - Method in class io.micronaut.cache.coherence.<a href="io/micronaut/cache/coherence/CoherenceSyncCache.html" title="class in io.micronaut.cache.coherence">CoherenceSyncCache</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/AbstractSessionConfigurationBean.html#getName--">getName()</a></span> - Method in class io.micronaut.coherence.<a href="io/micronaut/coherence/AbstractSessionConfigurationBean.html" title="class in io.micronaut.coherence">AbstractSessionConfigurationBean</a></dt>
 <dd>
 <div class="block">Return the name of this configuration.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/cache/coherence/CoherenceAsyncCache.html#getNativeCache--">getNativeCache()</a></span> - Method in class io.micronaut.cache.coherence.<a href="io/micronaut/cache/coherence/CoherenceAsyncCache.html" title="class in io.micronaut.cache.coherence">CoherenceAsyncCache</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/event/CoherenceEventListenerProcessor.html#getNonWildcardMapListeners--">getNonWildcardMapListeners()</a></span> - Method in class io.micronaut.coherence.event.<a href="io/micronaut/coherence/event/CoherenceEventListenerProcessor.html" title="class in io.micronaut.coherence.event">CoherenceEventListenerProcessor</a></dt>
 <dd>
 <div class="block">Return all map listeners that should be registered against a specific
@@ -709,6 +741,15 @@
 </dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/messaging/CoherencePublisherIntroductionAdvice.html#intercept-io.micronaut.aop.MethodInvocationContext-">intercept(MethodInvocationContext&lt;Object, Object&gt;)</a></span> - Method in class io.micronaut.coherence.messaging.<a href="io/micronaut/coherence/messaging/CoherencePublisherIntroductionAdvice.html" title="class in io.micronaut.coherence.messaging">CoherencePublisherIntroductionAdvice</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/cache/coherence/CoherenceAsyncCache.html#invalidate-java.lang.Object-">invalidate(Object)</a></span> - Method in class io.micronaut.cache.coherence.<a href="io/micronaut/cache/coherence/CoherenceAsyncCache.html" title="class in io.micronaut.cache.coherence">CoherenceAsyncCache</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/cache/coherence/CoherenceAsyncCache.html#invalidateAll--">invalidateAll()</a></span> - Method in class io.micronaut.cache.coherence.<a href="io/micronaut/cache/coherence/CoherenceAsyncCache.html" title="class in io.micronaut.cache.coherence">CoherenceAsyncCache</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/cache/coherence/package-summary.html">io.micronaut.cache.coherence</a> - package io.micronaut.cache.coherence</dt>
+<dd>
+<div class="block">Classes related to the integration of Coherence caches into Micronaut's
+ cache manager.</div>
+</dd>
 <dt><a href="io/micronaut/coherence/package-summary.html">io.micronaut.coherence</a> - package io.micronaut.coherence</dt>
 <dd>
 <div class="block">Coherence Micronaut integration.</div>
@@ -1093,7 +1134,11 @@
 <dd>
 <div class="block">An annotation literal for the <a href="io/micronaut/coherence/annotation/PropertyExtractor.html" title="annotation in io.micronaut.coherence.annotation"><code>PropertyExtractor</code></a> annotation.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/cache/coherence/CoherenceAsyncCache.html#put-java.lang.Object-java.lang.Object-">put(Object, Object)</a></span> - Method in class io.micronaut.cache.coherence.<a href="io/micronaut/cache/coherence/CoherenceAsyncCache.html" title="class in io.micronaut.cache.coherence">CoherenceAsyncCache</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/httpsession/CoherenceSessionStore.CoherenceHttpSession.html#put-java.lang.CharSequence-java.lang.Object-">put(CharSequence, Object)</a></span> - Method in class io.micronaut.coherence.httpsession.<a href="io/micronaut/coherence/httpsession/CoherenceSessionStore.CoherenceHttpSession.html" title="class in io.micronaut.coherence.httpsession">CoherenceSessionStore.CoherenceHttpSession</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/cache/coherence/CoherenceAsyncCache.html#putIfAbsent-java.lang.Object-T-">putIfAbsent(Object, T)</a></span> - Method in class io.micronaut.cache.coherence.<a href="io/micronaut/cache/coherence/CoherenceAsyncCache.html" title="class in io.micronaut.cache.coherence">CoherenceAsyncCache</a></dt>
 <dd>&nbsp;</dd>
 </dl>
 <a name="I:R">
