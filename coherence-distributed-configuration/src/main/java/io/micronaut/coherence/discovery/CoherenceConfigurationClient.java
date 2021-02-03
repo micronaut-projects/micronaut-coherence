@@ -73,7 +73,9 @@ public class CoherenceConfigurationClient implements ConfigurationClient {
                                         CoherenceClientConfiguration coherenceClientConfiguration) {
         this.applicationConfiguration = applicationConfiguration;
         this.coherenceClientConfiguration = coherenceClientConfiguration;
-        LOG.debug("Coherence Client configuration: " + coherenceClientConfiguration);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Coherence Client configuration: {}" , coherenceClientConfiguration);
+        }
     }
 
     @Override
