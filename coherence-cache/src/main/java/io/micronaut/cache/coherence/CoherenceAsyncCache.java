@@ -34,7 +34,7 @@ import java.util.function.Supplier;
 import javax.annotation.Nonnull;
 
 /**
- * A {@link io.micronaut.cache.SyncCache} implementation based on Coherence.
+ * A {@link io.micronaut.cache.AsyncCache} implementation based on Coherence.
  *
  * @author Vaso Putica
  * @since 1.0
@@ -48,7 +48,7 @@ public class CoherenceAsyncCache implements AsyncCache<NamedCache<Object, Object
     /**
      * @param conversionService the conversion service
      * @param nativeCache       the native cache
-     * @param executorService   managers the pool of executors
+     * @param executorService   manages the pool of executors
      */
     public CoherenceAsyncCache(ConversionService<?> conversionService,
                                NamedCache<Object, Object> nativeCache,
@@ -63,7 +63,7 @@ public class CoherenceAsyncCache implements AsyncCache<NamedCache<Object, Object
     public <T> CompletableFuture<Optional<T>> get(@NonNull Object key, @NonNull Argument<T> requiredType) {
         ArgumentUtils.requireNonNull("key", key);
         CompletableFuture<Optional<T>> future = new CompletableFuture<>();
-        asyncCache.get(key).whenComplete((response, throwable) -> {
+        asyncCache.get(key).whenCompleteAsync((response, throwable) -> {
             if (throwable == null) {
                 if (response != null) {
                     future.complete(conversionService.convert(response, ConversionContext.of(requiredType)));
@@ -73,14 +73,14 @@ public class CoherenceAsyncCache implements AsyncCache<NamedCache<Object, Object
             } else {
                 future.completeExceptionally(throwable);
             }
-        });
+        }, executorService);
         return future;
     }
 
     @Override
     public <T> CompletableFuture<T> get(@NonNull Object key, @NonNull Argument<T> requiredType, @NonNull Supplier<T> supplier) {
         ArgumentUtils.requireNonNull("key", key);
-        return get(key, requiredType).thenApply(existingValue -> {
+        return get(key, requiredType).thenApplyAsync(existingValue -> {
             if (existingValue.isPresent()) {
                 return existingValue.get();
             } else {
@@ -88,7 +88,7 @@ public class CoherenceAsyncCache implements AsyncCache<NamedCache<Object, Object
                 put(key, value);
                 return value;
             }
-       });
+       }, executorService);
     }
 
     @SuppressWarnings("unchecked")
@@ -97,13 +97,13 @@ public class CoherenceAsyncCache implements AsyncCache<NamedCache<Object, Object
     public <T> CompletableFuture<Optional<T>> putIfAbsent(@NonNull Object key, @NonNull T value) {
         ArgumentUtils.requireNonNull("key", key);
         ArgumentUtils.requireNonNull("value", value);
-        return asyncCache.putIfAbsent(key, value).thenApply(existingValue -> {
+        return asyncCache.putIfAbsent(key, value).thenApplyAsync(existingValue -> {
             if (existingValue == null) {
                 return Optional.empty();
             }
             final Class<T> aClass = (Class<T>) value.getClass();
             return conversionService.convert(existingValue, aClass);
-        });
+        }, executorService);
     }
 
     @Override
@@ -111,13 +111,13 @@ public class CoherenceAsyncCache implements AsyncCache<NamedCache<Object, Object
         ArgumentUtils.requireNonNull("key", key);
         ArgumentUtils.requireNonNull("value", value);
         CompletableFuture<Boolean> future = new CompletableFuture<>();
-        asyncCache.put(key, value).whenComplete((response, throwable) -> {
+        asyncCache.put(key, value).whenCompleteAsync((response, throwable) -> {
             if (throwable == null) {
                 future.complete(true);
             } else {
                 future.completeExceptionally(throwable);
             }
-        });
+        }, executorService);
         return future;
     }
 
@@ -125,20 +125,20 @@ public class CoherenceAsyncCache implements AsyncCache<NamedCache<Object, Object
     public CompletableFuture<Boolean> invalidate(Object key) {
         ArgumentUtils.requireNonNull("key", key);
         CompletableFuture<Boolean> future = new CompletableFuture<>();
-        asyncCache.remove(key).whenComplete((response, throwable) -> {
+        asyncCache.remove(key).whenCompleteAsync((response, throwable) -> {
             if (throwable == null) {
                 future.complete(true);
             } else {
                 future.completeExceptionally(throwable);
             }
-        });
+        }, executorService);
         return future;
     }
 
     @Override
     public CompletableFuture<Boolean> invalidateAll() {
         CompletableFuture<Boolean> future = new CompletableFuture<>();
-        asyncCache.clear().thenRun(() -> future.complete(true));
+        asyncCache.clear().thenRunAsync(() -> future.complete(true), executorService);
         return future;
     }
 

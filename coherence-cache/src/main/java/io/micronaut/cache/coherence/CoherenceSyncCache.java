@@ -26,7 +26,7 @@ import io.micronaut.core.convert.ConversionService;
 import java.util.concurrent.ExecutorService;
 
 /**
- * A {@link AsyncCache} implementation based on Coherence.
+ * A {@link io.micronaut.cache.SyncCache} implementation based on Coherence.
  *
  * @author Vaso Putica
  * @since 1.0
