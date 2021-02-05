@@ -1,0 +1,8 @@
+Coherence produces a number of events that can be used by applications to respond to data changes and other actions in Coherence.
+
+There are two types of events in Coherence. There are link:{coherenceApi}com/tangosol/util/MapEvent.html[MapEvents],
+that in a traditional Coherence application are subscribed to using link:{coherenceApi}com/tangosol/util/MapListener.html[MapListener] and there are a number of different types of link:{coherenceApi}com/tangosol/net/events/Event.html[Event], that are in a traditional Coherence application are subscribed to using an link:{coherenceApi}com/tangosol/net/events/EventInterceptor.html[EventInterceptor].
+
+Micronaut makes subscribing to both of these event types much simpler, using observer methods annotated with
+link:{api}io/micronaut/coherence/annotation/CoherenceEventListener.html[@CoherenceEventListener].
+

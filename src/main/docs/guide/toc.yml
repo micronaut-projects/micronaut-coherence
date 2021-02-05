@@ -11,14 +11,14 @@ injection:
   title: Inject Coherence Resources into Beans
   injectNamedMap:
     title: Injecting NamedMap & NamedCache
-    injectNamedMapWithName: Specify the Cache Name
-    injectNamedMapFromNamedSession: Specifying the Owning Session
+    injectNamedMapWithName: Specify the Map/Cache Name
+    injectNamedMapFromNamedSession: Specify the Session Name
     injectAsyncNamedMap: Injecting AsyncNamedMap & AsyncNamedCache
     injectViews: Injecting Views (CQC)
   injectNamedTopic:
     title: Injecting NamedTopic
     injectNamedTopicWithName: Specify the Topic Name
-    injectNamedTopicFromNamedSession: Specifying the Owning Session
+    injectNamedTopicFromNamedSession: Specify the Session Name
     injectTopicPublisher:
       title: Injecting a NamedTopic Publisher
       injectTopicPublisherForTopic: Specify the Topic Name
@@ -32,17 +32,25 @@ injection:
   injectSession:
     title: Injecting a Session
     injectNamedSession: Specify the Session Name
+events:
+  title: Coherence Events
+  mapEvents:
+    title: Observing MapEvents
+  coherenceEvents:
+    title: Observing Coherence Events
+messagingWithTopics:
+  title: Micronaut Messaging with Coherence Topics
 filterBinding:
   title: Filter Binding Annotations
 valueExtractorBinding:
   title: Extractor Binding Annotations
 transientInjection:
-  title: Injection into Deserialized Objea cts
+  title: Injection into Deserialized Objects
   injectable: Making transient classes Injectable
 coherenceXmlInjection:
-  title: Injection of Beans into the Coherence Configuration
+  title: Injecting Beans into Coherence Configuration
 grpc:
-  title: Using gRPC
+  title: Using Coherence gRPC
   grpcProxy: Configure a gRPC Proxy Service
   grpcClient: Using a gRPC Client
 coherenceHttpSessions: Using Coherence to store HTTP sessions
