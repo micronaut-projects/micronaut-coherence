@@ -1,0 +1,21 @@
+If the name of the injection point cannot be used as the `NamedTopic` name, which is always the case with injection points that are method or constructor parameters, then the link:{api}/io/micronaut/coherence/annotation/Name.html[@Name] annotation can be used to specify the topic name.
+
+For example, both of the code snippets below inject a `Publisher` that published to the `orders` topic:
+
+[source,java]
+----
+@Inject
+@Name("orders")
+private Publisher<Order> orders;
+----
+
+[source,java]
+----
+@Controller
+public class OrderController {
+    @Inject
+    public OrderController(@Name("orders") Publisher<Order> topic) {
+        // ToDo:
+    }
+}
+----

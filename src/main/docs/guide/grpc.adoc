@@ -1,0 +1,4 @@
+Coherence can be configured to run a gRPC proxy service that allows suitably configured gRPC clients to
+connect to a cluster and use clustered resources.
+The advantage of using a gRPC client rather than a traditional Coherence*Extend client is that gRPC works better with modern cloud infrastructures, being http/2 as opposed to Coherence custom protocol.
+

@@ -1,0 +1,27 @@
+Sometimes it might not be possible to inject a Coherence resource, such as `NamedMap` or `NamedCache` directly because
+the name of the resource to be injected is not known until runtime. In this case it makes sense to inject a
+{coherenceApi}com/tangosol/net/Session.html[Session] instance which can then be used to obtain other resources.
+
+The simplest way to inject a `Session` is just to annotate a field, method parameter, or other injection point.
+
+[source,java]
+----
+@Controller
+public class MyBean {
+    @Inject
+    private Session session;
+----
+
+or into a constructor:
+[source,java]
+----
+@Controller
+public class MyBean {
+    @Inject
+    public MyBean(Session session) {
+        // ToDo...
+    }
+}
+----
+
+Both examples above will inject the default `Session` instance into the injection point.

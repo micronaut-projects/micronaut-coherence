@@ -1,0 +1,28 @@
+For most applications that only use a single `Session` the simple examples above will be all that is required.
+Some applications though may use multiple named `Session` instances, in which case the `Session` name need to
+be specified.
+This can be done by adding the {api}io/micronaut/coherence/annotation/Name.html[@Name] annotation to the injection point.
+
+[source,java]
+----
+@Controller
+public class MyBean {
+    @Inject
+    @Name("Catalog")
+    private Session session;
+----
+
+or into a constructor:
+[source,java]
+----
+@Controller
+public class MyBean {
+    @Inject
+    public MyBean(@Name("Catalog") Session session) {
+        // ToDo...
+    }
+}
+----
+
+In both examples above the `Session` injected will be the `Catalog` session.
+The named `Session` must have previously been configured when <<bootstrap,bootstrapping Coherence>>.

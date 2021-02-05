@@ -1,0 +1,11 @@
+As with injection of `NamedTopics`, in applications using multiple `Session` instances, the name of the `Session` that
+owns the underlying `NamedTopic` can be specified when injecting a `Publisher` by adding the 
+link:{api}/io/micronaut/coherence/annotation/SessionName.html[@SessionName] annotation.
+
+[source,java]
+----
+@Inject
+@Name("orders")
+@SessionName("Customers")
+private Publisher<Order> orders;
+----

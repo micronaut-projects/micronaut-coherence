@@ -1,0 +1,9 @@
+It is possible to inject the asynchronous classes link:{coherenceApi}/com/tangosol/net/AsyncNamedMap.html[AsyncNamedMap] and link:{coherenceApi}/com/tangosol/net/AsyncNamedCache.html[AsyncNamedCache] as beans in exactly the same way as described above. Just change the type of the injection point to be `AsyncNamedMap` or `AsyncNamedCache`.
+
+[source,java]
+----
+@Inject
+@Name("people")
+private AsyncNamedMap<String, Person> map;
+----
+

@@ -1,4 +1,4 @@
-You can inject Micronaut bean into the standard Coherence cache configuration file by using the Coherence Micronaut
+You can inject Micronaut beans into the standard Coherence cache configuration file by using the Coherence Micronaut
 custom namespace handler.
 
 Custom namespace handlers are a standard feature of Coherence that allow the cache configuration file to be customized considerably.

@@ -1,4 +1,9 @@
-http://coherence.java.net/[Coherence] is a scalable, fault-tolerant, cloud-ready, distributed platform for building grid-based applications and reliably storing data. The product is used at scale, for both compute and raw storage, in a vast array of industries such as critical financial trading systems, high performance telecommunication products and eCommerce applications.
+:coherenceHome:
+:coherenceVersion:
+:coherenceApi:
+
+
+link:{coherenceHome}[Coherence] is a scalable, fault-tolerant, cloud-ready, distributed platform for building grid-based applications and reliably storing data. The product is used at scale, for both compute and raw storage, in a vast array of industries such as critical financial trading systems, high performance telecommunication products and eCommerce applications.
 
 Micronaut features dedicated support to bootstrap Coherence and for both injection of Coherence resources into beans and injection of beans into Coherence resources. Micronaut Injection simplifies application code as Coherence maps, caches and topics are just injected instead of being obtained via Coherence APIs.
 

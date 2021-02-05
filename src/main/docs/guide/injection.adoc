@@ -1,0 +1,10 @@
+Micronaut, and dependency injection in general, make it easy for application classes to declare the dependencies they need and let the runtime provide them when necessary.
+This makes the applications easier to develop, test and reason about, and the code extremely clean.
+
+Micronaut Coherence allows you to do the same for Coherence objects, such as
+{coherenceApi}/com/tangosol/net/Session.html[Session],
+{coherenceApi}/com/tangosol/net/NamedMap.html[NamedMap],
+{coherenceApi}/com/tangosol/net/NamedCache.html[NamedCache],
+{coherenceApi}/com/tangosol/net/ContinuousQueryCache.html[ContinuousQueryCache],
+{coherenceApi}/com/tangosol/net/ConfigurableCacheFactory.html[ConfigurableCacheFactory],
+{coherenceApi}/com/tangosol/net/Cluster.html[Cluster], etc...

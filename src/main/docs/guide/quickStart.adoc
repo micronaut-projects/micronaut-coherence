@@ -1,1 +1,32 @@
-TODO
+To add support for Oracle Coherence to an existing project, you should first add the Micronaut Coherence configuration to your build configuration. For example:
+
+dependency:coherence[groupId="io.micronaut.coherence"]
+
+Next you also need to add the version of Coherence that your application will be using.
+
+For example, to use Coherence CE:
+
+dependency:coherence[groupId="com.oracle.coherence.ce",version="20.12.1"]
+
+or to use a commercial version Coherence:
+
+dependency:coherence[groupId="com.oracle.coherence",version="14.1.1-0-1"]
+
+NOTE: Coherence CE versions are available from Maven Central.
+Commercial versions of Coherence need to be uploaded into your own Maven repository.
+
+There is no minimal configuration required to bootstrap Coherence.
+If no specific configuration is provided Coherence will run with default values.
+Some Coherence functionality can be configured using System properties, these properties by adding properties to the `application.yaml` file, for example:
+
+.Configure Coherence
+[source,yaml]
+----
+coherence:
+  cluster: test-cluster
+  role: storage
+----
+
+The above configuration sets the cluster name to `test-cluster`, and the role name to `storage`.
+Any Coherence system property (prefixed with `coherence.`) specified in the Micronaut configuration
+will then be picked up by Coherence at runtime.

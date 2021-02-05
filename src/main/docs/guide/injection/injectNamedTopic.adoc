@@ -1,0 +1,14 @@
+Coherence link:{coherenceApi}/com/tangosol/net/topic/NamedTopic.html[NamedTopic]
+instances can be injected as beans in Micronaut applications.
+
+The simplest way to inject a `NamedTopic` is to just annotate the injection point with `@javax.inject.Inject`.
+
+[source,java]
+----
+@Inject
+private NamedTopic<Person> people;
+----
+
+In this example the injection point field name is used to determine the topic name to inject,
+so a `NamedTopic` bean with an underlying topic name of `people` will be injected.
+s

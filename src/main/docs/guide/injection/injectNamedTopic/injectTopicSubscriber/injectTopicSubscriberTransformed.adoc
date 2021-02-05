@@ -1,0 +1,39 @@
+A `Subscriber` can be configured to receive just a part of a `NamedTopic` message using a
+link:{coherenceApi}/com/tangosol/util/ValueExtractor.html[ValueExtractor].
+The message transformation happens on the server so in use-cases where a `Subscriber` only requires a part of a message, it can be much more efficient to extract the required parts on the server instead of bringing the full payload back to the client.
+
+ValueExtractors are specified for a `Subscriber` using a special extractor binding annotation.
+These are annotations that are themselves annotated with the meta-annotation
+link:{api}/io/micronaut/coherence/annotation/ExtractorBinding.html[@ExtractorBinding].
+The Micronaut Coherence framework comes with some built in implementations, for example
+link:{api}/io/micronaut/coherence/annotation/PropertyExtractor.html[@PropertyExtractor],
+and link:{api}/io/micronaut/coherence/annotation/PofExtractor.html[@PofExtractor],
+and it is simple to implement other as required by applications
+(see the <<valueExtractorBinding,Extractor Binding Annotation>> section for more details).
+
+For example, assuming that there is a topic named `orders` containing `Order` instances as the payload.
+If a `Subscriber` is required to subscribe to the `orders` topic, but only needs to receive the `productId` values,
+then a `@PropertyExtractor` annotation could be used. A `@PropertyExtractor` specifies the name of a property to extract.
+
+Both code snippets below will inject a `Subscriber` that just receives the `productId` property of `Orders` objects
+from the `orders` topic.
+
+[source,java]
+----
+@Inject
+@Name("orders")
+@PropertyExtractor("productId")
+private Subscriber<Order> orders;
+----
+
+[source,java]
+----
+@Controller
+public class OrderController {
+    @Inject
+    public OrderController(@Name("orders") @PropertyExtractor("productId")
+                           Subscriber<Order> topic) {
+        // ToDo:
+    }
+}
+----

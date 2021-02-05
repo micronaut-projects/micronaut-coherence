@@ -1,0 +1,65 @@
+View (or link:{coherenceApi}/com/tangosol/net/ContinuousQueryCache.html[ContinuousQueryCache]) beans can be injected by specifying the
+link:{api}/io/micronaut/coherence/annotation/View.html[@View] annotation at the injection point.
+A view is a sub-set of the data in an underlying cache, controlled by a link:{coherenceApi}/com/tangosol/util/Filter.html[Filter].
+
+[source,java]
+----
+@Inject
+@Name("people")
+@View                                    // <1>
+private NamedMap<String, Person> map;
+----
+<1> The injection point has been annotated with `@View`, so the injected `NamedMap` will actually be an implementation
+of a `ContinuousQueryCache`.
+
+In the above example, no `Filter` has been specified, so the default behaviour is to use
+an link:{coherenceApi}/com/tangosol/util/filter/AlwaysFilter.html[AlwaysFilter].
+This means that the view will contain all the entries from the underlying cache (typically a distributed cache).
+As a `ContinuousQueryCache` will hold keys and values locally in deserialized form this can often a better approach
+than using a replicated cache.
+
+=== Specify a View Filter
+
+Filters are specified for views using a special filter binding annotation.
+These are annotations that are themselves annotated with the meta-annotation
+link:{api}/io/micronaut/coherence/annotation/FilterBinding.html[@FilterBinding].
+The Micronaut Coherence framework comes with some built in implementations, for example
+link:{api}/io/micronaut/coherence/annotation/AlwaysFilter.html[@AlwaysFilter],
+and link:{api}/io/micronaut/coherence/annotation/WhereFilter.html[@WhereFilter],
+and it is simple to implement other as required by applications
+(see the <<filterBinding,Filter Binding Annotation>> section for more details).
+
+For example, if there was a cache named "people", containing `Person` instances, and the application required a view
+of that cache just containing `People` where the `lastName` attribute is equal to `Simpson` the `@WhereFilter`
+filter binding annotation could be used to specify the `Filter`.
+The `@WhereFilter` annotation produces a `Filter` created from a Coherence CohQL where clause,
+in this case `lastName == 'Simpson'`.
+
+[source,java]
+----
+@Inject
+@Name("people")
+@View
+@WhereFilter("lastName = 'Simpson'")
+private NamedMap<String, Person> simpsons;
+----
+
+Other built-in or custom filter binding annotations can be used.
+Multiple filter-binding annotations can be added to the same injection point to build up more complex
+views. The `Filter` instances produced from each filter binding annotation will all be collected together in
+an link:{coherenceApi}/com/tangosol/util/filter/AllFilter.html[AllFilter], which will logically AND then together.
+
+For example:
+
+[source,java]
+----
+@Inject
+@Name("people")
+@View
+@WhereFilter("lastName = 'Simpson'")
+@WhereFilter("age > 10")
+private NamedMap<String, Person> simpsons;
+----
+
+The view injected above will be all `People` with a `lastName` attribute equal to `Simpson` and an `age`
+attribute greater than 10. Equivalent to `lastName = 'Simpson' && age > 10`.

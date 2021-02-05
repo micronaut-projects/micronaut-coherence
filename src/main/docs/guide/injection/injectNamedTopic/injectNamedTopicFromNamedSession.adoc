@@ -1,0 +1,31 @@
+Whilst most applications probably use a single Coherence link:{coherenceApi}/com/tangosol/net/Session.html[Session] there are uses-cases where an application may
+have multiple sessions. In this case, when injecting a `NamedTopic` the specific session can be specified
+by annotating the injection point with link:{api}/io/micronaut/coherence/annotation/SessionName.html[@SessionName].
+
+In the previous examples where no `@SessionName` was specified Coherence will use the default session to obtain the caches.
+
+For example, assume the application has multiple sessions configured, one of which is named `Customers`
+For example, assume the application has multiple sessions configured, one of which is named `Customers`
+the following code snippet injects a `NamedTopic` using an underlying topic named `orders` in the `Customers` session.
+
+[source,java]
+----
+@Inject
+@SessionName("Customers")
+@Name("orders")
+private NamedTopic<Order> topic;
+----
+
+Again, the same annotation can be used on method parameter injection points.
+
+[source,java]
+----
+@Controller
+public class OrderProcessor {
+    @Inject
+    public OrderProcessor(@SessionName("Customers") @Name("orders")
+                          NamedTopic<Order> orders) {
+        // ToDo:
+    }
+}
+----

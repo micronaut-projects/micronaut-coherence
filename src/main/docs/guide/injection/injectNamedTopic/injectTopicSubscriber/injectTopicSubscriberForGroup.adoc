@@ -1,0 +1,23 @@
+A `Subscriber` can belong to a subscriber group. When injecting a `Subscriber` it is possible to specify the subscriber group that it belongs to by adding the link:{api}/io/micronaut/coherence/annotation/SubscriberGroup.html[@Name] annotation.
+
+For example, both of the code snippets below inject a `Subscriber` that belongs to the `accounts` subscriber group:
+
+[source,java]
+----
+@Inject
+@Name("orders")
+@SubscriberGroup("accounts")
+private Subscriber<Order> orders;
+----
+
+[source,java]
+----
+@Controller
+public class OrderController {
+    @Inject
+    public OrderController(@Name("orders") @SubscriberGroup("accounts")
+                           Subscriber<Order> topic) {
+        // ToDo:
+    }
+}
+----

@@ -1,0 +1,14 @@
+If application code only needs to subscribe to messages from a Coherence `NamedTopic` then instead of injecting a
+`NamedTopic` bean, a link:{coherenceApi}/com/tangosol/net/topic/Subscriber.html[Subscriber] bean can be injected.
+
+The simplest way to inject a `Subscriber` is just to annotate the injection point of type `Subscriber` with `@Inject`,
+for example:
+
+[source,java]
+----
+@Inject
+private Subscriber<Order> orders;
+----
+
+The example above will inject a `Subscriber` bean, the name of the underlying `NamedTopic` will be taken from the
+name of the injection point, in this case `orders`.

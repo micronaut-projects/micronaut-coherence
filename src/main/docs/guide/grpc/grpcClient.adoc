@@ -1,0 +1,3 @@
+Once the Coherence cluster is running a gRPC proxy, a client can be configured to connect to it.
+
+TBD...

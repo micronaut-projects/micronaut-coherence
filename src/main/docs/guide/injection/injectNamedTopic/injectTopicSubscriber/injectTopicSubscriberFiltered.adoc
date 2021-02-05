@@ -1,0 +1,36 @@
+A `Subscriber` can filter the messages that it receives from the `NamedTopic` by using a
+link:{coherenceApi}/com/tangosol/util/Filter.html[Filter].
+Filtering of messages takes place on the server, so for use cases where the application is only interested in a sub-set of messages, this can be more efficient than bringing all messages back to the client for processing.
+
+Filters are specified for a `Subscriber` using a special filter binding annotation.
+These are annotations that are themselves annotated with the meta-annotation
+link:{api}/io/micronaut/coherence/annotation/FilterBinding.html[@FilterBinding].
+The Micronaut Coherence framework comes with some built in implementations, for example
+link:{api}/io/micronaut/coherence/annotation/AlwaysFilter.html[@AlwaysFilter],
+and link:{api}/io/micronaut/coherence/annotation/WhereFilter.html[@WhereFilter],
+and it is simple to implement other as required by applications
+(see the <<filterBinding,Filter Binding Annotation>> section for more details).
+
+For example, both of the code snippets below inject a `Subscriber` that subscribe to the `orders` topic,
+but only receives `Order` messages where the `productId` attribute is `AB1234`.
+the `@WhereFilter` filter binding annotation is used to specify the `Filter`, as `@WhereFilter` takes a Coherence
+CohQL where clause and converts it to a `Filter`.
+
+[source,java]
+----
+@Inject
+@Name("orders")
+@WhereFilter("productId = 'AB1234'")
+private Subscriber<Order> orders;
+----
+
+[source,java]
+----
+@Controller
+public class OrderController {
+    @Inject
+    public OrderController(@Name("orders") @WhereFilter("productId = 'AB1234'") Subscriber<Order> topic) {
+        // ToDo:
+    }
+}
+----

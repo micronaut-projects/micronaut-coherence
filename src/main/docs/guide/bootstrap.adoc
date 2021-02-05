@@ -1,0 +1,5 @@
+Coherence resources in a Micronaut application are typically owned by a Coherence `Session`.
+By default Coherence will start a default Session, which can be configured.
+Alternatively one or more other named Sessions can be configured and used by the application.
+
+

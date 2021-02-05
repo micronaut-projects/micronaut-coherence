@@ -1,0 +1,13 @@
+Coherence link:{coherenceApi}/com/tangosol/net/NamedMap.html[NamedMap] and link:{coherenceApi}/com/tangosol/net/NamedCache.html[NamedCache] instances can be injected as beans in Micronaut applications.
+The mechanics of injecting `NamedMap` or `NamedCache` beans is identical, so any use of `NamedMap` in the examples below can be replaced with `NamedCache`. Other more specialized forms of `NamedMap` and `NamedCache` can also be injected,
+for example the asynchronous forms of both classes, as well as views.
+
+The simplest way to inject a `NamedMap` is to just annotate the injection point with `@javax.inject.Inject`.
+
+[source,java]
+----
+@Inject
+private NamedMap<String, Person> people;
+----
+In this example the injection point field name is used to determine the cache name to inject,
+so a `NamedMap` bean with an underlying cache name of `people` will be injected.
