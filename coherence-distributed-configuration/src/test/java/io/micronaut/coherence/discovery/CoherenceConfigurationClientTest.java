@@ -31,13 +31,6 @@ import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 
 import io.reactivex.Flowable;
 
-import org.junit.jupiter.api.Test;
-
-import org.junit.jupiter.api.TestInstance;
-import org.mockito.MockedStatic;
-import org.mockito.Mockito;
-import org.reactivestreams.Publisher;
-
 import javax.inject.Inject;
 
 import java.util.HashMap;
@@ -46,6 +39,13 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
+
+import org.reactivestreams.Publisher;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.arrayContainingInAnyOrder;
@@ -102,7 +102,7 @@ class CoherenceConfigurationClientTest {
         CoherenceClientConfiguration clientConfig = new CoherenceClientConfiguration();
         CoherenceConfigurationClient client = new CoherenceConfigurationClient(applicationConfiguration, clientConfig) {
             @Override
-            protected NamedCache<String, Object> getCache(String cacheName, CoherenceClientConfiguration coherenceClientConfiguration) {
+            protected NamedCache<String, Object> getMap(String configMapName, CoherenceClientConfiguration clientConfig) {
                 return cache;
             }
         };

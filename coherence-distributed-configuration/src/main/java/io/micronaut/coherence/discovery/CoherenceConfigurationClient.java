@@ -18,7 +18,7 @@ package io.micronaut.coherence.discovery;
 
 import com.oracle.coherence.client.GrpcSessionConfiguration;
 
-import com.tangosol.net.NamedCache;
+import com.tangosol.net.NamedMap;
 import com.tangosol.net.Session;
 import com.tangosol.util.Converter;
 import com.tangosol.util.Filter;
@@ -63,7 +63,7 @@ public class CoherenceConfigurationClient implements ConfigurationClient {
     /**
      * The name of the map that is used to store configuration properties.
      */
-    private static final String CONFIG_CACHE_NAME = "config-cache";
+    private static final String CONFIG_MAP_NAME = "sys$config-micronaut";
 
     private final ApplicationConfiguration applicationConfiguration;
     private final List<Flowable<PropertySource>> propertySources = new ArrayList<>();
@@ -81,7 +81,7 @@ public class CoherenceConfigurationClient implements ConfigurationClient {
     @Override
     public Publisher<PropertySource> getPropertySources(Environment environment) {
         ValueExtractor<String, String> keyExtractor = new KeyExtractor<>();
-        NamedCache<String, Object> configCache = getCache(CONFIG_CACHE_NAME, coherenceClientConfiguration);
+        NamedMap<String, Object> configMap = getMap(CONFIG_MAP_NAME, coherenceClientConfiguration);
 
         Map<Integer, String> keys = buildKeys(applicationConfiguration, environment);
         for (Map.Entry<Integer, String> entry : keys.entrySet()) {
@@ -92,7 +92,7 @@ public class CoherenceConfigurationClient implements ConfigurationClient {
                     cacheKey.length() > propertySourcePath.length() &&
                     !cacheKey.substring(propertySourcePath.length()).contains("/");
             Filter<String> filter = Filters.predicate(keyExtractor, pathPredicate);
-            Map<String, Object> props = configCache.entrySet(filter)
+            Map<String, Object> props = configMap.entrySet(filter)
                     .stream()
                     .collect(Collectors.toMap((Converter<Map.Entry<String, Object>, String>)
                                     cacheEntry -> cacheEntry.getKey().substring(propertySourcePath.length()),
@@ -104,15 +104,15 @@ public class CoherenceConfigurationClient implements ConfigurationClient {
     }
 
     /**
-     * Returns NamedCache instance.
+     * Returns NamedMap instance.
      *
-     * @param cacheName                    cache name
-     * @param coherenceClientConfiguration configuration
-     * @return cache
+     * @param configMapName configuration map name
+     * @param clientConfig  Coherence client configuration
+     * @return configuration map
      */
-    protected NamedCache<String, Object> getCache(String cacheName, CoherenceClientConfiguration coherenceClientConfiguration) {
-        Session session = buildSession(coherenceClientConfiguration);
-        return session.getCache(cacheName);
+    protected NamedMap<String, Object> getMap(String configMapName, CoherenceClientConfiguration clientConfig) {
+        Session session = buildSession(clientConfig);
+        return session.getCache(configMapName);
     }
 
     /**
@@ -160,21 +160,21 @@ public class CoherenceConfigurationClient implements ConfigurationClient {
         String applicationName = configuredApplicationName.orElse(null);
         Set<String> environmentNames = environment.getActiveNames();
 
-        Map<Integer, String> vaultKeys = new HashMap<>();
+        Map<Integer, String> configKeys = new HashMap<>();
         int baseOrder = EnvironmentPropertySource.POSITION + 100;
-        vaultKeys.put(++baseOrder, DEFAULT_APPLICATION);
+        configKeys.put(++baseOrder, DEFAULT_APPLICATION);
         if (applicationName != null) {
-            vaultKeys.put(++baseOrder, applicationName);
+            configKeys.put(++baseOrder, applicationName);
         }
 
         int envOrder = baseOrder + 50;
         for (String activeName : environmentNames) {
-            vaultKeys.put(++envOrder, DEFAULT_APPLICATION + "/" + activeName);
+            configKeys.put(++envOrder, DEFAULT_APPLICATION + "/" + activeName);
             if (applicationName != null) {
-                vaultKeys.put(++envOrder, applicationName + "/" + activeName);
+                configKeys.put(++envOrder, applicationName + "/" + activeName);
             }
         }
-        return vaultKeys;
+        return configKeys;
     }
 
     @Override

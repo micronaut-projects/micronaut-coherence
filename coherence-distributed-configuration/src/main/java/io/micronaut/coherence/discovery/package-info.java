@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 /**
- * Classes related to using Oracle Coherence as a distributed configuration client.
+ * Distributed Configuration client for Oracle Coherence back end.
  *
  * @author Vaso Putica
  * @since 1.0

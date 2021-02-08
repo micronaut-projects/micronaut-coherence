@@ -1,3 +1,6 @@
+micronaut:
+  config-client:
+    enabled: true
 coherence:
   cluster: test-cluster
   role: test
@@ -8,3 +11,5 @@ coherence:
     config:
       type: server
       config: coherence-cache-config.xml
+  client:
+    enabled: true
