@@ -17,7 +17,7 @@ package io.micronaut.coherence.discovery;
 
 import com.oracle.coherence.client.GrpcSessionConfiguration;
 
-import com.tangosol.net.NamedCache;
+import com.tangosol.net.NamedMap;
 import com.tangosol.net.Session;
 
 import io.grpc.Channel;
@@ -31,8 +31,6 @@ import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 
 import io.reactivex.Flowable;
 
-import javax.inject.Inject;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -40,11 +38,12 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import javax.inject.Inject;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
-
 import org.reactivestreams.Publisher;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -70,40 +69,61 @@ class CoherenceConfigurationClientTest {
 
     @Test
     public void shouldProvidePropertySources() {
-        NamedCache<String, Object> cache = session.getCache("config-cache");
+        NamedMap<String, Object> applicationMap = session.getMap("application");
+        applicationMap.put("hello", "app hello");
+        applicationMap.put("foo", "app foo");
+        applicationMap.put("my-app", "app my-app");
+        applicationMap.put("test", "app test");
+        applicationMap.put("backend", "app backend");
 
-        cache.put("hello", "error");
+        NamedMap<String, Object> applicationFooMap = session.getMap("application-foo");
+        applicationFooMap.put("bar", "app foo bar");
 
-        cache.put("application/hello", "app hello");
-        cache.put("application/foo", "app foo");
-        cache.put("application/", "invalid");
-        cache.put("application/my-app", "app my-app");
-        cache.put("application/test", "app test");
-        cache.put("application/backend", "app backend");
+        NamedMap<String, Object> applicationTestMap = session.getMap("application-test");
+        applicationTestMap.put("foo", "app test foo");
 
-        cache.put("application/foo/bar", "app foo bar");
-        cache.put("application/test/foo", "app test foo");
-        cache.put("application/backend/foo", "app backend foo");
-        cache.put("application/backend/bar", "app backend bar");
+        NamedMap<String, Object> applicationBackendMap = session.getMap("application-backend");
+        applicationBackendMap.put("foo", "app backend foo");
+        applicationBackendMap.put("bar", "app backend bar");
 
-        cache.put("my-app/", "my-app invalid");
-        cache.put("my-app/hello", "my-app hello");
-        cache.put("my-app/hello/foo", "my-app hello bar");
-        cache.put("my-app/test", "my-app test");
-        cache.put("my-app/test/", "my-app test invalid");
-        cache.put("my-app/test/hello", "my-app test hello");
-        cache.put("my-app/backend/hello", "my-app backend hello");
-        cache.put("my-app/backend/hello/nope", "my-app backend hello nope invalid");
+        NamedMap<String, Object> myAppMap = session.getMap("my-app");
+        myAppMap.put("hello", "my-app hello");
+        myAppMap.put("foo", "my-app foo");
 
-        cache.put("other-app/hello", "other-app hello invalid");
+        NamedMap<String, Object> myAppTestMap = session.getMap("my-app-test");
+        myAppTestMap.put("hello", "my-app test hello");
+
+        NamedMap<String, Object> myAppBackendMap = session.getMap("my-app-backend");
+        myAppBackendMap.put("hello", "my-app backend hello");
+        myAppBackendMap.put("hello/bar", "my-app backend hello/bar");
+
+        NamedMap<String, Object> otherAppBackendMap = session.getMap("other-app");
+        otherAppBackendMap.put("hello", "other-app hello");
 
         ApplicationConfiguration applicationConfiguration = new ApplicationConfiguration();
         applicationConfiguration.setName("my-app");
         CoherenceClientConfiguration clientConfig = new CoherenceClientConfiguration();
         CoherenceConfigurationClient client = new CoherenceConfigurationClient(applicationConfiguration, clientConfig) {
             @Override
-            protected NamedCache<String, Object> getMap(String configMapName, CoherenceClientConfiguration clientConfig) {
-                return cache;
+            protected Session buildSession(CoherenceClientConfiguration coherenceClientConfiguration) {
+                Session session = mock(Session.class);
+                when(session.<String, Object>getMap("application"))
+                        .thenReturn(applicationMap);
+                when(session.<String, Object>getMap("application-foo"))
+                        .thenReturn(applicationFooMap);
+                when(session.<String, Object>getMap("application-test"))
+                        .thenReturn(applicationTestMap);
+                when(session.<String, Object>getMap("application-backend"))
+                        .thenReturn(applicationBackendMap);
+                when(session.<String, Object>getMap("my-app"))
+                        .thenReturn(myAppMap);
+                when(session.<String, Object>getMap("my-app-test"))
+                        .thenReturn(myAppTestMap);
+                when(session.<String, Object>getMap("my-app-backend"))
+                        .thenReturn(myAppBackendMap);
+                when(session.<String, Object>getMap("other-app"))
+                        .thenReturn(otherAppBackendMap);
+                return session;
             }
         };
 
@@ -115,12 +135,13 @@ class CoherenceConfigurationClientTest {
                 .collect(Collectors.toMap(PropertySource::getName, Function.identity()));
 
         assertThat(propertySources.keySet().toArray(),
-                arrayContainingInAnyOrder("application",
-                        "application/test",
-                        "application/backend",
+                arrayContainingInAnyOrder(
+                        "application",
+                        "application-test",
+                        "application-backend",
                         "my-app",
-                        "my-app/test",
-                        "my-app/backend"));
+                        "my-app-test",
+                        "my-app-backend"));
 
         PropertySource appPs = propertySources.get("application");
         assertEquals(-99, appPs.getOrder());
@@ -134,7 +155,7 @@ class CoherenceConfigurationClientTest {
         expected.put("backend", "app backend");
         assertEquals(expected, props);
 
-        PropertySource appTestPs = propertySources.get("application/test");
+        PropertySource appTestPs = propertySources.get("application-test");
         assertEquals(-47, appTestPs.getOrder());
         props = StreamSupport.stream(appTestPs.spliterator(), false)
                 .collect(Collectors.toMap(Function.identity(), key -> (String) appTestPs.get(key)));
@@ -142,7 +163,7 @@ class CoherenceConfigurationClientTest {
         expected.put("foo", "app test foo");
         assertEquals(expected, props);
 
-        PropertySource appBackendPs = propertySources.get("application/backend");
+        PropertySource appBackendPs = propertySources.get("application-backend");
         assertEquals(-45, appBackendPs.getOrder());
         props = StreamSupport.stream(appBackendPs.spliterator(), false)
                 .collect(Collectors.toMap(Function.identity(), key -> (String) appBackendPs.get(key)));
@@ -157,10 +178,10 @@ class CoherenceConfigurationClientTest {
                 .collect(Collectors.toMap(Function.identity(), key -> (String) myAppPs.get(key)));
         expected = new HashMap<>();
         expected.put("hello", "my-app hello");
-        expected.put("test", "my-app test");
+        expected.put("foo", "my-app foo");
         assertEquals(expected, props);
 
-        PropertySource myAppTestPs = propertySources.get("my-app/test");
+        PropertySource myAppTestPs = propertySources.get("my-app-test");
         assertEquals(-46, myAppTestPs.getOrder());
         props = StreamSupport.stream(myAppTestPs.spliterator(), false)
                 .collect(Collectors.toMap(Function.identity(), key -> (String) myAppTestPs.get(key)));
@@ -168,12 +189,13 @@ class CoherenceConfigurationClientTest {
         expected.put("hello", "my-app test hello");
         assertEquals(expected, props);
 
-        PropertySource myAppBackendPs = propertySources.get("my-app/backend");
+        PropertySource myAppBackendPs = propertySources.get("my-app-backend");
         assertEquals(-44, myAppBackendPs.getOrder());
         props = StreamSupport.stream(myAppBackendPs.spliterator(), false)
                 .collect(Collectors.toMap(Function.identity(), key -> (String) myAppBackendPs.get(key)));
         expected = new HashMap<>();
         expected.put("hello", "my-app backend hello");
+        expected.put("hello/bar", "my-app backend hello/bar");
         assertEquals(expected, props);
     }
 
