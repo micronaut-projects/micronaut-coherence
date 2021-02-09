@@ -53,19 +53,23 @@
                                 
                                 <div class="toc-item" style="margin-left:0"><a href="#injection"><strong>5</strong><span>Inject Coherence Resources into Beans</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#filterBinding"><strong>6</strong><span>Filter Binding Annotations</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#events"><strong>6</strong><span>Coherence Events</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#valueExtractorBinding"><strong>7</strong><span>Extractor Binding Annotations</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#messagingWithTopics"><strong>7</strong><span>Micronaut Messaging with Coherence Topics</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#transientInjection"><strong>8</strong><span>Injection into Deserialized Objea cts</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#filterBinding"><strong>8</strong><span>Filter Binding Annotations</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#coherenceXmlInjection"><strong>9</strong><span>Injection of Beans into the Coherence Configuration</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#valueExtractorBinding"><strong>9</strong><span>Extractor Binding Annotations</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#grpc"><strong>10</strong><span>Using gRPC</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#transientInjection"><strong>10</strong><span>Injection into Deserialized Objects</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#coherenceHttpSessions"><strong>11</strong><span>Using Coherence to store HTTP sessions</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#coherenceXmlInjection"><strong>11</strong><span>Injecting Beans into Coherence Configuration</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#repository"><strong>12</strong><span>Repository</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#grpc"><strong>12</strong><span>Using Coherence gRPC</span></a></div>
+                                
+                                <div class="toc-item" style="margin-left:0"><a href="#coherenceHttpSessions"><strong>13</strong><span>Using Coherence to store HTTP sessions</span></a></div>
+                                
+                                <div class="toc-item" style="margin-left:0"><a href="#repository"><strong>14</strong><span>Repository</span></a></div>
                                 
                             </div>
                         </div>
@@ -106,13 +110,17 @@
         
         <div class="toc-item" style="margin-left:10px" id="toc-item-defaultSession"><a href="#defaultSession"><strong>4.1</strong><span>Using the Default Session</span></a></div>
         
+        <div class="toc-item" style="margin-left:10px" id="toc-item-multiple"><a href="#multiple"><strong>4.2</strong><span>Configure Multiple Sessions</span></a></div>
+        
+        <div class="toc-item" style="margin-left:10px" id="toc-item-configuration"><a href="#configuration"><strong>4.3</strong><span>Session Configuration Properties</span></a></div>
+        
         <div class="toc-item" style="margin-left:0px" id="toc-item-injection"><a href="#injection"><strong>5</strong><span>Inject Coherence Resources into Beans</span></a></div>
         
         <div class="toc-item" style="margin-left:10px" id="toc-item-injectNamedMap"><a href="#injectNamedMap"><strong>5.1</strong><span>Injecting NamedMap &amp; NamedCache</span></a></div>
         
-        <div class="toc-item" style="margin-left:20px" id="toc-item-injectNamedMapWithName"><a href="#injectNamedMapWithName"><strong>5.1.1</strong><span>Specify the Cache Name</span></a></div>
+        <div class="toc-item" style="margin-left:20px" id="toc-item-injectNamedMapWithName"><a href="#injectNamedMapWithName"><strong>5.1.1</strong><span>Specify the Map/Cache Name</span></a></div>
         
-        <div class="toc-item" style="margin-left:20px" id="toc-item-injectNamedMapFromNamedSession"><a href="#injectNamedMapFromNamedSession"><strong>5.1.2</strong><span>Specifying the Owning Session</span></a></div>
+        <div class="toc-item" style="margin-left:20px" id="toc-item-injectNamedMapFromNamedSession"><a href="#injectNamedMapFromNamedSession"><strong>5.1.2</strong><span>Specify the Session Name</span></a></div>
         
         <div class="toc-item" style="margin-left:20px" id="toc-item-injectAsyncNamedMap"><a href="#injectAsyncNamedMap"><strong>5.1.3</strong><span>Injecting AsyncNamedMap &amp; AsyncNamedCache</span></a></div>
         
@@ -122,7 +130,7 @@
         
         <div class="toc-item" style="margin-left:20px" id="toc-item-injectNamedTopicWithName"><a href="#injectNamedTopicWithName"><strong>5.2.1</strong><span>Specify the Topic Name</span></a></div>
         
-        <div class="toc-item" style="margin-left:20px" id="toc-item-injectNamedTopicFromNamedSession"><a href="#injectNamedTopicFromNamedSession"><strong>5.2.2</strong><span>Specifying the Owning Session</span></a></div>
+        <div class="toc-item" style="margin-left:20px" id="toc-item-injectNamedTopicFromNamedSession"><a href="#injectNamedTopicFromNamedSession"><strong>5.2.2</strong><span>Specify the Session Name</span></a></div>
         
         <div class="toc-item" style="margin-left:20px" id="toc-item-injectTopicPublisher"><a href="#injectTopicPublisher"><strong>5.2.3</strong><span>Injecting a NamedTopic Publisher</span></a></div>
         
@@ -144,25 +152,63 @@
         
         <div class="toc-item" style="margin-left:20px" id="toc-item-injectNamedSession"><a href="#injectNamedSession"><strong>5.3.1</strong><span>Specify the Session Name</span></a></div>
         
-        <div class="toc-item" style="margin-left:0px" id="toc-item-filterBinding"><a href="#filterBinding"><strong>6</strong><span>Filter Binding Annotations</span></a></div>
+        <div class="toc-item" style="margin-left:0px" id="toc-item-events"><a href="#events"><strong>6</strong><span>Coherence Events</span></a></div>
         
-        <div class="toc-item" style="margin-left:0px" id="toc-item-valueExtractorBinding"><a href="#valueExtractorBinding"><strong>7</strong><span>Extractor Binding Annotations</span></a></div>
+        <div class="toc-item" style="margin-left:10px" id="toc-item-mapEvents"><a href="#mapEvents"><strong>6.1</strong><span>Observing MapEvents</span></a></div>
         
-        <div class="toc-item" style="margin-left:0px" id="toc-item-transientInjection"><a href="#transientInjection"><strong>8</strong><span>Injection into Deserialized Objea cts</span></a></div>
+        <div class="toc-item" style="margin-left:20px" id="toc-item-name"><a href="#name"><strong>6.1.1</strong><span>Specify the Map/Cache name</span></a></div>
         
-        <div class="toc-item" style="margin-left:10px" id="toc-item-injectable"><a href="#injectable"><strong>8.1</strong><span>Making transient classes Injectable</span></a></div>
+        <div class="toc-item" style="margin-left:20px" id="toc-item-service"><a href="#service"><strong>6.1.2</strong><span>Specify the cache service name</span></a></div>
         
-        <div class="toc-item" style="margin-left:0px" id="toc-item-coherenceXmlInjection"><a href="#coherenceXmlInjection"><strong>9</strong><span>Injection of Beans into the Coherence Configuration</span></a></div>
+        <div class="toc-item" style="margin-left:20px" id="toc-item-session"><a href="#session"><strong>6.1.3</strong><span>Specify the owning session name</span></a></div>
         
-        <div class="toc-item" style="margin-left:0px" id="toc-item-grpc"><a href="#grpc"><strong>10</strong><span>Using gRPC</span></a></div>
+        <div class="toc-item" style="margin-left:20px" id="toc-item-eventTypes"><a href="#eventTypes"><strong>6.1.4</strong><span>Restrict the event types</span></a></div>
         
-        <div class="toc-item" style="margin-left:10px" id="toc-item-grpcProxy"><a href="#grpcProxy"><strong>10.1</strong><span>Configure a gRPC Proxy Service</span></a></div>
+        <div class="toc-item" style="margin-left:20px" id="toc-item-filteringEvents"><a href="#filteringEvents"><strong>6.1.5</strong><span>Filtering Events</span></a></div>
         
-        <div class="toc-item" style="margin-left:10px" id="toc-item-grpcClient"><a href="#grpcClient"><strong>10.2</strong><span>Using a gRPC Client</span></a></div>
+        <div class="toc-item" style="margin-left:20px" id="toc-item-transformingEvents"><a href="#transformingEvents"><strong>6.1.6</strong><span>Transforming Events</span></a></div>
         
-        <div class="toc-item" style="margin-left:0px" id="toc-item-coherenceHttpSessions"><a href="#coherenceHttpSessions"><strong>11</strong><span>Using Coherence to store HTTP sessions</span></a></div>
+        <div class="toc-item" style="margin-left:10px" id="toc-item-coherenceEvents"><a href="#coherenceEvents"><strong>6.2</strong><span>Coherence Event Interceptors</span></a></div>
         
-        <div class="toc-item" style="margin-left:0px" id="toc-item-repository"><a href="#repository"><strong>12</strong><span>Repository</span></a></div>
+        <div class="toc-item" style="margin-left:20px" id="toc-item-coherenceLifecycleEvent"><a href="#coherenceLifecycleEvent"><strong>6.2.1</strong><span>Coherence Lifecycle Events</span></a></div>
+        
+        <div class="toc-item" style="margin-left:20px" id="toc-item-sessionLifecycleEvent"><a href="#sessionLifecycleEvent"><strong>6.2.2</strong><span>Session Lifecycle Events</span></a></div>
+        
+        <div class="toc-item" style="margin-left:20px" id="toc-item-lifecycleEvent"><a href="#lifecycleEvent"><strong>6.2.3</strong><span>ConfigurableCacheFactory Lifecycle Events</span></a></div>
+        
+        <div class="toc-item" style="margin-left:20px" id="toc-item-cacheLifecycleEvent"><a href="#cacheLifecycleEvent"><strong>6.2.4</strong><span>Cache Lifecycle Events</span></a></div>
+        
+        <div class="toc-item" style="margin-left:20px" id="toc-item-entryEvent"><a href="#entryEvent"><strong>6.2.5</strong><span>Entry Events</span></a></div>
+        
+        <div class="toc-item" style="margin-left:20px" id="toc-item-entryProcessorEvent"><a href="#entryProcessorEvent"><strong>6.2.6</strong><span>EntryProcessor Events</span></a></div>
+        
+        <div class="toc-item" style="margin-left:20px" id="toc-item-transactionEvent"><a href="#transactionEvent"><strong>6.2.7</strong><span>Partition Level Transaction Events</span></a></div>
+        
+        <div class="toc-item" style="margin-left:20px" id="toc-item-transferEvent"><a href="#transferEvent"><strong>6.2.8</strong><span>Partition Transfer Events</span></a></div>
+        
+        <div class="toc-item" style="margin-left:20px" id="toc-item-unsolicitedCommitEvent"><a href="#unsolicitedCommitEvent"><strong>6.2.9</strong><span>Unsolicited Commit Events</span></a></div>
+        
+        <div class="toc-item" style="margin-left:0px" id="toc-item-messagingWithTopics"><a href="#messagingWithTopics"><strong>7</strong><span>Micronaut Messaging with Coherence Topics</span></a></div>
+        
+        <div class="toc-item" style="margin-left:0px" id="toc-item-filterBinding"><a href="#filterBinding"><strong>8</strong><span>Filter Binding Annotations</span></a></div>
+        
+        <div class="toc-item" style="margin-left:0px" id="toc-item-valueExtractorBinding"><a href="#valueExtractorBinding"><strong>9</strong><span>Extractor Binding Annotations</span></a></div>
+        
+        <div class="toc-item" style="margin-left:0px" id="toc-item-transientInjection"><a href="#transientInjection"><strong>10</strong><span>Injection into Deserialized Objects</span></a></div>
+        
+        <div class="toc-item" style="margin-left:10px" id="toc-item-injectable"><a href="#injectable"><strong>10.1</strong><span>Making transient classes Injectable</span></a></div>
+        
+        <div class="toc-item" style="margin-left:0px" id="toc-item-coherenceXmlInjection"><a href="#coherenceXmlInjection"><strong>11</strong><span>Injecting Beans into Coherence Configuration</span></a></div>
+        
+        <div class="toc-item" style="margin-left:0px" id="toc-item-grpc"><a href="#grpc"><strong>12</strong><span>Using Coherence gRPC</span></a></div>
+        
+        <div class="toc-item" style="margin-left:10px" id="toc-item-grpcProxy"><a href="#grpcProxy"><strong>12.1</strong><span>Configure a gRPC Proxy Service</span></a></div>
+        
+        <div class="toc-item" style="margin-left:10px" id="toc-item-grpcClient"><a href="#grpcClient"><strong>12.2</strong><span>Using a gRPC Client</span></a></div>
+        
+        <div class="toc-item" style="margin-left:0px" id="toc-item-coherenceHttpSessions"><a href="#coherenceHttpSessions"><strong>13</strong><span>Using Coherence to store HTTP sessions</span></a></div>
+        
+        <div class="toc-item" style="margin-left:0px" id="toc-item-repository"><a href="#repository"><strong>14</strong><span>Repository</span></a></div>
         
         </div>
     </div>
@@ -330,9 +376,12 @@ will then be picked up by Coherence at runtime.</p>
 
 
 <div class="paragraph">
-<p>Coherence resources in a Micronaut application are typically owned by a Coherence <code>Session</code>.
-By default Coherence will start a default Session, which can be configured.
-Alternatively one or more other named Sessions can be configured and used by the application.</p>
+<p>The default behaviour of the Coherence Micronaut framework is to use the Coherence bootstrap API introduced in Coherence CE 20.12 to configure and create Coherence instances.
+This means that Coherence resources in a Micronaut application are typically owned by a Coherence <code>Session</code>.</p>
+</div>
+<div class="paragraph">
+<p>By default Coherence will start a single Session configured to use the default Coherence configuration file.
+This behaviour can easily be configured, in traditional Coherence using system properties, and additionally in Micronaut with Micronaut configuration.</p>
 </div>
 
 <h2 id="defaultSession"><a class="anchor" href="#defaultSession"></a>4.1 Using the Default Session</h2>
@@ -349,12 +398,12 @@ Alternatively one or more other named Sessions can be configured and used by the
 <p>The simplest configuration, applicable to the majority of applications that only require a single <code>Session</code>, is
 to just configure and use the default <code>Session</code>. If the application is a Coherence cluster member, or an Extend client,
 then all that needs to be specified is the Coherence configuration file name (although even this is optional as
-Coherence will use a default name of none is configured).
+Coherence will use a default file name if none is configured).
 Alternatively, if the application is a Coherence gRPC client, the default Session can be configured as a gRPC Session
-(see the gRPC Client documentation).</p>
+(see the <a href="#grpc">gRPC documentation</a>).</p>
 </div>
 <div class="paragraph">
-<p>As already mentioned in the <a href="#quickStart">Quick Start</a> section, the name of the configuration file for the default session can be set in the Micronaut config, for example in the <code>application.yaml</code> file:</p>
+<p>As already mentioned in the <a href="#quickStart">Quick Start</a> section, the name of the Coherence configuration file for the default session can be set in the Micronaut config, for example in the <code>application.yaml</code> file:</p>
 </div>
 <div class="listingblock">
 <div class="title">application.yaml</div>
@@ -363,6 +412,189 @@ Alternatively, if the application is a Coherence gRPC client, the default Sessio
   sessions:
     default:
       config: coherence-config.xml</code></pre>
+</div>
+</div>
+
+<h2 id="multiple"><a class="anchor" href="#multiple"></a>4.2 Configure Multiple Sessions</h2>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master
+/src/main/docs/guide/bootstrap/multiple.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>In the above configuration, the <code>coherence</code> section contains a <code>sessions</code> section which is the configuration of one
+or more sessions. The format is a map using the session name as the map key. In the above example there is a single session with the name <code>default</code>.</p>
+</div>
+<div class="paragraph">
+<p>In the example below, there are two sessions configured, one named <code>catalog</code> and one named <code>customer</code>:</p>
+</div>
+<div class="listingblock">
+<div class="title">application.yaml</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">coherence:
+  sessions:
+    catalog:
+      config: catalog-config.xml
+    customer:
+      config: customer-config.xml</code></pre>
+</div>
+</div>
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p>The <code>default</code> session will only exist when zero sessions are specifically configured or the <code>default</code> session is specifically configured.</p>
+</div>
+<div class="paragraph">
+<p>For example, in the configuration below there wil be no <code>default</code> session, only a single session named <code>catalog</code>.
+.application.yaml</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>coherence:
+  sessions:
+    catalog:
+      config: catalog-config.xml</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In this example, there will be two sessions, one named <code>catalog</code> and the <code>default</code> session.
+.application.yaml</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>coherence:
+  sessions:
+    catalog:
+      config: catalog-config.xml
+    default:
+      config: coherence-config.xml</pre>
+</div>
+</div>
+</div>
+</div>
+
+<h2 id="configuration"><a class="anchor" href="#configuration"></a>4.3 Session Configuration Properties</h2>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master
+/src/main/docs/guide/bootstrap/configuration.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>There are a number of fields that may be used to conifgure a <code>Session</code>, all of them are optional.</p>
+</div>
+<div class="sect2">
+<h3 id="_configuration_file_name">Configuration File Name</h3>
+<div class="paragraph">
+<p>As already mentioned, the most common configuration to set will be the Coherence configuration file name.
+This is set using the <code>config</code> property.
+If not specified, the default value will be <code>coherence-cache-config.xml</code>.</p>
+</div>
+<div class="listingblock">
+<div class="title">application.yaml</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">coherence:
+  sessions:
+    default:
+      config: coherence-config.xml</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_scope_name">Scope Name</h3>
+<div class="paragraph">
+<p>A scope name is typically used in an application where the Coherence cluster member has multiple sessions.
+The scope name is used to keep the sessions separate. The scope name will be applied to the session&#8217;s underlying
+<code>ConfigurableCacheFactory</code> and used to scope Coherence services. In this way multiple session configurations may use identical service names, which will be kept separate using the scope.
+On a Coherence cluster member each session should have a unique scope name.</p>
+</div>
+<div class="paragraph">
+<p>In a client application, for example, a gRPC client, the scope name is used to map a client session to a corresponding scoped server session.</p>
+</div>
+<div class="listingblock">
+<div class="title">application.yaml</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">coherence:
+  sessions:
+    catalog:
+      scope: Catalog
+      config: catalog-config.xml
+    customer:
+      scope: Customer
+      config: customer-config.xml</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In the above example there are two sessions, <code>catalog</code> and <code>customer</code>. The <code>catalog</code> session has a scope name of <code>Catalog</code> and the <code>customer</code> session` has the scope name <code>Customer</code>.</p>
+</div>
+<div class="paragraph">
+<p>In a client application there might only be a single default session but this session needs to connect to a server that has multiple sessions configured.
+In this case the scope name is used to identify the server side session.</p>
+</div>
+<div class="paragraph">
+<p>For example, assuming that the server is using the configuration above, with two sessions, <code>catalog</code> and <code>customer</code>.
+The client application only needs to connect to the <code>catalog</code> session, so it can be configured with a default session like this:</p>
+</div>
+<div class="listingblock">
+<div class="title">application.yaml</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">coherence:
+  sessions:
+    default:
+      scope: Catalog
+      config: client-config.xml</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_session_type">Session Type</h3>
+<div class="paragraph">
+<p>There are three different types of session that can be configured:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>server</code> represents storage enabled cluster member session.</p>
+</li>
+<li>
+<p><code>client</code> represents a storage disabled cluster member or Coherence*Extend client session.</p>
+</li>
+<li>
+<p><code>grpc</code> is a gRPC client session (see the <a href="#grpc">gRPC documentation</a>).</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The type of the session affects how the bootstrap API starts the session.</p>
+</div>
+<div class="paragraph">
+<p>The session type is configured with the type property:</p>
+</div>
+<div class="listingblock">
+<div class="title">application.yaml</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">coherence:
+  sessions:
+    default:
+      type: client                 <i class="conum" data-value="1"></i><b>(1)</b>
+      scope: Catalog
+      config: client-config.xml</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The default session above is a client session.</td>
+</tr>
+</table>
 </div>
 </div>
 
@@ -419,7 +651,7 @@ private NamedMap&lt;String, Person&gt; people;</code></pre>
 so a <code>NamedMap</code> bean with an underlying cache name of <code>people</code> will be injected.</p>
 </div>
 
-<h2 id="injectNamedMapWithName"><a class="anchor" href="#injectNamedMapWithName"></a>5.1.1 Specify the Cache Name</h2>
+<h2 id="injectNamedMapWithName"><a class="anchor" href="#injectNamedMapWithName"></a>5.1.1 Specify the Map/Cache Name</h2>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master
@@ -459,7 +691,7 @@ public class SomeBean {
 </div>
 </div>
 
-<h2 id="injectNamedMapFromNamedSession"><a class="anchor" href="#injectNamedMapFromNamedSession"></a>5.1.2 Specifying the Owning Session</h2>
+<h2 id="injectNamedMapFromNamedSession"><a class="anchor" href="#injectNamedMapFromNamedSession"></a>5.1.2 Specify the Session Name</h2>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master
@@ -643,8 +875,10 @@ private NamedTopic&lt;Person&gt; people;</code></pre>
 </div>
 <div class="paragraph">
 <p>In this example the injection point field name is used to determine the topic name to inject,
-so a <code>NamedTopic</code> bean with an underlying topic name of <code>people</code> will be injected.
-s</p>
+so a <code>NamedTopic</code> bean with an underlying topic name of <code>people</code> will be injected.</p>
+</div>
+<div class="paragraph">
+<p>As an alternative to using a <code>NamedTopic</code> directly in code, Coherence Micronaut also supports annotating methods directly as publishers and subscribers using the same approach as Micronaut Messaging. See the <a href="#messagingWithTopics.adoc">Micronaut Messaging with Coherence Topics</a> section of the documentation.</p>
 </div>
 
 <h2 id="injectNamedTopicWithName"><a class="anchor" href="#injectNamedTopicWithName"></a>5.2.1 Specify the Topic Name</h2>
@@ -687,7 +921,7 @@ public class SomeBean {
 </div>
 </div>
 
-<h2 id="injectNamedTopicFromNamedSession"><a class="anchor" href="#injectNamedTopicFromNamedSession"></a>5.2.2 Specifying the Owning Session</h2>
+<h2 id="injectNamedTopicFromNamedSession"><a class="anchor" href="#injectNamedTopicFromNamedSession"></a>5.2.2 Specify the Session Name</h2>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master
@@ -1074,7 +1308,7 @@ public class MyBean {
 <p>For most applications that only use a single <code>Session</code> the simple examples above will be all that is required.
 Some applications though may use multiple named <code>Session</code> instances, in which case the <code>Session</code> name need to
 be specified.
-This can be done by adding the ../apiio/micronaut/coherence/annotation/Name.html[@Name] annotation to the injection point.</p>
+This can be done by adding the <a href="../api/io/micronaut/coherence/annotation/Name.html">@Name</a> annotation to the injection point.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1104,7 +1338,773 @@ public class MyBean {
 The named <code>Session</code> must have previously been configured when <a href="#bootstrap">bootstrapping Coherence</a>.</p>
 </div>
 
-<h1 id="filterBinding"><a class="anchor" href="#filterBinding"></a>6 Filter Binding Annotations</h1>
+<h1 id="events"><a class="anchor" href="#events"></a>6 Coherence Events</h1>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master
+/src/main/docs/guide/events.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>Coherence produces a number of events that can be used by applications to respond to data changes and other actions in Coherence.</p>
+</div>
+<div class="paragraph">
+<p>There are two types of events in Coherence. There are <a href="https://coherence.community/20.12/api/java/com/tangosol/util/MapEvent.html">MapEvents</a>,
+that in a traditional Coherence application are subscribed to using <a href="https://coherence.community/20.12/api/java/com/tangosol/util/MapListener.html">MapListener</a> and there are a number of different types of <a href="https://coherence.community/20.12/api/java/com/tangosol/net/events/Event.html">Event</a>, that are in a traditional Coherence application are subscribed to using an <a href="https://coherence.community/20.12/api/java/com/tangosol/net/events/EventInterceptor.html">EventInterceptor</a>.</p>
+</div>
+<div class="paragraph">
+<p>Micronaut makes subscribing to both of these event types much simpler, using observer methods annotated with
+<a href="../api/io/micronaut/coherence/annotation/CoherenceEventListener.html">@CoherenceEventListener</a>.</p>
+</div>
+<div class="paragraph">
+<p>For example,</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@CoherenceEventListener
+void onEvent(CoherenceLifecycleEvent event) {
+    // ToDo: process event...
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The method above receives all events of type <code>CoherenceLifecycleEvent</code> emitted during the lifetime of the application.</p>
+</div>
+<div class="paragraph">
+<p>The actual events received can be controlled further by annotating the method or parameter.</p>
+</div>
+
+<h2 id="mapEvents"><a class="anchor" href="#mapEvents"></a>6.1 Observing MapEvents</h2>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master
+/src/main/docs/guide/events/mapEvents.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>Listening for changes to data in Coherence is a common use case in applications.
+Typically this involves creating an implementation of a <a href="https://coherence.community/20.12/api/java/com/tangosol/util/MapListener.html">MapListener</a>
+ and adding that listener to a <code>NamedMap</code> or <code>NamedCache</code>. Using Coherence Micronaut makes this much simpler by just requiring Micronaut beans with suitably annotated observer methods that will receive events.</p>
+</div>
+<div class="sect2">
+<h3 id="_mapevent_observer_methods">MapEvent Observer Methods</h3>
+<div class="paragraph">
+<p>A <a href="https://coherence.community/20.12/api/java/com/tangosol/util/MapEvent.html">MapEvent</a> observer method is a method on a Micronaut bean that is annotated with ../api/io/micronaut/coherence/annotation/CoherenceEventListener.html[@CoherenceEventListener]. The method has a <code>void</code> return type and takes a single method parameter of type <code>MapEvent</code>, typically this has the generic types of the underlying map/cache key and value.</p>
+</div>
+<div class="paragraph">
+<p>For example, assuming that there is a map/cache named <code>people</code>, with keys of type <code>String</code> and values of type <code>Person</code>, and the application has logic that should be executed each time a new <code>Person</code> is inserted into the map:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import com.tangosol.util.MapEvent;
+import io.micronaut.coherence.annotation.*;
+
+@Controller                                                    <i class="conum" data-value="1"></i><b>(1)</b>
+public class PersonController {
+
+    @CoherenceEventListener                                    <i class="conum" data-value="2"></i><b>(2)</b>
+    public void onNewPerson(@MapName("people")                 <i class="conum" data-value="3"></i><b>(3)</b>
+                            @Inserted                          <i class="conum" data-value="4"></i><b>(4)</b>
+                            MapEvent&lt;String, Person&gt; event) {
+        // ToDo: process the event
+    }
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The <code>PersonController</code> is a simple Micronaut bean, in this case a <code>Controller</code>.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>The <code>onNewPerson</code> method is annotated with <code>@CoherenceEventListener</code> making it a Coherence event listener.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>The <code>@MapName("people")</code> annotation specifies the name of the map to receive events from, in this case <code>people</code>.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>The <code>@Inserted</code> annotation specified that only <code>Inserted</code> events should be sent to this method.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The above example is very simple, there are a number of other annotations that control what events are received from where.</p>
+</div>
+</div>
+
+<h2 id="name"><a class="anchor" href="#name"></a>6.1.1 Specify the Map/Cache name</h2>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master
+/src/main/docs/guide/events/mapEvents/name.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>By default a <code>MapEvent</code> observer method would receive events for all maps/caches.
+In practice though, this would not be a very common use case and normally an observer method would be for a specific cache.</p>
+</div>
+<div class="paragraph">
+<p>The Coherence Micronaut API contains two annotations for specifying the map name <a href="../api/io/micronaut/coherence/annotation/MapName.html">@MapName</a>, or cache name <a href="../api/io/micronaut/coherence/annotation/CacheName.html">@CacheName</a>.
+Both annotations take a single <code>String</code> value that is the name of the map or cache that events should be received from.</p>
+</div>
+<div class="paragraph">
+<p>For example,</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@CoherenceEventListener
+public void onEvent(MapEvent&lt;String, String&gt; event) {
+    // ToDo: process the event
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The above method receives events for <em>all</em> caches.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@CoherenceEventListener
+public void onEvent(@MapName("foo")  <i class="conum" data-value="1"></i><b>(1)</b>
+                    MapEvent&lt;String, String&gt; event) {
+    // ToDo: process the event
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The above method receives events for the map named <code>foo</code>.</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@CoherenceEventListener
+public void onEvent(@CacheName("foo")  <i class="conum" data-value="1"></i><b>(1)</b>
+                    MapEvent&lt;String, String&gt; event) {
+    // ToDo: process the event
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The above method receives events for the cache named <code>bar</code>.</td>
+</tr>
+</table>
+</div>
+
+<h2 id="service"><a class="anchor" href="#service"></a>6.1.2 Specify the cache service name</h2>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master
+/src/main/docs/guide/events/mapEvents/service.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>As well as restricting the received events to a specific map or cache name, events can be restricted to only events from a specific cache service. In Coherence all caches are owned by a cache service, which have a unique  name.
+By default a <code>MapEvent</code> observer method would receive events for a matching cache name on all services.
+If an applications Coherence configuration has multiple services the events can be restricted to just specific services using the <a href="../api/io/micronaut/coherence/annotation/ServiceName.html">@ServiceName</a> annotation.</p>
+</div>
+<div class="paragraph">
+<p>For example,</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@CoherenceEventListener
+public void onEvent(@MapName("foo")  <i class="conum" data-value="1"></i><b>(1)</b>
+                    MapEvent&lt;String, String&gt; event) {
+    // ToDo: process the event
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The above method receives events for the map named <code>foo</code> on <em>all</em> cache services.</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@CoherenceEventListener
+public void onEvent(@MapName("foo")
+                    @ServiceName("Storage")  <i class="conum" data-value="1"></i><b>(1)</b>
+                    MapEvent&lt;String, String&gt; event) {
+    // ToDo: process the event
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The above method receives events for the cache named <code>foo</code> owned by the cache service named <code>Storage</code>.</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@CoherenceEventListener
+public void onEvent(@ServiceName("Storage")  <i class="conum" data-value="1"></i><b>(1)</b>
+                    MapEvent&lt;String, String&gt; event) {
+    // ToDo: process the event
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The above method receives events for the <em>all</em> caches owned by the cache service named <code>Storage</code> as there is no <code>@MapName</code> or <code>@CacheName</code> annotation.</td>
+</tr>
+</table>
+</div>
+
+<h2 id="session"><a class="anchor" href="#session"></a>6.1.3 Specify the owning session name</h2>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master
+/src/main/docs/guide/events/mapEvents/session.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>In applications that use multiple <code>Sessions</code> there may be a situation where more than one session has a map with the same name and an observer methdod needs to restrict the events it receives to a specific session.
+The events can be restricted to maps/caches in specific sessions using the <a href="../api/io/micronaut/coherence/annotation/SessionName.html">@SessionName</a> annotation.</p>
+</div>
+<div class="paragraph">
+<p>For example,</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@CoherenceEventListener
+public void onEvent(@MapName("orders")  <i class="conum" data-value="1"></i><b>(1)</b>
+                    MapEvent&lt;String, String&gt; event) {
+    // ToDo: process the event
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The above method receives events for the map named <code>orders</code> in <em>all</em> sessions.</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@CoherenceEventListener
+public void onEvent(@MapName("orders")
+                    @Session("Customer")  <i class="conum" data-value="1"></i><b>(1)</b>
+                    MapEvent&lt;String, Order&gt; event) {
+    // ToDo: process the event
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The above method receives events for the map named <code>orders</code> owned by the <code>Session</code> named <code>Customer</code>.</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@CoherenceEventListener
+public void onEvent(@Session("Customer")  <i class="conum" data-value="1"></i><b>(1)</b>
+                    MapEvent&lt;String, Order&gt; event) {
+    // ToDo: process the event
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The above method receives events for the <em>all</em> caches owned by the <code>Session</code> named <code>Customer</code> as there is no <code>@MapName</code> or <code>@CacheName</code> annotation.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>In an application with multiple sessions, events can be routed by session, for example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@CoherenceEventListener
+public void onCustomerOrders(@Session("Customer")  <i class="conum" data-value="1"></i><b>(1)</b>
+                             @MapName("orders")
+                             MapEvent&lt;String, Order&gt; event) {
+    // ToDo: process the event
+}
+
+@CoherenceEventListener
+public void onCatalogOrders(@Session("Catalog")   <i class="conum" data-value="2"></i><b>(2)</b>
+                            @MapName("orders")
+                            MapEvent&lt;String, Order&gt; event) {
+    // ToDo: process the event
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The <code>onCustomerOrders</code> will receive events for the <code>orders</code> map owned by the <code>Session</code> named <code>Customer</code>.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>The <code>onCatalogOrders</code> will receive events for the <code>orders</code> map owned by the <code>Session</code> named <code>Catalog</code>.</td>
+</tr>
+</table>
+</div>
+
+<h2 id="eventTypes"><a class="anchor" href="#eventTypes"></a>6.1.4 Restrict the event types</h2>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master
+/src/main/docs/guide/events/mapEvents/eventTypes.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>There are three types of event that a <code>MapEvent</code> observer method can receive, <code>Insert</code>, <code>Update</code> and <code>Delete</code>.
+By default an observer method will receive all events for the map (or maps) it applies to.
+This can be controlled using the following annotations:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="../api/io/micronaut/coherence/annotation/Inserted.html">@Inserted</a> - to receive <code>Insert</code> events.</p>
+</li>
+<li>
+<p><a href="../api/io/micronaut/coherence/annotation/Updated.html">@Updated</a> - to receive <code>Update</code> events.</p>
+</li>
+<li>
+<p><a href="../api/io/micronaut/coherence/annotation/Deleted.html">@Deleted</a> - to receive <code>Delete</code> events.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Zero or more of the above annotations can be used to annotate the <code>MapEvent</code> parameter of the observer method.</p>
+</div>
+<div class="paragraph">
+<p>For example,</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@CoherenceEventListener
+public void onEvent(@MapName("test")
+                    @Inserted        <i class="conum" data-value="1"></i><b>(1)</b>
+                    MapEvent&lt;String, String&gt; event) {
+    // ToDo: process the event
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Only <code>Insert</code> events for the map <code>test</code> will be received.</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@CoherenceEventListener
+public void onEvent(@MapName("test")
+                    @Inserted @Deleted       <i class="conum" data-value="1"></i><b>(1)</b>
+                    MapEvent&lt;String, String&gt; event) {
+    // ToDo: process the event
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Only <code>Insert</code> and <code>Delete</code> events for the map <code>test</code> will be received.</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@CoherenceEventListener
+public void onEvent(@MapName("test") MapEvent&lt;String, String&gt; event) {
+    // ToDo: process the event
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>All events for the map <code>test</code> will be received.</p>
+</div>
+
+<h2 id="filteringEvents"><a class="anchor" href="#filteringEvents"></a>6.1.5 Filtering Events</h2>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master
+/src/main/docs/guide/events/mapEvents/filteringEvents.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>The <code>MapEvents</code> received by an observer method can be further restricted by applying a filter.
+Filters are applied by annotating the method with a <a href="#filterBinding">filter binding</a> annotation, which is a link to a factory that creates a specific instance of a <a href="https://coherence.community/20.12/api/java/com/tangosol/util/Filter.html">Filter</a>.
+Event filters applied in this way are executed on the server, which can make receiving events more efficient for clients as the event will not be sent from the server at all.</p>
+</div>
+<div class="paragraph">
+<p>The Micronaut Coherence framework comes with some built in implementations, for example
+<a href="../api/io/micronaut/coherence/annotation/AlwaysFilter.html">@AlwaysFilter</a>,
+and <a href="../api/io/micronaut/coherence/annotation/WhereFilter.html">@WhereFilter</a>,
+and it is simple to implement other as required by applications
+(see the <a href="#filterBinding">Filter Binding Annotation</a> section for more details).</p>
+</div>
+<div class="paragraph">
+<p>For example, assume there is a map named <code>people</code> with keys of type <code>String</code> and values of type <code>People</code>, and an observer method needs to receive events for all values where the <code>age</code> property is <code>18</code> or over.
+A custom filter binding annotation could be written to create the required <code>Filter</code>, but as the condition is very simple, in this example the built in <code>@WhereFilter</code> filter binding annotation will be used with a where clause of <code>age &gt;= 18</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@WhereFilter("age &gt;= 18")     <i class="conum" data-value="1"></i><b>(1)</b>
+@CoherenceEventListener
+@MapName("people")
+public void onAdult(MapEvent&lt;String, Person&gt; people) {
+    // ToDo: process event...
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The <code>@WhereFilter</code> annotation is applied to the method.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The <code>onAdult</code> method above will receive all events emmitted from the <code>people</code> map, but only for entries where the value of the <code>age</code> property of the entry value is <code>&gt;= 18</code>.</p>
+</div>
+
+<h2 id="transformingEvents"><a class="anchor" href="#transformingEvents"></a>6.1.6 Transforming Events</h2>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master
+/src/main/docs/guide/events/mapEvents/transformingEvents.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>In some use-cases the <code>MapEvent</code> observer method does not require the whole map or cache value to process, it might only require one, or a few, properties of the value, or it might require some calculated value. This can be achieved by using an event transformer to transform the values that will be received by the observer method. The transformation takes place on the server before the event is emitted to the method. This can improve efficiency on a client in cases where the cache value is large but the client only requires a small part of that value because only the required values are sent over the wire to the client.</p>
+</div>
+<div class="paragraph">
+<p>In the Coherence Micronaut framework, event values are transformed using a <a href="https://coherence.community/20.12/api/java/com/tangosol/util/ValueExtractor.html">ValueExtractor</a>. A <code>ValueExtractor</code> is a simple interface that takes in one value and transforms it into another value. The <code>ValueExtractor</code> is applied to the event value; events contain both a new and old values and the extractor is applied to both as applicable. For <code>Insert</code> events there is only a new value, for <code>Update</code> events there will be both a new and old value and for <code>Delete</code> events there will only be an old value. The extractor is not applied to the event key.</p>
+</div>
+<div class="paragraph">
+<p>The <code>ValueExtractor</code> to use for a <code>MapEvent</code> observer method is indicated by annotating the method with an <a href="#valueExtractorBinding">extractor binding annotation</a>. An extractor binding is an annotation that is itself annotated with the meta-annotation <a href="../api/io/micronaut/coherence/annotation/ExtractorBinding.html">@ExtractorBinding</a>.
+The extractor binding annotation is a link to a corresponding <a href="../api/io/micronaut/coherence/ExtractorFactory.html">ExtractorFactory</a> that will build an instance of a <code>ValueExtractor</code>.</p>
+</div>
+<div class="paragraph">
+<p>For example, assuming that there is a <code>NamedMap</code> with the name <code>orders</code> that has keys of type <code>String</code> and values of type <code>Order</code>; the <code>Order</code> class has a <code>customerId</code> property of type <code>String</code>. A <code>MapEvent</code> observer method is only interested in the <code>customerId</code> for an order so the built in extractor binding annotation <a href="../api/io/micronaut/coherence/annotation/PropertyExtractor.html">@PropertyExtractor</a> can be used to just extract the <code>customerId</code> from the event:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@CoherenceEventListener
+@PropertyExtractor("customerId")                        <i class="conum" data-value="1"></i><b>(1)</b>
+public void onOrder(@MapName("orders")                  <i class="conum" data-value="2"></i><b>(2)</b>
+                    MapEvent&lt;String, String&gt; event) {   <i class="conum" data-value="3"></i><b>(3)</b>
+    // ToDo: process event...
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The method is annotated with <code>@PropertyExtractor</code> to indicate that a <code>ValueExtractor</code> that just extracts the <code>customerId</code> property should be used to transform the event.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>The map name to receive events from is set to <code>orders</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Note that the generic types of the <code>MapEvent</code> parameter are now <code>MapEvent&lt;String, String&gt;</code> instead of <code>MapEvent&lt;String, Order&gt;</code> because the event values will have been transformed from an <code>Order</code> into just the <code>String</code> <code>customerId</code>.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>It is possible to apply multiple filter binding annotations to a method. In this case the extractors are combined into a Coherence <a href="https://coherence.community/20.12/api/java/com/tangosol/util/extractor/ChainedExtractor.html">ChainedExtractor</a>, which will return the extracted values as a <code>java.util.List</code>.</p>
+</div>
+<div class="paragraph">
+<p>Expanding on the example above, if the <code>Order</code> class also has an <code>orderId</code> property of type <code>Long</code>, and an observer method, only interested in <code>Insert</code> events needs both the <code>customerId</code> and <code>orderId</code>, then the method can be annotated with an two <code>@PropertyExtractor</code> annotations:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@CoherenceEventListener
+@PropertyExtractor("customerId")                     <i class="conum" data-value="1"></i><b>(1)</b>
+@PropertyExtractor("orderId")
+public void onOrder(@Inserted                        <i class="conum" data-value="2"></i><b>(2)</b>
+                    @MapName("orders")
+                    MapEvent&lt;String, List&lt;Object&gt;&gt; event) {  <i class="conum" data-value="3"></i><b>(3)</b>
+    List list = event.getNewValue();
+    String customerId = (String) list.get(0);        <i class="conum" data-value="4"></i><b>(4)</b>
+    String orderId = (Long) list.get(1);
+    // ...
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The method is annotated with two <code>@PropertyExtractor</code> annotations, one to extract <code>customerId</code> and one to extract <code>orderId</code>.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>The method parameter is annotated with <code>@Inserted</code> so that the method only receives <code>Insert</code> events.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>The <code>MapEvent</code> parameter not has a key of type <code>String</code> and a value of type <code>List&lt;Object&gt;</code>, because the values from the multiple extractors will be returned in a <code>List</code>. We cannot use a generic value narrower than <code>Object</code> for the list because it will contain a <code>String</code> and a <code>Long</code>.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>The extracted values can be obtained from the list, they will be in the same order that the annotations were applied to the method.</td>
+</tr>
+</table>
+</div>
+
+<h2 id="coherenceEvents"><a class="anchor" href="#coherenceEvents"></a>6.2 Coherence Event Interceptors</h2>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master
+/src/main/docs/guide/events/coherenceEvents.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>Coherence produces many events in response to various serverside and client side actions. For example, Lifecycle events for Coherence itself, maps and cache, Entry events when data in maps and caches changes, Partition events for partition lifecycle and distribution, EntryProcessor events when invoked on a map or cache, etc.
+In a stand-alone Coherence application these events are subscribed to using a <a href="https://coherence.community/20.12/api/java/com/tangosol/net/events/EventInterceptor.html">EventInterceptor</a> implementation registered to listen to specific event types.</p>
+</div>
+<div class="paragraph">
+<p>The Coherence Micronaut API makes subscribing to these events much simpler, by using the same approach used for Micronaut events, namely annotated event observer methods.
+A Coherence event observer method is a method annotated with <a href="../api/io/micronaut/coherence/annotation/CoherenceEventListener.html">@CoherenceEventListener</a> that has a <code>void</code> return type and a single parameter of the type of event to be received.
+The exact events received can be further controlled by applying other annotations to the method or event parameter.
+The annotations applied will vary depending on the type of the event.</p>
+</div>
+<div class="sect2">
+<h3 id="_event_types">Event Types</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://coherence.community/20.12/api/java/com/tangosol/net/events/CoherenceLifecycleEvent.html">CoherenceLifecycleEvent</a> - lifecycle events for  <a href="https://coherence.community/20.12/api/java/com/tangosol/net/Coherence.html">Coherence</a> instances</p>
+</li>
+<li>
+<p><a href="https://coherence.community/20.12/api/java/com/tangosol/net/events/SessionLifecycleEvent.html">SessionLifecycleEvent</a> - lifecycle events for <a href="https://coherence.community/20.12/api/java/com/tangosol/net/Session.html">Session</a> instances</p>
+</li>
+<li>
+<p><a href="https://coherence.community/20.12/api/java/com/tangosol/net/events/application/LifecycleEvent.html">LifecycleEvent</a> - lifecycle events for <a href="https://coherence.community/20.12/api/java/com/tangosol/net/ConfigurableCacheFactory.html">ConfigurableCacheFactory</a> instances</p>
+</li>
+<li>
+<p><a href="https://coherence.community/20.12/api/java/com/tangosol/net/events/partition/cache/CacheLifecycleEvent.html">CacheLifecycleEvent</a> - lifecycle events for <a href="https://coherence.community/20.12/api/java/com/tangosol/net/NamedMap.html">NamedMap</a> and <a href="https://coherence.community/20.12/api/java/com/tangosol/net/NamedCache.html">NamedCache</a> instances</p>
+</li>
+<li>
+<p><a href="https://coherence.community/20.12/api/java/com/tangosol/net/events/partition/cache/EntryEvent.html">EntryEvent</a> - events emitted by the mutation of entries in a <a href="https://coherence.community/20.12/api/java/com/tangosol/net/NamedMap.html">NamedMap</a> or <a href="https://coherence.community/20.12/api/java/com/tangosol/net/NamedCache.html">NamedCache</a></p>
+</li>
+<li>
+<p><a href="https://coherence.community/20.12/api/java/com/tangosol/net/events/partition/cache/EntryProcessorEvent.html">EntryProcessorEvent</a> - events emitted by the invocation of an <a href="https://coherence.community/20.12/api/java/com/tangosol/util/EntryProcessor.html">EntryProcessor</a> on entries in a <a href="https://coherence.community/20.12/api/java/com/tangosol/net/NamedMap.html">NamedMap</a> or <a href="https://coherence.community/20.12/api/java/com/tangosol/net/NamedCache.html">NamedCache</a></p>
+</li>
+<li>
+<p><a href="https://coherence.community/20.12/api/java/com/tangosol/net/events/partition/TransactionEvent.html">TransactionEvent</a> - events pertaining to all mutations performed within the context of a single request in a partition of a <a href="https://coherence.community/20.12/api/java/com/tangosol/net/NamedMap.html">NamedMap</a> or <a href="https://coherence.community/20.12/api/java/com/tangosol/net/NamedCache.html">NamedCache</a>, also referred to as "partition level transactions".</p>
+</li>
+<li>
+<p><a href="https://coherence.community/20.12/api/java/com/tangosol/net/events/partition/TransferEvent.html">TransferEvent</a> - captures information concerning the transfer of a partition for a storage enabled member.</p>
+</li>
+<li>
+<p><a href="https://coherence.community/20.12/api/java/com/tangosol/net/events/partition/UnsolicitedCommitEvent.html">UnsolicitedCommitEvent</a> - captures changes pertaining to all observed mutations performed against caches that were not directly caused (solicited) by the partitioned service. These events may be due to changes made internally by the backing map, such as eviction, or referrers of the backing map causing changes.</p>
+</li>
+<li>
+<p>If using commercial versions of Coherence with the Coherence Micronaut framework there are also events associated to federation of data between different clusters.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Most of the events above only apply on storage enabled cluster members. For example, an <code>EntryEvent</code> will only be emitted for mutation of an entry on the storage enabled cluster member that owns that entry. Whereas lifecycle events may be emitted on all members, such as <code>CacheLifecycle</code> event that may be be emitted on any member when a cache is created, truncated, or destroyed.</p>
+</div>
+</div>
+
+<h2 id="coherenceLifecycleEvent"><a class="anchor" href="#coherenceLifecycleEvent"></a>6.2.1 Coherence Lifecycle Events</h2>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master
+/src/main/docs/guide/events/coherenceEvents/coherenceLifecycleEvent.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>TBD&#8230;&#8203;</p>
+</div>
+
+<h2 id="sessionLifecycleEvent"><a class="anchor" href="#sessionLifecycleEvent"></a>6.2.2 Session Lifecycle Events</h2>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master
+/src/main/docs/guide/events/coherenceEvents/sessionLifecycleEvent.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>TBD&#8230;&#8203;</p>
+</div>
+
+<h2 id="lifecycleEvent"><a class="anchor" href="#lifecycleEvent"></a>6.2.3 ConfigurableCacheFactory Lifecycle Events</h2>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master
+/src/main/docs/guide/events/coherenceEvents/lifecycleEvent.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>TBD&#8230;&#8203;</p>
+</div>
+
+<h2 id="cacheLifecycleEvent"><a class="anchor" href="#cacheLifecycleEvent"></a>6.2.4 Cache Lifecycle Events</h2>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master
+/src/main/docs/guide/events/coherenceEvents/cacheLifecycleEvent.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>TBD&#8230;&#8203;</p>
+</div>
+
+<h2 id="entryEvent"><a class="anchor" href="#entryEvent"></a>6.2.5 Entry Events</h2>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master
+/src/main/docs/guide/events/coherenceEvents/entryEvent.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>TBD&#8230;&#8203;</p>
+</div>
+
+<h2 id="entryProcessorEvent"><a class="anchor" href="#entryProcessorEvent"></a>6.2.6 EntryProcessor Events</h2>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master
+/src/main/docs/guide/events/coherenceEvents/entryProcessorEvent.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>TBD&#8230;&#8203;</p>
+</div>
+
+<h2 id="transactionEvent"><a class="anchor" href="#transactionEvent"></a>6.2.7 Partition Level Transaction Events</h2>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master
+/src/main/docs/guide/events/coherenceEvents/transactionEvent.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>TBD&#8230;&#8203;</p>
+</div>
+
+<h2 id="transferEvent"><a class="anchor" href="#transferEvent"></a>6.2.8 Partition Transfer Events</h2>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master
+/src/main/docs/guide/events/coherenceEvents/transferEvent.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>TBD&#8230;&#8203;</p>
+</div>
+
+<h2 id="unsolicitedCommitEvent"><a class="anchor" href="#unsolicitedCommitEvent"></a>6.2.9 Unsolicited Commit Events</h2>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master
+/src/main/docs/guide/events/coherenceEvents/unsolicitedCommitEvent.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>TBD&#8230;&#8203;</p>
+</div>
+
+<h1 id="messagingWithTopics"><a class="anchor" href="#messagingWithTopics"></a>7 Micronaut Messaging with Coherence Topics</h1>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master
+/src/main/docs/guide/messagingWithTopics.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>TBD&#8230;&#8203;</p>
+</div>
+
+<h1 id="filterBinding"><a class="anchor" href="#filterBinding"></a>8 Filter Binding Annotations</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master
@@ -1115,10 +2115,176 @@ The named <code>Session</code> must have previously been configured when <a href
 
 
 <div class="paragraph">
-<p>TBD&#8230;&#8203;</p>
+<p>Filter binding annotations are normal annotations that are themselves annotated with the <a href="../api/io/micronaut/coherence/annotation/FilterBinding.html">@FilterBinding</a> meta-annotation.
+A filter binding annotation represents a Coherence <a href="https://coherence.community/20.12/api/java//com/tangosol/util/Filter.html">Filter</a> and is used to specify a <code>Filter</code> in certain injection points, for example a View (CQC), <code>NamedTopic</code> <code>Subscriber</code> beans, event listeners, etc.</p>
+</div>
+<div class="paragraph">
+<p>There are three parts to using a filter binding:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The filter binding annotation</p>
+</li>
+<li>
+<p>An implementation of a <a href="../api/io/micronaut/coherence/FilterFactory.html">FilterFactory</a> that is annotated with the filter binding annotation. This is a factory that produces the required <code>Filter</code>.</p>
+</li>
+<li>
+<p>Injection points annotated with the filter binding annotation.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For example; assume there is a Coherence <code>NamedMap</code> with the name <code>people</code> that contains <code>Person</code> instances for the value.
+Among the various properties on the <code>Person</code> class is a property called <code>gender</code> and property called <code>age</code>.
+Now assume we want to inject a view that only shows adult males, we would need a <code>Filter</code> that has a condition like `gender == "male" &amp;&amp; age &gt; 18".</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Create the filter binding annotation:
+First create a simple annotation, it could be called something like <code>AdultMales</code></p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@FilterBinding                         <i class="conum" data-value="1"></i><b>(1)</b>
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+public @interface AdultMales {         <i class="conum" data-value="2"></i><b>(2)</b>
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The annotation class is annotated with <code>@FilterBinding</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>The annotation name is <code>AdultMales</code></td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>In this case the annotation does not need any other attributes.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Create the <code>FilterFactory</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Now create the <a href="../api/io/micronaut/coherence/FilterFactory.html">FilterFactory</a> implementation that will produce instances of the required <code>Filter</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import com.tangosol.util.Filter;
+import com.tangosol.util.Filters;
+import io.micronaut.coherence.FilterFactory;
+
+@AdultMales    <i class="conum" data-value="1"></i><b>(1)</b>
+@Singleton     <i class="conum" data-value="2"></i><b>(2)</b>
+public class AdultMalesFilterFactory&lt;Person&gt; implements FilterFactory&lt;AdultMales, Person&gt; {
+    @Override
+    public Filter&lt;Person&gt; create(AdultMales annotation) {       <i class="conum" data-value="3"></i><b>(3)</b>
+        Filter&lt;Person&gt; male = Filters.equal("gender", "male");
+        Filter&lt;Person&gt; adult = Filters.greaterEqual("age", 18);
+        return Filters.all(male, adult);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The class is annotated with the <code>AdultMales</code> filter binding annotation</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>The class must be a Micronaut bean, in this case a singleton</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>The create method uses the Coherence filters API to create the required filter.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The parameter to the <code>create</code> method is the annotation used on the injection point.
+In this case the annotation has no values, but if it did we could access those values to customize how the filter is created.</p>
+</div>
+<div class="paragraph">
+<p>For example, we could have just called the annotation <code>@Adults</code> and made the gender a parameter like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@FilterBinding
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+public @interface Adults {
+    String value();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And changed the filter factory:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@Adult
+@Singleton
+public class AdultFilterFactory&lt;Person&gt; implements FilterFactory&lt;Adults, Person&gt; {
+    @Override
+    public Filter&lt;Person&gt; create(Males annotation) {       <i class="conum" data-value="3"></i><b>(3)</b>
+        Filter&lt;Person&gt; male = Filters.equal("gender", annotation.value());
+        Filter&lt;Person&gt; adult = Filters.greaterEqual("age", 18);
+        return Filters.all(male, adult);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Annotate the Injection Point</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Now the application code where the view is to be injected can use the custom filter binding annotation.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@View               <i class="conum" data-value="1"></i><b>(1)</b>
+@AdultMales         <i class="conum" data-value="2"></i><b>(2)</b>
+@Name("people")     <i class="conum" data-value="3"></i><b>(3)</b>
+private NamedMap&lt;String, Person&gt; adultMales;</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The <code>@View</code> annotation indicates that this is a view rather than a plain <code>NamedMap</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>The <code>@AdultMales</code> annotation links to the custom filter factory to use to create the filter for the view</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>The <code>@Name</code> annotation indicates the underlying cache/map name to use for the view</td>
+</tr>
+</table>
 </div>
 
-<h1 id="valueExtractorBinding"><a class="anchor" href="#valueExtractorBinding"></a>7 Extractor Binding Annotations</h1>
+<h1 id="valueExtractorBinding"><a class="anchor" href="#valueExtractorBinding"></a>9 Extractor Binding Annotations</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master
@@ -1132,7 +2298,7 @@ The named <code>Session</code> must have previously been configured when <a href
 <p>TBD&#8230;&#8203;</p>
 </div>
 
-<h1 id="transientInjection"><a class="anchor" href="#transientInjection"></a>8 Injection into Deserialized Objea cts</h1>
+<h1 id="transientInjection"><a class="anchor" href="#transientInjection"></a>10 Injection into Deserialized Objects</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master
@@ -1166,7 +2332,7 @@ deserialization, but for performance reasons requires that you explicitly opt-in
 <code>com.oracle.coherence.inject.Injectable</code> interface.</p>
 </div>
 
-<h2 id="injectable"><a class="anchor" href="#injectable"></a>8.1 Making transient classes Injectable</h2>
+<h2 id="injectable"><a class="anchor" href="#injectable"></a>10.1 Making transient classes Injectable</h2>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master
@@ -1246,7 +2412,7 @@ into them upon deserialization will likely satisfy most dependency injection req
 application components.</p>
 </div>
 
-<h1 id="coherenceXmlInjection"><a class="anchor" href="#coherenceXmlInjection"></a>9 Injection of Beans into the Coherence Configuration</h1>
+<h1 id="coherenceXmlInjection"><a class="anchor" href="#coherenceXmlInjection"></a>11 Injecting Beans into Coherence Configuration</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master
@@ -1361,7 +2527,7 @@ public class MyInterceptor implements EventInterceptor&lt;EntryEvent&lt;?, ?&gt;
 </table>
 </div>
 
-<h1 id="grpc"><a class="anchor" href="#grpc"></a>10 Using gRPC</h1>
+<h1 id="grpc"><a class="anchor" href="#grpc"></a>12 Using Coherence gRPC</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master
@@ -1377,7 +2543,7 @@ connect to a cluster and use clustered resources.
 The advantage of using a gRPC client rather than a traditional Coherence*Extend client is that gRPC works better with modern cloud infrastructures, being http/2 as opposed to Coherence custom protocol.</p>
 </div>
 
-<h2 id="grpcProxy"><a class="anchor" href="#grpcProxy"></a>10.1 Configure a gRPC Proxy Service</h2>
+<h2 id="grpcProxy"><a class="anchor" href="#grpcProxy"></a>12.1 Configure a gRPC Proxy Service</h2>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master
@@ -1394,7 +2560,7 @@ The advantage of using a gRPC client rather than a traditional Coherence*Extend 
 <p>TBD&#8230;&#8203;</p>
 </div>
 
-<h2 id="grpcClient"><a class="anchor" href="#grpcClient"></a>10.2 Using a gRPC Client</h2>
+<h2 id="grpcClient"><a class="anchor" href="#grpcClient"></a>12.2 Using a gRPC Client</h2>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master
@@ -1411,7 +2577,7 @@ The advantage of using a gRPC client rather than a traditional Coherence*Extend 
 <p>TBD&#8230;&#8203;</p>
 </div>
 
-<h1 id="coherenceHttpSessions"><a class="anchor" href="#coherenceHttpSessions"></a>11 Using Coherence to store HTTP sessions</h1>
+<h1 id="coherenceHttpSessions"><a class="anchor" href="#coherenceHttpSessions"></a>13 Using Coherence to store HTTP sessions</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master
@@ -1461,7 +2627,7 @@ The advantage of using a gRPC client rather than a traditional Coherence*Extend 
 </div>
 </div>
 
-<h1 id="repository"><a class="anchor" href="#repository"></a>12 Repository</h1>
+<h1 id="repository"><a class="anchor" href="#repository"></a>14 Repository</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master
