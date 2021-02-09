@@ -1,1 +1,22 @@
-TBD...
+Coherence produces many events in response to various serverside and client side actions. For example, Lifecycle events for Coherence itself, maps and cache, Entry events when data in maps and caches changes, Partition events for partition lifecycle and distribution, EntryProcessor events when invoked on a map or cache, etc.
+In a stand-alone Coherence application these events are subscribed to using a link:{coherenceApi}com/tangosol/net/events/EventInterceptor.html[EventInterceptor] implementation registered to listen to specific event types.
+
+The Coherence Micronaut API makes subscribing to these events much simpler, by using the same approach used for Micronaut events, namely annotated event observer methods.
+A Coherence event observer method is a method annotated with link:{api}/io/micronaut/coherence/annotation/CoherenceEventListener.html[@CoherenceEventListener] that has a `void` return type and a single parameter of the type of event to be received.
+The exact events received can be further controlled by applying other annotations to the method or event parameter.
+The annotations applied will vary depending on the type of the event.
+
+=== Event Types
+
+* link:{coherenceApi}com/tangosol/net/events/CoherenceLifecycleEvent.html[CoherenceLifecycleEvent] - lifecycle events for  link:{coherenceApi}com/tangosol/net/Coherence.html[Coherence] instances
+* link:{coherenceApi}com/tangosol/net/events/SessionLifecycleEvent.html[SessionLifecycleEvent] - lifecycle events for link:{coherenceApi}com/tangosol/net/Session.html[Session] instances
+* link:{coherenceApi}com/tangosol/net/events/application/LifecycleEvent.html[LifecycleEvent] - lifecycle events for link:{coherenceApi}com/tangosol/net/ConfigurableCacheFactory.html[ConfigurableCacheFactory] instances
+* link:{coherenceApi}com/tangosol/net/events/partition/cache/CacheLifecycleEvent.html[CacheLifecycleEvent] - lifecycle events for link:{coherenceApi}com/tangosol/net/NamedMap.html[NamedMap] and link:{coherenceApi}com/tangosol/net/NamedCache.html[NamedCache] instances
+* link:{coherenceApi}com/tangosol/net/events/partition/cache/EntryEvent.html[EntryEvent] - events emitted by the mutation of entries in a link:{coherenceApi}com/tangosol/net/NamedMap.html[NamedMap] or link:{coherenceApi}com/tangosol/net/NamedCache.html[NamedCache]
+* link:{coherenceApi}com/tangosol/net/events/partition/cache/EntryProcessorEvent.html[EntryProcessorEvent] - events emitted by the invocation of an link:{coherenceApi}com/tangosol/util/EntryProcessor.html[EntryProcessor] on entries in a link:{coherenceApi}com/tangosol/net/NamedMap.html[NamedMap] or link:{coherenceApi}com/tangosol/net/NamedCache.html[NamedCache]
+* link:{coherenceApi}com/tangosol/net/events/partition/TransactionEvent.html[TransactionEvent] - events pertaining to all mutations performed within the context of a single request in a partition of a link:{coherenceApi}com/tangosol/net/NamedMap.html[NamedMap] or link:{coherenceApi}com/tangosol/net/NamedCache.html[NamedCache], also referred to as "partition level transactions".
+* link:{coherenceApi}com/tangosol/net/events/partition/TransferEvent.html[TransferEvent] - captures information concerning the transfer of a partition for a storage enabled member.
+* link:{coherenceApi}com/tangosol/net/events/partition/UnsolicitedCommitEvent.html[UnsolicitedCommitEvent] - captures changes pertaining to all observed mutations performed against caches that were not directly caused (solicited) by the partitioned service. These events may be due to changes made internally by the backing map, such as eviction, or referrers of the backing map causing changes.
+* If using commercial versions of Coherence with the Coherence Micronaut framework there are also events associated to federation of data between different clusters.
+
+Most of the events above only apply on storage enabled cluster members. For example, an `EntryEvent` will only be emitted for mutation of an entry on the storage enabled cluster member that owns that entry. Whereas lifecycle events may be emitted on all members, such as `CacheLifecycle` event that may be be emitted on any member when a cache is created, truncated, or destroyed.

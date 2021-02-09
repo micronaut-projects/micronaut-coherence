@@ -1,0 +1,46 @@
+In some use-cases the `MapEvent` observer method does not require the whole map or cache value to process, it might only require one, or a few, properties of the value, or it might require some calculated value. This can be achieved by using an event transformer to transform the values that will be received by the observer method. The transformation takes place on the server before the event is emitted to the method. This can improve efficiency on a client in cases where the cache value is large but the client only requires a small part of that value because only the required values are sent over the wire to the client.
+
+In the Coherence Micronaut framework, event values are transformed using a link:{coherenceApi}com/tangosol/util/ValueExtractor.html[ValueExtractor]. A `ValueExtractor` is a simple interface that takes in one value and transforms it into another value. The `ValueExtractor` is applied to the event value; events contain both a new and old values and the extractor is applied to both as applicable. For `Insert` events there is only a new value, for `Update` events there will be both a new and old value and for `Delete` events there will only be an old value. The extractor is not applied to the event key.
+
+The `ValueExtractor` to use for a `MapEvent` observer method is indicated by annotating the method with an <<valueExtractorBinding,extractor binding annotation>>. An extractor binding is an annotation that is itself annotated with the meta-annotation link:{api}/io/micronaut/coherence/annotation/ExtractorBinding.html[@ExtractorBinding].
+The extractor binding annotation is a link to a corresponding link:{api}/io/micronaut/coherence/ExtractorFactory.html[ExtractorFactory] that will build an instance of a `ValueExtractor`.
+
+For example, assuming that there is a `NamedMap` with the name `orders` that has keys of type `String` and values of type `Order`; the `Order` class has a `customerId` property of type `String`. A `MapEvent` observer method is only interested in the `customerId` for an order so the built in extractor binding annotation link:{api}/io/micronaut/coherence/annotation/PropertyExtractor.html[@PropertyExtractor] can be used to just extract the `customerId` from the event:
+
+[source,java]
+----
+@CoherenceEventListener
+@PropertyExtractor("customerId")                        // <1>
+public void onOrder(@MapName("orders")                  // <2>
+                    MapEvent<String, String> event) {   // <3>
+    // ToDo: process event...
+}
+----
+<1> The method is annotated with `@PropertyExtractor` to indicate that a `ValueExtractor` that just extracts the `customerId` property should be used to transform the event.
+<2> The map name to receive events from is set to `orders`
+<3> Note that the generic types of the `MapEvent` parameter are now `MapEvent<String, String>` instead of `MapEvent<String, Order>` because the event values will have been transformed from an `Order` into just the `String` `customerId`.
+
+It is possible to apply multiple filter binding annotations to a method. In this case the extractors are combined into a Coherence {coherenceApi}com/tangosol/util/extractor/ChainedExtractor.html[ChainedExtractor], which will return the extracted values as a `java.util.List`.
+
+Expanding on the example above, if the `Order` class also has an `orderId` property of type `Long`, and an observer method, only interested in `Insert` events needs both the `customerId` and `orderId`, then the method can be annotated with an two `@PropertyExtractor` annotations:
+
+[source,java]
+----
+@CoherenceEventListener
+@PropertyExtractor("customerId")                     // <1>
+@PropertyExtractor("orderId")
+public void onOrder(@Inserted                        // <2>
+                    @MapName("orders")
+                    MapEvent<String, List<Object>> event) {  // <3>
+    List list = event.getNewValue();
+    String customerId = (String) list.get(0);        // <4>
+    String orderId = (Long) list.get(1);
+    // ...
+}
+----
+<1> The method is annotated with two `@PropertyExtractor` annotations, one to extract `customerId` and one to extract `orderId`.
+<2> The method parameter is annotated with `@Inserted` so that the method only receives `Insert` events.
+<3> The `MapEvent` parameter not has a key of type `String` and a value of type `List<Object>`, because the values from the multiple extractors will be returned in a `List`. We cannot use a generic value narrower than `Object` for the list because it will contain a `String` and a `Long`.
+<4> The extracted values can be obtained from the list, they will be in the same order that the annotations were applied to the method.
+
+

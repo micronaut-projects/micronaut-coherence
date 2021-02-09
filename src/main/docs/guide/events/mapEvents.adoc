@@ -1,1 +1,32 @@
-TBD...
+Listening for changes to data in Coherence is a common use case in applications.
+Typically this involves creating an implementation of a link:{coherenceApi}com/tangosol/util/MapListener.html[MapListener]
+ and adding that listener to a `NamedMap` or `NamedCache`. Using Coherence Micronaut makes this much simpler by just requiring Micronaut beans with suitably annotated observer methods that will receive events.
+
+=== MapEvent Observer Methods
+
+A link:{coherenceApi}com/tangosol/util/MapEvent.html[MapEvent] observer method is a method on a Micronaut bean that is annotated with {api}/io/micronaut/coherence/annotation/CoherenceEventListener.html[@CoherenceEventListener]. The method has a `void` return type and takes a single method parameter of type `MapEvent`, typically this has the generic types of the underlying map/cache key and value.
+
+For example, assuming that there is a map/cache named `people`, with keys of type `String` and values of type `Person`, and the application has logic that should be executed each time a new `Person` is inserted into the map:
+
+[source,java]
+----
+import com.tangosol.util.MapEvent;
+import io.micronaut.coherence.annotation.*;
+
+@Controller                                                    // <1>
+public class PersonController {
+
+    @CoherenceEventListener                                    // <2>
+    public void onNewPerson(@MapName("people")                 // <3>
+                            @Inserted                          // <4>
+                            MapEvent<String, Person> event) {
+        // ToDo: process the event
+    }
+}
+----
+<1> The `PersonController` is a simple Micronaut bean, in this case a `Controller`.
+<2> The `onNewPerson` method is annotated with `@CoherenceEventListener` making it a Coherence event listener.
+<3> The `@MapName("people")` annotation specifies the name of the map to receive events from, in this case `people`.
+<4> The `@Inserted` annotation specified that only `Inserted` events should be sent to this method.
+
+The above example is very simple, there are a number of other annotations that control what events are received from where.

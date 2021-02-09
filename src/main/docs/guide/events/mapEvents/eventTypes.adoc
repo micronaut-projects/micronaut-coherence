@@ -1,0 +1,46 @@
+There are three types of event that a `MapEvent` observer method can receive, `Insert`, `Update` and `Delete`.
+By default an observer method will receive all events for the map (or maps) it applies to.
+This can be controlled using the following annotations:
+
+* link:{api}/io/micronaut/coherence/annotation/Inserted.html[@Inserted] - to receive `Insert` events.
+* link:{api}/io/micronaut/coherence/annotation/Updated.html[@Updated] - to receive `Update` events.
+* link:{api}/io/micronaut/coherence/annotation/Deleted.html[@Deleted] - to receive `Delete` events.
+
+Zero or more of the above annotations can be used to annotate the `MapEvent` parameter of the observer method.
+
+For example,
+
+[source,java]
+----
+@CoherenceEventListener
+public void onEvent(@MapName("test")
+                    @Inserted        // <1>
+                    MapEvent<String, String> event) {
+    // ToDo: process the event
+}
+----
+<1> Only `Insert` events for the map `test` will be received.
+
+[source,java]
+----
+@CoherenceEventListener
+public void onEvent(@MapName("test")
+                    @Inserted @Deleted       // <1>
+                    MapEvent<String, String> event) {
+    // ToDo: process the event
+}
+----
+<1> Only `Insert` and `Delete` events for the map `test` will be received.
+
+[source,java]
+----
+@CoherenceEventListener
+public void onEvent(@MapName("test") MapEvent<String, String> event) {
+    // ToDo: process the event
+}
+----
+All events for the map `test` will be received.
+
+
+
+

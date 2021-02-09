@@ -1,0 +1,56 @@
+In applications that use multiple `Sessions` there may be a situation where more than one session has a map with the same name and an observer methdod needs to restrict the events it receives to a specific session.
+The events can be restricted to maps/caches in specific sessions using the link:{api}/io/micronaut/coherence/annotation/SessionName.html[@SessionName] annotation.
+
+For example,
+
+[source,java]
+----
+@CoherenceEventListener
+public void onEvent(@MapName("orders")  // <1>
+                    MapEvent<String, String> event) {
+    // ToDo: process the event
+}
+----
+<1> The above method receives events for the map named `orders` in _all_ sessions.
+
+[source,java]
+----
+@CoherenceEventListener
+public void onEvent(@MapName("orders")
+                    @Session("Customer")  // <1>
+                    MapEvent<String, Order> event) {
+    // ToDo: process the event
+}
+----
+<1> The above method receives events for the map named `orders` owned by the `Session` named `Customer`.
+
+[source,java]
+----
+@CoherenceEventListener
+public void onEvent(@Session("Customer")  // <1>
+                    MapEvent<String, Order> event) {
+    // ToDo: process the event
+}
+----
+<1> The above method receives events for the _all_ caches owned by the `Session` named `Customer` as there is no `@MapName` or `@CacheName` annotation.
+
+In an application with multiple sessions, events can be routed by session, for example:
+[source,java]
+----
+@CoherenceEventListener
+public void onCustomerOrders(@Session("Customer")  // <1>
+                             @MapName("orders")
+                             MapEvent<String, Order> event) {
+    // ToDo: process the event
+}
+
+@CoherenceEventListener
+public void onCatalogOrders(@Session("Catalog")   // <2>
+                            @MapName("orders")
+                            MapEvent<String, Order> event) {
+    // ToDo: process the event
+}
+----
+<1> The `onCustomerOrders` will receive events for the `orders` map owned by the `Session` named `Customer`.
+<2> The `onCatalogOrders` will receive events for the `orders` map owned by the `Session` named `Catalog`.
+

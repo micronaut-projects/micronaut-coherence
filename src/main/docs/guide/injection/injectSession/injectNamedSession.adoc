@@ -1,7 +1,7 @@
 For most applications that only use a single `Session` the simple examples above will be all that is required.
 Some applications though may use multiple named `Session` instances, in which case the `Session` name need to
 be specified.
-This can be done by adding the {api}io/micronaut/coherence/annotation/Name.html[@Name] annotation to the injection point.
+This can be done by adding the link:{api}/io/micronaut/coherence/annotation/Name.html[@Name] annotation to the injection point.
 
 [source,java]
 ----

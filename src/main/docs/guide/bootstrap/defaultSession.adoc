@@ -1,11 +1,11 @@
 The simplest configuration, applicable to the majority of applications that only require a single `Session`, is
 to just configure and use the default `Session`. If the application is a Coherence cluster member, or an Extend client,
 then all that needs to be specified is the Coherence configuration file name (although even this is optional as
-Coherence will use a default name of none is configured).
+Coherence will use a default file name if none is configured).
 Alternatively, if the application is a Coherence gRPC client, the default Session can be configured as a gRPC Session
-(see the gRPC Client documentation).
+(see the <<grpc,gRPC documentation>>).
 
-As already mentioned in the <<quickStart,Quick Start>> section, the name of the configuration file for the default session can be set in the Micronaut config, for example in the `application.yaml` file:
+As already mentioned in the <<quickStart,Quick Start>> section, the name of the Coherence configuration file for the default session can be set in the Micronaut config, for example in the `application.yaml` file:
 
 [source,yaml]
 .application.yaml
@@ -15,5 +15,3 @@ coherence:
     default:
       config: coherence-config.xml
 ----
-
-TBD...

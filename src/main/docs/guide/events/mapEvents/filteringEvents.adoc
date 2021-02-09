@@ -1,0 +1,26 @@
+The `MapEvents` received by an observer method can be further restricted by applying a filter.
+Filters are applied by annotating the method with a <<filterBinding,filter binding>> annotation, which is a link to a factory that creates a specific instance of a link:{coherenceApi}com/tangosol/util/Filter.html[Filter].
+Event filters applied in this way are executed on the server, which can make receiving events more efficient for clients as the event will not be sent from the server at all.
+
+The Micronaut Coherence framework comes with some built in implementations, for example
+link:{api}/io/micronaut/coherence/annotation/AlwaysFilter.html[@AlwaysFilter],
+and link:{api}/io/micronaut/coherence/annotation/WhereFilter.html[@WhereFilter],
+and it is simple to implement other as required by applications
+(see the <<filterBinding,Filter Binding Annotation>> section for more details).
+
+For example, assume there is a map named `people` with keys of type `String` and values of type `People`, and an observer method needs to receive events for all values where the `age` property is `18` or over.
+A custom filter binding annotation could be written to create the required `Filter`, but as the condition is very simple, in this example the built in `@WhereFilter` filter binding annotation will be used with a where clause of `age >= 18`.
+
+[source,java]
+----
+@WhereFilter("age >= 18")     // <1>
+@CoherenceEventListener
+@MapName("people")
+public void onAdult(MapEvent<String, Person> people) {
+    // ToDo: process event...
+}
+----
+<1> The `@WhereFilter` annotation is applied to the method.
+
+The `onAdult` method above will receive all events emmitted from the `people` map, but only for entries where the value of the `age` property of the entry value is `>= 18`.
+

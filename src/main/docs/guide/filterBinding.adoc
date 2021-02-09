@@ -1,1 +1,97 @@
-TBD...
+Filter binding annotations are normal annotations that are themselves annotated with the link:{api}/io/micronaut/coherence/annotation/FilterBinding.html[@FilterBinding] meta-annotation.
+A filter binding annotation represents a Coherence link:{coherenceApi}/com/tangosol/util/Filter.html[Filter] and is used to specify a `Filter` in certain injection points, for example a View (CQC), `NamedTopic` `Subscriber` beans, event listeners, etc.
+
+There are three parts to using a filter binding:
+
+* The filter binding annotation
+* An implementation of a link:{api}/io/micronaut/coherence/FilterFactory.html[FilterFactory] that is annotated with the filter binding annotation. This is a factory that produces the required `Filter`.
+* Injection points annotated with the filter binding annotation.
+
+For example; assume there is a Coherence `NamedMap` with the name `people` that contains `Person` instances for the value.
+Among the various properties on the `Person` class is a property called `gender` and property called `age`.
+Now assume we want to inject a view that only shows adult males, we would need a `Filter` that has a condition like `gender == "male" && age > 18".
+
+* Create the filter binding annotation:
+First create a simple annotation, it could be called something like `AdultMales`
+
+[source,java]
+----
+@FilterBinding                         // <1>
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+public @interface AdultMales {         // <2>
+}
+----
+<1> The annotation class is annotated with `@FilterBinding`
+<2> The annotation name is `AdultMales`
+
+In this case the annotation does not need any other attributes.
+
+* Create the `FilterFactory`
+
+Now create the link:{api}/io/micronaut/coherence/FilterFactory.html[FilterFactory] implementation that will produce instances of the required `Filter`.
+
+[source,java]
+----
+import com.tangosol.util.Filter;
+import com.tangosol.util.Filters;
+import io.micronaut.coherence.FilterFactory;
+
+@AdultMales    // <1>
+@Singleton     // <2>
+public class AdultMalesFilterFactory<Person> implements FilterFactory<AdultMales, Person> {
+    @Override
+    public Filter<Person> create(AdultMales annotation) {       // <3>
+        Filter<Person> male = Filters.equal("gender", "male");
+        Filter<Person> adult = Filters.greaterEqual("age", 18);
+        return Filters.all(male, adult);
+    }
+}
+----
+<1> The class is annotated with the `AdultMales` filter binding annotation
+<2> The class must be a Micronaut bean, in this case a singleton
+<3> The create method uses the Coherence filters API to create the required filter.
+
+The parameter to the `create` method is the annotation used on the injection point.
+In this case the annotation has no values, but if it did we could access those values to customize how the filter is created.
+
+For example, we could have just called the annotation `@Adults` and made the gender a parameter like this:
+[source,java]
+----
+@FilterBinding
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+public @interface Adults {
+    String value();
+}
+----
+
+And changed the filter factory:
+[source,java]
+----
+@Adult
+@Singleton
+public class AdultFilterFactory<Person> implements FilterFactory<Adults, Person> {
+    @Override
+    public Filter<Person> create(Males annotation) {       // <3>
+        Filter<Person> male = Filters.equal("gender", annotation.value());
+        Filter<Person> adult = Filters.greaterEqual("age", 18);
+        return Filters.all(male, adult);
+    }
+}
+----
+
+* Annotate the Injection Point
+
+Now the application code where the view is to be injected can use the custom filter binding annotation.
+
+[source,java]
+----
+@View               // <1>
+@AdultMales         // <2>
+@Name("people")     // <3>
+private NamedMap<String, Person> adultMales;
+----
+<1> The `@View` annotation indicates that this is a view rather than a plain `NamedMap`
+<2> The `@AdultMales` annotation links to the custom filter factory to use to create the filter for the view
+<3> The `@Name` annotation indicates the underlying cache/map name to use for the view

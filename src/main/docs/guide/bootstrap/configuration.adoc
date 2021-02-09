@@ -1,0 +1,81 @@
+There are a number of fields that may be used to conifgure a `Session`, all of them are optional.
+
+=== Configuration File Name
+
+As already mentioned, the most common configuration to set will be the Coherence configuration file name.
+This is set using the `config` property.
+If not specified, the default value will be `coherence-cache-config.xml`.
+
+[source,yaml]
+.application.yaml
+----
+coherence:
+  sessions:
+    default:
+      config: coherence-config.xml
+----
+
+=== Scope Name
+
+A scope name is typically used in an application where the Coherence cluster member has multiple sessions.
+The scope name is used to keep the sessions separate. The scope name will be applied to the session's underlying
+`ConfigurableCacheFactory` and used to scope Coherence services. In this way multiple session configurations may use identical service names, which will be kept separate using the scope.
+On a Coherence cluster member each session should have a unique scope name.
+
+In a client application, for example, a gRPC client, the scope name is used to map a client session to a corresponding scoped server session.
+
+[source,yaml]
+.application.yaml
+----
+coherence:
+  sessions:
+    catalog:
+      scope: Catalog
+      config: catalog-config.xml
+    customer:
+      scope: Customer
+      config: customer-config.xml
+----
+
+In the above example there are two sessions, `catalog` and `customer`. The `catalog` session has a scope name of `Catalog` and the `customer` session` has the scope name `Customer`.
+
+In a client application there might only be a single default session but this session needs to connect to a server that has multiple sessions configured.
+In this case the scope name is used to identify the server side session.
+
+For example, assuming that the server is using the configuration above, with two sessions, `catalog` and `customer`.
+The client application only needs to connect to the `catalog` session, so it can be configured with a default session like this:
+
+[source,yaml]
+.application.yaml
+----
+coherence:
+  sessions:
+    default:
+      scope: Catalog
+      config: client-config.xml
+----
+
+=== Session Type
+
+There are three different types of session that can be configured:
+
+* `server` represents storage enabled cluster member session.
+* `client` represents a storage disabled cluster member or Coherence*Extend client session.
+* `grpc` is a gRPC client session (see the <<grpc,gRPC documentation>>).
+
+The type of the session affects how the bootstrap API starts the session.
+
+The session type is configured with the type property:
+
+[source,yaml]
+.application.yaml
+----
+coherence:
+  sessions:
+    default:
+      type: client                 # <1>
+      scope: Catalog
+      config: client-config.xml
+----
+<1> The default session above is a client session.
+

@@ -11,4 +11,5 @@ private NamedTopic<Person> people;
 
 In this example the injection point field name is used to determine the topic name to inject,
 so a `NamedTopic` bean with an underlying topic name of `people` will be injected.
-s
+
+As an alternative to using a `NamedTopic` directly in code, Coherence Micronaut also supports annotating methods directly as publishers and subscribers using the same approach as Micronaut Messaging. See the <<messagingWithTopics.adoc,Micronaut Messaging with Coherence Topics>> section of the documentation.

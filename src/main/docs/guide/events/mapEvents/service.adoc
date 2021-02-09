@@ -1,0 +1,40 @@
+As well as restricting the received events to a specific map or cache name, events can be restricted to only events from a specific cache service. In Coherence all caches are owned by a cache service, which have a unique  name.
+By default a `MapEvent` observer method would receive events for a matching cache name on all services.
+If an applications Coherence configuration has multiple services the events can be restricted to just specific services using the link:{api}/io/micronaut/coherence/annotation/ServiceName.html[@ServiceName] annotation.
+
+For example,
+
+[source,java]
+----
+@CoherenceEventListener
+public void onEvent(@MapName("foo")  // <1>
+                    MapEvent<String, String> event) {
+    // ToDo: process the event
+}
+----
+<1> The above method receives events for the map named `foo` on _all_ cache services.
+
+[source,java]
+----
+@CoherenceEventListener
+public void onEvent(@MapName("foo")
+                    @ServiceName("Storage")  // <1>
+                    MapEvent<String, String> event) {
+    // ToDo: process the event
+}
+----
+<1> The above method receives events for the cache named `foo` owned by the cache service named `Storage`.
+
+[source,java]
+----
+@CoherenceEventListener
+public void onEvent(@ServiceName("Storage")  // <1>
+                    MapEvent<String, String> event) {
+    // ToDo: process the event
+}
+----
+<1> The above method receives events for the _all_ caches owned by the cache service named `Storage` as there is no `@MapName` or `@CacheName` annotation.
+
+
+
+

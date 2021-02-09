@@ -5,8 +5,9 @@ quickStart:
   title: Coherence Quick Start
 bootstrap:
   title: Bootstraping Coherence
-  defaultSession:
-    title: Using the Default Session
+  defaultSession: Using the Default Session
+  multiple: Configure Multiple Sessions
+  configuration: Session Configuration Properties
 injection:
   title: Inject Coherence Resources into Beans
   injectNamedMap:
@@ -36,8 +37,23 @@ events:
   title: Coherence Events
   mapEvents:
     title: Observing MapEvents
+    name: Specify the Map/Cache name
+    service: Specify the cache service name
+    session: Specify the owning session name
+    eventTypes: Restrict the event types
+    filteringEvents: Filtering Events
+    transformingEvents: Transforming Events
   coherenceEvents:
-    title: Observing Coherence Events
+    title: Coherence Event Interceptors
+    coherenceLifecycleEvent: Coherence Lifecycle Events
+    sessionLifecycleEvent: Session Lifecycle Events
+    lifecycleEvent: ConfigurableCacheFactory Lifecycle Events
+    cacheLifecycleEvent: Cache Lifecycle Events
+    entryEvent: Entry Events
+    entryProcessorEvent: EntryProcessor Events
+    transactionEvent: Partition Level Transaction Events
+    transferEvent: Partition Transfer Events
+    unsolicitedCommitEvent: Unsolicited Commit Events
 messagingWithTopics:
   title: Micronaut Messaging with Coherence Topics
 filterBinding:

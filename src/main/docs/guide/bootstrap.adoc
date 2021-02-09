@@ -1,5 +1,8 @@
-Coherence resources in a Micronaut application are typically owned by a Coherence `Session`.
-By default Coherence will start a default Session, which can be configured.
-Alternatively one or more other named Sessions can be configured and used by the application.
+The default behaviour of the Coherence Micronaut framework is to use the Coherence bootstrap API introduced in Coherence CE 20.12 to configure and create Coherence instances.
+This means that Coherence resources in a Micronaut application are typically owned by a Coherence `Session`.
+
+By default Coherence will start a single Session configured to use the default Coherence configuration file.
+This behaviour can easily be configured, in traditional Coherence using system properties, and additionally in Micronaut with Micronaut configuration.
+
 
 
