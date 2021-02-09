@@ -21,6 +21,7 @@ import com.tangosol.net.NamedCache;
 import com.tangosol.net.Session;
 import com.tangosol.net.events.CoherenceLifecycleEvent;
 import com.tangosol.net.events.Event;
+import com.tangosol.net.events.SessionLifecycleEvent;
 import com.tangosol.net.events.application.LifecycleEvent;
 import com.tangosol.net.events.partition.TransactionEvent;
 import com.tangosol.net.events.partition.TransferEvent;
@@ -40,10 +41,7 @@ import org.junit.jupiter.api.TestInstance;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.time.LocalDate;
-import java.util.Comparator;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -113,6 +111,10 @@ class InterceptorsTest {
         Eventually.assertDeferred(() -> observers.getEvents(), hasItem(CoherenceLifecycleEvent.Type.STARTED));
         Eventually.assertDeferred(() -> observers.getEvents(), hasItem(CoherenceLifecycleEvent.Type.STOPPING));
         Eventually.assertDeferred(() -> observers.getEvents(), hasItem(CoherenceLifecycleEvent.Type.STOPPED));
+        Eventually.assertDeferred(() -> observers.getEvents(), hasItem(SessionLifecycleEvent.Type.STARTING));
+        Eventually.assertDeferred(() -> observers.getEvents(), hasItem(SessionLifecycleEvent.Type.STARTED));
+        Eventually.assertDeferred(() -> observers.getEvents(), hasItem(SessionLifecycleEvent.Type.STOPPING));
+        Eventually.assertDeferred(() -> observers.getEvents(), hasItem(SessionLifecycleEvent.Type.STOPPED));
     }
 
     /**
@@ -134,9 +136,7 @@ class InterceptorsTest {
         private final Map<Enum<?>, Boolean> events = new ConcurrentHashMap<>();
 
         Set<Enum<?>> getEvents() {
-            Set<Enum<?>> set = new TreeSet<>(Comparator.comparing(Enum::name));
-            set.addAll(events.keySet());
-            return set;
+            return new HashSet<>(events.keySet());
         }
 
         // cache lifecycle events
@@ -148,6 +148,12 @@ class InterceptorsTest {
         // Coherence lifecycle events
         @CoherenceEventListener
         void onCoherenceLifecycleEvent(CoherenceLifecycleEvent event) {
+            record(event);
+        }
+
+        // Session lifecycle events
+        @CoherenceEventListener
+        void onSessionLifecycleEvent(SessionLifecycleEvent event) {
             record(event);
         }
 

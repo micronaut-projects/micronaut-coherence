@@ -70,6 +70,9 @@ public class EventObserverSupport {
         if (LifecycleEvent.class.equals(type)) {
             return (EventHandler<E, T>) new LifecycleEventHandler((ExecutableMethodEventObserver<LifecycleEvent, ?, ?>) observer);
         }
+        if (SessionLifecycleEvent.class.equals(type)) {
+            return (EventHandler<E, T>) new SessionLifecycleEventHandler((ExecutableMethodEventObserver<SessionLifecycleEvent, ?, ?>) observer);
+        }
         if (TransactionEvent.class.equals(type)) {
             return (EventHandler<E, T>) new TransactionEventHandler((ExecutableMethodEventObserver<TransactionEvent, ?, ?>) observer);
         }
