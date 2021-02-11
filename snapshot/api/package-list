@@ -2,6 +2,7 @@ io.micronaut.cache.coherence
 io.micronaut.coherence
 io.micronaut.coherence.annotation
 io.micronaut.coherence.config
+io.micronaut.coherence.discovery
 io.micronaut.coherence.event
 io.micronaut.coherence.httpsession
 io.micronaut.coherence.messaging
