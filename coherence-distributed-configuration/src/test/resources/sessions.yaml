@@ -1,0 +1,15 @@
+micronaut:
+  config-client:
+    enabled: true
+coherence:
+  cluster: test-cluster
+  role: test
+  ttl: 0
+  distributed:
+    localstorage: true
+  sessions:
+    config:
+      type: server
+      config: coherence-cache-config.xml
+  client:
+    enabled: true
