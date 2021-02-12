@@ -18,7 +18,7 @@ This means that the view will contain all the entries from the underlying cache 
 As a `ContinuousQueryCache` will hold keys and values locally in deserialized form this can often a better approach
 than using a replicated cache.
 
-=== Specify a View Filter
+== Specify a View Filter
 
 Filters are specified for views using a special filter binding annotation.
 These are annotations that are themselves annotated with the meta-annotation
@@ -63,3 +63,7 @@ private NamedMap<String, Person> simpsons;
 
 The view injected above will be all `People` with a `lastName` attribute equal to `Simpson` and an `age`
 attribute greater than 10. Equivalent to `lastName = 'Simpson' && age > 10`.
+
+== Specify a View Transformer
+
+TBD...

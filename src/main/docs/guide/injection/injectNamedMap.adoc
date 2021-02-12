@@ -11,3 +11,62 @@ private NamedMap<String, Person> people;
 ----
 In this example the injection point field name is used to determine the cache name to inject,
 so a `NamedMap` bean with an underlying cache name of `people` will be injected.
+
+== Specify the Map/Cache Name
+
+Sometimes the name of the map or cache being injected needs to be different to the injection point name.
+This is always the case when injecting into method parameters as the parameter names are lost by the time the injection point is processed. In this case we can use the link:{api}/io/micronaut/coherence/annotation/Name.html[@Name]
+annotation to specify the underlying cache name.
+
+The example below will inject a `NamedMap` that uses an underlying cache named `people`.
+
+[source,java]
+----
+@Inject
+@Name("people")
+private NamedMap<String, Person> map;
+----
+
+The same applies when injecting a constructor or method parameter:
+[source,java]
+----
+@Singleton
+public class SomeBean {
+    @Inject
+    public SomeBean(@Name("people") NamedMap<String, Person> map) {
+        // ToDo:
+    }
+}
+----
+
+== Specify the Owning Session Name
+
+Whilst most applications probably use a single Coherence link:{coherenceApi}/com/tangosol/net/Session.html[Session] there are uses-cases where an application may
+have multiple sessions. In this case, when injecting a `NamedMap` the specific session can be specified
+by annotating the injection point with link:{api}/io/micronaut/coherence/annotation/SessionName.html[@SessionName].
+
+In the previous examples where no `@SessionName` was specified Coherence will use the default session to obtain the caches.
+
+Assuming the application has multiple sessions configured, one of which is named `Catalog` the following example
+injects a `NamedMap` from an underlying cache named `products` in the `Catalog` session.
+
+[source,java]
+----
+@Inject
+@SessionName("Catalog")
+@Name("products")
+private NamedMap<String, Product> map;
+----
+
+Again, the same annotation can be used on method parameter injection points.
+[source,java]
+----
+@Controller
+public class CatalogController {
+    @Inject
+    public CatalogController(@SessionName("Catalog") @Name("products")
+                             NamedMap<String, Product> products) {
+        // ToDo:
+    }
+}
+----

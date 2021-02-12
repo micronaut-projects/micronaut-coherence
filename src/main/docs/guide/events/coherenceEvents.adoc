@@ -8,6 +8,8 @@ The annotations applied will vary depending on the type of the event.
 
 === Event Types
 
+The different types of event that can be observed are listed below:
+
 * link:{coherenceApi}com/tangosol/net/events/CoherenceLifecycleEvent.html[CoherenceLifecycleEvent] - lifecycle events for  link:{coherenceApi}com/tangosol/net/Coherence.html[Coherence] instances
 * link:{coherenceApi}com/tangosol/net/events/SessionLifecycleEvent.html[SessionLifecycleEvent] - lifecycle events for link:{coherenceApi}com/tangosol/net/Session.html[Session] instances
 * link:{coherenceApi}com/tangosol/net/events/application/LifecycleEvent.html[LifecycleEvent] - lifecycle events for link:{coherenceApi}com/tangosol/net/ConfigurableCacheFactory.html[ConfigurableCacheFactory] instances
@@ -20,3 +22,4 @@ The annotations applied will vary depending on the type of the event.
 * If using commercial versions of Coherence with the Coherence Micronaut framework there are also events associated to federation of data between different clusters.
 
 Most of the events above only apply on storage enabled cluster members. For example, an `EntryEvent` will only be emitted for mutation of an entry on the storage enabled cluster member that owns that entry. Whereas lifecycle events may be emitted on all members, such as `CacheLifecycle` event that may be be emitted on any member when a cache is created, truncated, or destroyed.
+

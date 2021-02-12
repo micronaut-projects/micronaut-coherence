@@ -12,35 +12,21 @@ injection:
   title: Inject Coherence Resources into Beans
   injectNamedMap:
     title: Injecting NamedMap & NamedCache
-    injectNamedMapWithName: Specify the Map/Cache Name
-    injectNamedMapFromNamedSession: Specify the Session Name
     injectAsyncNamedMap: Injecting AsyncNamedMap & AsyncNamedCache
     injectViews: Injecting Views (CQC)
   injectNamedTopic:
     title: Injecting NamedTopic
-    injectNamedTopicWithName: Specify the Topic Name
-    injectNamedTopicFromNamedSession: Specify the Session Name
-    injectTopicPublisher:
-      title: Injecting a NamedTopic Publisher
-      injectTopicPublisherForTopic: Specify the Topic Name
-      injectTopicPublisherForSession: Specify the Owning Session
+    injectTopicPublisher: Injecting a NamedTopic Publisher
     injectTopicSubscriber:
       title: Injecting a NamedTopic Subscriber
-      injectTopicSubscriberForTopic: Specify the Topic Name
-      injectTopicSubscriberForSession: Specify the Owning Session
-      injectTopicSubscriberFiltered: Filtering Messages
-      injectTopicSubscriberTransformed: Transforming Messages
-  injectSession:
-    title: Injecting a Session
-    injectNamedSession: Specify the Session Name
+      injectTopicSubscriberFiltered: Filtering Topic Messages
+      injectTopicSubscriberTransformed: Transforming Topic Messages
+  injectSession: Injecting a Session
 events:
-  title: Coherence Events
+  title: Events
   mapEvents:
-    title: Observing MapEvents
-    name: Specify the Map/Cache name
-    service: Specify the cache service name
-    session: Specify the owning session name
-    eventTypes: Restrict the event types
+    title: MapEvent Listeners
+    eventTypes: Receive Specific Event Types
     filteringEvents: Filtering Events
     transformingEvents: Transforming Events
   coherenceEvents:
