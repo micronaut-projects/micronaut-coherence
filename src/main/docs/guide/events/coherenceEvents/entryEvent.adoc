@@ -1,1 +1,93 @@
-TBD...
+An link:{coherenceApi}com/tangosol/net/events/partition/cache/EntryProcessorEvent.html[EntryProcessorEvent] is emitted when a link:{coherenceApi}com/tangosol/util/EntryProcessor.html[EntryProcessor] is invoked on a cache. These events are only emitted on the storage enabled member that is the primary owner of the entry that the `EntryProcessor` is invoked on.
+
+To subscribe to `EntryProcessorEvent` simply create a Micronaut bean with a listener method annotated with link:{api}/io/micronaut/coherence/annotation/CoherenceEventListener.html[@CoherenceEventListener].
+The method should have a single parameter of type `EntryProcessorEvent`.
+
+For example, the `onEvent` method below will receive entry events for all caches.
+
+[source,java]
+----
+@CoherenceEventListener
+public void onEvent(EntryProcessorEvent event) {
+    // ToDo: process the event
+}
+----
+
+=== Receive Specific EntryProcessorEvent Types
+
+There are a number of different `EntryProcessorEvent` types.
+
+* Inserting - an entry is being inserted into a cache, use the link:{api}/io/micronaut/coherence/annotation/Inserting.html[@Inserting] annotation
+* Inserted - an entry has been inserted into a cache, use the link:{api}/io/micronaut/coherence/annotation/Inserted.html[@Inserted] annotation
+* Updating - an entry is being updated in a cache, use the link:{api}/io/micronaut/coherence/annotation/Updating.html[@Updating] annotation
+* Updated - an entry has been updated in a cache, use the link:{api}/io/micronaut/coherence/annotation/Updated.html[@Updated] annotation
+* Deleting - an entry is being deleted from a cache, use the link:{api}/io/micronaut/coherence/annotation/Deleting.html[@Deleting] annotation
+* Deleted - an entry has been deleted from a cache, use the link:{api}/io/micronaut/coherence/annotation/Deleted.html[@Deleted] annotation
+
+To restrict the `EntryProcessorEvent` types received by a method apply one or more of the annotations above to the method parameter. For example, the method below will receive `Inserted` and `Deleted` events.
+
+[source,java]
+----
+@CoherenceEventListener
+public void onEvent(@Inserted @Deleted EntryProcessorEvent event) {
+    // ToDo: process the event
+}
+----
+
+[NOTE]
+====
+The event types fall into two categories, pre-events (those name *ing) and post-events, those named *ed). Pre-events are emitted synchronously before the entry is mutated. Post-events are emitted asynchronously after the entry has been mutated.
+
+As pre-events are synchronous the listener method should not take a long time to execute as it is blocking the cache mutation and could obviously be a performance impact. It is also important that developers understand Coherence re-entrancy as the pre-events are executing on the Cache Service thread so cannot call into caches owned by the same service.
+====
+
+
+=== Receive EntryProcessorEvents for a Specific NamedMap or NamedCache
+
+To only receive events for a specific `NamedMap` annotate the method parameter with the
+link:{api}/io/micronaut/coherence/annotation/MapName.html[@MapName] annotation.
+To only receive events for a specific `NamedCache` annotate the method parameter with the
+link:{api}/io/micronaut/coherence/annotation/CacheName.html[@CacheName] annotation.
+
+The `@MapName` and `@CacheName` annotations are actually interchangeable so use whichever reads better for your application code, i.e. if your code is dealing with `NamedMap` used `@MapName`. At the storage level, where the events are generated a `NamedMap` and `NamedCache` are the same.
+
+The method below will only receive events for the map named `orders`:
+
+[source,java]
+----
+@CoherenceEventListener
+public void onEvent(@MapName("orders") EntryProcessorEvent event) {
+    // ToDo: process the event
+}
+----
+
+=== Receive EntryProcessorEvents from a Specific Cache Service
+
+Caches are owned by a Cache Service, it is possible to restrict events received by a method to only those related to caches owned by a specific service by annotating the method parameter with the
+link:{api}/io/micronaut/coherence/annotation/ServiceName.html[@ServiceName] annotation.
+
+The method below will only receive events for the caches owned by the service named `StorageService`:
+
+[source,java]
+----
+@CoherenceEventListener
+public void onEvent(@ServiceName("StorageService") EntryProcessorEvents event) {
+    // ToDo: process the event
+}
+----
+
+=== Receive EntryProcessorEvents from a Specific Session
+
+A typical use case is to obtain `NamedCache` and `NamedMap` instances from a `Session`. It is possible to restrict events received by a method to only those related to caches owned by a specific `Session` by annotating the method parameter with the
+link:{api}/io/micronaut/coherence/annotation/SessionName.html[@SessionName] annotation.
+
+The method below will only receive events for the caches owned by the `Session` named `BackEnd`:
+
+[source,java]
+----
+@CoherenceEventListener
+public void onEvent(@SessionName("BackEnd") EntryProcessorEvents event) {
+    // ToDo: process the event
+}
+----
+

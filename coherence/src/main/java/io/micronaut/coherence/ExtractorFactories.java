@@ -110,7 +110,7 @@ public class ExtractorFactories {
      * @param <T>          the type that the {@link ValueExtractor} can extract from
      * @param <E>          the type that the {@link ValueExtractor} extracts
      *
-     * @return a {@link Filter} implementation created from the specified qualifiers.
+     * @return a {@link ValueExtractor} implementation created from the specified qualifiers.
      */
     @SuppressWarnings({"unchecked", "rawtypes"})
     public <T, E> ValueExtractor<T, E> resolve(Set<Annotation> annotations) {

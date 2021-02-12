@@ -15,7 +15,7 @@ public void onEvent(CoherenceLifecycleEvent event) {
 }
 ----
 
-== Receive Specific CoherenceLifecycleEvent Types
+=== Receive Specific CoherenceLifecycleEvent Types
 
 There are four different types of `CoherenceLifecycleEvent`.
 By adding the corresponding annotation to the method parameter the method will only receive the specified events.
@@ -35,7 +35,7 @@ public void onEvent(@Started @Stopped CoherenceLifecycleEvent event) {
 }
 ----
 
-== Receive CoherenceLifecycleEvents for a Specific Coherence Instance
+=== Receive CoherenceLifecycleEvents for a Specific Coherence Instance
 
 Each `Coherence` instance in an application has a unique name. The observer method can be annotated to only receive events associated with a specific `Coherence` instance by using the link:{api}/io/micronaut/coherence/annotation/Name.html[@Name] annotation.
 

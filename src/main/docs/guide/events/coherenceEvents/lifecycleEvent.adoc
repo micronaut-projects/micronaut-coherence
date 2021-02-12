@@ -1,1 +1,35 @@
-TBD...
+link:{coherenceApi}com/tangosol/net/events/application/LifecycleEvent.html[LifecycleEvent] are emitted to indicate the lifecycle of a link:{coherenceApi}com/tangosol/net/ConfigurableCacheFactory.html[ConfigurableCacheFactory] instance.
+
+To subscribe to `LifecycleEvent` simply create a Micronaut bean with a listener method annotated with link:{api}/io/micronaut/coherence/annotation/CoherenceEventListener.html[@CoherenceEventListener].
+The method should have a single parameter of type `LifecycleEvent`.
+
+`LifecycleEvent` are emitted by `ConfigurableCacheFactory` instances and will only be received in the same JVM, which could be a cluster member or a client.
+
+For example, the `onEvent` method below will receive lifecycle events for all `ConfigurableCacheFactory` instances in the current application:
+
+[source,java]
+----
+@CoherenceEventListener
+public void onEvent(LifecycleEvent event) {
+    // ToDo: process the event
+}
+----
+
+=== Receive Specific LifecycleEvent Types
+
+There are four different types of `LifecycleEvent`.
+By adding the corresponding annotation to the method parameter the method will only receive the specified events.
+
+* Activating - a `ConfigurableCacheFactory` instance is about to be activated, use the link:{api}/io/micronaut/coherence/annotation/Activating.html[@Activating] annotation
+* Activated - a `ConfigurableCacheFactory` instance has been activated, use the link:{api}/io/micronaut/coherence/annotation/Activated.html[@Activated] annotation
+* Disposing - a `ConfigurableCacheFactory` instance is about to be disposed, use the link:{api}/io/micronaut/coherence/annotation/Disposing.html[@Disposing] annotation
+
+For example, the method below will only receive `Activated` and `Disposing` events.
+
+[source,java]
+----
+@CoherenceEventListener
+public void onEvent(@Activated @Disposing LifecycleEvent event) {
+    // ToDo: process the event
+}
+----

@@ -31,7 +31,7 @@ public class PersonController {
 
 The above example is very simple, there are a number of other annotations that control what events are received from where.
 
-== Specify the Map/Cache name
+=== Specify the Map/Cache name
 
 By default a `MapEvent` observer method would receive events for all maps/caches.
 In practice though, this would not be a very common use case and normally an observer method would be for a specific cache.
@@ -71,7 +71,7 @@ public void onEvent(@CacheName("foo")  // <1>
 <1> The above method receives events for the cache named `bar`.
 
 
-== Specify the Cache Service name
+=== Specify the Cache Service name
 
 As well as restricting the received events to a specific map or cache name, events can be restricted to only events from a specific cache service. In Coherence all caches are owned by a cache service, which have a unique  name.
 By default a `MapEvent` observer method would receive events for a matching cache name on all services.
@@ -111,7 +111,7 @@ public void onEvent(@ServiceName("Storage")  // <1>
 <1> The above method receives events for the _all_ caches owned by the cache service named `Storage` as there is no `@MapName` or `@CacheName` annotation.
 
 
-== Specify the Owning Session name
+=== Specify the Owning Session name
 
 In applications that use multiple `Sessions` there may be a situation where more than one session has a map with the same name and an observer methdod needs to restrict the events it receives to a specific session.
 The events can be restricted to maps/caches in specific sessions using the link:{api}/io/micronaut/coherence/annotation/SessionName.html[@SessionName] annotation.
