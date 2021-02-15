@@ -2531,7 +2531,75 @@ public void onEvent(@SessionName("BackEnd") EntryProcessorEvents event) {
 
 
 <div class="paragraph">
-<p>TBD&#8230;&#8203;</p>
+<p>A <a href="https://coherence.community/20.12/api/java/com/tangosol/net/events/partition/TransactionEvent.html">TransactionEvent</a> is emitted in relation to all mutations in a single partition in response to executing a single request.
+These are commonly referred to as partition level transactions.
+For example, an <code>EntryProcessor</code> that mutates more than one entry (which could be in multiple caches) as part of a single invocation will cause a partition level transaction to occur encompassing all of those cache entries.</p>
+</div>
+<div class="paragraph">
+<p>Transaction events are emitted by storage enabled cache services, they will only e received on the same member that the partition level transaction occurred.</p>
+</div>
+<div class="paragraph">
+<p>To subscribe to <code>TransactionEvent</code> simply create a Micronaut bean with a listener method annotated with <a href="../api/io/micronaut/coherence/annotation/CoherenceEventListener.html">@CoherenceEventListener</a>.
+The method should have a single parameter of type <code>TransactionEvent</code>.</p>
+</div>
+<div class="paragraph">
+<p>For example, the <code>onEvent</code> method below will receive all transaction events emitted by storage enabled cache services in the same JVM.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@CoherenceEventListener
+public void onEvent(TransactionEvent event) {
+    // ToDo: process the event
+}</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_receive_specific_transactionevent_types">Receive Specific TransactionEvent Types</h3>
+<div class="paragraph">
+<p>There are a number of different <code>TransactionEvent</code> types.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Committing - A COMMITTING event is raised prior to any updates to the underlying backing map.
+This event will contain all modified entries which may span multiple backing maps. Use the <a href="../api/io/micronaut/coherence/annotation/Inserting.html">@Committing</a> annotation</p>
+</li>
+<li>
+<p>Committed - A COMMITTED event is raised after any mutations have been committed to the underlying backing maps.
+This event will contain all modified entries which may span multiple backing maps.
+Use the <a href="../api/io/micronaut/coherence/annotation/Inserted.html">@Committed</a> annotation</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>To restrict the <code>TransactionEvent</code> types received by a method apply one or more of the annotations above to the method parameter. For example, the method below will receive <code>Committed</code> events.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@CoherenceEventListener
+public void onEvent(@Committed TransactionEvent event) {
+    // ToDo: process the event
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_receive_transactionevent_from_a_specific_cache_service">Receive TransactionEvent from a Specific Cache Service</h3>
+<div class="paragraph">
+<p>Caches are owned by a Cache Service, it is possible to restrict events received by a method to only those related to caches owned by a specific service by annotating the method parameter with the
+<a href="../api/io/micronaut/coherence/annotation/ServiceName.html">@ServiceName</a> annotation.</p>
+</div>
+<div class="paragraph">
+<p>The method below will only receive events for the caches owned by the service named <code>StorageService</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@CoherenceEventListener
+public void onEvent(@ServiceName("StorageService") TransactionEvent event) {
+    // ToDo: process the event
+}</code></pre>
+</div>
+</div>
 </div>
 
 <h2 id="transferEvent"><a class="anchor" href="#transferEvent"></a>6.2.8 Partition Transfer Events</h2>
@@ -2545,7 +2613,119 @@ public void onEvent(@SessionName("BackEnd") EntryProcessorEvents event) {
 
 
 <div class="paragraph">
+<p>A <a href="https://coherence.community/20.12/api/java/com/tangosol/net/events/partition/TransferEvent.html">TransferEvent</a> captures information concerning the transfer of a partition for a storage enabled member. Transfer events are raised against the set of <a href="https://coherence.community/20.12/api/java/com/tangosol/util/BinaryEntry.html">BinaryEntry</a> instances that are being transferred.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+TransferEvents are dispatched to interceptors while holding a lock on the partition being transferred, blocking any operations for the partition. Event observer methods should therfore execute as quickly as possible of hand-off execution to another thread.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>To subscribe to <code>TransferEvent</code> simply create a Micronaut bean with a listener method annotated with <a href="../api/io/micronaut/coherence/annotation/CoherenceEventListener.html">@CoherenceEventListener</a>.
+The method should have a single parameter of type <code>TransferEvent</code>.</p>
+</div>
+<div class="paragraph">
+<p>For example, the <code>onEvent</code> method below will receive all transaction events emitted by storage enabled cache services in the same JVM.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@CoherenceEventListener
+public void onEvent(TransferEvent event) {
+    // ToDo: process the event
+}</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_receive_specific_transferevent_types">Receive Specific TransferEvent Types</h3>
+<div class="paragraph">
+<p>There are a number of different <code>TransferEvent</code> types.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Arrived - This <code>TransferEvent</code> is dispatched when a set of <code>BinaryEntry</code> instances have been transferred to the <a href="https://coherence.community/20.12/api/java/com/tangosol/net/events/partition/TransferEvent.html#getLocalMember()">local member</a> or restored from backup.The reason for the event (primary transfer from another member or restore from backup) can be derived as follows:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">TransferEvent event;
+boolean restored = event.getRemoteMember() == event.getLocalMember();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Use the <a href="../api/io/micronaut/coherence/annotation/Arrived.html">@Arrived</a> annotation to restrict the received events to arrived type.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Assigned -  This <code>TransferEvent</code> is dispatched when a partition has been assigned to the <a href="https://coherence.community/20.12/api/java/com/tangosol/net/events/partition/TransferEvent.html#getLocalMember()">local member</a>. This event will only be emitted by the ownership senior during the initial partition assignment.
+Use the <a href="../api/io/micronaut/coherence/annotation/Assigned.html">@Assigned</a> annotation to restrict received events.</p>
+</li>
+<li>
+<p>Departing - This <code>TransferEvent</code> is dispatched when a set of <code>BinaryEntry</code> are being transferred from the <a href="https://coherence.community/20.12/api/java/com/tangosol/net/events/partition/TransferEvent.html#getLocalMember()">local member</a>. This event is followed by either a <code>Departed</code> or <code>Rollback</code> event to indicate the success or failure of the transfer.
+Use the <a href="../api/io/micronaut/coherence/annotation/Departing.html">@Departing</a> annotation to restrict received events.</p>
+</li>
+<li>
+<p>Departed - This <code>TransferEvent</code> is dispatched when a partition has been successfully transferred from the <a href="https://coherence.community/20.12/api/java/com/tangosol/net/events/partition/TransferEvent.html#getLocalMember()">local member</a>. To derive the <code>BinaryEntry</code> instances associated with the transfer, consumers should subscribe to the <code>Departing</code> event that would precede this event.
+Use the <a href="../api/io/micronaut/coherence/annotation/Departed.html">@Departed</a> annotation to restrict received events.</p>
+</li>
+<li>
+<p>Lost - This <code>TransferEvent</code> is dispatched when a partition has been orphaned (data loss <em>may</em> have occurred), and the ownership is assumed by the <a href="https://coherence.community/20.12/api/java/com/tangosol/net/events/partition/TransferEvent.html#getLocalMember()">local member</a>. This event is only be emitted by the ownership senior.
+Use the <a href="../api/io/micronaut/coherence/annotation/Lost.html">@Lost</a> annotation to restrict received events.</p>
+</li>
+<li>
+<p>Recovered - This <code>TransferEvent</code> is dispatched when a set of <code>BinaryEntry</code> instances have been recovered from a persistent storage by the <a href="https://coherence.community/20.12/api/java/com/tangosol/net/events/partition/TransferEvent.html#getLocalMember()">local member</a>.
+Use the <a href="../api/io/micronaut/coherence/annotation/Recovered.html">@Recovered</a> annotation to restrict received events.</p>
+</li>
+<li>
+<p>Rollback - This <code>TransferEvent</code> is dispatched when partition transfer has failed and was therefore rolled back. To derive the <code>BinaryEntry</code> instances associated with the failed transfer, consumers should subscribe to the <code>Departing</code> event that would precede this event.
+Use the <a href="../api/io/micronaut/coherence/annotation/Rollback.html">@Rollback</a> annotation to restrict received events.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>To restrict the <code>TransferEvent</code> types received by a method apply one or more of the annotations above to the method parameter. For example, the method below will receive <code>Lost</code> events.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@CoherenceEventListener
+public void onEvent(@Lost TransferEvent event) {
+    // ToDo: process the event
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Multiple type annotations may be used to receive multiple types of <code>TransferEvent</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_receive_transferevent_from_a_specific_cache_service">Receive TransferEvent from a Specific Cache Service</h3>
+<div class="paragraph">
+<p>Caches are owned by a Cache Service, it is possible to restrict events received by a method to only those related to caches owned by a specific service by annotating the method parameter with the
+<a href="../api/io/micronaut/coherence/annotation/ServiceName.html">@ServiceName</a> annotation.</p>
+</div>
+<div class="paragraph">
+<p>The method below will only receive events for the caches owned by the service named <code>StorageService</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@CoherenceEventListener
+public void onEvent(@ServiceName("StorageService") TransferEvent event) {
+    // ToDo: process the event
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
 <p>TBD&#8230;&#8203;</p>
+</div>
 </div>
 
 <h2 id="unsolicitedCommitEvent"><a class="anchor" href="#unsolicitedCommitEvent"></a>6.2.9 Unsolicited Commit Events</h2>
@@ -2559,7 +2739,25 @@ public void onEvent(@SessionName("BackEnd") EntryProcessorEvents event) {
 
 
 <div class="paragraph">
-<p>TBD&#8230;&#8203;</p>
+<p>An <a href="https://coherence.community/20.12/api/java/com/tangosol/net/events/partition/UnsolicitedCommitEvent.html">UnsolicitedCommitEvent</a> captures changes pertaining to all observed mutations performed against caches that were not directly caused (solicited) by the partitioned service. These events may be due to changes made internally by the backing map, such as eviction, or referrers of the backing map causing changes.</p>
+</div>
+<div class="paragraph">
+<p>Unsolicited commit events are emitted by storage enabled cache services, they will only e received on the same member.</p>
+</div>
+<div class="paragraph">
+<p>To subscribe to <code>UnsolicitedCommitEvent</code> simply create a Micronaut bean with a listener method annotated with <a href="../api/io/micronaut/coherence/annotation/CoherenceEventListener.html">@CoherenceEventListener</a>.
+The method should have a single parameter of type <code>UnsolicitedCommitEvent</code>.</p>
+</div>
+<div class="paragraph">
+<p>For example, the <code>onEvent</code> method below will receive all Unsolicited commit events emitted by storage enabled cache services in the same JVM.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@CoherenceEventListener
+public void onEvent(UnsolicitedCommitEvent event) {
+    // ToDo: process the event
+}</code></pre>
+</div>
 </div>
 
 <h1 id="messagingWithTopics"><a class="anchor" href="#messagingWithTopics"></a>7 Micronaut Messaging with Coherence Topics</h1>
