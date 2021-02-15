@@ -1,1 +1,78 @@
+A link:{coherenceApi}com/tangosol/net/events/partition/TransferEvent.html[TransferEvent] captures information concerning the transfer of a partition for a storage enabled member. Transfer events are raised against the set of link:{coherenceApi}com/tangosol/util/BinaryEntry.html[BinaryEntry] instances that are being transferred.
+
+NOTE: TransferEvents are dispatched to interceptors while holding a lock on the partition being transferred, blocking any operations for the partition. Event observer methods should therfore execute as quickly as possible of hand-off execution to another thread.
+
+To subscribe to `TransferEvent` simply create a Micronaut bean with a listener method annotated with link:{api}/io/micronaut/coherence/annotation/CoherenceEventListener.html[@CoherenceEventListener].
+The method should have a single parameter of type `TransferEvent`.
+
+For example, the `onEvent` method below will receive all transaction events emitted by storage enabled cache services in the same JVM.
+
+[source,java]
+----
+@CoherenceEventListener
+public void onEvent(TransferEvent event) {
+    // ToDo: process the event
+}
+----
+
+=== Receive Specific TransferEvent Types
+
+There are a number of different `TransferEvent` types.
+
+* Arrived - This `TransferEvent` is dispatched when a set of `BinaryEntry` instances have been transferred to the link:{coherenceApi}com/tangosol/net/events/partition/TransferEvent.html#getLocalMember()[local member] or restored from backup.The reason for the event (primary transfer from another member or restore from backup) can be derived as follows:
+
+[source,java]
+----
+TransferEvent event;
+boolean restored = event.getRemoteMember() == event.getLocalMember();
+----
+
+Use the link:{api}/io/micronaut/coherence/annotation/Arrived.html[@Arrived] annotation to restrict the received events to arrived type.
+
+* Assigned -  This `TransferEvent` is dispatched when a partition has been assigned to the link:{coherenceApi}com/tangosol/net/events/partition/TransferEvent.html#getLocalMember()[local member]. This event will only be emitted by the ownership senior during the initial partition assignment.
+Use the link:{api}/io/micronaut/coherence/annotation/Assigned.html[@Assigned] annotation to restrict received events.
+
+* Departing - This `TransferEvent` is dispatched when a set of `BinaryEntry` are being transferred from the link:{coherenceApi}com/tangosol/net/events/partition/TransferEvent.html#getLocalMember()[local member]. This event is followed by either a `Departed` or `Rollback` event to indicate the success or failure of the transfer.
+Use the link:{api}/io/micronaut/coherence/annotation/Departing.html[@Departing] annotation to restrict received events.
+
+* Departed - This `TransferEvent` is dispatched when a partition has been successfully transferred from the link:{coherenceApi}com/tangosol/net/events/partition/TransferEvent.html#getLocalMember()[local member]. To derive the `BinaryEntry` instances associated with the transfer, consumers should subscribe to the `Departing` event that would precede this event.
+Use the link:{api}/io/micronaut/coherence/annotation/Departed.html[@Departed] annotation to restrict received events.
+
+* Lost - This `TransferEvent` is dispatched when a partition has been orphaned (data loss _may_ have occurred), and the ownership is assumed by the link:{coherenceApi}com/tangosol/net/events/partition/TransferEvent.html#getLocalMember()[local member]. This event is only be emitted by the ownership senior.
+Use the link:{api}/io/micronaut/coherence/annotation/Lost.html[@Lost] annotation to restrict received events.
+
+* Recovered - This `TransferEvent` is dispatched when a set of `BinaryEntry` instances have been recovered from a persistent storage by the link:{coherenceApi}com/tangosol/net/events/partition/TransferEvent.html#getLocalMember()[local member].
+Use the link:{api}/io/micronaut/coherence/annotation/Recovered.html[@Recovered] annotation to restrict received events.
+
+* Rollback - This `TransferEvent` is dispatched when partition transfer has failed and was therefore rolled back. To derive the `BinaryEntry` instances associated with the failed transfer, consumers should subscribe to the `Departing` event that would precede this event.
+Use the link:{api}/io/micronaut/coherence/annotation/Rollback.html[@Rollback] annotation to restrict received events.
+
+To restrict the `TransferEvent` types received by a method apply one or more of the annotations above to the method parameter. For example, the method below will receive `Lost` events.
+
+[source,java]
+----
+@CoherenceEventListener
+public void onEvent(@Lost TransferEvent event) {
+    // ToDo: process the event
+}
+----
+
+Multiple type annotations may be used to receive multiple types of `TransferEvent`.
+
+
+=== Receive TransferEvent from a Specific Cache Service
+
+Caches are owned by a Cache Service, it is possible to restrict events received by a method to only those related to caches owned by a specific service by annotating the method parameter with the
+link:{api}/io/micronaut/coherence/annotation/ServiceName.html[@ServiceName] annotation.
+
+The method below will only receive events for the caches owned by the service named `StorageService`:
+
+[source,java]
+----
+@CoherenceEventListener
+public void onEvent(@ServiceName("StorageService") TransferEvent event) {
+    // ToDo: process the event
+}
+----
+
 TBD...

@@ -1,1 +1,16 @@
-TBD...
+An link:{coherenceApi}com/tangosol/net/events/partition/UnsolicitedCommitEvent.html[UnsolicitedCommitEvent] captures changes pertaining to all observed mutations performed against caches that were not directly caused (solicited) by the partitioned service. These events may be due to changes made internally by the backing map, such as eviction, or referrers of the backing map causing changes.
+
+Unsolicited commit events are emitted by storage enabled cache services, they will only e received on the same member.
+
+To subscribe to `UnsolicitedCommitEvent` simply create a Micronaut bean with a listener method annotated with link:{api}/io/micronaut/coherence/annotation/CoherenceEventListener.html[@CoherenceEventListener].
+The method should have a single parameter of type `UnsolicitedCommitEvent`.
+
+For example, the `onEvent` method below will receive all Unsolicited commit events emitted by storage enabled cache services in the same JVM.
+
+[source,java]
+----
+@CoherenceEventListener
+public void onEvent(UnsolicitedCommitEvent event) {
+    // ToDo: process the event
+}
+----
