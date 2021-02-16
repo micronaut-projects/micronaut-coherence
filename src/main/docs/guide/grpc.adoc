@@ -1,4 +1,13 @@
 Coherence can be configured to run a gRPC proxy service that allows suitably configured gRPC clients to
-connect to a cluster and use clustered resources.
-The advantage of using a gRPC client rather than a traditional Coherence*Extend client is that gRPC works better with modern cloud infrastructures, being http/2 as opposed to Coherence custom protocol.
+connect to a cluster and use clustered resources such as `NamedMap`, `NamedCache` etc.
+The advantage of using a gRPC client rather than a traditional Coherence*Extend client is that the gRPC client is lighter weight than an Extend client and can work better with modern cloud infrastructures, being http/2 as opposed to Coherence custom protocol.
 
+There are two parts required to use Coherence gRPC
+
+* A Coherence cluster running a gRPC proxy
+
+* A client using the gRPC client library
+
+One, or both of these could be using the Coherence Micronaut libraries, for example a Coherence Micronaut application that is a cluster member can be configured to run the gRPC proxy, which can be connected to by non-Micronaut Coherence gRPC clients (or even non-Java Coherence clients such as Coherence JS). And vice-versa, a Micronaut application can be a Coherence Micronaut gRPC client and connect to a non-Micronaut Coherence cluster running a gRPC proxy.
+
+The documentation below covers using gRPC in both cases, the Coherence product documentation covers how to run non-Micronaut gRPC proxies and clients.

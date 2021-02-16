@@ -1,0 +1,23 @@
+To listen to Coherence topic messages you can use the link:{api}/io/micronaut/coherence/annotation/CoherenceTopicListener.html[@CoherenceTopicListener] annotation to define a message listener.
+
+The following example will listen for messages published by the `ProductClient` in the previous section:
+
+[source,java]
+.ProductListener.java
+----
+import io.micronaut.coherence.annotation.CoherenceTopicListener;
+import io.micronaut.coherence.annotation.Topic;
+
+@CoherenceTopicListener   // <1>
+public class ProductListener {
+
+    @Topic("my-products")   // <2>
+    public void receive(String product) { // <3>
+        System.out.println("Got Product - " + product);
+    }
+}
+----
+
+<1> The link:{api}/io/micronaut/coherence/annotation/CoherenceTopicListener.html[@CoherenceTopicListener] annotation to indicate that this bean is a Coherence topic listener.
+<2> The link:{api}/io/micronaut/coherence/annotation/Topic.html[@Topic] annotation is again used to indicate which topic to subscribe to.
+<3> The receive method defines single arguments that will receive the message value.

@@ -1,1 +1,7 @@
-TBD...
+Micronaut Coherence integration provides support for message driven applications by integrating https://docs.micronaut.io/latest/guide/index.html#messaging[Micronaut Messaging] and Coherence topics.
+
+A Coherence link:{coherenceApi}com/tangosol/net/topic/NamedTopic.html[NamedTopic] is analogous to a queue or pub/sub topic, depending on the configuration and application code. Messages published to the topic are stored in Coherence caches, so topics are scalable and performant.
+
+A typical stand-alone Coherence application would create a `NamedTopic` along with `Publisher` or `Subscriber` instances to publish to or subscribe to topics. Injection of topics into Micronaut applications is already covered in <<injectNamedTopic,Injecting NamedTopics>>. With Micronaut messaging this becomes much simpler.
+
+With Micronaut Coherence Messaging publishers and subscribers beans are created by writing suitably annotated interfaces.

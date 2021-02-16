@@ -1,1 +1,73 @@
-TBD...
+
+ValueExtractor binding annotations are normal annotations that are themselves annotated with the link:{api}/io/micronaut/coherence/annotation/ExtractorBinding.html[@ExtractorBinding] meta-annotation.
+An extractor binding annotation represents a Coherence link:{coherenceApi}/com/tangosol/util/ValueExtractor.html[ValueExtractor] and is used to specify a `ValueExtractor` in certain injection points, for example a View (CQC), `NamedTopic` `Subscriber` beans, `MapeEvent` listeners, etc.
+
+There are three parts to using an extractor binding:
+
+* The extractor binding annotation
+* An implementation of a link:{api}/io/micronaut/coherence/ExtractorFactory.html[ExtractorFactory] that is annotated with the extractor binding annotation. This is a factory that produces the required `ValueExtractor`.
+* Injection points annotated with the extractor binding annotation.
+
+For example; assume there is a Coherence `NamedMap` with the name `people` that contains `Person` instances for the value.
+Among the various properties on the `Person` class is a property called `age`.
+Now assume we want to inject a view that uses the `age` property for the value, we would need a `ValueExtractor` that extracts the `age` property.
+
+=== Create the extractor binding annotation
+
+First create a simple annotation, it could be called something like `PersonAge`
+
+[source,java]
+----
+@ExtractorBinding                         // <1>
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+public @interface PersonAge {            // <2>
+}
+----
+<1> The annotation class is annotated with `@ExtractorBinding`
+<2> The annotation name is `PersonAge`
+
+In this case the annotation does not need any other attributes.
+
+=== Create the `ExtractorFactory`
+
+Now create the link:{api}/io/micronaut/coherence/ExtractorFactory.html[ExtractorFactory] implementation that will produce instances of the required `ValueExtractor`.
+
+[source,java]
+----
+import com.tangosol.util.Extractors;
+import com.tangosol.util.ValueExtractor;
+import io.micronaut.coherence.ValueExtractorFactory;
+
+@PersonAge     // <1>
+@Singleton     // <2>
+public class PersonAgeExtractorFactory<Person> implements ExtractorFactory<AdultMales, Person> {
+    @Override
+    public ValueExtractor<Person, Integer> create(PersonAge annotation) {       // <3>
+        return Extractors.extract("age");
+    }
+}
+----
+<1> The class is annotated with the `PersonAge` filter binding annotation
+<2> The class must be a Micronaut bean, in this case a singleton
+<3> The create method uses the Coherence `Extractors` API to create the required extractor, in this case a trivial property extractor.
+
+The parameter to the `create` method is the annotation used on the injection point.
+In this case the annotation has no values, but if it did we could access those values to customize how the `ValueExtractor` is created.
+
+
+=== Annotate the Injection Point
+
+Now the application code where the view is to be injected can use the custom extractor binding annotation.
+
+[source,java]
+----
+@View               // <1>
+@PersonAge          // <2>
+@Name("people")     // <3>
+private NamedMap<String, Integer> ages;   // <4>
+----
+<1> The `@View` annotation indicates that this is a view rather than a plain `NamedMap`
+<2> The `@PersonAge` annotation links to the custom extractor factory to use to create the `ValueExtractor` for the view
+<3> The `@Name` annotation indicates the underlying cache/map name to use for the view
+<4> Note that the `MamedMap` generics are now `String` and `Integer` not `String` and `Person` as the `Person` values from the underlying cache are transformed into `Integer` values by extracting just the age property.

@@ -1,0 +1,68 @@
+To create a topic Publisher that sends messages you can simply define an interface that is annotated with link:{api}/io/micronaut/coherence/annotation/CoherencePublisher.html[`@CoherencePublisher`].
+
+For example the following is a trivial ``@CoherencePublisher`` interface:
+
+[source,java]
+.ProductClient.java
+----
+import io.micronaut.coherence.annotation.CoherencePublisher;
+import io.micronaut.coherence.annotation.Topic;
+
+@CoherencePublisher  // <1>
+public interface ProductClient {
+
+    @Topic("my-products") // <2>
+    void sendProduct(String message); // <3>
+
+    void sendProduct(@Topic String topic, String message); // <4>
+}
+----
+
+<1> The ``@CoherencePublisher`` annotation is used to designate this interface as a message publisher.
+<2> The `@Topic` annotation indicates which topics the message should be published to
+<3> The method defines a single parameter, which is the message value. In this case the values being published are String instances but they could be any type that can be serialized by Coherence.
+<4> It is also possible for the topic to be dynamic by making it a method argument annotated with .
+
+At compile time Micronaut will produce an implementation of the above interface. You can retrieve an instance of `ProductClient` either by looking up the bean from the `ApplicationContext` or by injecting the bean with `@Inject`:
+
+[source,java]
+.Using ProductClient
+----
+ProductClient client = applicationContext.getBean(ProductClient.class);
+client.sendProduct("Blue Trainers");
+----
+
+Note that since the sendProduct method returns void this means the method will send the message and block until the message has been sent. You can return a `Future` to support non-blocking message delivery.
+
+=== Reactive and Non-Blocking Method Definitions
+
+The `@CoherencePublisher` annotation supports the definition of reactive return types (such as link:http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Flowable.html[Flowable] or Reactor `Flux`) as well as Futures.
+
+The following sections cover possible method signatures and behaviour:
+
+==== Single Value and Return Type
+
+[source,java]
+----
+Single<Book> sendBook(Single<Book> book);
+----
+
+The implementation will return a link:http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Single.html[Single] that when subscribed to will subscribe to the passed link:http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Single.html[Single] and send the emitted item as a message emitting the item again if successful or an error otherwise.
+
+==== Flowable Value and Return Type
+
+[source,java]
+----
+Flowable<Book> sendBooks(Flowable<Book> book);
+----
+
+The implementation will return a link:http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Flowable.html[Flowable] that when subscribed to will subscribe to the passed link:http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Flowable.html[Flowable] and for each emitted item will send a message emitting the item again if successful or an error otherwise.
+
+==== Reactor Flux Value and Return Type
+
+[source,java]
+----
+Flux<RecordMetadata> sendBooks(Flux<Book> book);
+----
+
+The implementation will return a Reactor `Flux` that when subscribed to will subscribe to the passed `Flux` and for each emitted item will send a message emitting the resulting message if successful or an error otherwise.

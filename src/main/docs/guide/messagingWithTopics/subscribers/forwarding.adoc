@@ -1,0 +1,55 @@
+On any @link:{api}/io/micronaut/coherence/annotation/CoherenceTopicListener.html[@CoherenceTopicListener] method that returns a value, you can use the @SendTo annotation to forward the return value to the topic or topics specified by the @SendTo annotation.
+
+The key of the original ConsumerRecord will be used as the key when forwarding the message.
+
+[source,java]
+.filename.java
+----
+import io.micronaut.coherence.annotation.*;
+import io.micronaut.messaging.annotation.SendTo;
+
+@CoherenceTopicListener
+public class ProductListener {
+
+    @Topic("awesome-products")      // <1>
+    @SendTo("product-quantities")   // <2>
+    public int receive(Product product) {
+        System.out.println("Got Product - " + product.getName() + " by " + product.getBrand());
+        return product.getQuantity(); // <3>
+    }
+}
+----
+
+<1> The topic subscribed to is `awesome-products`
+<2> The topic to send the result to is `product-quantities`
+<3> The return value is used to indicate the value to forward
+
+You can also do the same using Reactive programming:
+
+[source,java]
+.filename.java
+----
+import io.micronaut.coherence.annotation.*;
+import io.micronaut.messaging.annotation.SendTo;
+import io.reactivex.Single;
+import io.reactivex.functions.Function;
+
+@CoherenceTopicListener
+public class ProductListener {
+
+    @Topic("awesome-products")       // <1>
+    @SendTo("product-quantities")    // <2>
+    public Single<Integer> receiveProduct(Single<Product> productSingle) {
+        return productSingle.map(product -> {
+            System.out.println("Got Product - " + product.getName() + " by " + product.getBrand());
+            return product.getQuantity();  // <3>
+        });
+    }
+}
+----
+
+<1> The topic subscribed to is `awesome-products`
+<2> The topic to send the result to is `product-quantities`
+<3> The return is mapped from the single to the value of the quantity
+
+

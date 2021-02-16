@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2020 original authors
+ * Copyright 2017-2021 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -59,6 +59,20 @@ class CoherencePublisherTest {
 
         String message = "Testing One...";
         publishersOne.send(message);
+
+        Subscriber.Element<String> element = future.get(1, TimeUnit.MINUTES);
+        assertThat(element, is(notNullValue()));
+        assertThat(element.getValue(), is(message));
+    }
+
+    @Test
+    void shouldSendMessageToNamedTopic() throws Exception {
+        String topicName = "OneTwo";
+        Subscriber<String> subscriber = getSubscriber(topicName);
+        CompletableFuture<Subscriber.Element<String>> future = subscriber.receive();
+
+        String message = "Testing named topic...";
+        publishersOne.sendTo(topicName, message);
 
         Subscriber.Element<String> element = future.get(1, TimeUnit.MINUTES);
         assertThat(element, is(notNullValue()));
@@ -230,6 +244,8 @@ class CoherencePublisherTest {
     interface PublishersOne {
         @Topic("One")
         void send(String message);
+
+        void sendTo(@Topic("One") String topic, String message);
 
         @Topic("Two")
         CompletableFuture<Void> sendAsync(String message);

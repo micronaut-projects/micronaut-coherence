@@ -42,6 +42,10 @@ events:
     unsolicitedCommitEvent: Unsolicited Commit Events
 messagingWithTopics:
   title: Micronaut Messaging with Coherence Topics
+  publishers: Defining Publishers with @CoherencePublisher
+  subscribers:
+    title: Defining Subscribers with @CoherenceTopicListener
+    forwarding: Forwarding Messages with @SendTo
 filterBinding:
   title: Filter Binding Annotations
 valueExtractorBinding:

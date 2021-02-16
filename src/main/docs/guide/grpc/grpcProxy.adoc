@@ -1,3 +1,52 @@
-To use gRPC the cluster must first be configured to run a gRPC proxy service.
+A Coherence Micronaut application that runs as a cluster member with a gRPC proxy service has two choices when configuring the gRPC server. It can just use the out of the box Coherence gRPC proxy functionality. Or, it can make use of some additional configuration features provided by the Coherence Micronaut API.
 
-TBD...
+This documentation specifically covers the latter case of configuring the gRPC proxy using Micronaut.
+
+=== Add the Coherence gRPC Proxy Dependency
+
+To run a gRPC proxy then Coherence gRPC Proxy module must be added to the project dependencies:
+
+dependency:coherence-grpc-proxy[groupId="com.oracle.coherence.ce",version="20.12.1"]
+
+By default Coherence will run a simple gRPC server listening on `0.0.0.0:1407`, i.e. bound to port 1407 on all local addresses. If this is sufficient for your application then there is nothing more to configure.
+
+
+=== Change the gRPC Port
+
+To simply change the gRPC port that the server binds to requires nothing more than a configuration property. This can be added to the `coherence` section of the `application.yaml`.
+
+For example, the configuration below sets the port to `9099`:
+[source,yaml]
+.application.yaml
+----
+coherence:
+  grpc:
+    server:
+      port: 9099
+----
+
+=== Configure the Server
+
+If more than just the port needs to be changed, then to fully control the server configuration a Micronaut bean can be created of type link:{coherenceApi}/com/oracle/coherence/grpc/proxy/GrpcServerConfiguration.html[GrpcServerConfiguration].
+
+A Coherence gRPC proxy runs both a gRPC server listening for remote connections as well as an in-process gRPC server to allow connections to services from within the same JVM. The `GrpcServerConfiguration` interface has a `configure` method that allows configuration of both of these servers.
+
+[source,java]
+.ServerConfiguration.java
+----
+@Singleton
+public class ServerConfiguration implements GrpcServerConfiguration {
+
+    @Override
+    public void configure(ServerBuilder<?> serverBuilder,
+            InProcessServerBuilder inProcessServerBuilder) {
+
+        // ToDo: configure the servers...
+
+    }
+}
+----
+
+The example above shows a simple singleton bean named `ServerConfiguration` that implements `GrpcServerConfiguration`. The `configure` method is called with the `io.grpc.ServerBuilder` to allow full configuration of the gRPC server and also with the `io.grpc.inprocess.InProcessServerBuilder` to allow full control over the in-process server.
+
+Multiple `GrpcServerConfiguration` beans may be present, and if so, all will be called and given a chance to configure the servers.

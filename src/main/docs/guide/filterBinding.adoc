@@ -11,7 +11,8 @@ For example; assume there is a Coherence `NamedMap` with the name `people` that 
 Among the various properties on the `Person` class is a property called `gender` and property called `age`.
 Now assume we want to inject a view that only shows adult males, we would need a `Filter` that has a condition like `gender == "male" && age > 18".
 
-* Create the filter binding annotation:
+=== Create the filter binding annotation
+
 First create a simple annotation, it could be called something like `AdultMales`
 
 [source,java]
@@ -27,7 +28,7 @@ public @interface AdultMales {         // <2>
 
 In this case the annotation does not need any other attributes.
 
-* Create the `FilterFactory`
+=== Create the `FilterFactory`
 
 Now create the link:{api}/io/micronaut/coherence/FilterFactory.html[FilterFactory] implementation that will produce instances of the required `Filter`.
 
@@ -81,7 +82,7 @@ public class AdultFilterFactory<Person> implements FilterFactory<Adults, Person>
 }
 ----
 
-* Annotate the Injection Point
+=== Annotate the Injection Point
 
 Now the application code where the view is to be injected can use the custom filter binding annotation.
 
