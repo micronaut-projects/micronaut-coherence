@@ -166,6 +166,12 @@
         
         <div class="toc-item" style="margin-left:0px" id="toc-item-messagingWithTopics"><a href="#messagingWithTopics"><strong>7</strong><span>Micronaut Messaging with Coherence Topics</span></a></div>
         
+        <div class="toc-item" style="margin-left:10px" id="toc-item-publishers"><a href="#publishers"><strong>7.1</strong><span>Defining Publishers with @CoherencePublisher</span></a></div>
+        
+        <div class="toc-item" style="margin-left:10px" id="toc-item-subscribers"><a href="#subscribers"><strong>7.2</strong><span>Defining Subscribers with @CoherenceTopicListener</span></a></div>
+        
+        <div class="toc-item" style="margin-left:20px" id="toc-item-forwarding"><a href="#forwarding"><strong>7.2.1</strong><span>Forwarding Messages with @SendTo</span></a></div>
+        
         <div class="toc-item" style="margin-left:0px" id="toc-item-filterBinding"><a href="#filterBinding"><strong>8</strong><span>Filter Binding Annotations</span></a></div>
         
         <div class="toc-item" style="margin-left:0px" id="toc-item-valueExtractorBinding"><a href="#valueExtractorBinding"><strong>9</strong><span>Extractor Binding Annotations</span></a></div>
@@ -839,6 +845,9 @@ attribute greater than 10. Equivalent to <code>lastName = 'Simpson' &amp;&amp; a
 instances can be injected as beans in Micronaut applications.</p>
 </div>
 <div class="paragraph">
+<p>An alternative way to write message driven applications and <code>TransferEvent`microservices instead of directly injecting `NamedTopic</code>, <code>Publisher</code> or <code>Subscriber</code> beans is to use <a href="#messagingWithTopics">Micronaut Coherence Messaging</a>.</p>
+</div>
+<div class="paragraph">
 <p>The simplest way to inject a <code>NamedTopic</code> is to just annotate the injection point with <code>@javax.inject.Inject</code>.</p>
 </div>
 <div class="listingblock">
@@ -1281,7 +1290,8 @@ The named <code>Session</code> must have previously been configured when <a href
 
 
 <div class="paragraph">
-<p>Coherence produces a number of events that can be used by applications to respond to data changes and other actions in Coherence.</p>
+<p>Event driven patterns are a common way to build scalable applications and micro services.
+Coherence produces a number of events that can be used by applications to respond to data changes and other actions in Coherence.</p>
 </div>
 <div class="paragraph">
 <p>There are two types of events in Coherence. There are <a href="https://coherence.community/20.12/api/java/com/tangosol/util/MapEvent.html">MapEvents</a>,
@@ -2771,7 +2781,265 @@ public void onEvent(UnsolicitedCommitEvent event) {
 
 
 <div class="paragraph">
-<p>TBD&#8230;&#8203;</p>
+<p>Micronaut Coherence integration provides support for message driven applications by integrating <a href="https://docs.micronaut.io/latest/guide/index.html#messaging">Micronaut Messaging</a> and Coherence topics.</p>
+</div>
+<div class="paragraph">
+<p>A Coherence <a href="https://coherence.community/20.12/api/java/com/tangosol/net/topic/NamedTopic.html">NamedTopic</a> is analogous to a queue or pub/sub topic, depending on the configuration and application code. Messages published to the topic are stored in Coherence caches, so topics are scalable and performant.</p>
+</div>
+<div class="paragraph">
+<p>A typical stand-alone Coherence application would create a <code>NamedTopic</code> along with <code>Publisher</code> or <code>Subscriber</code> instances to publish to or subscribe to topics. Injection of topics into Micronaut applications is already covered in <a href="#injectNamedTopic">Injecting NamedTopics</a>. With Micronaut messaging this becomes much simpler.</p>
+</div>
+<div class="paragraph">
+<p>With Micronaut Coherence Messaging publishers and subscribers beans are created by writing suitably annotated interfaces.</p>
+</div>
+
+<h2 id="publishers"><a class="anchor" href="#publishers"></a>7.1 Defining Publishers with @CoherencePublisher</h2>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master
+/src/main/docs/guide/messagingWithTopics/publishers.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>To create a topic Publisher that sends messages you can simply define an interface that is annotated with <a href="../api/io/micronaut/coherence/annotation/CoherencePublisher.html"><code>@CoherencePublisher</code></a>.</p>
+</div>
+<div class="paragraph">
+<p>For example the following is a trivial <code>@CoherencePublisher</code> interface:</p>
+</div>
+<div class="listingblock">
+<div class="title">ProductClient.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import io.micronaut.coherence.annotation.CoherencePublisher;
+import io.micronaut.coherence.annotation.Topic;
+
+@CoherencePublisher  <i class="conum" data-value="1"></i><b>(1)</b>
+public interface ProductClient {
+
+    @Topic("my-products") <i class="conum" data-value="2"></i><b>(2)</b>
+    void sendProduct(String message); <i class="conum" data-value="3"></i><b>(3)</b>
+
+    void sendProduct(@Topic String topic, String message); <i class="conum" data-value="4"></i><b>(4)</b>
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The <code>@CoherencePublisher</code> annotation is used to designate this interface as a message publisher.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>The <code>@Topic</code> annotation indicates which topics the message should be published to</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>The method defines a single parameter, which is the message value. In this case the values being published are String instances but they could be any type that can be serialized by Coherence.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>It is also possible for the topic to be dynamic by making it a method argument annotated with .</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>At compile time Micronaut will produce an implementation of the above interface. You can retrieve an instance of <code>ProductClient</code> either by looking up the bean from the <code>ApplicationContext</code> or by injecting the bean with <code>@Inject</code>:</p>
+</div>
+<div class="listingblock">
+<div class="title">Using ProductClient</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">ProductClient client = applicationContext.getBean(ProductClient.class);
+client.sendProduct("Blue Trainers");</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Note that since the sendProduct method returns void this means the method will send the message and block until the message has been sent. You can return a <code>Future</code> to support non-blocking message delivery.</p>
+</div>
+<div class="sect2">
+<h3 id="_reactive_and_non_blocking_method_definitions">Reactive and Non-Blocking Method Definitions</h3>
+<div class="paragraph">
+<p>The <code>@CoherencePublisher</code> annotation supports the definition of reactive return types (such as <a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Flowable.html">Flowable</a> or Reactor <code>Flux</code>) as well as Futures.</p>
+</div>
+<div class="paragraph">
+<p>The following sections cover possible method signatures and behaviour:</p>
+</div>
+<div class="sect3">
+<h4 id="_single_value_and_return_type">Single Value and Return Type</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Single&lt;Book&gt; sendBook(Single&lt;Book&gt; book);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The implementation will return a <a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Single.html">Single</a> that when subscribed to will subscribe to the passed <a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Single.html">Single</a> and send the emitted item as a message emitting the item again if successful or an error otherwise.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_flowable_value_and_return_type">Flowable Value and Return Type</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Flowable&lt;Book&gt; sendBooks(Flowable&lt;Book&gt; book);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The implementation will return a <a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Flowable.html">Flowable</a> that when subscribed to will subscribe to the passed <a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Flowable.html">Flowable</a> and for each emitted item will send a message emitting the item again if successful or an error otherwise.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_reactor_flux_value_and_return_type">Reactor Flux Value and Return Type</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Flux&lt;RecordMetadata&gt; sendBooks(Flux&lt;Book&gt; book);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The implementation will return a Reactor <code>Flux</code> that when subscribed to will subscribe to the passed <code>Flux</code> and for each emitted item will send a message emitting the resulting message if successful or an error otherwise.</p>
+</div>
+</div>
+</div>
+
+<h2 id="subscribers"><a class="anchor" href="#subscribers"></a>7.2 Defining Subscribers with @CoherenceTopicListener</h2>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master
+/src/main/docs/guide/messagingWithTopics/subscribers.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>To listen to Coherence topic messages you can use the <a href="../api/io/micronaut/coherence/annotation/CoherenceTopicListener.html">@CoherenceTopicListener</a> annotation to define a message listener.</p>
+</div>
+<div class="paragraph">
+<p>The following example will listen for messages published by the <code>ProductClient</code> in the previous section:</p>
+</div>
+<div class="listingblock">
+<div class="title">ProductListener.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import io.micronaut.coherence.annotation.CoherenceTopicListener;
+import io.micronaut.coherence.annotation.Topic;
+
+@CoherenceTopicListener   <i class="conum" data-value="1"></i><b>(1)</b>
+public class ProductListener {
+
+    @Topic("my-products")   <i class="conum" data-value="2"></i><b>(2)</b>
+    public void receive(String product) { <i class="conum" data-value="3"></i><b>(3)</b>
+        System.out.println("Got Product - " + product);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The <a href="../api/io/micronaut/coherence/annotation/CoherenceTopicListener.html">@CoherenceTopicListener</a> annotation to indicate that this bean is a Coherence topic listener.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>The <a href="../api/io/micronaut/coherence/annotation/Topic.html">@Topic</a> annotation is again used to indicate which topic to subscribe to.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>The receive method defines single arguments that will receive the message value.</td>
+</tr>
+</table>
+</div>
+
+<h2 id="forwarding"><a class="anchor" href="#forwarding"></a>7.2.1 Forwarding Messages with @SendTo</h2>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master
+/src/main/docs/guide/messagingWithTopics/subscribers/forwarding.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>On any @<a href="../api/io/micronaut/coherence/annotation/CoherenceTopicListener.html">@CoherenceTopicListener</a> method that returns a value, you can use the @SendTo annotation to forward the return value to the topic or topics specified by the @SendTo annotation.</p>
+</div>
+<div class="paragraph">
+<p>The key of the original ConsumerRecord will be used as the key when forwarding the message.</p>
+</div>
+<div class="listingblock">
+<div class="title">filename.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import io.micronaut.coherence.annotation.*;
+import io.micronaut.messaging.annotation.SendTo;
+
+@CoherenceTopicListener
+public class ProductListener {
+
+    @Topic("awesome-products")      <i class="conum" data-value="1"></i><b>(1)</b>
+    @SendTo("product-quantities")   <i class="conum" data-value="2"></i><b>(2)</b>
+    public int receive(Product product) {
+        System.out.println("Got Product - " + product.getName() + " by " + product.getBrand());
+        return product.getQuantity(); <i class="conum" data-value="3"></i><b>(3)</b>
+    }
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The topic subscribed to is <code>awesome-products</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>The topic to send the result to is <code>product-quantities</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>The return value is used to indicate the value to forward</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>You can also do the same using Reactive programming:</p>
+</div>
+<div class="listingblock">
+<div class="title">filename.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import io.micronaut.coherence.annotation.*;
+import io.micronaut.messaging.annotation.SendTo;
+import io.reactivex.Single;
+import io.reactivex.functions.Function;
+
+@CoherenceTopicListener
+public class ProductListener {
+
+    @Topic("awesome-products")       <i class="conum" data-value="1"></i><b>(1)</b>
+    @SendTo("product-quantities")    <i class="conum" data-value="2"></i><b>(2)</b>
+    public Single&lt;Integer&gt; receiveProduct(Single&lt;Product&gt; productSingle) {
+        return productSingle.map(product -&gt; {
+            System.out.println("Got Product - " + product.getName() + " by " + product.getBrand());
+            return product.getQuantity();  <i class="conum" data-value="3"></i><b>(3)</b>
+        });
+    }
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The topic subscribed to is <code>awesome-products</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>The topic to send the result to is <code>product-quantities</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>The return is mapped from the single to the value of the quantity</td>
+</tr>
+</table>
 </div>
 
 <h1 id="filterBinding"><a class="anchor" href="#filterBinding"></a>8 Filter Binding Annotations</h1>
@@ -2809,13 +3077,10 @@ A filter binding annotation represents a Coherence <a href="https://coherence.co
 Among the various properties on the <code>Person</code> class is a property called <code>gender</code> and property called <code>age</code>.
 Now assume we want to inject a view that only shows adult males, we would need a <code>Filter</code> that has a condition like `gender == "male" &amp;&amp; age &gt; 18".</p>
 </div>
-<div class="ulist">
-<ul>
-<li>
-<p>Create the filter binding annotation:
-First create a simple annotation, it could be called something like <code>AdultMales</code></p>
-</li>
-</ul>
+<div class="sect2">
+<h3 id="_create_the_filter_binding_annotation">Create the filter binding annotation</h3>
+<div class="paragraph">
+<p>First create a simple annotation, it could be called something like <code>AdultMales</code></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2841,13 +3106,9 @@ public @interface AdultMales {         <i class="conum" data-value="2"></i><b>(2
 <div class="paragraph">
 <p>In this case the annotation does not need any other attributes.</p>
 </div>
-<div class="ulist">
-<ul>
-<li>
-<p>Create the <code>FilterFactory</code></p>
-</li>
-</ul>
 </div>
+<div class="sect2">
+<h3 id="_create_the_code_filterfactory_code">Create the <code>FilterFactory</code></h3>
 <div class="paragraph">
 <p>Now create the <a href="../api/io/micronaut/coherence/FilterFactory.html">FilterFactory</a> implementation that will produce instances of the required <code>Filter</code>.</p>
 </div>
@@ -2919,13 +3180,9 @@ public class AdultFilterFactory&lt;Person&gt; implements FilterFactory&lt;Adults
 }</code></pre>
 </div>
 </div>
-<div class="ulist">
-<ul>
-<li>
-<p>Annotate the Injection Point</p>
-</li>
-</ul>
 </div>
+<div class="sect2">
+<h3 id="_annotate_the_injection_point">Annotate the Injection Point</h3>
 <div class="paragraph">
 <p>Now the application code where the view is to be injected can use the custom filter binding annotation.</p>
 </div>
@@ -2953,6 +3210,7 @@ private NamedMap&lt;String, Person&gt; adultMales;</code></pre>
 </tr>
 </table>
 </div>
+</div>
 
 <h1 id="valueExtractorBinding"><a class="anchor" href="#valueExtractorBinding"></a>9 Extractor Binding Annotations</h1>
 
@@ -2965,7 +3223,135 @@ private NamedMap&lt;String, Person&gt; adultMales;</code></pre>
 
 
 <div class="paragraph">
-<p>TBD&#8230;&#8203;</p>
+<p>ValueExtractor binding annotations are normal annotations that are themselves annotated with the <a href="../api/io/micronaut/coherence/annotation/ExtractorBinding.html">@ExtractorBinding</a> meta-annotation.
+An extractor binding annotation represents a Coherence <a href="https://coherence.community/20.12/api/java//com/tangosol/util/ValueExtractor.html">ValueExtractor</a> and is used to specify a <code>ValueExtractor</code> in certain injection points, for example a View (CQC), <code>NamedTopic</code> <code>Subscriber</code> beans, <code>MapeEvent</code> listeners, etc.</p>
+</div>
+<div class="paragraph">
+<p>There are three parts to using an extractor binding:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The extractor binding annotation</p>
+</li>
+<li>
+<p>An implementation of a <a href="../api/io/micronaut/coherence/ExtractorFactory.html">ExtractorFactory</a> that is annotated with the extractor binding annotation. This is a factory that produces the required <code>ValueExtractor</code>.</p>
+</li>
+<li>
+<p>Injection points annotated with the extractor binding annotation.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For example; assume there is a Coherence <code>NamedMap</code> with the name <code>people</code> that contains <code>Person</code> instances for the value.
+Among the various properties on the <code>Person</code> class is a property called <code>age</code>.
+Now assume we want to inject a view that uses the <code>age</code> property for the value, we would need a <code>ValueExtractor</code> that extracts the <code>age</code> property.</p>
+</div>
+<div class="sect2">
+<h3 id="_create_the_extractor_binding_annotation">Create the extractor binding annotation</h3>
+<div class="paragraph">
+<p>First create a simple annotation, it could be called something like <code>PersonAge</code></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@ExtractorBinding                         <i class="conum" data-value="1"></i><b>(1)</b>
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+public @interface PersonAge {            <i class="conum" data-value="2"></i><b>(2)</b>
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The annotation class is annotated with <code>@ExtractorBinding</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>The annotation name is <code>PersonAge</code></td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>In this case the annotation does not need any other attributes.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_create_the_code_extractorfactory_code">Create the <code>ExtractorFactory</code></h3>
+<div class="paragraph">
+<p>Now create the <a href="../api/io/micronaut/coherence/ExtractorFactory.html">ExtractorFactory</a> implementation that will produce instances of the required <code>ValueExtractor</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import com.tangosol.util.Extractors;
+import com.tangosol.util.ValueExtractor;
+import io.micronaut.coherence.ValueExtractorFactory;
+
+@PersonAge     <i class="conum" data-value="1"></i><b>(1)</b>
+@Singleton     <i class="conum" data-value="2"></i><b>(2)</b>
+public class PersonAgeExtractorFactory&lt;Person&gt; implements ExtractorFactory&lt;AdultMales, Person&gt; {
+    @Override
+    public ValueExtractor&lt;Person, Integer&gt; create(PersonAge annotation) {       <i class="conum" data-value="3"></i><b>(3)</b>
+        return Extractors.extract("age");
+    }
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The class is annotated with the <code>PersonAge</code> filter binding annotation</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>The class must be a Micronaut bean, in this case a singleton</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>The create method uses the Coherence <code>Extractors</code> API to create the required extractor, in this case a trivial property extractor.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The parameter to the <code>create</code> method is the annotation used on the injection point.
+In this case the annotation has no values, but if it did we could access those values to customize how the <code>ValueExtractor</code> is created.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_annotate_the_injection_point">Annotate the Injection Point</h3>
+<div class="paragraph">
+<p>Now the application code where the view is to be injected can use the custom extractor binding annotation.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@View               <i class="conum" data-value="1"></i><b>(1)</b>
+@PersonAge          <i class="conum" data-value="2"></i><b>(2)</b>
+@Name("people")     <i class="conum" data-value="3"></i><b>(3)</b>
+private NamedMap&lt;String, Integer&gt; ages;   <i class="conum" data-value="4"></i><b>(4)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The <code>@View</code> annotation indicates that this is a view rather than a plain <code>NamedMap</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>The <code>@PersonAge</code> annotation links to the custom extractor factory to use to create the <code>ValueExtractor</code> for the view</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>The <code>@Name</code> annotation indicates the underlying cache/map name to use for the view</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Note that the <code>MamedMap</code> generics are now <code>String</code> and <code>Integer</code> not <code>String</code> and <code>Person</code> as the <code>Person</code> values from the underlying cache are transformed into <code>Integer</code> values by extracting just the age property.</td>
+</tr>
+</table>
+</div>
 </div>
 
 <h1 id="transientInjection"><a class="anchor" href="#transientInjection"></a>10 Injection into Deserialized Objects</h1>
@@ -3209,8 +3595,27 @@ public class MyInterceptor implements EventInterceptor&lt;EntryEvent&lt;?, ?&gt;
 
 <div class="paragraph">
 <p>Coherence can be configured to run a gRPC proxy service that allows suitably configured gRPC clients to
-connect to a cluster and use clustered resources.
-The advantage of using a gRPC client rather than a traditional Coherence*Extend client is that gRPC works better with modern cloud infrastructures, being http/2 as opposed to Coherence custom protocol.</p>
+connect to a cluster and use clustered resources such as <code>NamedMap</code>, <code>NamedCache</code> etc.
+The advantage of using a gRPC client rather than a traditional Coherence*Extend client is that the gRPC client is lighter weight than an Extend client and can work better with modern cloud infrastructures, being http/2 as opposed to Coherence custom protocol.</p>
+</div>
+<div class="paragraph">
+<p>There are two parts required to use Coherence gRPC</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>A Coherence cluster running a gRPC proxy</p>
+</li>
+<li>
+<p>A client using the gRPC client library</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>One, or both of these could be using the Coherence Micronaut libraries, for example a Coherence Micronaut application that is a cluster member can be configured to run the gRPC proxy, which can be connected to by non-Micronaut Coherence gRPC clients (or even non-Java Coherence clients such as Coherence JS). And vice-versa, a Micronaut application can be a Coherence Micronaut gRPC client and connect to a non-Micronaut Coherence cluster running a gRPC proxy.</p>
+</div>
+<div class="paragraph">
+<p>The documentation below covers using gRPC in both cases, the Coherence product documentation covers how to run non-Micronaut gRPC proxies and clients.</p>
 </div>
 
 <h2 id="grpcProxy"><a class="anchor" href="#grpcProxy"></a>12.1 Configure a gRPC Proxy Service</h2>
@@ -3224,10 +3629,86 @@ The advantage of using a gRPC client rather than a traditional Coherence*Extend 
 
 
 <div class="paragraph">
-<p>To use gRPC the cluster must first be configured to run a gRPC proxy service.</p>
+<p>A Coherence Micronaut application that runs as a cluster member with a gRPC proxy service has two choices when configuring the gRPC server. It can just use the out of the box Coherence gRPC proxy functionality. Or, it can make use of some additional configuration features provided by the Coherence Micronaut API.</p>
 </div>
 <div class="paragraph">
-<p>TBD&#8230;&#8203;</p>
+<p>This documentation specifically covers the latter case of configuring the gRPC proxy using Micronaut.</p>
+</div>
+<div class="sect2">
+<h3 id="_add_the_coherence_grpc_proxy_dependency">Add the Coherence gRPC Proxy Dependency</h3>
+<div class="paragraph">
+<p>To run a gRPC proxy then Coherence gRPC Proxy module must be added to the project dependencies:</p>
+</div>
+<div class="paragraph">
+<p>        <div class="listingblock multi-language-sample">
+<div class="title"></div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"com.oracle.coherence.ce:coherence-grpc-proxy:20.12.1")</span></code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
+    &lt;groupId&gt;com.oracle.coherence.ce&lt;/groupId&gt;
+    &lt;artifactId&gt;coherence-grpc-proxy&lt;/artifactId&gt;
+    &lt;version&gt;20.12.1&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+</p>
+</div>
+<div class="paragraph">
+<p>By default Coherence will run a simple gRPC server listening on <code>0.0.0.0:1407</code>, i.e. bound to port 1407 on all local addresses. If this is sufficient for your application then there is nothing more to configure.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_change_the_grpc_port">Change the gRPC Port</h3>
+<div class="paragraph">
+<p>To simply change the gRPC port that the server binds to requires nothing more than a configuration property. This can be added to the <code>coherence</code> section of the <code>application.yaml</code>.</p>
+</div>
+<div class="paragraph">
+<p>For example, the configuration below sets the port to <code>9099</code>:</p>
+</div>
+<div class="listingblock">
+<div class="title">application.yaml</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">coherence:
+  grpc:
+    server:
+      port: 9099</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_configure_the_server">Configure the Server</h3>
+<div class="paragraph">
+<p>If more than just the port needs to be changed, then to fully control the server configuration a Micronaut bean can be created of type <a href="https://coherence.community/20.12/api/java//com/oracle/coherence/grpc/proxy/GrpcServerConfiguration.html">GrpcServerConfiguration</a>.</p>
+</div>
+<div class="paragraph">
+<p>A Coherence gRPC proxy runs both a gRPC server listening for remote connections as well as an in-process gRPC server to allow connections to services from within the same JVM. The <code>GrpcServerConfiguration</code> interface has a <code>configure</code> method that allows configuration of both of these servers.</p>
+</div>
+<div class="listingblock">
+<div class="title">ServerConfiguration.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@Singleton
+public class ServerConfiguration implements GrpcServerConfiguration {
+
+    @Override
+    public void configure(ServerBuilder&lt;?&gt; serverBuilder,
+            InProcessServerBuilder inProcessServerBuilder) {
+
+        // ToDo: configure the servers...
+
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The example above shows a simple singleton bean named <code>ServerConfiguration</code> that implements <code>GrpcServerConfiguration</code>. The <code>configure</code> method is called with the <code>io.grpc.ServerBuilder</code> to allow full configuration of the gRPC server and also with the <code>io.grpc.inprocess.InProcessServerBuilder</code> to allow full control over the in-process server.</p>
+</div>
+<div class="paragraph">
+<p>Multiple <code>GrpcServerConfiguration</code> beans may be present, and if so, all will be called and given a chance to configure the servers.</p>
+</div>
 </div>
 
 <h2 id="grpcClient"><a class="anchor" href="#grpcClient"></a>12.2 Using a gRPC Client</h2>
