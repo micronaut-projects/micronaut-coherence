@@ -8,14 +8,16 @@ To run a gRPC proxy then Coherence gRPC Proxy module must be added to the projec
 
 dependency:coherence-grpc-proxy[groupId="com.oracle.coherence.ce",version="20.12.1"]
 
-By default Coherence will run a simple gRPC server listening on `0.0.0.0:1407`, i.e. bound to port 1407 on all local addresses. If this is sufficient for your application then there is nothing more to configure.
+By default, Coherence will run a simple gRPC server listening on `0.0.0.0:1407`, i.e. bound to port 1407 on all local addresses. If this is sufficient for your application then there is nothing more to configure.
 
 
-=== Change the gRPC Port
+=== Configure the gRPC Server via Application Config
 
-To simply change the gRPC port that the server binds to requires nothing more than a configuration property. This can be added to the `coherence` section of the `application.yaml`.
+The Coherence gRPC Proxy module allows the gRPC server to be configured using system properties.
+When using Coherence Micronaut, these same properties can be configured in the Micronaut application configuration.
 
-For example, the configuration below sets the port to `9099`:
+For example, to simply change the gRPC port that the server binds to would require setting the `coherence.grpc.server.port` property. Using Micronaut, this can be added to the `coherence` section of the `application.yaml`. The configuration below sets the port to `9099`:
+
 [source,yaml]
 .application.yaml
 ----
@@ -25,11 +27,14 @@ coherence:
       port: 9099
 ----
 
-=== Configure the Server
+See the official Coherence gRPC documentation for more properties that can be set.
 
-If more than just the port needs to be changed, then to fully control the server configuration a Micronaut bean can be created of type link:{coherenceApi}/com/oracle/coherence/grpc/proxy/GrpcServerConfiguration.html[GrpcServerConfiguration].
+=== Custom Server Configuration
 
-A Coherence gRPC proxy runs both a gRPC server listening for remote connections as well as an in-process gRPC server to allow connections to services from within the same JVM. The `GrpcServerConfiguration` interface has a `configure` method that allows configuration of both of these servers.
+If more control over the server configuration is required than that provided out of the box by Coherence, then a Micronaut bean can be created of type link:{coherenceApi}/com/oracle/coherence/grpc/proxy/GrpcServerConfiguration.html[GrpcServerConfiguration].
+
+A Coherence gRPC proxy runs both a gRPC server listening for remote connections, and an in-process gRPC server to allow connections to services from within the same JVM.
+The `GrpcServerConfiguration` interface has a `configure` method that allows configuration of both of these servers.
 
 [source,java]
 .ServerConfiguration.java
@@ -50,3 +55,26 @@ public class ServerConfiguration implements GrpcServerConfiguration {
 The example above shows a simple singleton bean named `ServerConfiguration` that implements `GrpcServerConfiguration`. The `configure` method is called with the `io.grpc.ServerBuilder` to allow full configuration of the gRPC server and also with the `io.grpc.inprocess.InProcessServerBuilder` to allow full control over the in-process server.
 
 Multiple `GrpcServerConfiguration` beans may be present, and if so, all will be called and given a chance to configure the servers.
+
+=== Provide a ServerBuilder
+
+Finally, if the above ways to configure the server still do not give enough flexibility then an application can provide a bean of type `io.grpc.ServerBuilder` which will be used by Coherence to build the gRPC server.
+
+For example, the `ServerBuilderFactory` class below is a simple Micronaut factory that provides a singleton `ServerBuilder` bean from the `createServerBuilder` method.
+
+[source,java]
+.ServerBuilderFactory.java
+----
+import io.grpc.ServerBuilder;
+
+@Factory
+public class ServerBuilderFactory {
+
+    @Singleton
+    public ServerBuilder<?> createServerBuilder() {
+        ServerBuilder<?> builder = ServerBuilder.forPort(nPort);
+        // ToDo: add more configuration...
+        return builder;
+    }
+}
+----

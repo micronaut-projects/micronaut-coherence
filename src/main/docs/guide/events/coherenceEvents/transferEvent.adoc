@@ -74,5 +74,3 @@ public void onEvent(@ServiceName("StorageService") TransferEvent event) {
     // ToDo: process the event
 }
 ----
-
-TBD...

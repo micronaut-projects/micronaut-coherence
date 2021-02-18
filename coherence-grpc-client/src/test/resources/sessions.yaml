@@ -6,7 +6,7 @@ coherence:
     localstorage: true
 
   grpc:
-    channel:
+    channels:
       foo:
         hostname: 127.0.0.1
         port: 1408

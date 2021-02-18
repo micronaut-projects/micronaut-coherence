@@ -66,4 +66,30 @@ attribute greater than 10. Equivalent to `lastName = 'Simpson' && age > 10`.
 
 == Specify a View Transformer
 
-TBD...
+The values in a view map do not have to be the same as the value sin the underlying cache, a link:{coherenceApi}/com/tangosol/util/ValueExtractor.html[ValueExtractor] can be used to transform the actual cache value into a different value in the view.
+ValueExtractor are specified for views using a special extractor binding annotation.
+These are annotations that are themselves annotated with the meta-annotation
+link:{api}/io/micronaut/coherence/annotation/ExtractorBinding.html[@ExtractorBinding].
+The Micronaut Coherence framework comes with some built in implementations, for example
+link:{api}/io/micronaut/coherence/annotation/PropertyExtractor.html[@PropertyExtractor],
+and it is simple to implement other as required by applications
+(see the <<valueExtractorBinding,Extractor Binding Annotation>> section for more details).
+
+For example, if there was a cache named "people", containing `Person` instances, and the application required a view where the value was just the `age` attribute of each `Person` rather than the whole cache value. A `@PropertyExtractor` annotation could be used to specify that the values should be transformed using a property extractor.
+
+[source,java]
+----
+@Inject
+@View                                       // <1>
+@Name("people")                             // <2>
+@PropertyExtractor("age")                   // <3>
+private NamedMap<String, Integer> ages;     // <4>
+----
+<1> The `@View` annotation specifies that a view will be injected rather than a raw `NamedMap`.
+<2> The name of the underlying map for the view is `people`.
+<3> The `@PropertyExtractor` annotation specifies that a `ValueExtractor` should be used to transform the underlying cache values into different values in the view. In this case the `@PropertyExtractor` annotation will produce a value extractor to extract the `age` property.
+<4> Note that the map injected is now a `NamedMap<String, Integer>` with generic types of `String` and `Integer` because the values have been transformed from `Person` to `Integer`.
+
+Multiple extractor bindings can be applied to the injection point, in which case the view value will be a `List` of the extracted attributes.
+
+Custom extractor binding annotations can be created to fulfil more complex transformations.
