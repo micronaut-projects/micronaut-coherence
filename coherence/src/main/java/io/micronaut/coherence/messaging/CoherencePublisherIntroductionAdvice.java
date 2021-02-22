@@ -16,12 +16,13 @@
 package io.micronaut.coherence.messaging;
 
 import java.time.Duration;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.*;
 
 import javax.annotation.Nonnull;
 import javax.inject.Singleton;
 
+import io.micronaut.aop.InterceptedMethod;
 import io.micronaut.coherence.annotation.SessionName;
 
 import com.tangosol.net.Coherence;
@@ -136,6 +137,7 @@ public class CoherencePublisherIntroductionAdvice implements MethodInterceptor<O
             boolean isReactiveReturnType = Publishers.isConvertibleToPublisher(javaReturnType);
             boolean isReactiveValue = value != null && Publishers.isConvertibleToPublisher(value.getClass());
 
+            InterceptedMethod interceptedMethod = InterceptedMethod.of(context);
             if (isReactiveReturnType) {
                 // return type is a reactive type
                 Flowable<?> flowable = buildSendFlowable(context, publisher, Argument.OBJECT_ARGUMENT, maxBlock, value);
@@ -195,17 +197,7 @@ public class CoherencePublisherIntroductionAdvice implements MethodInterceptor<O
                     });
                 }
 
-                try {
-                    if (Future.class.isAssignableFrom(javaReturnType)) {
-                        return completableFuture;
-                    } else if (maxBlock != null) {
-                        return completableFuture.get(maxBlock.toMillis(), TimeUnit.MILLISECONDS);
-                    } else {
-                        return completableFuture.get();
-                    }
-                } catch (Throwable t) {
-                    throw wrapException(context, t);
-                }
+                return interceptedMethod.handleResult(completableFuture);
             }
         } else {
             // can't be implemented so proceed

@@ -254,8 +254,6 @@ class CoherenceTopicListenerProcessor
             Subscriber<?> subscriber = topic.createSubscriber(options.toArray(options.toArray(new Subscriber.Option[0])));
             TopicSubscriber<?, ?, ?> topicSubscriber = new TopicSubscriber(topicName, subscriber, sendToPublishers, bean, method, registry, scheduler);
             subscribers.add(topicSubscriber);
-System.err.println("****** Starting subscriber " + topicName);
-
             topicSubscriber.nextMessage();
         }
         subscribed = true;
