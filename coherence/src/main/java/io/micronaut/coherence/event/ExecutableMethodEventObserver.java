@@ -25,6 +25,7 @@ import io.micronaut.inject.ExecutableMethod;
 
 import java.util.Collections;
 import java.util.Map;
+import java.util.function.Supplier;
 
 /**
  * A Coherence event observer implementation that wraps an {@link io.micronaut.inject.ExecutableMethod}.
@@ -38,14 +39,21 @@ import java.util.Map;
 class ExecutableMethodEventObserver<E extends Event<?>, T, R>
         extends BaseExecutableMethodObserver<E, T, R> {
 
-    ExecutableMethodEventObserver(T bean, ExecutableMethod<T, R> method, EventArgumentBinderRegistry<E> binderRegistry) {
-        super(bean, method, binderRegistry);
+    /**
+     * Create a {@link ExecutableMethodEventObserver}.
+     *
+     * @param supplier  a {@link Supplier} to lazily provide the Micronaut bean that has the executable method
+     * @param method    the method to execute when events are received
+     * @param registry  the {@link EventArgumentBinderRegistry} to use to bind arguments to the method
+     */
+    ExecutableMethodEventObserver(Supplier<T> supplier, ExecutableMethod<T, R> method, EventArgumentBinderRegistry<E> registry) {
+        super(supplier, method, registry);
     }
 
-    public void notify(E event) {
+    void notify(E event) {
         Map<Argument<?>, Object> mapBindings = Collections.singletonMap(Argument.of(LifecycleEvent.class), event);
         ExecutableBinder<E> batchBinder = new DefaultExecutableBinder<>(mapBindings);
         BoundExecutable<T, R> boundExecutable = batchBinder.bind(method, binderRegistry, event);
-        boundExecutable.invoke(bean);
+        boundExecutable.invoke(beanSupplier.get());
     }
 }

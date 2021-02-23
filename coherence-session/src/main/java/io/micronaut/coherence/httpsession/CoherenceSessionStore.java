@@ -49,7 +49,9 @@ import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 
-
+/**
+ * A {@link SessionStore} that uses Coherence to store session data.
+ */
 @Singleton
 @Primary
 @Requires(property = CoherenceSessionStore.COHERENCE_SESSION_ENABLED, value = StringUtils.TRUE)
@@ -111,6 +113,9 @@ public class CoherenceSessionStore implements SessionStore<CoherenceSessionStore
                 }).thenApplyAsync(session -> (Optional<CoherenceHttpSession>) session);
     }
 
+    /**
+     * A representation of a http session.
+     */
     public static class CoherenceHttpSession implements Session, PortableObject, Serializable {
         private String id;
         private Instant creationTime;
@@ -190,7 +195,7 @@ public class CoherenceSessionStore implements SessionStore<CoherenceSessionStore
             return isModified;
         }
 
-        void setModified(boolean isModified) {
+        final void setModified(boolean isModified) {
             this.isModified = isModified;
         }
 

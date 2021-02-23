@@ -24,6 +24,7 @@ import io.micronaut.inject.ExecutableMethod;
 
 import java.util.Collections;
 import java.util.Map;
+import java.util.function.Supplier;
 
 /**
  * A {@link BaseExecutableMethodObserver} that wraps a map listener executabl emethod.
@@ -38,8 +39,15 @@ import java.util.Map;
 class ExecutableMethodMapListener<K, V, T, R>
         extends BaseExecutableMethodObserver<MapEvent<K, V>, T, R> {
 
-    ExecutableMethodMapListener(T bean, ExecutableMethod<T, R> method, EventArgumentBinderRegistry<MapEvent<K, V>> binderRegistry) {
-        super(bean, method, binderRegistry);
+    /**
+     * Create a {@link ExecutableMethodEventObserver}.
+     *
+     * @param supplier  a {@link Supplier} to lazily provide the Micronaut bean that has the executable method
+     * @param method    the method to execute when events are received
+     * @param registry  the {@link EventArgumentBinderRegistry} to use to bind arguments to the method
+     */
+    ExecutableMethodMapListener(Supplier<T> supplier, ExecutableMethod<T, R> method, EventArgumentBinderRegistry<MapEvent<K, V>> registry) {
+        super(supplier, method, registry);
     }
 
     /**
@@ -51,6 +59,6 @@ class ExecutableMethodMapListener<K, V, T, R>
         Map<Argument<?>, Object> mapBindings = Collections.singletonMap(Argument.of(MapEvent.class), event);
         ExecutableBinder<MapEvent<K, V>> batchBinder = new DefaultExecutableBinder<>(mapBindings);
         BoundExecutable<T, R> boundExecutable = batchBinder.bind(method, binderRegistry, event);
-        boundExecutable.invoke(bean);
+        boundExecutable.invoke(beanSupplier.get());
     }
 }

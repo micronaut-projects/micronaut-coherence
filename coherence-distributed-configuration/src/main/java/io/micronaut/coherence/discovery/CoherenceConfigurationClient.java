@@ -48,6 +48,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
+/**
+ * A {@link ConfigurationClient} that works with Coherence as a config source.
+ */
 @Singleton
 @BootstrapContextCompatible
 public class CoherenceConfigurationClient implements ConfigurationClient {
@@ -83,6 +86,14 @@ public class CoherenceConfigurationClient implements ConfigurationClient {
         return Flowable.merge(propertySources);
     }
 
+    /**
+     * Build a map of config source names.
+     *
+     * @param applicationConfiguration  the application configuration
+     * @param environment               the current environment
+     *
+     * @return a map of config source names
+     */
     protected Map<Integer, String> buildSourceNames(ApplicationConfiguration applicationConfiguration, Environment environment) {
         Optional<String> configuredApplicationName = applicationConfiguration.getName();
         String applicationName = configuredApplicationName.orElse(null);

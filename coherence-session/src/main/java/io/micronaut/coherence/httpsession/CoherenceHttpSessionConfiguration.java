@@ -22,6 +22,9 @@ import io.micronaut.session.http.HttpSessionConfiguration;
 import java.util.Optional;
 
 
+/**
+ * A {@link HttpSessionConfiguration} that uses Coherence to store http sessions.
+ */
 @ConfigurationProperties("coherence")
 public class CoherenceHttpSessionConfiguration extends HttpSessionConfiguration implements Toggleable {
     private String cacheName;

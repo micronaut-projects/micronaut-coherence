@@ -21,6 +21,7 @@ import io.micronaut.inject.ExecutableMethod;
 import java.lang.annotation.Annotation;
 import java.util.Arrays;
 import java.util.Set;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -35,14 +36,21 @@ import java.util.stream.Stream;
  */
 abstract class BaseExecutableMethodObserver<E, T, R> {
 
-    protected final T bean;
+    protected final Supplier<T> beanSupplier;
 
     protected final ExecutableMethod<T, R> method;
 
     protected final EventArgumentBinderRegistry<E> binderRegistry;
 
-    public BaseExecutableMethodObserver(T bean, ExecutableMethod<T, R> method, EventArgumentBinderRegistry<E> registry) {
-        this.bean = bean;
+    /**
+     * Create a {@link ExecutableMethodEventObserver}.
+     *
+     * @param supplier  a {@link Supplier} to lazily provide the Micronaut bean that has the executable method
+     * @param method    the method to execute when events are received
+     * @param registry  the {@link EventArgumentBinderRegistry} to use to bind arguments to the method
+     */
+    protected BaseExecutableMethodObserver(Supplier<T> supplier, ExecutableMethod<T, R> method, EventArgumentBinderRegistry<E> registry) {
+        this.beanSupplier = supplier;
         this.method = method;
         this.binderRegistry = registry;
     }

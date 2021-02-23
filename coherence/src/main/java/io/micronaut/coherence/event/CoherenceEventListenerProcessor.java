@@ -42,6 +42,7 @@ import io.micronaut.inject.ExecutableMethod;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.*;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 /**
@@ -129,7 +130,7 @@ public class CoherenceEventListenerProcessor
         Class<?> type = arguments.length == 1 ? arguments[0].getType() : null;
         if (type != null && (Event.class.isAssignableFrom(type) || MapEvent.class.isAssignableFrom(type))) {
             Class<?> clsBeanType = beanDefinition.getBeanType();
-            Object bean = ctx.getBean(clsBeanType);
+            Supplier<Object> bean = () -> ctx.getBean(clsBeanType);
 
             if (Event.class.isAssignableFrom(type)) {
                 ExecutableMethodEventObserver observer = new ExecutableMethodEventObserver(bean, method, binderRegistry);

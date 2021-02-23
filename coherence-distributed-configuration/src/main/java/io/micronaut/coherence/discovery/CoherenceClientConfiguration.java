@@ -19,6 +19,9 @@ package io.micronaut.coherence.discovery;
 import io.micronaut.context.annotation.BootstrapContextCompatible;
 import io.micronaut.context.annotation.ConfigurationProperties;
 
+/**
+ * The Coherence client configuration.
+ */
 @ConfigurationProperties(CoherenceClientConfiguration.PREFIX)
 @BootstrapContextCompatible
 public class CoherenceClientConfiguration {
@@ -76,7 +79,7 @@ public class CoherenceClientConfiguration {
     /**
      * Enables TLS support.
      *
-     * @param enableTls
+     * @param enableTls  {@code true} to enable TLS
      */
     public void setEnableTls(boolean enableTls) {
         this.enableTls = enableTls;
