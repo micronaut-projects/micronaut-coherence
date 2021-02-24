@@ -18,7 +18,7 @@
  * cache manager.
  */
 @Configuration
-@Requires(property = "coherence.enabled", notEquals = StringUtils.FALSE)
+@Requires(property = "coherence.cache.enabled", notEquals = StringUtils.FALSE)
 package io.micronaut.cache.coherence;
 
 import io.micronaut.context.annotation.Configuration;
