@@ -22,10 +22,11 @@ dependencies {
     implementation project(':coherence-grpc-client')
     api "io.micronaut:micronaut-inject"
     api "io.micronaut:micronaut-runtime"
-    implementation(platform("com.oracle.coherence.ce:coherence-bom:${coherenceVersion}"))
-    implementation "com.oracle.coherence.ce:coherence"
     implementation "io.micronaut:micronaut-discovery-client"
+    compileOnly "com.oracle.coherence.ce:coherence"
+    compileOnly(platform("com.oracle.coherence.ce:coherence-bom:${coherenceVersion}"))
 
+    testImplementation(platform("com.oracle.coherence.ce:coherence-bom:${coherenceVersion}"))
     testImplementation "org.mockito:mockito-core:3.7.7"
     testImplementation "org.mockito:mockito-inline:3.7.7"
     testImplementation "org.hamcrest:hamcrest:2.2"

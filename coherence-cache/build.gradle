@@ -23,12 +23,12 @@ dependencies {
     api "io.micronaut:micronaut-inject"
     api "io.micronaut.cache:micronaut-cache-core"
     compileOnly "com.oracle.coherence.ce:coherence"
-
-    implementation(platform("com.oracle.coherence.ce:coherence-bom:${coherenceVersion}"))
+    compileOnly(platform("com.oracle.coherence.ce:coherence-bom:${coherenceVersion}"))
 
     testAnnotationProcessor "io.micronaut:micronaut-inject-java"
 
     testImplementation "com.oracle.coherence.ce:coherence"
+    testImplementation(platform("com.oracle.coherence.ce:coherence-bom:${coherenceVersion}"))
     testImplementation "io.micronaut:micronaut-inject-groovy:$micronautVersion"
     testImplementation "io.micronaut.test:micronaut-test-spock:$micronautTestVersion"
     testImplementation "io.micronaut.cache:micronaut-cache-tck:2.3.0"
