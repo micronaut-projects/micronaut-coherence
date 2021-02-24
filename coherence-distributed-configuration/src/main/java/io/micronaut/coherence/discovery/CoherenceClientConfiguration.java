@@ -29,7 +29,7 @@ public class CoherenceClientConfiguration {
 
     private String host = "localhost";
     private int port = 1408;
-    private boolean enableTls = true;
+    private boolean enableTls;
 
     /**
      * Returns host name of gRPC server.

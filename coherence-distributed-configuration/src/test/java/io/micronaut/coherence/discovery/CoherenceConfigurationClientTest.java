@@ -203,6 +203,7 @@ class CoherenceConfigurationClientTest {
     public void shouldCreateDefaultChannel() {
         ApplicationConfiguration applicationConfiguration = mock(ApplicationConfiguration.class);
         CoherenceClientConfiguration coherenceClientConfiguration = new CoherenceClientConfiguration();
+        coherenceClientConfiguration.setEnableTls(true);
         CoherenceConfigurationClient client = new CoherenceConfigurationClient(applicationConfiguration, coherenceClientConfiguration);
 
         ManagedChannelBuilder channelBuilder = mock(ManagedChannelBuilder.class);
@@ -222,7 +223,6 @@ class CoherenceConfigurationClientTest {
         CoherenceClientConfiguration coherenceClientConfiguration = new CoherenceClientConfiguration();
         coherenceClientConfiguration.setHost("example.com");
         coherenceClientConfiguration.setPort(9999);
-        coherenceClientConfiguration.setEnableTls(false);
         CoherenceConfigurationClient client = new CoherenceConfigurationClient(applicationConfiguration, coherenceClientConfiguration);
 
         ManagedChannelBuilder channelBuilder = mock(ManagedChannelBuilder.class);
