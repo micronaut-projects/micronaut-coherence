@@ -1,6 +1,10 @@
-To use Coherence as a Micronaut HTTP session store add the `micronaut-coherence-session` dependency:
+To use link:{coherenceHome}[Coherence] as a Micronaut HTTP session store add the `micronaut-coherence-session` dependency:
 
 dependency:io.micronaut.coherence:micronaut-coherence-session[]
+
+Also, add Coherence dependency - either Coherence CE or commercial version:
+
+dependency:com.oracle.coherence.ce:coherence:{coherenceVersion}[]
 
 Enable Coherence sessions via configuration in `application.yml`:
 
