@@ -59,5 +59,6 @@ grpc:
   grpcClient: Using a gRPC Client
 coherenceHttpSessions: Using Coherence to store HTTP sessions
 cache: Using Coherence as Micronaut Cache implementation
+distributedConfiguration: Using Coherence as a Distributed Configuration provided
 repository: Repository
 

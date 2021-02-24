@@ -1,0 +1,47 @@
+To use link:{coherenceHome}[Coherence] to store configuration values add following dependencies:
+
+dependency:io.micronaut.coherence:micronaut-coherence-distributed-configuration[]
+
+Also, add Coherence dependency - either Coherence CE or commercial version:
+
+dependency:com.oracle.coherence.ce:coherence:{coherenceVersion}[]
+
+To enable support simply add the following configuration to your `bootstrap.yml` file:
+
+.Integrating with Oracle Coherence
+[source,yaml]
+----
+micronaut:
+  application:
+    name: hello-world
+  config-client:
+    enabled: true
+
+coherence:
+  client:
+    enabled: true
+    # gRPC config:
+    host: localhot
+    port: 1408
+    enable-tls: true
+----
+
+Micronaut will use the configured micronaut.application.name to lookup property sources for the application from Coherence.
+
+.Configuration Resolution Precedence
+|===
+|Cache|Description
+
+|`application`
+|Configuration shared by all applications
+
+|`[APPLICATION_NAME]`
+|Application specific configuration
+
+|`application-[ENV_NAME]`
+|Configuration shared by all applications for an active environment name
+
+|`[APPLICATION_NAME]-[ENV_NAME]`
+|Application specific configuration for an active environment name
+
+|===
