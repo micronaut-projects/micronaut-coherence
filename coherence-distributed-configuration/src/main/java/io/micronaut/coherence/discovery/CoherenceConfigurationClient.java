@@ -142,11 +142,11 @@ public class CoherenceConfigurationClient implements ConfigurationClient {
         String host = coherenceClientConfiguration.getHost();
         int port = coherenceClientConfiguration.getPort();
 
-        ManagedChannelBuilder<?> chanelBuilder = ManagedChannelBuilder.forAddress(host, port);
+        ManagedChannelBuilder<?> channelBuilder = ManagedChannelBuilder.forAddress(host, port);
         if (!coherenceClientConfiguration.isEnableTls()) {
-            chanelBuilder.usePlaintext();
+            channelBuilder.usePlaintext();
         }
-        return chanelBuilder.build();
+        return channelBuilder.build();
     }
 
     @Override
