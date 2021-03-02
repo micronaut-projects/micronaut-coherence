@@ -14,10 +14,10 @@ dependency:com.oracle.coherence.ce:coherence:{coherenceVersion}
 
 When using the https://micronaut-projects.github.io/micronaut-cache/latest/api/io/micronaut/cache/annotation/Cacheable.html[@Cacheable] and other Cache Annotations, Micronaut will use default Coherence session to obtain cache instance for caching. It's up to the user to configure Coherence specific cache.
 
-You can also add Coherence module to your project using cli feature as below:
+You can also add Coherence module to your project using `mn` CLI feature:
 
 [source,bash]
-.Create a Micronaut application with Coherence module
+.Create a Micronaut application with Coherence cache module
 ----
 $ mn create-app hello-world -f cache-coherence
 ----
