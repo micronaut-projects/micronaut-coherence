@@ -9,7 +9,7 @@ Also, add a Coherence dependency - either Coherence CE or commercial version:
 
 [source]
 ----
-dependency:com.oracle.coherence.ce:coherence:21.06-M1
+dependency:com.oracle.coherence.ce:coherence:{coherenceVersion}
 ----
 
 Enable Coherence sessions via configuration in `application.yml`:
