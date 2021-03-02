@@ -43,7 +43,8 @@ events:
 messagingWithTopics:
   title: Messaging with Coherence Topics
   publishers: Define Publishers - @CoherencePublisher
-  subscribers: Define Subscribers - @CoherenceTopicListener
+  subscribers:
+    title: Define Subscribers - @CoherenceTopicListener
     forwarding: Forwarding Messages with @SendTo
 filterBinding:
   title: Filter Binding Annotations
