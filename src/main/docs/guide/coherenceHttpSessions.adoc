@@ -1,10 +1,16 @@
 To use link:{coherenceHome}[Coherence] as a Micronaut HTTP session store add the `micronaut-coherence-session` dependency:
 
-dependency:io.micronaut.coherence:micronaut-coherence-session[]
+[source]
+----
+dependency:io.micronaut.coherence:micronaut-coherence-session
+----
 
-Also, add Coherence dependency - either Coherence CE or commercial version:
+Also, add a Coherence dependency - either Coherence CE or commercial version:
 
-dependency:com.oracle.coherence.ce:coherence:{coherenceVersion}[]
+[source]
+----
+dependency:com.oracle.coherence.ce:coherence:21.06-M1
+----
 
 Enable Coherence sessions via configuration in `application.yml`:
 
@@ -21,7 +27,7 @@ micronaut:
         cache-name: http-session-cache
 ----
 
-Coherence cache will be obtained by using default Coherence session.
+Coherence cache will be obtained using default Coherence session.
 
 In case that cache is configured to use POF serialization, additional POF configuration for the class `io.micronaut.coherence.httpsession.CoherenceSessionStore$CoherenceHttpSession` has to be added to the POF config. User can pick appropriate value for `type-id`.
 
