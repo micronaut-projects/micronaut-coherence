@@ -1,10 +1,16 @@
 To use link:{coherenceHome}[Coherence] as the https://docs.micronaut.io/latest/guide/index.html#caching[caching] implementation, add it as a dependency to your application:
 
-dependency:io.micronaut.coherence:micronaut-coherence-cache:{projectVersion}[]
+[source]
+----
+dependency:io.micronaut.coherence:micronaut-coherence-cache:{projectVersion}
+----
 
 Also, add Coherence dependency - either Coherence CE or commercial version:
 
-dependency:com.oracle.coherence.ce:coherence:{coherenceVersion}[]
+[source]
+----
+dependency:com.oracle.coherence.ce:coherence:{coherenceVersion}
+----
 
 When using the https://micronaut-projects.github.io/micronaut-cache/latest/api/io/micronaut/cache/annotation/Cacheable.html[@Cacheable] and other Cache Annotations, Micronaut will use default Coherence session to obtain cache instance for caching. It's up to the user to configure Coherence specific cache.
 
