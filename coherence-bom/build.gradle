@@ -1,0 +1,26 @@
+plugins {
+    id 'java-platform'
+}
+
+javaPlatform {
+    allowDependencies()
+}
+
+def coherenceBom = new XmlSlurper().parse(
+        "https://oss.sonatype.org/content/groups/staging/com/oracle/coherence/ce/coherence-bom/${coherenceVersion}/coherence-bom-${coherenceVersion}.pom"
+)
+
+dependencies {
+    constraints {
+        for (Project p : rootProject.subprojects) {
+            if (p.name == "coherence-bom") {
+                continue
+            }
+            api "$p.group:micronaut-$p.name:$p.version"
+        }
+
+        for (name in coherenceBom.dependencyManagement.dependencies.dependency.artifactId*.text()) {
+            api "com.oracle.coherence.ce:$name:$coherenceVersion"
+        }
+    }
+}
