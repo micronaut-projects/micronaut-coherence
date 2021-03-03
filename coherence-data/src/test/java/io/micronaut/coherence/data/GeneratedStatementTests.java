@@ -24,13 +24,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
 import javax.inject.Inject;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Comparator;
-import java.util.GregorianCalendar;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -183,7 +177,11 @@ public class GeneratedStatementTests extends AbstractDataTests {
      */
     @Test
     void shouldFindByTitleIn() {
-        assertThat(repo.findByTitleIn(Arrays.asList("Dune", "The Name of the Wind")), containsInAnyOrder(
+        List<String> titles = new ArrayList<>();
+        titles.add("Dune");
+        titles.add("The Name of the Wind");
+
+        assertThat(repo.findByTitleIn(titles), containsInAnyOrder(
                 books.stream().filter(book -> book.getTitle().equals("Dune")
                         || book.getTitle().equals("The Name of the Wind")).toArray()));
     }
