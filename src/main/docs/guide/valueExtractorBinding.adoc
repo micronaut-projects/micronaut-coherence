@@ -1,6 +1,6 @@
 
 ValueExtractor binding annotations are normal annotations that are themselves annotated with the link:{api}/io/micronaut/coherence/annotation/ExtractorBinding.html[@ExtractorBinding] meta-annotation.
-An extractor binding annotation represents a Coherence link:{coherenceApi}/com/tangosol/util/ValueExtractor.html[ValueExtractor] and is used to specify a `ValueExtractor` in certain injection points, for example a View (CQC), `NamedTopic` `Subscriber` beans, `MapeEvent` listeners, etc.
+An extractor binding annotation represents a Coherence link:{coherenceApi}/com/tangosol/util/ValueExtractor.html[ValueExtractor] and is used to specify a `ValueExtractor` in certain injection points, for example a View (CQC), `NamedTopic` `Subscriber` beans, `MapEvent` listeners, etc.
 
 There are three parts to using an extractor binding:
 
@@ -68,6 +68,6 @@ Now the application code where the view is to be injected can use the custom ext
 private NamedMap<String, Integer> ages;   // <4>
 ----
 <1> The `@View` annotation indicates that this is a view rather than a plain `NamedMap`
-<2> The `@PersonAge` annotation links to the custom extractor factory to use to create the `ValueExtractor` for the view
+<2> The `@PersonAge` annotation links to the custom extractor factory used to create the `ValueExtractor` for the view
 <3> The `@Name` annotation indicates the underlying cache/map name to use for the view
-<4> Note that the `MamedMap` generics are now `String` and `Integer` not `String` and `Person` as the `Person` values from the underlying cache are transformed into `Integer` values by extracting just the age property.
+<4> Note that the `NamedMap` generics are now `String` and `Integer` not `String` and `Person` as the `Person` values from the underlying cache are transformed into `Integer` values by extracting just the age property.

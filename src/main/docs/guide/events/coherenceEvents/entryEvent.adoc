@@ -38,7 +38,7 @@ public void onEvent(@Inserted @Deleted EntryProcessorEvent event) {
 ====
 The event types fall into two categories, pre-events (those name *ing) and post-events, those named *ed). Pre-events are emitted synchronously before the entry is mutated. Post-events are emitted asynchronously after the entry has been mutated.
 
-As pre-events are synchronous the listener method should not take a long time to execute as it is blocking the cache mutation and could obviously be a performance impact. It is also important that developers understand Coherence re-entrancy as the pre-events are executing on the Cache Service thread so cannot call into caches owned by the same service.
+As pre-events are synchronous the listener method should not take a long time to execute as it is blocking the cache mutation and could obviously be a performance impact. It is also important that developers understand Coherence reentrancy as the pre-events are executing on the Cache Service thread so cannot call into caches owned by the same service.
 ====
 
 

@@ -18,8 +18,8 @@ public void onEvent(CacheLifecycleEvent event) {
 There are three types of `CacheLifecycleEvent:
 
 * Created - a cache instance has been created, use the link:{api}/io/micronaut/coherence/annotation/Created.html[@Created] annotation
-* Truncated - a cache instance has been truncated (all of the data removed), use the link:{api}/io/micronaut/coherence/annotation/Truncated.html[@Truncated] annotation
-* Destroyed - a cache has been destroyed (destroy is a cluster wide operation, so the cache is detroyed on all members of the cluster and clients) use the link:{api}/io/micronaut/coherence/annotation/Destroyed.html[@Destroyed] annotation
+* Truncated - a cache instance has been truncated (all data was removed), use the link:{api}/io/micronaut/coherence/annotation/Truncated.html[@Truncated] annotation
+* Destroyed - a cache has been destroyed (destroy is a cluster wide operation, so the cache is destroyed on all members of the cluster and clients) use the link:{api}/io/micronaut/coherence/annotation/Destroyed.html[@Destroyed] annotation
 
 For example, the method below will only receive `Created` and `Destroyed` events for all caches.
 

@@ -22,5 +22,5 @@ public void onAdult(MapEvent<String, Person> people) {
 ----
 <1> The `@WhereFilter` annotation is applied to the method.
 
-The `onAdult` method above will receive all events emmitted from the `people` map, but only for entries where the value of the `age` property of the entry value is `>= 18`.
+The `onAdult` method above will receive all events emitted from the `people` map, but only for entries where the value of the `age` property of the entry value is `>= 18`.
 
