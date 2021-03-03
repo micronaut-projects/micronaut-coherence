@@ -1,0 +1,41 @@
+repositories {
+    gradlePluginPortal()
+    jcenter()
+    maven { url "https://dl.bintray.com/micronaut/core-releases-local" }
+    maven { url "https://repo.grails.org/grails/core" }
+}
+
+dependencies {
+    annotationProcessor "io.micronaut:micronaut-inject-java:$micronautVersion"
+    annotationProcessor "io.micronaut.data:micronaut-data-processor:$micronautDataVersion"
+    annotationProcessor "io.micronaut.docs:micronaut-docs-asciidoc-config-props:$micronautDocsVersion"
+
+    api project(":coherence")
+    api project(":coherence-processor")
+    api "io.micronaut.data:micronaut-data-model:$micronautDataVersion"
+    api "io.micronaut.data:micronaut-data-runtime:$micronautDataVersion"
+
+    compileOnly(platform("com.oracle.coherence.ce:coherence-bom:${coherenceVersion}"))
+    compileOnly "com.oracle.coherence.ce:coherence"
+
+    testImplementation(platform("com.oracle.coherence.ce:coherence-bom:${coherenceVersion}"))
+    testImplementation "com.oracle.coherence.ce:coherence:${coherenceVersion}"
+
+    testImplementation "org.hamcrest:hamcrest:2.2"
+    testImplementation "io.micronaut.test:micronaut-test-junit5:2.1.1"
+    testImplementation "com.oracle.bedrock:bedrock-testing-support:$bedrockVersion"
+    testImplementation "io.micronaut.data:micronaut-data-processor:$micronautDataVersion"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
+    testAnnotationProcessor "io.micronaut.data:micronaut-data-processor:$micronautDataVersion"
+    testAnnotationProcessor "io.micronaut:micronaut-inject-java:$micronautVersion"
+    testAnnotationProcessor project(":coherence-processor")
+}
+
+tasks.withType(Test) {
+    useJUnitPlatform()
+}
+
+test {
+    systemProperty("java.net.preferIPv4Stack", "true")
+    systemProperty("coherence.data.query.log", "true")
+}
