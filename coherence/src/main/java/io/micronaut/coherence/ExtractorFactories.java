@@ -31,6 +31,7 @@ import io.micronaut.inject.InjectionPoint;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.lang.annotation.Annotation;
+import java.lang.annotation.Repeatable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -79,6 +80,10 @@ public class ExtractorFactories {
         List<Class<? extends Annotation>> bindings = metadata.getAnnotationTypesByStereotype(ExtractorBinding.class);
 
         for (Class<? extends Annotation> type : bindings) {
+            Repeatable repeatable = type.getAnnotation(Repeatable.class);
+            if (repeatable != null) {
+                type = repeatable.value();
+            }
             ExtractorFactory extractorFactory = ctx.findBean(ExtractorFactory.class, new FactoryQualifier<>(type))
                     .orElse(null);
             if (extractorFactory == null) {
@@ -174,7 +179,7 @@ public class ExtractorFactories {
             ValueExtractor[] extractors = Arrays.stream(annotation.value())
                     .map(ann -> Extractors.extract(ann.value()))
                     .toArray(ValueExtractor[]::new);
-            return Extractors.multi(extractors);
+            return extractors.length == 1 ? extractors[0] : Extractors.multi(extractors);
         };
     }
 
@@ -211,7 +216,7 @@ public class ExtractorFactories {
             ValueExtractor[] extractors = Arrays.stream(annotation.value())
                     .map(ann -> Extractors.chained(ann.value()))
                     .toArray(ValueExtractor[]::new);
-            return Extractors.multi(extractors);
+            return extractors.length == 1 ? extractors[0] : Extractors.multi(extractors);
         };
     }
 
@@ -269,7 +274,7 @@ public class ExtractorFactories {
             ValueExtractor[] extractors = Arrays.stream(annotation.value())
                     .map(factory::create)
                     .toArray(ValueExtractor[]::new);
-            return Extractors.multi(extractors);
+            return extractors.length == 1 ? extractors[0] : Extractors.multi(extractors);
         };
     }
 }
