@@ -278,7 +278,7 @@ public class DefaultCoherenceRepositoryOperations implements CoherenceRepository
         Map<?, T> entitiesToSave = new HashMap<>();
         operation.forEach(t -> entitiesToSave.put(getId(t), t));
         getNamedMap().putAll(entitiesToSave);
-        return entitiesToSave.values().stream().collect(Collectors.toUnmodifiableSet());
+        return entitiesToSave.values();
     }
 
     // ----- helper methods -------------------------------------------------
