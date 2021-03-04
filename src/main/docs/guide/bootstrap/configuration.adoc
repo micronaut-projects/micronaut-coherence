@@ -1,4 +1,4 @@
-There are a number of fields that may be used to conifgure a `Session`, all of them are optional.
+There are a number of fields that may be used to configure a `Session`, all of them are optional.
 
 === Configuration File Name
 
@@ -37,7 +37,7 @@ coherence:
       config: customer-config.xml
 ----
 
-In the above example there are two sessions, `catalog` and `customer`. The `catalog` session has a scope name of `Catalog` and the `customer` session` has the scope name `Customer`.
+In the above example there are two sessions, `catalog` and `customer`. The `catalog` session has a scope name of `Catalog`, and the `customer` session` has the scope name `Customer`.
 
 In a client application there might only be a single default session but this session needs to connect to a server that has multiple sessions configured.
 In this case the scope name is used to identify the server side session.
@@ -63,9 +63,8 @@ There are three different types of session that can be configured:
 * `client` represents a storage disabled cluster member or Coherence*Extend client session.
 * `grpc` is a gRPC client session (see the <<grpc,gRPC documentation>>).
 
-The type of the session affects how the bootstrap API starts the session.
-
-The session type is configured with the type property:
+The type of the session affects how the bootstrap API starts the session. The session type is configured with the `type`
+property:
 
 [source,yaml]
 .application.yaml

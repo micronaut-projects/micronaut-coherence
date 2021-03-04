@@ -51,7 +51,7 @@ public class AdultMalesFilterFactory<Person> implements FilterFactory<AdultMales
 ----
 <1> The class is annotated with the `AdultMales` filter binding annotation
 <2> The class must be a Micronaut bean, in this case a singleton
-<3> The create method uses the Coherence filters API to create the required filter.
+<3> The `create` method uses the Coherence `filters` API to create the required `filter`.
 
 The parameter to the `create` method is the annotation used on the injection point.
 In this case the annotation has no values, but if it did we could access those values to customize how the filter is created.

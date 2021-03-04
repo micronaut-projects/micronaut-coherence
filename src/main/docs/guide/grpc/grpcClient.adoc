@@ -41,7 +41,7 @@ coherence:
 
 A gRPC client `Session` requires a gRPC `io.grpc.Channel` to connect to the server. Channels in Coherence gRPC are named, there is a default channel, named `default` that is used by gRPC sessions that do not specify a different channel name. The name of the channel a session should use is set with the `coherence.sessions.<name>.channelName` property. In Micronaut configuration this could be:
 
-For example, if there is a session named `catalog` that will use a channeld named `backend` the configuration might look like this:
+For example, if there is a session named `catalog` that will use a channel named `backend` the configuration might look like this:
 [source,yaml]
 .application.yaml
 ----
@@ -87,9 +87,9 @@ coherence:
 ----
 
 The configuration above configures two named channels, `default` and `catalog`.
-The `default` channel will connect to a server on `data.coherence.acme.com:9099`, and the `catalog` channel will connect to a server on `catalog.coherence.acme.com:8000`.
+The `default` channel will connect to a server on `data.coherence.acme.com:9099`, and the `catalog` channel will connect to a server at `catalog.coherence.acme.com:8000`.
 
-The configuration above then configures three sessions, all have a type of `grpc`. The `default` session is configured to use the `default` channel, and the `catalog` session is configured with a channel name of `catalog`. The `orders` session is configured with a type of `grps` but has no `channelName` specified, so it will use the `default` channel.
+The configuration above then configures three sessions, all have a type of `grpc`. The `default` session is configured to use the `default` channel, and the `catalog` session is configured with a channel name of `catalog`. The `orders` session is configured with a type of `grpc` but has no `channelName` specified, so it will use the `default` channel.
 
 See the Coherence gRPC client documentation for details on other properties that can be set to configure channels.
 

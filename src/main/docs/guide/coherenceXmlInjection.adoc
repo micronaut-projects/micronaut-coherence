@@ -17,7 +17,7 @@ other XSD values:
         xmlns:m="class://io.micronaut.coherence.namespace.MicronautNamespaceHandler"   <1>
         xsi:schemaLocation="http://xmlns.oracle.com/coherence/coherence-cache-config coherence-cache-config.xsd">
 ----
-<1> The namespace is decalred as `xmlns:m="class://io.micronaut.coherence.namespace.MicronautNamespaceHandler"`
+<1> The namespace is declared as `xmlns:m="class://io.micronaut.coherence.namespace.MicronautNamespaceHandler"`
 where `io.micronaut.coherence.namespace.MicronautNamespaceHandler` is actually the class implementing the custom
 namespace handler. The `m` prefix in `xmlns:m` means that the custom XML elements should be prefixed with `m:`
 so in this case `<m:bean>beanName</m:bean>`

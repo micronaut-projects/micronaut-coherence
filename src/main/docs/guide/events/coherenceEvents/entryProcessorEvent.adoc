@@ -34,7 +34,7 @@ public void onEvent(@Executed EntryProcessorEvent event) {
 ====
 The event types fall into two categories, pre-event ('Executing') and post-event (`Executed`). Pre-events are emitted synchronously before the `EntryProcessor` is invoked. Post-events are emitted asynchronously after the `EntryProcessor` has been invoked.
 
-As pre-events are synchronous the listener method should not take a long time to execute as it is blocking the `EntryProcessor` invocation and could obviously be a performance impact. It is also important that developers understand Coherence re-entrancy as the pre-events are executing on the Cache Service thread so cannot call into caches owned by the same service.
+As pre-events are synchronous the listener method should not take a long time to execute as it is blocking the `EntryProcessor` invocation and could obviously be a performance impact. It is also important that developers understand Coherence reentrancy as the pre-events are executing on the Cache Service thread so cannot call into caches owned by the same service.
 ====
 
 
