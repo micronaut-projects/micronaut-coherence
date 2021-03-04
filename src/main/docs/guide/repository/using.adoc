@@ -1,0 +1,81 @@
+=== Configuration
+
+Add or update the Coherence configuration to enable Coherence repositories.
+
+[source, yaml]
+----
+coherence:
+  data:
+    <repository-name>:
+      [session: <session-name>]
+----
+
+``<repository-name>`` maps to the name of the Coherence cache.  The optional ``session`` attribute specifies the name
+of the Coherence session that should be used to lookup the specified cache.  Review the main
+link:../bootstrap/configuration.adoc:[documentation] for details on configuration sessions.
+
+Any repositories that the developer wishes to use with Coherence *must* be annotated with the
+``@CoherenceRepository`` annotation.  The value provided to the annotation must match the ``<repository-name>``
+identifier within the application configuration.
+
+For example, let's assume we have a model class representing a Book identified by a UUID.  We can configure something
+like the following:
+
+[source, yaml]
+----
+coherence:
+  data:
+    book:
+----
+
+and the Java-based Repository could look something like:
+
+[source, java]
+----
+...
+import io.micronaut.coherence.data.annotation.CoherenceRepository;
+import io.micronaut.data.repository.CrudRepository;
+...
+@CoherenceRepository("book")
+public interface BookRepository extends CrudRepository<Book, UUID> {
+    ...
+}
+----
+
+The developer may then start adding queries to the interface for Micronaut to implement.
+
+=== Repository Implementations
+
+While it's certainly possible to stick with the Repository interfaces defined by Micronaut (see above), this
+integration offers an abstract class that the Repository implementation may extend that exposes features unique to
+Coherence.
+
+[IMPORTANT]
+.Don't Do This
+====
+When extending the Coherence ``AbstractCoherenceRepository``, developers must not also implement any of the standard
+Micronaut
+data sterotype interfaces (e.g., ``CrudRepository`` and the like).
+====
+
+[source, java]
+----
+...
+import io.micronaut.coherence.data.annotation.CoherenceRepository;
+import io.micronaut.coherence.data.AbstractCoherenceRepository;
+...
+@CoherenceRepository("book")
+public abstract class CoherenceBookRepository extends AbstractCoherenceRepository<Book, UUID> {
+}
+----
+
+Even though developers are restricted in what interfaces they can implement when extending
+``AbstractCoherenceRepository``, it does provide the same features of ``CrudRepository`` and more!  We recommend
+reviewing the API docs in detail to get a feel of what is offered.
+
+=== Example
+
+To see the integration between Coherence and Micronaut Data in action, take a look at the
+https://github.com/coherence-community/todo-list-example/tree/master/java[Todo List example].  The Micronaut section
+of the example defines a simple Task model as well as an implementation of ``AbstractCoherenceRepository`` that shows
+off a few features being offered by the API.

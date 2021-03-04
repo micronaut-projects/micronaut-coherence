@@ -8,6 +8,14 @@ bootstrap:
   defaultSession: Using the Default Session
   multiple: Configure Multiple Sessions
   configuration: Session Configuration Properties
+repository:
+  title: Micronaut Data with Coherence
+  limitations:
+    title: Limitations
+  started:
+    title: Build
+  using:
+    title: Using Micronaut Data
 injection:
   title: Inject Coherence Resources into Beans
   injectNamedMap:
@@ -61,5 +69,3 @@ grpc:
 coherenceHttpSessions: Using Coherence to store HTTP sessions
 cache: Using Coherence as Micronaut Cache implementation
 distributedConfiguration: Using Coherence as a Distributed Configuration provided
-repository: Repository
-

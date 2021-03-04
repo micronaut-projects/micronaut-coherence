@@ -1,0 +1,12 @@
+As Coherence is ultimately a key/value store, there are some limitations using the generated query facility offered
+by Micronaut.
+
+The following auto generated query types/features are not supported
+
+* ``JOIN``
+* ``ORDER BY``; the statement will compile, however, it currently has no effect in Coherence's query language.  For
+the time being, use the APIs offered by the Coherence Repository abstract class.
+* pagination; this means you should not use ``Page`` or ``Slice`` as return types for such queries
+* When extending the Coherence Data `CoherenceAbstractRepository`, it *must not* implement any other Micronaut Data
+interfaces
+(e.g., ``CrudRepository``, etc.)

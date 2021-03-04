@@ -1,0 +1,52 @@
+=== Gradle
+
+If you're using Gradle for your build, add the following dependencies (in addition to existing micronaut configuration):
+
+[source]
+.build.gradle
+----
+annotationProcessor("io.micronaut.coherence.data:coherence-processor:${version}")
+...
+implementation("io.micronaut.coherence.data:coherence-data:${version}");
+...
+testAnnotationProcessor("io.micronaut.coherence.data:coherence-processor:${version}")
+----
+
+=== Maven
+[source]
+.pom.xml
+----
+<dependencies>
+  ...
+  <dependency>
+    <groupId>io.micronaut.coherence</groupId>
+    <artifactId>micronaut-coherence-data</artifactId>
+    <version>${version}</version>
+  </dependency>
+  ...
+</dependencies>
+...
+<plugins>
+  ...
+  <plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-compiler-plugin</artifactId>
+    <configuration>
+      <annotationProcessorPaths combine.children="append">
+        <annotationProcessorPath>
+          <groupId>io.micronaut.coherence</groupId>
+          <artifactId>micronaut-coherence-processor</artifactId>
+          <version>${version}</version>
+        </annotationProcessorPath>
+      </annotationProcessorPaths>
+      <compilerArgs>
+        <arg>-Amicronaut.processing.group=todo.list.micronaut.server
+        </arg>
+        <arg>-Amicronaut.processing.module=todo-list-micronaut-server
+        </arg>
+      </compilerArgs>
+    </configuration>
+  </plugin>
+  ...
+</plugins>
+----
