@@ -20,11 +20,14 @@ import io.micronaut.coherence.data.AbstractCoherenceRepository;
 import io.micronaut.coherence.data.annotation.CoherenceRepository;
 import io.micronaut.coherence.data.model.Book;
 
+import java.util.List;
+
 /**
  * A {@code Repository} extending {@link com.oracle.coherence.repository.AbstractRepository} to ensure
  * this integration point is functional.
  */
 @CoherenceRepository("book")
 public abstract class CoherenceBookRepository extends AbstractCoherenceRepository<Book, UUID> {
+    public abstract List<Book> findByTitleStartingWith(String keyword);
 }
 

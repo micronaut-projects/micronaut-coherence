@@ -19,6 +19,7 @@ import com.tangosol.util.UUID;
 import io.micronaut.coherence.data.annotation.CoherenceRepository;
 import io.micronaut.coherence.data.model.Author;
 import io.micronaut.coherence.data.model.Book;
+import io.micronaut.data.annotation.Id;
 import io.micronaut.data.repository.CrudRepository;
 
 import java.util.Collection;
@@ -76,4 +77,14 @@ public interface BookRepository extends CrudRepository<Book, UUID> {
     long findSumPagesByAuthor(Author author);
 
     long findAvgPagesByAuthor(Author author);
+
+    // updates
+    int update(@Id UUID id, int pages);
+
+    void updateByTitleStartingWith(String title, int pages);
+
+    // deletes
+    int deleteByTitleStartingWith(String title);
+
+    Collection<Book> saveBooks(Collection<Book> books);
 }

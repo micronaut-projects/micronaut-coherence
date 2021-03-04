@@ -15,6 +15,7 @@
  */
 package io.micronaut.coherence.data;
 
+import com.tangosol.util.UUID;
 import io.micronaut.coherence.data.model.Author;
 import io.micronaut.coherence.data.model.Book;
 import io.micronaut.coherence.data.repositories.BookRepository;
@@ -23,9 +24,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
 import javax.inject.Inject;
+import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Comparator;
-import java.util.List;
+import java.util.GregorianCalendar;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -34,7 +39,7 @@ import static org.hamcrest.core.Is.is;
 
 @MicronautTest(propertySources = {"classpath:sessions.yaml"})
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
-public class QueryTests extends AbstractDataTests {
+public class GeneratedStatementTests extends AbstractDataTests {
 
     /**
      * A {@code repository} for validating generated queries.
@@ -178,7 +183,7 @@ public class QueryTests extends AbstractDataTests {
      */
     @Test
     void shouldFindByTitleIn() {
-        assertThat(repo.findByTitleIn(List.of("Dune", "The Name of the Wind")), containsInAnyOrder(
+        assertThat(repo.findByTitleIn(Arrays.asList("Dune", "The Name of the Wind")), containsInAnyOrder(
                 books.stream().filter(book -> book.getTitle().equals("Dune")
                         || book.getTitle().equals("The Name of the Wind")).toArray()));
     }
@@ -289,5 +294,64 @@ public class QueryTests extends AbstractDataTests {
                 is(books.stream()
                         .filter(book -> book.getAuthor().equals(FRANK_HERBERT))
                         .collect(Collectors.averagingInt(Book::getPages)).longValue()));
+    }
+
+    /**
+     * Validate batch updates work as expected.
+     */
+    @SuppressWarnings("OptionalGetWithoutIsPresent")
+    @Test
+    void shouldSupportBatchUpdates() {
+        repo.updateByTitleStartingWith("Du", 700);
+        assertThat(repo.findById(DUNE.getUuid()).get().getPages(), is(700));
+        assertThat(repo.findById(DUNE_MESSIAH.getUuid()).get().getPages(), is(700));
+    }
+
+    /**
+     * Validate single update with existing value returns the expected value and updates
+     * the book.
+     */
+    @SuppressWarnings("OptionalGetWithoutIsPresent")
+    @Test
+    void shouldSupportSingleUpdates() {
+        assertThat(repo.update(DUNE.getUuid(), 999), is(1));
+        assertThat(repo.findById(DUNE.getUuid()).get().getPages(), is(999));
+    }
+
+    /**
+     * Validate expected return value when the no entity matches.
+     */
+    @SuppressWarnings("OptionalGetWithoutIsPresent")
+    @Test
+    void shouldSupportSingleUpdatesNoMatch() {
+        assertThat(repo.update(new UUID(), 999), is(0));
+        assertThat(repo.findById(DUNE.getUuid()).get().getPages(), is(DUNE.getPages()));
+    }
+
+    /**
+     * Validate batch deletes work as expected.
+     */
+    @Test
+    void shouldSupportBatchDeletes() {
+        repo.deleteByTitleStartingWith("Du");
+        assertThat(repo.count(), is(2L));
+        assertThat(repo.findById(DUNE.getUuid()).isPresent(), is(false));
+        assertThat(repo.findById(DUNE_MESSIAH.getUuid()).isPresent(), is(false));
+    }
+
+    /**
+     * Validate bulk saves work as expected.
+     */
+    @Test
+    void shouldSupportBulksSaves() {
+        Set<Book> setNewBooks = new HashSet<>();
+        setNewBooks.add(new Book("Children of Dune", 444, FRANK_HERBERT, new GregorianCalendar(1976,
+                Calendar.APRIL, 6, 0, 0)));
+        setNewBooks.add(new Book("God Emperor of Dune", 496, FRANK_HERBERT, new GregorianCalendar(1981,
+                Calendar.FEBRUARY, 6, 0, 0)));
+        repo.saveBooks(setNewBooks);
+
+        assertThat(repo.findByTitleIn(Arrays.asList("Children of Dune", "God Emperor of Dune")),
+                containsInAnyOrder(setNewBooks.toArray()));
     }
 }

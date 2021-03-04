@@ -15,13 +15,23 @@
  */
 package io.micronaut.coherence.data.query;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
 import io.micronaut.data.annotation.Join;
 import io.micronaut.data.model.query.JoinPath;
 import io.micronaut.data.model.query.builder.jpa.JpaQueryBuilder;
 
 import java.util.Map;
 
+/**
+ * A {@link JpaQueryBuilder} specialized for use with {@code CohQL}.
+ */
 public class CohQLQueryBuilder extends JpaQueryBuilder {
+
+    /**
+     * Default constructor.
+     */
+    public CohQLQueryBuilder() {
+    }
 
     @Override
     protected String[] buildJoin(String alias, JoinPath joinPath, String joinType, StringBuilder target, Map<String, String> appliedJoinPaths, QueryState queryState) {
@@ -31,5 +41,11 @@ public class CohQLQueryBuilder extends JpaQueryBuilder {
     @Override
     public String resolveJoinType(Join.Type jt) {
         throw new UnsupportedOperationException("Coherence Query Language does not support joins");
+    }
+
+    @NonNull
+    @Override
+    protected StringBuilder appendDeleteClause(final StringBuilder queryString) {
+        return queryString.append(DELETE_CLAUSE).append(FROM_CLAUSE);
     }
 }

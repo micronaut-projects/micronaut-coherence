@@ -110,6 +110,15 @@ public class Book implements Serializable {
     }
 
     /**
+     * Set the number of pages in this {@code book}.
+     *
+     * @param pages the new value for the page count
+     */
+    public void setPages(final int pages) {
+        this.pages = pages;
+    }
+
+    /**
      * Returns the year this {@code book} was published.
      *
      * @return the year this {@code book} was published

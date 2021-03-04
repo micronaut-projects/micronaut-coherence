@@ -40,5 +40,5 @@ import java.lang.annotation.Target;
 @Repository
 public @interface CoherenceRepository {
     @AliasFor(annotation = Repository.class, member = "value")
-    String value() default "";
+    String value();
 }

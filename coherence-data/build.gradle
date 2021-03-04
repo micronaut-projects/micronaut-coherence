@@ -26,7 +26,6 @@ dependencies {
     testImplementation "com.oracle.bedrock:bedrock-testing-support:$bedrockVersion"
     testImplementation "io.micronaut.data:micronaut-data-processor:$micronautDataVersion"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
-    testAnnotationProcessor "io.micronaut.data:micronaut-data-processor:$micronautDataVersion"
     testAnnotationProcessor "io.micronaut:micronaut-inject-java:$micronautVersion"
     testAnnotationProcessor project(":coherence-processor")
 }

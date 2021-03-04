@@ -25,6 +25,7 @@ import org.junit.jupiter.api.TestInstance;
 import javax.inject.Inject;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNull.notNullValue;
 
@@ -72,5 +73,14 @@ public class RepositoryTests extends AbstractDataTests {
     public void shouldReturnEntityType() {
         assertThat(repo, notNullValue());
         assertThat(repo.getEntityType(), Matchers.typeCompatibleWith(Book.class));
+    }
+
+    /**
+     * Ensure generated queries continue to work when extending {@code AbstractCoherenceRepository}.
+     */
+    @Test
+    public void shouldAllowGeneratedQueries() {
+        assertThat(repo.findByTitleStartingWith("Du"), containsInAnyOrder(
+                books.stream().filter(book -> book.getTitle().startsWith("Du")).toArray()));
     }
 }

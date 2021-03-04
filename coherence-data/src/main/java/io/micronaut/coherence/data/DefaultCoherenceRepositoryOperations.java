@@ -21,6 +21,7 @@ import com.tangosol.coherence.dslquery.Statement;
 import com.tangosol.net.Coherence;
 import com.tangosol.net.NamedMap;
 import com.tangosol.net.Session;
+import com.tangosol.util.Processors;
 import com.tangosol.util.QueryHelper;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.Nullable;
@@ -43,8 +44,11 @@ import java.io.PrintWriter;
 import java.io.Serializable;
 import java.io.StringWriter;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
@@ -194,7 +198,7 @@ public class DefaultCoherenceRepositoryOperations implements CoherenceRepository
 
     @Override
     public <T> long count(final PagedQuery<T> pagedQuery) {
-        throw new UnsupportedOperationException("paging queries are not supported");
+        return getNamedMap().size();
     }
 
     @SuppressWarnings("unchecked")
@@ -242,25 +246,39 @@ public class DefaultCoherenceRepositoryOperations implements CoherenceRepository
     @NonNull
     @Override
     public <T> T update(@NonNull final UpdateOperation<T> operation) {
-        throw new UnsupportedOperationException();
-    }
-
-    @NonNull
-    @Override
-    public <T> Iterable<T> persistAll(@NonNull final BatchOperation<T> operation) {
-        throw new UnsupportedOperationException();
+        T entity = operation.getEntity();
+        getNamedMap().remove(getId(entity), entity);
+        return entity;
     }
 
     @NonNull
     @Override
     public Optional<Number> executeUpdate(@NonNull final PreparedQuery<?, Number> preparedQuery) {
-        Map m = (Map) execute(preparedQuery);
-        return Optional.of(m.size());
+        Object result = execute(preparedQuery);
+        if (result instanceof Map) {
+            return Optional.of(((Map) result).size());
+        } else if (result instanceof Set) {
+            return Optional.of(((Set) result).size());
+        } else {
+            throw new IllegalStateException("unhandled return type");
+        }
     }
 
     @Override
     public <T> Optional<Number> deleteAll(@NonNull final BatchOperation<T> operation) {
-        return Optional.empty();
+        Map<?, T> entitiesToDelete = new LinkedHashMap<>();
+        operation.forEach(t -> entitiesToDelete.put(getId(t), t));
+        Map result = getNamedMap().invokeAll(entitiesToDelete.keySet(), Processors.remove());
+        return Optional.of(result.size());
+    }
+
+    @NonNull
+    @Override
+    public <T> Iterable<T> persistAll(@NonNull final BatchOperation<T> operation) {
+        Map<?, T> entitiesToSave = new HashMap<>();
+        operation.forEach(t -> entitiesToSave.put(getId(t), t));
+        getNamedMap().putAll(entitiesToSave);
+        return entitiesToSave.values().stream().collect(Collectors.toUnmodifiableSet());
     }
 
     // ----- helper methods -------------------------------------------------
