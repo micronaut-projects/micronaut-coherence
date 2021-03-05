@@ -905,7 +905,7 @@ private NamedMap&lt;String, Person&gt; map;</code></pre>
 public class SomeBean {
     @Inject
     public SomeBean(@Name("people") NamedMap&lt;String, Person&gt; map) {
-        // ToDo:
+        // ToDo: initialize the bean...
     }
 }</code></pre>
 </div>
@@ -945,7 +945,7 @@ public class CatalogController {
     @Inject
     public CatalogController(@SessionName("Catalog") @Name("products")
                              NamedMap&lt;String, Product&gt; products) {
-        // ToDo:
+        // ToDo: initialize the bean...
     }
 }</code></pre>
 </div>
@@ -2556,11 +2556,11 @@ public void onEvent(@SessionName("BackEnd") CacheLifecycleEvent event) {
 
 
 <div class="paragraph">
-<p>An <a href="https://coherence.community/21.06-M1/api/java/com/tangosol/net/events/partition/cache/EntryProcessorEvent.html">EntryProcessorEvent</a> is emitted when a <a href="https://coherence.community/21.06-M1/api/java/com/tangosol/util/EntryProcessor.html">EntryProcessor</a> is invoked on a cache. These events are only emitted on the storage enabled member that is the primary owner of the entry that the <code>EntryProcessor</code> is invoked on.</p>
+<p>An <a href="https://coherence.community/21.06-M1/api/java/com/tangosol/net/events/partition/cache/EntryEvent.html">EntryEvent</a> is emitted when a <a href="https://coherence.community/21.06-M1/api/java/com/tangosol/util/EntryProcessor.html">EntryProcessor</a> is invoked on a cache. These events are only emitted on the storage enabled member that is the primary owner of the entry that the <code>EntryProcessor</code> is invoked on.</p>
 </div>
 <div class="paragraph">
-<p>To subscribe to <code>EntryProcessorEvent</code> simply create a Micronaut bean with a listener method annotated with <a href="../api/io/micronaut/coherence/annotation/CoherenceEventListener.html">@CoherenceEventListener</a>.
-The method should have a single parameter of type <code>EntryProcessorEvent</code>.</p>
+<p>To subscribe to <code>EntryEvent</code> simply create a Micronaut bean with a listener method annotated with <a href="../api/io/micronaut/coherence/annotation/CoherenceEventListener.html">@CoherenceEventListener</a>.
+The method should have a single parameter of type <code>EntryEvent</code>.</p>
 </div>
 <div class="paragraph">
 <p>For example, the <code>onEvent</code> method below will receive entry events for all caches.</p>
@@ -2568,15 +2568,15 @@ The method should have a single parameter of type <code>EntryProcessorEvent</cod
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@CoherenceEventListener
-public void onEvent(EntryProcessorEvent event) {
+public void onEvent(EntryEvent event) {
     // ToDo: process the event
 }</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_receive_specific_entryprocessorevent_types">Receive Specific EntryProcessorEvent Types</h3>
+<h3 id="_receive_specific_entryevent_types">Receive Specific EntryEvent Types</h3>
 <div class="paragraph">
-<p>There are a number of different <code>EntryProcessorEvent</code> types.</p>
+<p>There are a number of different <code>EntryEvent</code> types.</p>
 </div>
 <div class="ulist">
 <ul>
@@ -2601,12 +2601,12 @@ public void onEvent(EntryProcessorEvent event) {
 </ul>
 </div>
 <div class="paragraph">
-<p>To restrict the <code>EntryProcessorEvent</code> types received by a method apply one or more of the annotations above to the method parameter. For example, the method below will receive <code>Inserted</code> and <code>Deleted</code> events.</p>
+<p>To restrict the <code>EntryEvent</code> types received by a method apply one or more of the annotations above to the method parameter. For example, the method below will receive <code>Inserted</code> and <code>Deleted</code> events.</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@CoherenceEventListener
-public void onEvent(@Inserted @Deleted EntryProcessorEvent event) {
+public void onEvent(@Inserted @Deleted EntryEvent event) {
     // ToDo: process the event
 }</code></pre>
 </div>
@@ -2630,7 +2630,7 @@ public void onEvent(@Inserted @Deleted EntryProcessorEvent event) {
 </div>
 </div>
 <div class="sect2">
-<h3 id="_receive_entryprocessorevents_for_a_specific_namedmap_or_namedcache">Receive EntryProcessorEvents for a Specific NamedMap or NamedCache</h3>
+<h3 id="_receive_entryevents_for_a_specific_namedmap_or_namedcache">Receive EntryEvents for a Specific NamedMap or NamedCache</h3>
 <div class="paragraph">
 <p>To only receive events for a specific <code>NamedMap</code> annotate the method parameter with the
 <a href="../api/io/micronaut/coherence/annotation/MapName.html">@MapName</a> annotation.
@@ -2646,14 +2646,14 @@ To only receive events for a specific <code>NamedCache</code> annotate the metho
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@CoherenceEventListener
-public void onEvent(@MapName("orders") EntryProcessorEvent event) {
+public void onEvent(@MapName("orders") EntryEvent event) {
     // ToDo: process the event
 }</code></pre>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_receive_entryprocessorevents_from_a_specific_cache_service">Receive EntryProcessorEvents from a Specific Cache Service</h3>
+<h3 id="_receive_entryevents_from_a_specific_cache_service">Receive EntryEvents from a Specific Cache Service</h3>
 <div class="paragraph">
 <p>Caches are owned by a Cache Service, it is possible to restrict events received by a method to only those related to caches owned by a specific service by annotating the method parameter with the
 <a href="../api/io/micronaut/coherence/annotation/ServiceName.html">@ServiceName</a> annotation.</p>
@@ -2664,14 +2664,14 @@ public void onEvent(@MapName("orders") EntryProcessorEvent event) {
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@CoherenceEventListener
-public void onEvent(@ServiceName("StorageService") EntryProcessorEvents event) {
+public void onEvent(@ServiceName("StorageService") EntryEvents event) {
     // ToDo: process the event
 }</code></pre>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_receive_entryprocessorevents_from_a_specific_session">Receive EntryProcessorEvents from a Specific Session</h3>
+<h3 id="_receive_entryevents_from_a_specific_session">Receive EntryEvents from a Specific Session</h3>
 <div class="paragraph">
 <p>A typical use case is to obtain <code>NamedCache</code> and <code>NamedMap</code> instances from a <code>Session</code>. It is possible to restrict events received by a method to only those related to caches owned by a specific <code>Session</code> by annotating the method parameter with the
 <a href="../api/io/micronaut/coherence/annotation/SessionName.html">@SessionName</a> annotation.</p>
@@ -2682,7 +2682,7 @@ public void onEvent(@ServiceName("StorageService") EntryProcessorEvents event) {
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@CoherenceEventListener
-public void onEvent(@SessionName("BackEnd") EntryProcessorEvents event) {
+public void onEvent(@SessionName("BackEnd") EntryEvents event) {
     // ToDo: process the event
 }</code></pre>
 </div>
@@ -4212,8 +4212,8 @@ The <code>default</code> channel will connect to a server on <code>data.coherenc
 public class CustomerController {
     @Inject
     public CustomerController(@SessionName("customers") @Name("accounts")
-                              NamedMap&lt;String, Product&gt; products) {
-        // ToDo:
+                              NamedMap&lt;String, Product&gt; accounts) {
+        // ToDo: initialize the controller...
     }
 }</code></pre>
 </div>
