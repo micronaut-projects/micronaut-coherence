@@ -31,7 +31,15 @@ import io.micronaut.context.annotation.Parameter;
 import io.micronaut.core.beans.BeanProperty;
 import io.micronaut.core.util.ArgumentUtils;
 import io.micronaut.data.model.Page;
-import io.micronaut.data.model.runtime.*;
+import io.micronaut.data.model.runtime.InsertBatchOperation;
+import io.micronaut.data.model.runtime.InsertOperation;
+import io.micronaut.data.model.runtime.PagedQuery;
+import io.micronaut.data.model.runtime.PreparedQuery;
+import io.micronaut.data.model.runtime.RuntimePersistentEntity;
+import io.micronaut.data.model.runtime.RuntimePersistentProperty;
+import io.micronaut.data.model.runtime.UpdateOperation;
+import io.micronaut.data.model.runtime.DeleteBatchOperation;
+import io.micronaut.data.model.runtime.DeleteOperation;
 
 import java.io.IOException;
 import java.io.PrintWriter;
