@@ -34,7 +34,7 @@ The same applies when injecting a constructor or method parameter:
 public class SomeBean {
     @Inject
     public SomeBean(@Name("people") NamedMap<String, Person> map) {
-        // ToDo:
+        // ToDo: initialize the bean...
     }
 }
 ----
@@ -66,7 +66,7 @@ public class CatalogController {
     @Inject
     public CatalogController(@SessionName("Catalog") @Name("products")
                              NamedMap<String, Product> products) {
-        // ToDo:
+        // ToDo: initialize the bean...
     }
 }
 ----

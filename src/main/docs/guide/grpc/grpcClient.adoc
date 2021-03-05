@@ -125,8 +125,8 @@ A snippet of application code that uses this configuration could then look like 
 public class CustomerController {
     @Inject
     public CustomerController(@SessionName("customers") @Name("accounts")
-                              NamedMap<String, Product> products) {
-        // ToDo:
+                              NamedMap<String, Product> accounts) {
+        // ToDo: initialize the controller...
     }
 }
 ----
