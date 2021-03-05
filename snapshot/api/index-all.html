@@ -72,6 +72,13 @@
 </a>
 <h2 class="title">A</h2>
 <dl>
+<dt><a href="io/micronaut/coherence/data/AbstractCoherenceRepository.html" title="class in io.micronaut.coherence.data"><span class="typeNameLink">AbstractCoherenceRepository</span></a>&lt;<a href="io/micronaut/coherence/data/AbstractCoherenceRepository.html" title="type parameter in AbstractCoherenceRepository">T</a>,<a href="io/micronaut/coherence/data/AbstractCoherenceRepository.html" title="type parameter in AbstractCoherenceRepository">ID</a>&gt; - Class in <a href="io/micronaut/coherence/data/package-summary.html">io.micronaut.coherence.data</a></dt>
+<dd>
+<div class="block">While it's possible to annotate a simple <code>CrudRepository</code> with
+ <a href="io/micronaut/coherence/data/annotation/CoherenceRepository.html" title="annotation in io.micronaut.coherence.data.annotation"><code>CoherenceRepository</code></a> and use Coherence as a backend cache.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/data/AbstractCoherenceRepository.html#AbstractCoherenceRepository--">AbstractCoherenceRepository()</a></span> - Constructor for class io.micronaut.coherence.data.<a href="io/micronaut/coherence/data/AbstractCoherenceRepository.html" title="class in io.micronaut.coherence.data">AbstractCoherenceRepository</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io/micronaut/coherence/AbstractSessionConfigurationBean.html" title="class in io.micronaut.coherence"><span class="typeNameLink">AbstractSessionConfigurationBean</span></a> - Class in <a href="io/micronaut/coherence/package-summary.html">io.micronaut.coherence</a></dt>
 <dd>
 <div class="block">A base <a href="io/micronaut/coherence/SessionConfigurationProvider.html" title="interface in io.micronaut.coherence"><code>SessionConfigurationProvider</code></a>.</div>
@@ -116,6 +123,8 @@
 <div class="block">An annotation literal for the <a href="io/micronaut/coherence/annotation/AlwaysFilter.html" title="annotation in io.micronaut.coherence.annotation"><code>AlwaysFilter</code></a>
  annotation.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/data/query/CohQLQueryBuilder.html#appendDeleteClause-java.lang.StringBuilder-">appendDeleteClause(StringBuilder)</a></span> - Method in class io.micronaut.coherence.data.query.<a href="io/micronaut/coherence/data/query/CohQLQueryBuilder.html" title="class in io.micronaut.coherence.data.query">CohQLQueryBuilder</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io/micronaut/coherence/annotation/Arrived.html" title="annotation in io.micronaut.coherence.annotation"><span class="typeNameLink">Arrived</span></a> - Annotation Type in <a href="io/micronaut/coherence/annotation/package-summary.html">io.micronaut.coherence.annotation</a></dt>
 <dd>
 <div class="block">A qualifier annotation used to annotate the parameter <a href="io/micronaut/coherence/annotation/CoherenceEventListener.html" title="annotation in io.micronaut.coherence.annotation"><code>CoherenceEventListener</code></a> annotated methods
@@ -162,6 +171,8 @@
 <dd>
 <div class="block">Builds gRPC channel.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/data/query/CohQLQueryBuilder.html#buildJoin-java.lang.String-io.micronaut.data.model.query.JoinPath-java.lang.String-java.lang.StringBuilder-java.util.Map-io.micronaut.data.model.query.builder.AbstractSqlLikeQueryBuilder.QueryState-">buildJoin(String, JoinPath, String, StringBuilder, Map&lt;String, String&gt;, AbstractSqlLikeQueryBuilder.QueryState)</a></span> - Method in class io.micronaut.coherence.data.query.<a href="io/micronaut/coherence/data/query/CohQLQueryBuilder.html" title="class in io.micronaut.coherence.data.query">CohQLQueryBuilder</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/discovery/CoherenceConfigurationClient.html#buildSession-io.micronaut.coherence.discovery.CoherenceClientConfiguration-">buildSession(CoherenceClientConfiguration)</a></span> - Method in class io.micronaut.coherence.discovery.<a href="io/micronaut/coherence/discovery/CoherenceConfigurationClient.html" title="class in io.micronaut.coherence.discovery">CoherenceConfigurationClient</a></dt>
 <dd>
 <div class="block">Builds Coherence session.</div>
@@ -275,6 +286,14 @@
 <dd>
 <div class="block">Implementation of the <a href="io/micronaut/coherence/annotation/CoherencePublisher.html" title="annotation in io.micronaut.coherence.annotation"><code>CoherencePublisher</code></a> advice annotation.</div>
 </dd>
+<dt><a href="io/micronaut/coherence/data/annotation/CoherenceRepository.html" title="annotation in io.micronaut.coherence.data.annotation"><span class="typeNameLink">CoherenceRepository</span></a> - Annotation Type in <a href="io/micronaut/coherence/data/annotation/package-summary.html">io.micronaut.coherence.data.annotation</a></dt>
+<dd>
+<div class="block">Annotation marking a <code>Repository</code> for use with Coherence.</div>
+</dd>
+<dt><a href="io/micronaut/coherence/data/CoherenceRepositoryOperations.html" title="interface in io.micronaut.coherence.data"><span class="typeNameLink">CoherenceRepositoryOperations</span></a> - Interface in <a href="io/micronaut/coherence/data/package-summary.html">io.micronaut.coherence.data</a></dt>
+<dd>
+<div class="block">Exposes <code>repository</code> operations specific to Coherence.</div>
+</dd>
 <dt><a href="io/micronaut/coherence/httpsession/CoherenceSessionStore.html" title="class in io.micronaut.coherence.httpsession"><span class="typeNameLink">CoherenceSessionStore</span></a> - Class in <a href="io/micronaut/coherence/httpsession/package-summary.html">io.micronaut.coherence.httpsession</a></dt>
 <dd>
 <div class="block">A <code>SessionStore</code> that uses Coherence to store session data.</div>
@@ -295,6 +314,14 @@
 <dd>
 <div class="block">Annotation applied at the class level to indicate that a bean is a Coherence
  topic <code>Subscriber</code>.</div>
+</dd>
+<dt><a href="io/micronaut/coherence/data/query/CohQLQueryBuilder.html" title="class in io.micronaut.coherence.data.query"><span class="typeNameLink">CohQLQueryBuilder</span></a> - Class in <a href="io/micronaut/coherence/data/query/package-summary.html">io.micronaut.coherence.data.query</a></dt>
+<dd>
+<div class="block">A <code>JpaQueryBuilder</code> specialized for use with <code>CohQL</code>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/data/query/CohQLQueryBuilder.html#CohQLQueryBuilder--">CohQLQueryBuilder()</a></span> - Constructor for class io.micronaut.coherence.data.query.<a href="io/micronaut/coherence/data/query/CohQLQueryBuilder.html" title="class in io.micronaut.coherence.data.query">CohQLQueryBuilder</a></dt>
+<dd>
+<div class="block">Default constructor.</div>
 </dd>
 <dt><a href="io/micronaut/coherence/annotation/Committed.html" title="annotation in io.micronaut.coherence.annotation"><span class="typeNameLink">Committed</span></a> - Annotation Type in <a href="io/micronaut/coherence/annotation/package-summary.html">io.micronaut.coherence.annotation</a></dt>
 <dd>
@@ -353,6 +380,8 @@
 <div class="block">An annotation literal for the <a href="io/micronaut/coherence/annotation/Connecting.html" title="annotation in io.micronaut.coherence.annotation"><code>Connecting</code></a>
  annotation.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/data/DefaultCoherenceRepositoryOperations.html#count-io.micronaut.data.model.runtime.PagedQuery-">count(PagedQuery&lt;T&gt;)</a></span> - Method in class io.micronaut.coherence.data.<a href="io/micronaut/coherence/data/DefaultCoherenceRepositoryOperations.html" title="class in io.micronaut.coherence.data">DefaultCoherenceRepositoryOperations</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/ExtractorFactory.html#create-A-">create(A)</a></span> - Method in interface io.micronaut.coherence.<a href="io/micronaut/coherence/ExtractorFactory.html" title="interface in io.micronaut.coherence">ExtractorFactory</a></dt>
 <dd>
 <div class="block">Create a <code>ValueExtractor</code> instance.</div>
@@ -364,6 +393,10 @@
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/MapEventTransformerFactory.html#create-A-">create(A)</a></span> - Method in interface io.micronaut.coherence.<a href="io/micronaut/coherence/MapEventTransformerFactory.html" title="interface in io.micronaut.coherence">MapEventTransformerFactory</a></dt>
 <dd>
 <div class="block">Create a <code>MapEventTransformer</code> instance.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/data/DefaultCoherenceRepositoryOperations.html#createBindingMap-io.micronaut.data.model.runtime.PreparedQuery-">createBindingMap(PreparedQuery)</a></span> - Method in class io.micronaut.coherence.data.<a href="io/micronaut/coherence/data/DefaultCoherenceRepositoryOperations.html" title="class in io.micronaut.coherence.data">DefaultCoherenceRepositoryOperations</a></dt>
+<dd>
+<div class="block">Creates a map of binding parameters names and their values.</div>
 </dd>
 <dt><a href="io/micronaut/coherence/annotation/Created.html" title="annotation in io.micronaut.coherence.annotation"><span class="typeNameLink">Created</span></a> - Annotation Type in <a href="io/micronaut/coherence/annotation/package-summary.html">io.micronaut.coherence.annotation</a></dt>
 <dd>
@@ -378,6 +411,10 @@
 </dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/event/EventObserverSupport.html#createObserver-java.lang.Class-io.micronaut.coherence.event.ExecutableMethodEventObserver-">createObserver(Class&lt;E&gt;, ExecutableMethodEventObserver&lt;E, ?, ?&gt;)</a></span> - Static method in class io.micronaut.coherence.event.<a href="io/micronaut/coherence/event/EventObserverSupport.html" title="class in io.micronaut.coherence.event">EventObserverSupport</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/data/DefaultCoherenceRepositoryOperations.html#createStatement-com.tangosol.coherence.dslquery.ExecutionContext-io.micronaut.data.model.runtime.PreparedQuery-">createStatement(ExecutionContext, PreparedQuery)</a></span> - Method in class io.micronaut.coherence.data.<a href="io/micronaut/coherence/data/DefaultCoherenceRepositoryOperations.html" title="class in io.micronaut.coherence.data">DefaultCoherenceRepositoryOperations</a></dt>
+<dd>
+<div class="block">Creates a CohQL statement based on the provided <code>PreparedQuery</code>.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/MapEventTransformerFactories.html#ctx">ctx</a></span> - Variable in class io.micronaut.coherence.<a href="io/micronaut/coherence/MapEventTransformerFactories.html" title="class in io.micronaut.coherence">MapEventTransformerFactories</a></dt>
 <dd>
 <div class="block">The Micronaut bean context.</div>
@@ -392,6 +429,14 @@
 <dd>
 <div class="block">Predefined constant for system scope.</div>
 </dd>
+<dt><a href="io/micronaut/coherence/data/DefaultCoherenceRepositoryOperations.html" title="class in io.micronaut.coherence.data"><span class="typeNameLink">DefaultCoherenceRepositoryOperations</span></a> - Class in <a href="io/micronaut/coherence/data/package-summary.html">io.micronaut.coherence.data</a></dt>
+<dd>
+<div class="block">A <code>RepositoryOperations</code> implementation for Coherence.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/data/DefaultCoherenceRepositoryOperations.html#DefaultCoherenceRepositoryOperations-java.lang.String-io.micronaut.context.BeanContext-">DefaultCoherenceRepositoryOperations(String, BeanContext)</a></span> - Constructor for class io.micronaut.coherence.data.<a href="io/micronaut/coherence/data/DefaultCoherenceRepositoryOperations.html" title="class in io.micronaut.coherence.data">DefaultCoherenceRepositoryOperations</a></dt>
+<dd>
+<div class="block">Constructs a new operations instance.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/JsonSerializerFactory.html#defaultSerializer--">defaultSerializer()</a></span> - Method in class io.micronaut.coherence.<a href="io/micronaut/coherence/JsonSerializerFactory.html" title="class in io.micronaut.coherence">JsonSerializerFactory</a></dt>
 <dd>
 <div class="block">A factory method to produce the default
@@ -402,6 +447,8 @@
 <div class="block">A factory method to produce the default
  Java <code>Serializer</code>.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/data/DefaultCoherenceRepositoryOperations.html#deleteAll-io.micronaut.data.model.runtime.BatchOperation-">deleteAll(BatchOperation&lt;T&gt;)</a></span> - Method in class io.micronaut.coherence.data.<a href="io/micronaut/coherence/data/DefaultCoherenceRepositoryOperations.html" title="class in io.micronaut.coherence.data">DefaultCoherenceRepositoryOperations</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io/micronaut/coherence/annotation/Deleted.html" title="annotation in io.micronaut.coherence.annotation"><span class="typeNameLink">Deleted</span></a> - Annotation Type in <a href="io/micronaut/coherence/annotation/package-summary.html">io.micronaut.coherence.annotation</a></dt>
 <dd>
 <div class="block">A qualifier annotation used to annotate the parameter <a href="io/micronaut/coherence/annotation/CoherenceEventListener.html" title="annotation in io.micronaut.coherence.annotation"><code>CoherenceEventListener</code></a> annotated methods
@@ -474,6 +521,22 @@
 </a>
 <h2 class="title">E</h2>
 <dl>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/data/DefaultCoherenceRepositoryOperations.html#ensureExecutionContext--">ensureExecutionContext()</a></span> - Method in class io.micronaut.coherence.data.<a href="io/micronaut/coherence/data/DefaultCoherenceRepositoryOperations.html" title="class in io.micronaut.coherence.data">DefaultCoherenceRepositoryOperations</a></dt>
+<dd>
+<div class="block">Ensures a single <code>ExecutionContext</code> is available for CohQL execution.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/data/DefaultCoherenceRepositoryOperations.html#ensureMeta-java.lang.Class-">ensureMeta(Class)</a></span> - Method in class io.micronaut.coherence.data.<a href="io/micronaut/coherence/data/DefaultCoherenceRepositoryOperations.html" title="class in io.micronaut.coherence.data">DefaultCoherenceRepositoryOperations</a></dt>
+<dd>
+<div class="block">Used to obtain <code>RuntimePersistentEntity</code> information about an entity type.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/data/DefaultCoherenceRepositoryOperations.html#ensureNamedMap--">ensureNamedMap()</a></span> - Method in class io.micronaut.coherence.data.<a href="io/micronaut/coherence/data/DefaultCoherenceRepositoryOperations.html" title="class in io.micronaut.coherence.data">DefaultCoherenceRepositoryOperations</a></dt>
+<dd>
+<div class="block">Return the <code>NamedMap</code> that should be used by this <code>repository</code>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/data/DefaultCoherenceRepositoryOperations.html#ensureSession--">ensureSession()</a></span> - Method in class io.micronaut.coherence.data.<a href="io/micronaut/coherence/data/DefaultCoherenceRepositoryOperations.html" title="class in io.micronaut.coherence.data">DefaultCoherenceRepositoryOperations</a></dt>
+<dd>
+<div class="block">Return the <code>Session</code> that should be used by this <code>repository</code>.</div>
+</dd>
 <dt><a href="io/micronaut/coherence/annotation/Error.html" title="annotation in io.micronaut.coherence.annotation"><span class="typeNameLink">Error</span></a> - Annotation Type in <a href="io/micronaut/coherence/annotation/package-summary.html">io.micronaut.coherence.annotation</a></dt>
 <dd>
 <div class="block">A qualifier annotation used for any ERROR event.</div>
@@ -494,6 +557,10 @@
 <dd>
 <div class="block">Handler for <code>UnsolicitedCommitEvent</code>s.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/data/DefaultCoherenceRepositoryOperations.html#execute-io.micronaut.data.model.runtime.PreparedQuery-">execute(PreparedQuery)</a></span> - Method in class io.micronaut.coherence.data.<a href="io/micronaut/coherence/data/DefaultCoherenceRepositoryOperations.html" title="class in io.micronaut.coherence.data">DefaultCoherenceRepositoryOperations</a></dt>
+<dd>
+<div class="block">Executes the provided <code>PreparedQuery</code>.</div>
+</dd>
 <dt><a href="io/micronaut/coherence/annotation/Executed.html" title="annotation in io.micronaut.coherence.annotation"><span class="typeNameLink">Executed</span></a> - Annotation Type in <a href="io/micronaut/coherence/annotation/package-summary.html">io.micronaut.coherence.annotation</a></dt>
 <dd>
 <div class="block">A qualifier annotation used for any EXECUTED event.</div>
@@ -503,6 +570,8 @@
 <div class="block">An annotation literal for the <a href="io/micronaut/coherence/annotation/Executed.html" title="annotation in io.micronaut.coherence.annotation"><code>Executed</code></a>
  annotation.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/data/DefaultCoherenceRepositoryOperations.html#executeUpdate-io.micronaut.data.model.runtime.PreparedQuery-">executeUpdate(PreparedQuery&lt;?, Number&gt;)</a></span> - Method in class io.micronaut.coherence.data.<a href="io/micronaut/coherence/data/DefaultCoherenceRepositoryOperations.html" title="class in io.micronaut.coherence.data">DefaultCoherenceRepositoryOperations</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io/micronaut/coherence/annotation/Executing.html" title="annotation in io.micronaut.coherence.annotation"><span class="typeNameLink">Executing</span></a> - Annotation Type in <a href="io/micronaut/coherence/annotation/package-summary.html">io.micronaut.coherence.annotation</a></dt>
 <dd>
 <div class="block">A qualifier annotation used for any EXECUTING event.</div>
@@ -512,6 +581,8 @@
 <div class="block">An annotation literal for the <a href="io/micronaut/coherence/annotation/Executing.html" title="annotation in io.micronaut.coherence.annotation"><code>Executing</code></a>
  annotation.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/data/DefaultCoherenceRepositoryOperations.html#exists-io.micronaut.data.model.runtime.PreparedQuery-">exists(PreparedQuery&lt;T, Boolean&gt;)</a></span> - Method in class io.micronaut.coherence.data.<a href="io/micronaut/coherence/data/DefaultCoherenceRepositoryOperations.html" title="class in io.micronaut.coherence.data">DefaultCoherenceRepositoryOperations</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io/micronaut/coherence/annotation/ExtractorBinding.html" title="annotation in io.micronaut.coherence.annotation"><span class="typeNameLink">ExtractorBinding</span></a> - Annotation Type in <a href="io/micronaut/coherence/annotation/package-summary.html">io.micronaut.coherence.annotation</a></dt>
 <dd>
 <div class="block">Specifies that an annotation type is a <code>ValueExtractor</code>
@@ -549,7 +620,21 @@
 <div class="block">A factory that produces instances of <code>Filter</code> for a
  given <code>Annotation</code>.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/data/DefaultCoherenceRepositoryOperations.html#findAll-io.micronaut.data.model.runtime.PagedQuery-">findAll(PagedQuery&lt;T&gt;)</a></span> - Method in class io.micronaut.coherence.data.<a href="io/micronaut/coherence/data/DefaultCoherenceRepositoryOperations.html" title="class in io.micronaut.coherence.data">DefaultCoherenceRepositoryOperations</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/data/DefaultCoherenceRepositoryOperations.html#findAll-io.micronaut.data.model.runtime.PreparedQuery-">findAll(PreparedQuery&lt;T, R&gt;)</a></span> - Method in class io.micronaut.coherence.data.<a href="io/micronaut/coherence/data/DefaultCoherenceRepositoryOperations.html" title="class in io.micronaut.coherence.data">DefaultCoherenceRepositoryOperations</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/data/DefaultCoherenceRepositoryOperations.html#findOne-java.lang.Class-java.io.Serializable-">findOne(Class&lt;T&gt;, Serializable)</a></span> - Method in class io.micronaut.coherence.data.<a href="io/micronaut/coherence/data/DefaultCoherenceRepositoryOperations.html" title="class in io.micronaut.coherence.data">DefaultCoherenceRepositoryOperations</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/data/DefaultCoherenceRepositoryOperations.html#findOne-io.micronaut.data.model.runtime.PreparedQuery-">findOne(PreparedQuery&lt;T, R&gt;)</a></span> - Method in class io.micronaut.coherence.data.<a href="io/micronaut/coherence/data/DefaultCoherenceRepositoryOperations.html" title="class in io.micronaut.coherence.data">DefaultCoherenceRepositoryOperations</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/data/DefaultCoherenceRepositoryOperations.html#findPage-io.micronaut.data.model.runtime.PagedQuery-">findPage(PagedQuery&lt;R&gt;)</a></span> - Method in class io.micronaut.coherence.data.<a href="io/micronaut/coherence/data/DefaultCoherenceRepositoryOperations.html" title="class in io.micronaut.coherence.data">DefaultCoherenceRepositoryOperations</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/httpsession/CoherenceSessionStore.html#findSession-java.lang.String-">findSession(String)</a></span> - Method in class io.micronaut.coherence.httpsession.<a href="io/micronaut/coherence/httpsession/CoherenceSessionStore.html" title="class in io.micronaut.coherence.httpsession">CoherenceSessionStore</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/data/DefaultCoherenceRepositoryOperations.html#findStream-io.micronaut.data.model.runtime.PreparedQuery-">findStream(PreparedQuery&lt;T, R&gt;)</a></span> - Method in class io.micronaut.coherence.data.<a href="io/micronaut/coherence/data/DefaultCoherenceRepositoryOperations.html" title="class in io.micronaut.coherence.data">DefaultCoherenceRepositoryOperations</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/data/DefaultCoherenceRepositoryOperations.html#findStream-io.micronaut.data.model.runtime.PagedQuery-">findStream(PagedQuery&lt;T&gt;)</a></span> - Method in class io.micronaut.coherence.data.<a href="io/micronaut/coherence/data/DefaultCoherenceRepositoryOperations.html" title="class in io.micronaut.coherence.data">DefaultCoherenceRepositoryOperations</a></dt>
 <dd>&nbsp;</dd>
 </dl>
 <a name="I:G">
@@ -587,6 +672,22 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/discovery/CoherenceConfigurationClient.html#getDescription--">getDescription()</a></span> - Method in class io.micronaut.coherence.discovery.<a href="io/micronaut/coherence/discovery/CoherenceConfigurationClient.html" title="class in io.micronaut.coherence.discovery">CoherenceConfigurationClient</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/data/AbstractCoherenceRepository.html#getEntityType--">getEntityType()</a></span> - Method in class io.micronaut.coherence.data.<a href="io/micronaut/coherence/data/AbstractCoherenceRepository.html" title="class in io.micronaut.coherence.data">AbstractCoherenceRepository</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/coherence/data/interceptors/GetEntityTypeInterceptor.html" title="class in io.micronaut.coherence.data.interceptors"><span class="typeNameLink">GetEntityTypeInterceptor</span></a>&lt;<a href="io/micronaut/coherence/data/interceptors/GetEntityTypeInterceptor.html" title="type parameter in GetEntityTypeInterceptor">T</a>,<a href="io/micronaut/coherence/data/interceptors/GetEntityTypeInterceptor.html" title="type parameter in GetEntityTypeInterceptor">Class</a>&gt; - Class in <a href="io/micronaut/coherence/data/interceptors/package-summary.html">io.micronaut.coherence.data.interceptors</a></dt>
+<dd>
+<div class="block">A <code>DataInterceptor</code> allowing <a href="io/micronaut/coherence/data/AbstractCoherenceRepository.html" title="class in io.micronaut.coherence.data"><code>AbstractCoherenceRepository</code></a> instances
+ to obtain the entity type managed by this <code>repository</code>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/data/interceptors/GetEntityTypeInterceptor.html#GetEntityTypeInterceptor-io.micronaut.data.operations.RepositoryOperations-">GetEntityTypeInterceptor(RepositoryOperations)</a></span> - Constructor for class io.micronaut.coherence.data.interceptors.<a href="io/micronaut/coherence/data/interceptors/GetEntityTypeInterceptor.html" title="class in io.micronaut.coherence.data.interceptors">GetEntityTypeInterceptor</a></dt>
+<dd>
+<div class="block">Default constructor.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/data/AbstractCoherenceRepository.html#getEntityTypeInternal-T-">getEntityTypeInternal(T)</a></span> - Method in class io.micronaut.coherence.data.<a href="io/micronaut/coherence/data/AbstractCoherenceRepository.html" title="class in io.micronaut.coherence.data">AbstractCoherenceRepository</a></dt>
+<dd>
+<div class="block">This is in place to prevent Micronaut from scanning further up the inheritance tree and trying
+ to map <code>AbstractRepository.getEntityType()</code> and failing.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/config/MicronautSystemPropertyResolver.html#getEnv-java.lang.String-">getEnv(String)</a></span> - Method in class io.micronaut.coherence.config.<a href="io/micronaut/coherence/config/MicronautSystemPropertyResolver.html" title="class in io.micronaut.coherence.config">MicronautSystemPropertyResolver</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/annotation/Utils.html#getFirstTopicName-io.micronaut.core.annotation.AnnotationMetadata-java.lang.String-">getFirstTopicName(AnnotationMetadata, String)</a></span> - Static method in class io.micronaut.coherence.annotation.<a href="io/micronaut/coherence/annotation/Utils.html" title="class in io.micronaut.coherence.annotation">Utils</a></dt>
@@ -597,14 +698,52 @@
 <dd>
 <div class="block">Returns host name of gRPC server.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/data/AbstractCoherenceRepository.html#getId-T-">getId(T)</a></span> - Method in class io.micronaut.coherence.data.<a href="io/micronaut/coherence/data/AbstractCoherenceRepository.html" title="class in io.micronaut.coherence.data">AbstractCoherenceRepository</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/data/CoherenceRepositoryOperations.html#getId-T-">getId(T)</a></span> - Method in interface io.micronaut.coherence.data.<a href="io/micronaut/coherence/data/CoherenceRepositoryOperations.html" title="interface in io.micronaut.coherence.data">CoherenceRepositoryOperations</a></dt>
+<dd>
+<div class="block">Return the id associated with the specified entity.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/data/DefaultCoherenceRepositoryOperations.html#getId-T-">getId(T)</a></span> - Method in class io.micronaut.coherence.data.<a href="io/micronaut/coherence/data/DefaultCoherenceRepositoryOperations.html" title="class in io.micronaut.coherence.data">DefaultCoherenceRepositoryOperations</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/httpsession/CoherenceSessionStore.CoherenceHttpSession.html#getId--">getId()</a></span> - Method in class io.micronaut.coherence.httpsession.<a href="io/micronaut/coherence/httpsession/CoherenceSessionStore.CoherenceHttpSession.html" title="class in io.micronaut.coherence.httpsession">CoherenceSessionStore.CoherenceHttpSession</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="io/micronaut/coherence/data/interceptors/GetIdInterceptor.html" title="class in io.micronaut.coherence.data.interceptors"><span class="typeNameLink">GetIdInterceptor</span></a>&lt;<a href="io/micronaut/coherence/data/interceptors/GetIdInterceptor.html" title="type parameter in GetIdInterceptor">T</a>,<a href="io/micronaut/coherence/data/interceptors/GetIdInterceptor.html" title="type parameter in GetIdInterceptor">ID</a>&gt; - Class in <a href="io/micronaut/coherence/data/interceptors/package-summary.html">io.micronaut.coherence.data.interceptors</a></dt>
+<dd>
+<div class="block">A <code>DataInterceptor</code> allowing <a href="io/micronaut/coherence/data/AbstractCoherenceRepository.html" title="class in io.micronaut.coherence.data"><code>AbstractCoherenceRepository</code></a> instances
+ to obtain the <code>Id</code> of the provided entity.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/data/interceptors/GetIdInterceptor.html#GetIdInterceptor-io.micronaut.data.operations.RepositoryOperations-">GetIdInterceptor(RepositoryOperations)</a></span> - Constructor for class io.micronaut.coherence.data.interceptors.<a href="io/micronaut/coherence/data/interceptors/GetIdInterceptor.html" title="class in io.micronaut.coherence.data.interceptors">GetIdInterceptor</a></dt>
+<dd>
+<div class="block">Default constructor.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/data/AbstractCoherenceRepository.html#getIdInternal-T-">getIdInternal(T)</a></span> - Method in class io.micronaut.coherence.data.<a href="io/micronaut/coherence/data/AbstractCoherenceRepository.html" title="class in io.micronaut.coherence.data">AbstractCoherenceRepository</a></dt>
+<dd>
+<div class="block">This is in place to prevent Micronaut from scanning further up the inheritance tree and trying
+ to map <code>AbstractRepository.getId(Object)</code> and failing.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/event/CoherenceEventListenerProcessor.html#getInterceptors--">getInterceptors()</a></span> - Method in class io.micronaut.coherence.event.<a href="io/micronaut/coherence/event/CoherenceEventListenerProcessor.html" title="class in io.micronaut.coherence.event">CoherenceEventListenerProcessor</a></dt>
 <dd>
 <div class="block">Returns the discovered interceptors.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/httpsession/CoherenceSessionStore.CoherenceHttpSession.html#getLastAccessedTime--">getLastAccessedTime()</a></span> - Method in class io.micronaut.coherence.httpsession.<a href="io/micronaut/coherence/httpsession/CoherenceSessionStore.CoherenceHttpSession.html" title="class in io.micronaut.coherence.httpsession">CoherenceSessionStore.CoherenceHttpSession</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/data/AbstractCoherenceRepository.html#getMap--">getMap()</a></span> - Method in class io.micronaut.coherence.data.<a href="io/micronaut/coherence/data/AbstractCoherenceRepository.html" title="class in io.micronaut.coherence.data">AbstractCoherenceRepository</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/coherence/data/interceptors/GetMapInterceptor.html" title="class in io.micronaut.coherence.data.interceptors"><span class="typeNameLink">GetMapInterceptor</span></a>&lt;<a href="io/micronaut/coherence/data/interceptors/GetMapInterceptor.html" title="type parameter in GetMapInterceptor">ID</a>,<a href="io/micronaut/coherence/data/interceptors/GetMapInterceptor.html" title="type parameter in GetMapInterceptor">T</a>,<a href="io/micronaut/coherence/data/interceptors/GetMapInterceptor.html" title="type parameter in GetMapInterceptor">D</a>&gt; - Class in <a href="io/micronaut/coherence/data/interceptors/package-summary.html">io.micronaut.coherence.data.interceptors</a></dt>
+<dd>
+<div class="block">A <code>DataInterceptor</code> allowing <a href="io/micronaut/coherence/data/AbstractCoherenceRepository.html" title="class in io.micronaut.coherence.data"><code>AbstractCoherenceRepository</code></a> instances
+ to obtain the <code>NamedMap</code> associated with the <a href="io/micronaut/coherence/data/AbstractCoherenceRepository.html" title="class in io.micronaut.coherence.data"><code>AbstractCoherenceRepository</code></a>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/data/interceptors/GetMapInterceptor.html#GetMapInterceptor-io.micronaut.data.operations.RepositoryOperations-">GetMapInterceptor(RepositoryOperations)</a></span> - Constructor for class io.micronaut.coherence.data.interceptors.<a href="io/micronaut/coherence/data/interceptors/GetMapInterceptor.html" title="class in io.micronaut.coherence.data.interceptors">GetMapInterceptor</a></dt>
+<dd>
+<div class="block">Default constructor.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/data/AbstractCoherenceRepository.html#getMapInternal--">getMapInternal()</a></span> - Method in class io.micronaut.coherence.data.<a href="io/micronaut/coherence/data/AbstractCoherenceRepository.html" title="class in io.micronaut.coherence.data">AbstractCoherenceRepository</a></dt>
+<dd>
+<div class="block">This is in place to prevent Micronaut from scanning further up the inheritance tree and trying
+ to map <code>AbstractRepository.getMap()</code> and failing.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/event/CoherenceEventListenerProcessor.html#getMapListeners-java.lang.String-java.lang.String-">getMapListeners(String, String)</a></span> - Method in class io.micronaut.coherence.event.<a href="io/micronaut/coherence/event/CoherenceEventListenerProcessor.html" title="class in io.micronaut.coherence.event">CoherenceEventListenerProcessor</a></dt>
 <dd>
 <div class="block">Return all map listeners that should be registered for a particular
@@ -620,6 +759,12 @@
 <dd>
 <div class="block">Return the name of this configuration.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/data/CoherenceRepositoryOperations.html#getNamedMap--">getNamedMap()</a></span> - Method in interface io.micronaut.coherence.data.<a href="io/micronaut/coherence/data/CoherenceRepositoryOperations.html" title="interface in io.micronaut.coherence.data">CoherenceRepositoryOperations</a></dt>
+<dd>
+<div class="block">Obtain the <code>NamedMap</code> associated this this <code>repository</code>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/data/DefaultCoherenceRepositoryOperations.html#getNamedMap--">getNamedMap()</a></span> - Method in class io.micronaut.coherence.data.<a href="io/micronaut/coherence/data/DefaultCoherenceRepositoryOperations.html" title="class in io.micronaut.coherence.data">DefaultCoherenceRepositoryOperations</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/cache/coherence/CoherenceAsyncCache.html#getNativeCache--">getNativeCache()</a></span> - Method in class io.micronaut.cache.coherence.<a href="io/micronaut/cache/coherence/CoherenceAsyncCache.html" title="class in io.micronaut.cache.coherence">CoherenceAsyncCache</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/event/CoherenceEventListenerProcessor.html#getNonWildcardMapListeners--">getNonWildcardMapListeners()</a></span> - Method in class io.micronaut.coherence.event.<a href="io/micronaut/coherence/event/CoherenceEventListenerProcessor.html" title="class in io.micronaut.coherence.event">CoherenceEventListenerProcessor</a></dt>
@@ -781,6 +926,12 @@
 <div class="block">A singleton instance of <a href="io/micronaut/coherence/annotation/View.Literal.html" title="class in io.micronaut.coherence.annotation"><code>View.Literal</code></a>
  with the cache values flag set to true.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/data/interceptors/GetEntityTypeInterceptor.html#intercept-io.micronaut.data.intercept.RepositoryMethodKey-io.micronaut.aop.MethodInvocationContext-">intercept(RepositoryMethodKey, MethodInvocationContext&lt;T, Class&gt;)</a></span> - Method in class io.micronaut.coherence.data.interceptors.<a href="io/micronaut/coherence/data/interceptors/GetEntityTypeInterceptor.html" title="class in io.micronaut.coherence.data.interceptors">GetEntityTypeInterceptor</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/data/interceptors/GetIdInterceptor.html#intercept-io.micronaut.data.intercept.RepositoryMethodKey-io.micronaut.aop.MethodInvocationContext-">intercept(RepositoryMethodKey, MethodInvocationContext&lt;T, ID&gt;)</a></span> - Method in class io.micronaut.coherence.data.interceptors.<a href="io/micronaut/coherence/data/interceptors/GetIdInterceptor.html" title="class in io.micronaut.coherence.data.interceptors">GetIdInterceptor</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/data/interceptors/GetMapInterceptor.html#intercept-io.micronaut.data.intercept.RepositoryMethodKey-io.micronaut.aop.MethodInvocationContext-">intercept(RepositoryMethodKey, MethodInvocationContext&lt;D, NamedMap&lt;ID, T&gt;&gt;)</a></span> - Method in class io.micronaut.coherence.data.interceptors.<a href="io/micronaut/coherence/data/interceptors/GetMapInterceptor.html" title="class in io.micronaut.coherence.data.interceptors">GetMapInterceptor</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/messaging/CoherencePublisherIntroductionAdvice.html#intercept-io.micronaut.aop.MethodInvocationContext-">intercept(MethodInvocationContext&lt;Object, Object&gt;)</a></span> - Method in class io.micronaut.coherence.messaging.<a href="io/micronaut/coherence/messaging/CoherencePublisherIntroductionAdvice.html" title="class in io.micronaut.coherence.messaging">CoherencePublisherIntroductionAdvice</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/cache/coherence/CoherenceAsyncCache.html#invalidate-java.lang.Object-">invalidate(Object)</a></span> - Method in class io.micronaut.cache.coherence.<a href="io/micronaut/cache/coherence/CoherenceAsyncCache.html" title="class in io.micronaut.cache.coherence">CoherenceAsyncCache</a></dt>
@@ -799,6 +950,14 @@
 <dt><a href="io/micronaut/coherence/annotation/package-summary.html">io.micronaut.coherence.annotation</a> - package io.micronaut.coherence.annotation</dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/coherence/config/package-summary.html">io.micronaut.coherence.config</a> - package io.micronaut.coherence.config</dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/coherence/data/package-summary.html">io.micronaut.coherence.data</a> - package io.micronaut.coherence.data</dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/coherence/data/annotation/package-summary.html">io.micronaut.coherence.data.annotation</a> - package io.micronaut.coherence.data.annotation</dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/coherence/data/interceptors/package-summary.html">io.micronaut.coherence.data.interceptors</a> - package io.micronaut.coherence.data.interceptors</dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/coherence/data/query/package-summary.html">io.micronaut.coherence.data.query</a> - package io.micronaut.coherence.data.query</dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/coherence/discovery/package-summary.html">io.micronaut.coherence.discovery</a> - package io.micronaut.coherence.discovery</dt>
 <dd>
@@ -936,6 +1095,10 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/annotation/Updating.Literal.html#Literal--">Literal()</a></span> - Constructor for class io.micronaut.coherence.annotation.<a href="io/micronaut/coherence/annotation/Updating.Literal.html" title="class in io.micronaut.coherence.annotation">Updating.Literal</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/data/DefaultCoherenceRepositoryOperations.html#logQuery-com.tangosol.coherence.dslquery.ExecutionContext-com.tangosol.coherence.dslquery.Statement-java.lang.String-java.util.Map-">logQuery(ExecutionContext, Statement, String, Map&lt;String, Object&gt;)</a></span> - Method in class io.micronaut.coherence.data.<a href="io/micronaut/coherence/data/DefaultCoherenceRepositoryOperations.html" title="class in io.micronaut.coherence.data">DefaultCoherenceRepositoryOperations</a></dt>
+<dd>
+<div class="block">Logs the specified query and binding parameters.</div>
+</dd>
 <dt><a href="io/micronaut/coherence/annotation/Lost.html" title="annotation in io.micronaut.coherence.annotation"><span class="typeNameLink">Lost</span></a> - Annotation Type in <a href="io/micronaut/coherence/annotation/package-summary.html">io.micronaut.coherence.annotation</a></dt>
 <dd>
 <div class="block">A qualifier annotation used to annotate the parameter <a href="io/micronaut/coherence/annotation/CoherenceEventListener.html" title="annotation in io.micronaut.coherence.annotation"><code>CoherenceEventListener</code></a> annotated methods
@@ -1129,6 +1292,10 @@
 <dd>
 <div class="block">Returns a property path to use to extract the value.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/data/DefaultCoherenceRepositoryOperations.html#persist-io.micronaut.data.model.runtime.InsertOperation-">persist(InsertOperation&lt;T&gt;)</a></span> - Method in class io.micronaut.coherence.data.<a href="io/micronaut/coherence/data/DefaultCoherenceRepositoryOperations.html" title="class in io.micronaut.coherence.data">DefaultCoherenceRepositoryOperations</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/data/DefaultCoherenceRepositoryOperations.html#persistAll-io.micronaut.data.model.runtime.BatchOperation-">persistAll(BatchOperation&lt;T&gt;)</a></span> - Method in class io.micronaut.coherence.data.<a href="io/micronaut/coherence/data/DefaultCoherenceRepositoryOperations.html" title="class in io.micronaut.coherence.data">DefaultCoherenceRepositoryOperations</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io/micronaut/coherence/annotation/PofExtractor.html" title="annotation in io.micronaut.coherence.annotation"><span class="typeNameLink">PofExtractor</span></a> - Annotation Type in <a href="io/micronaut/coherence/annotation/package-summary.html">io.micronaut.coherence.annotation</a></dt>
 <dd>
 <div class="block">A <a href="io/micronaut/coherence/annotation/ExtractorBinding.html" title="annotation in io.micronaut.coherence.annotation"><code>ExtractorBinding</code></a> annotation representing a <code>com.tangosol.util.extractor.PofExtractor</code>.</div>
@@ -1239,6 +1406,11 @@
 <div class="block">An annotation literal for the <a href="io/micronaut/coherence/annotation/Removing.html" title="annotation in io.micronaut.coherence.annotation"><code>Removing</code></a>
  annotation.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/data/DefaultCoherenceRepositoryOperations.html#replaceTarget-java.lang.String-java.lang.Class-">replaceTarget(String, Class&lt;? extends T&gt;)</a></span> - Method in class io.micronaut.coherence.data.<a href="io/micronaut/coherence/data/DefaultCoherenceRepositoryOperations.html" title="class in io.micronaut.coherence.data">DefaultCoherenceRepositoryOperations</a></dt>
+<dd>
+<div class="block">Replaces the generated target of the statement with the name <code>NamedMap</code> associated
+ with this <code>RepositoryOperations</code> instance.</div>
+</dd>
 <dt><a href="io/micronaut/coherence/annotation/Replicating.html" title="annotation in io.micronaut.coherence.annotation"><span class="typeNameLink">Replicating</span></a> - Annotation Type in <a href="io/micronaut/coherence/annotation/package-summary.html">io.micronaut.coherence.annotation</a></dt>
 <dd>
 <div class="block">A qualifier annotation used for any REPLICATING event.</div>
@@ -1261,6 +1433,8 @@
 <div class="block">Resolve a <code>MapEventTransformer</code> from the
  specified qualifier annotations.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/data/query/CohQLQueryBuilder.html#resolveJoinType-io.micronaut.data.annotation.Join.Type-">resolveJoinType(Join.Type)</a></span> - Method in class io.micronaut.coherence.data.query.<a href="io/micronaut/coherence/data/query/CohQLQueryBuilder.html" title="class in io.micronaut.coherence.data.query">CohQLQueryBuilder</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io/micronaut/coherence/annotation/Rollback.html" title="annotation in io.micronaut.coherence.annotation"><span class="typeNameLink">Rollback</span></a> - Annotation Type in <a href="io/micronaut/coherence/annotation/package-summary.html">io.micronaut.coherence.annotation</a></dt>
 <dd>
 <div class="block">A qualifier annotation used to annotate the parameter <a href="io/micronaut/coherence/annotation/CoherenceEventListener.html" title="annotation in io.micronaut.coherence.annotation"><code>CoherenceEventListener</code></a> annotated methods
@@ -1386,6 +1560,10 @@
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/AbstractSessionConfigurationBean.html#setScopeName-java.lang.String-">setScopeName(String)</a></span> - Method in class io.micronaut.coherence.<a href="io/micronaut/coherence/AbstractSessionConfigurationBean.html" title="class in io.micronaut.coherence">AbstractSessionConfigurationBean</a></dt>
 <dd>
 <div class="block">Set the scope name for this configuration.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/data/DefaultCoherenceRepositoryOperations.html#setSession-java.lang.String-">setSession(String)</a></span> - Method in class io.micronaut.coherence.data.<a href="io/micronaut/coherence/data/DefaultCoherenceRepositoryOperations.html" title="class in io.micronaut.coherence.data">DefaultCoherenceRepositoryOperations</a></dt>
+<dd>
+<div class="block">Configure the name of the <code>Session</code>.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/AbstractSessionConfigurationBean.html#setType-java.lang.String-">setType(String)</a></span> - Method in class io.micronaut.coherence.<a href="io/micronaut/coherence/AbstractSessionConfigurationBean.html" title="class in io.micronaut.coherence">AbstractSessionConfigurationBean</a></dt>
 <dd>
@@ -1534,6 +1712,8 @@
 <h2 class="title">U</h2>
 <dl>
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/event/EventObserverSupport.UnsolicitedCommitEventHandler.html#UnsolicitedCommitEventHandler-io.micronaut.coherence.event.ExecutableMethodEventObserver-">UnsolicitedCommitEventHandler(ExecutableMethodEventObserver&lt;UnsolicitedCommitEvent, ?, ?&gt;)</a></span> - Constructor for class io.micronaut.coherence.event.<a href="io/micronaut/coherence/event/EventObserverSupport.UnsolicitedCommitEventHandler.html" title="class in io.micronaut.coherence.event">EventObserverSupport.UnsolicitedCommitEventHandler</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/data/DefaultCoherenceRepositoryOperations.html#update-io.micronaut.data.model.runtime.UpdateOperation-">update(UpdateOperation&lt;T&gt;)</a></span> - Method in class io.micronaut.coherence.data.<a href="io/micronaut/coherence/data/DefaultCoherenceRepositoryOperations.html" title="class in io.micronaut.coherence.data">DefaultCoherenceRepositoryOperations</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/coherence/annotation/Updated.html" title="annotation in io.micronaut.coherence.annotation"><span class="typeNameLink">Updated</span></a> - Annotation Type in <a href="io/micronaut/coherence/annotation/package-summary.html">io.micronaut.coherence.annotation</a></dt>
 <dd>
