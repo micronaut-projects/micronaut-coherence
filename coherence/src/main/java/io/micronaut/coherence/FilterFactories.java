@@ -16,6 +16,7 @@
 package io.micronaut.coherence;
 
 import java.lang.annotation.Annotation;
+import java.lang.annotation.Repeatable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -35,6 +36,7 @@ import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.annotation.Factory;
 import io.micronaut.context.annotation.Prototype;
 import io.micronaut.core.annotation.AnnotationMetadata;
+import io.micronaut.core.annotation.AnnotationValue;
 import io.micronaut.inject.InjectionPoint;
 
 /**
@@ -108,6 +110,10 @@ public class FilterFactories {
         List<Class<? extends Annotation>> bindings = metadata.getAnnotationTypesByStereotype(FilterBinding.class);
 
         for (Class<? extends Annotation> type : bindings) {
+            Repeatable repeatable = type.getAnnotation(Repeatable.class);
+            if (repeatable != null) {
+                type = repeatable.value();
+            }
             FilterFactory filterFactory = ctx.findBean(FilterFactory.class, new FactoryQualifier<>(type))
                     .orElse(null);
             if (filterFactory != null) {

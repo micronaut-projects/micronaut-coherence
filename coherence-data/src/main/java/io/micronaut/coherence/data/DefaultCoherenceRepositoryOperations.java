@@ -31,13 +31,15 @@ import io.micronaut.context.annotation.Parameter;
 import io.micronaut.core.beans.BeanProperty;
 import io.micronaut.core.util.ArgumentUtils;
 import io.micronaut.data.model.Page;
-import io.micronaut.data.model.runtime.BatchOperation;
+import io.micronaut.data.model.runtime.InsertBatchOperation;
 import io.micronaut.data.model.runtime.InsertOperation;
 import io.micronaut.data.model.runtime.PagedQuery;
 import io.micronaut.data.model.runtime.PreparedQuery;
 import io.micronaut.data.model.runtime.RuntimePersistentEntity;
 import io.micronaut.data.model.runtime.RuntimePersistentProperty;
 import io.micronaut.data.model.runtime.UpdateOperation;
+import io.micronaut.data.model.runtime.DeleteBatchOperation;
+import io.micronaut.data.model.runtime.DeleteOperation;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -265,16 +267,23 @@ public class DefaultCoherenceRepositoryOperations implements CoherenceRepository
     }
 
     @Override
-    public <T> Optional<Number> deleteAll(@NonNull final BatchOperation<T> operation) {
+    public <T> Optional<Number> deleteAll(@NonNull final DeleteBatchOperation<T> operation) {
         Map<?, T> entitiesToDelete = new LinkedHashMap<>();
         operation.forEach(t -> entitiesToDelete.put(getId(t), t));
         Map result = getNamedMap().invokeAll(entitiesToDelete.keySet(), Processors.remove());
         return Optional.of(result.size());
     }
 
+    @Override
+    public <T> int delete(@NonNull final DeleteOperation<T> operation) {
+        T entity = operation.getEntity();
+        boolean removed = getNamedMap().remove(getId(entity), entity);
+        return removed ? 1 : 0;
+    }
+
     @NonNull
     @Override
-    public <T> Iterable<T> persistAll(@NonNull final BatchOperation<T> operation) {
+    public <T> Iterable<T> persistAll(@NonNull final InsertBatchOperation<T> operation) {
         Map<?, T> entitiesToSave = new HashMap<>();
         operation.forEach(t -> entitiesToSave.put(getId(t), t));
         getNamedMap().putAll(entitiesToSave);
