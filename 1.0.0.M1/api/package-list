@@ -1,0 +1,13 @@
+io.micronaut.cache.coherence
+io.micronaut.coherence
+io.micronaut.coherence.annotation
+io.micronaut.coherence.config
+io.micronaut.coherence.data
+io.micronaut.coherence.data.annotation
+io.micronaut.coherence.data.interceptors
+io.micronaut.coherence.data.query
+io.micronaut.coherence.discovery
+io.micronaut.coherence.event
+io.micronaut.coherence.httpsession
+io.micronaut.coherence.messaging
+io.micronaut.coherence.namespace
