@@ -10,9 +10,6 @@ buildscript {
 subprojects { Project subproject ->
     group "io.micronaut.coherence"
 
-    apply plugin: "io.micronaut.build.internal.dependency-updates"
-    apply plugin: "io.micronaut.build.internal.publishing"
-
     repositories {
         jcenter()
         mavenCentral()
@@ -44,6 +41,9 @@ subprojects { Project subproject ->
             testAnnotationProcessor "io.micronaut:micronaut-inject-java:${micronautVersion}"
         }
     }
+
+    apply plugin: "io.micronaut.build.internal.dependency-updates"
+    apply plugin: "io.micronaut.build.internal.publishing"
 }
 
 apply plugin: "io.micronaut.build.internal.docs"
