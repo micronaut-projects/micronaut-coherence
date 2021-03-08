@@ -36,4 +36,5 @@ tasks.withType(Test) {
 test {
     systemProperty("java.net.preferIPv4Stack", "true")
     systemProperty("coherence.data.query.log", "true")
+    forkEvery 1
 }
