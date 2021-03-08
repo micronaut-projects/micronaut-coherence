@@ -3,21 +3,18 @@
 [![Maven Central](https://img.shields.io/maven-central/v/io.micronaut.coherence/micronaut-coherence.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.micronaut.coherence%22%20AND%20a:%22micronaut-coherence%22)
 [![Build Status](https://github.com/micronaut-projects/micronaut-coherence/workflows/Java%20CI/badge.svg)](https://github.com/micronaut-projects/micronaut-coherence/actions)
 
-This project provides integrations between [Micronaut](http://micronaut.io) and [Oracle Coherence](https://coherence.community).
+This project provides integrations between [Micronaut](http://micronaut.io) and [Oracle Coherence](https://coherence.community). Note that this project is currently at the milestone stage and subject to change.
 
 ## Documentation
 
-See the [Documentation](https://micronaut-projects.github.io/micronaut-coherence/latest/guide/) for more information. 
+See the [Documentation](https://micronaut-projects.github.io/micronaut-coherence/1.0.x/guide/) for more information. 
 
 See the [Snapshot Documentation](https://micronaut-projects.github.io/micronaut-coherence/snapshot/guide/) for the current development docs.
 
-## Examples
-
-Examples can be found in the [examples](https://github.com/micronaut-projects/micronaut-coherence/tree/master/examples) directory.
 
 ## Snapshots and Releases
 
-Snapshots are automatically published to [JFrog OSS](https://oss.jfrog.org/artifactory/oss-snapshot-local/) using [Github Actions](https://github.com/micronaut-projects/micronaut-coherence/actions).
+Snapshots are automatically published to [Sonatype OSS]("https://s01.oss.sonatype.org/content/repositories/snapshots/") using [Github Actions](https://github.com/micronaut-projects/micronaut-coherence/actions).
 
 See the documentation in the [Micronaut Docs](https://docs.micronaut.io/latest/guide/index.html#usingsnapshots) for how to configure your build to use snapshots.
 
