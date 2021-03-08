@@ -1,42 +1,20 @@
-/*
- * Copyright 2017-2021 original authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 dependencies {
-    annotationProcessor "io.micronaut:micronaut-inject-java"
-    annotationProcessor "io.micronaut.docs:micronaut-docs-asciidoc-config-props:$micronautDocsVersion"
-
     api "io.micronaut:micronaut-inject"
     api "io.micronaut:micronaut-messaging"
     api "io.micronaut:micronaut-runtime"
 
-    compileOnly(platform("com.oracle.coherence.ce:coherence-bom:${coherenceVersion}"))
     compileOnly "com.oracle.coherence.ce:coherence"
     compileOnly "com.oracle.coherence.ce:coherence-json"
     compileOnly "com.oracle.coherence.ce:coherence-grpc-proxy"
 
-    testImplementation(platform("com.oracle.coherence.ce:coherence-bom:${coherenceVersion}"))
     testImplementation "com.oracle.coherence.ce:coherence:${coherenceVersion}"
 
-    testImplementation "org.mockito:mockito-core:3.8.0"
-    testImplementation "org.hamcrest:hamcrest:2.2"
-    testImplementation "io.micronaut.test:micronaut-test-junit5:2.3.2"
+    testImplementation "org.mockito:mockito-core:${mockitoVersion}"
+    testImplementation "org.hamcrest:hamcrest:${hamcrestVersion}"
+    testImplementation "io.micronaut.test:micronaut-test-junit5:${micronautTestVersion}"
 
-    testImplementation "com.oracle.bedrock:bedrock-testing-support:$bedrockVersion"
+    testImplementation "com.oracle.bedrock:bedrock-testing-support:${bedrockVersion}"
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
-    testAnnotationProcessor "io.micronaut:micronaut-inject-java"
 }
 
 tasks.withType(Test) {
