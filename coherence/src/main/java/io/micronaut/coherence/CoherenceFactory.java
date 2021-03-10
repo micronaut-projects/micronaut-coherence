@@ -31,9 +31,11 @@ import io.micronaut.coherence.event.CoherenceEventListenerProcessor;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.BeanContext;
 import io.micronaut.context.annotation.*;
+import io.micronaut.context.event.StartupEvent;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.inject.InjectionPoint;
 import io.micronaut.inject.qualifiers.Qualifiers;
+import io.micronaut.runtime.event.annotation.EventListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -63,6 +65,16 @@ class CoherenceFactory {
     }
 
     /**
+     * Initialise the Coherence instance on start-up.
+     *
+     * @param event  the {@link StartupEvent}
+     */
+    @EventListener
+    void onStartupEvent(StartupEvent event) {
+        beanContext.createBean(Coherence.class, Qualifiers.byName(Coherence.DEFAULT_NAME));
+    }
+
+    /**
      * Creates the default {@link com.tangosol.net.Coherence} instance used by the Micronaut
      * Coherence server.
      * <p>The {@link com.tangosol.net.Coherence} instance is a Micronaut bean and may be injected
@@ -89,13 +101,24 @@ class CoherenceFactory {
 
         LOG.info("Creating default Coherence instance.");
 
-        CoherenceConfiguration cfg = CoherenceConfiguration.builder()
-                .withSessions(CoherenceFactory.collectConfigurations(configurations, providers))
-                .withEventInterceptors(lifecycleListeners)
-                .withEventInterceptors(listenerProcessor.getInterceptors())
-                .build();
+        // We need to check for an existing instance of Coherence.
+        // Even thought his method is annotated as @Singleton it gets called more than once
+        Coherence coherence = Coherence.getInstance(Coherence.DEFAULT_NAME);
+        if (coherence == null) {
+            synchronized (this) {
+                coherence = Coherence.getInstance(Coherence.DEFAULT_NAME);
+                if (coherence == null) {
+                    CoherenceConfiguration cfg = CoherenceConfiguration.builder()
+                            .withSessions(CoherenceFactory.collectConfigurations(configurations, providers))
+                            .withEventInterceptors(lifecycleListeners)
+                            .withEventInterceptors(listenerProcessor.getInterceptors())
+                            .build();
 
-        Coherence coherence = Coherence.clusterMember(cfg);
+                    coherence = Coherence.clusterMember(cfg);
+                }
+            }
+        }
+
         // start Coherence and wait for it to be started
         coherence.start().join();
         return coherence;
