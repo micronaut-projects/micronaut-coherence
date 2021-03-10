@@ -71,7 +71,7 @@ class CoherenceFactory {
      */
     @EventListener
     void onStartupEvent(StartupEvent event) {
-        beanContext.createBean(Coherence.class, Qualifiers.byName(Coherence.DEFAULT_NAME));
+        beanContext.getBean(Coherence.class, Qualifiers.byName(Coherence.DEFAULT_NAME));
     }
 
     /**
@@ -102,7 +102,7 @@ class CoherenceFactory {
         LOG.info("Creating default Coherence instance.");
 
         // We need to check for an existing instance of Coherence.
-        // Even thought his method is annotated as @Singleton it gets called more than once
+        // Even thought his method is annotated as @Singleton it "could" get called more than once
         Coherence coherence = Coherence.getInstance(Coherence.DEFAULT_NAME);
         if (coherence == null) {
             synchronized (this) {
