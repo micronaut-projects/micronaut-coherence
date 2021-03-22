@@ -24,7 +24,15 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
 import javax.inject.Inject;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Comparator;
+import java.util.GregorianCalendar;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -32,9 +40,8 @@ import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.core.Is.is;
 
 @MicronautTest(propertySources = {"classpath:sessions.yaml"})
-@TestInstance(TestInstance.Lifecycle.PER_METHOD)
-public class GeneratedStatementTests extends AbstractDataTests {
-
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+public class GeneratedStatementsTest extends AbstractDataTest {
     /**
      * A {@code repository} for validating generated queries.
      */
@@ -104,7 +111,7 @@ public class GeneratedStatementTests extends AbstractDataTests {
      */
     @Test
     public void shouldReturnFalseForInvalidAuthor() {
-        assertThat(repo.existsByAuthor(new Author("Stephen", "King")), is(false));
+        assertThat(repo.existsByAuthor(STEPHEN_KING), is(false));
     }
 
     /**

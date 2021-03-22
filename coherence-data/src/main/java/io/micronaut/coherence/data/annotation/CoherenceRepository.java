@@ -15,7 +15,7 @@
  */
 package io.micronaut.coherence.data.annotation;
 
-import io.micronaut.coherence.data.CoherenceRepositoryOperations;
+import io.micronaut.coherence.data.ops.CoherenceRepositoryOperations;
 import io.micronaut.coherence.data.query.CohQLQueryBuilder;
 import io.micronaut.context.annotation.AliasFor;
 import io.micronaut.data.annotation.Repository;

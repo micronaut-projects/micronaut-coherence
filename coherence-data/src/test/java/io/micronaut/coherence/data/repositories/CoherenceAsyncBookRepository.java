@@ -16,17 +16,20 @@
 package io.micronaut.coherence.data.repositories;
 
 import com.tangosol.util.UUID;
+import io.micronaut.coherence.data.AbstractCoherenceAsyncRepository;
 import io.micronaut.coherence.data.AbstractCoherenceRepository;
 import io.micronaut.coherence.data.annotation.CoherenceRepository;
 import io.micronaut.coherence.data.model.Book;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 /**
- * A {@code Repository} extending {@link AbstractCoherenceRepository} to ensure this integration point is functional.
+ * A {@code Repository} extending {@link AbstractCoherenceAsyncRepository} to ensure this integration point
+ * is functional.
  */
 @CoherenceRepository("book")
-public abstract class CoherenceBookRepository extends AbstractCoherenceRepository<Book, UUID> {
-    public abstract List<Book> findByTitleStartingWith(String keyword);
+public abstract class CoherenceAsyncBookRepository extends AbstractCoherenceAsyncRepository<Book, UUID> {
+    public abstract CompletableFuture<List<Book>> findByTitleStartingWith(String keyword);
 }
 

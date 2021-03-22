@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.micronaut.coherence.data;
+package io.micronaut.coherence.data.ops;
 
 import com.oracle.coherence.common.base.Logger;
 import com.tangosol.coherence.dslquery.ExecutionContext;
@@ -25,12 +25,17 @@ import com.tangosol.util.Processors;
 import com.tangosol.util.QueryHelper;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.Nullable;
+import io.micronaut.coherence.data.annotation.PersistEventSource;
+import io.micronaut.coherence.data.annotation.RemoveEventSource;
+import io.micronaut.coherence.data.annotation.UpdateEventSource;
 import io.micronaut.context.BeanContext;
 import io.micronaut.context.annotation.EachProperty;
 import io.micronaut.context.annotation.Parameter;
 import io.micronaut.core.beans.BeanProperty;
 import io.micronaut.core.util.ArgumentUtils;
 import io.micronaut.data.model.Page;
+import io.micronaut.data.model.runtime.DeleteBatchOperation;
+import io.micronaut.data.model.runtime.DeleteOperation;
 import io.micronaut.data.model.runtime.InsertBatchOperation;
 import io.micronaut.data.model.runtime.InsertOperation;
 import io.micronaut.data.model.runtime.PagedQuery;
@@ -38,8 +43,7 @@ import io.micronaut.data.model.runtime.PreparedQuery;
 import io.micronaut.data.model.runtime.RuntimePersistentEntity;
 import io.micronaut.data.model.runtime.RuntimePersistentProperty;
 import io.micronaut.data.model.runtime.UpdateOperation;
-import io.micronaut.data.model.runtime.DeleteBatchOperation;
-import io.micronaut.data.model.runtime.DeleteOperation;
+import io.micronaut.data.operations.async.AsyncRepositoryOperations;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -112,6 +116,11 @@ public class DefaultCoherenceRepositoryOperations implements CoherenceRepository
      */
     private ExecutionContext cohQLContext;
 
+    /**
+     * Associated {@link AsyncRepositoryOperations}.
+     */
+    private final CoherenceAsyncRepositoryOperations asyncOperations;
+
     // ----- constructors ---------------------------------------------------
 
     /**
@@ -126,6 +135,7 @@ public class DefaultCoherenceRepositoryOperations implements CoherenceRepository
         ArgumentUtils.requireNonNull("beanContext", beanContext);
         this.mapName = mapName;
         this.beanContext = beanContext;
+        this.asyncOperations = beanContext.createBean(DefaultCoherenceAsyncRepositoryOperations.class, this);
     }
 
     // ----- CoherenceRepositoryOperations interface ------------------------
@@ -159,6 +169,14 @@ public class DefaultCoherenceRepositoryOperations implements CoherenceRepository
     protected void setSession(final String sessionName) {
         ArgumentUtils.requireNonNull("sessionName", sessionName);
         this.sessionName = sessionName;
+    }
+
+    // ----- AsyncCapableRepository interface -------------------------------
+
+    @NonNull
+    @Override
+    public AsyncRepositoryOperations async() {
+        return asyncOperations;
     }
 
     // ----- RepositoryOperations interface ---------------------------------
@@ -239,17 +257,19 @@ public class DefaultCoherenceRepositoryOperations implements CoherenceRepository
 
     @NonNull
     @Override
+    @PersistEventSource
     public <T> T persist(@NonNull final InsertOperation<T> operation) {
         T entity = operation.getEntity();
-        T result = (T) getNamedMap().put(getId(entity), entity);
-        return result == null ? entity : result;
+        getNamedMap().put(getId(entity), entity);
+        return entity;
     }
 
     @NonNull
     @Override
+    @UpdateEventSource
     public <T> T update(@NonNull final UpdateOperation<T> operation) {
         T entity = operation.getEntity();
-        getNamedMap().remove(getId(entity), entity);
+        getNamedMap().put(getId(entity), entity);
         return entity;
     }
 
@@ -275,6 +295,7 @@ public class DefaultCoherenceRepositoryOperations implements CoherenceRepository
     }
 
     @Override
+    @RemoveEventSource
     public <T> int delete(@NonNull final DeleteOperation<T> operation) {
         T entity = operation.getEntity();
         boolean removed = getNamedMap().remove(getId(entity), entity);
@@ -300,7 +321,7 @@ public class DefaultCoherenceRepositoryOperations implements CoherenceRepository
      *
      * @return a CohQL statement ready for execution
      */
-    protected Statement createStatement(ExecutionContext context, PreparedQuery preparedQuery) {
+    Statement createStatement(ExecutionContext context, PreparedQuery preparedQuery) {
         Map bindings = createBindingMap(preparedQuery);
 
         String query = replaceTarget(preparedQuery.getQuery(), preparedQuery.getRootEntity());
@@ -309,7 +330,6 @@ public class DefaultCoherenceRepositoryOperations implements CoherenceRepository
         logQuery(context, statement, query, bindings);
 
         return statement;
-
     }
 
     /**
@@ -319,7 +339,7 @@ public class DefaultCoherenceRepositoryOperations implements CoherenceRepository
      *
      * @return the result of query execution
      */
-    protected Object execute(PreparedQuery preparedQuery) {
+    private Object execute(PreparedQuery preparedQuery) {
         ExecutionContext ctx = ensureExecutionContext();
         Statement statement = createStatement(ctx, preparedQuery);
         return statement.execute(ctx).getResult();
@@ -333,7 +353,7 @@ public class DefaultCoherenceRepositoryOperations implements CoherenceRepository
      *
      * @return the {@link RuntimePersistentEntity} for the given type
      */
-    protected RuntimePersistentEntity ensureMeta(Class entityType) {
+    private RuntimePersistentEntity ensureMeta(Class entityType) {
         return entities.computeIfAbsent(entityType, RuntimePersistentEntity::new);
     }
 
@@ -342,7 +362,7 @@ public class DefaultCoherenceRepositoryOperations implements CoherenceRepository
      *
      * @return the {@link ExecutionContext}
      */
-    protected ExecutionContext ensureExecutionContext() {
+    ExecutionContext ensureExecutionContext() {
         ExecutionContext ctx = cohQLContext;
         if (ctx == null) {
             ctx = QueryHelper.createExecutionContext(ensureSession());
@@ -357,7 +377,7 @@ public class DefaultCoherenceRepositoryOperations implements CoherenceRepository
      *
      * @return return the {@link NamedMap} that should be used by this {@code repository}
      */
-    protected NamedMap ensureNamedMap() {
+    NamedMap ensureNamedMap() {
         if (namedMap == null) {
             namedMap = ensureSession().getMap(mapName);
         }

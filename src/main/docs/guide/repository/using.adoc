@@ -69,6 +69,19 @@ public abstract class CoherenceBookRepository extends AbstractCoherenceRepositor
 }
 ----
 
+or for an asynchronous repository:
+
+[source, java]
+----
+...
+import io.micronaut.coherence.data.annotation.CoherenceRepository;
+import io.micronaut.coherence.data.AbstractCoherenceAsyncRepository;
+...
+@CoherenceRepository("book")
+public abstract class CoherenceAsyncBookRepository extends AbstractCoherenceAsyncRepository<Book, UUID> {
+}
+----
+
 Even though developers are restricted in what interfaces they can implement when extending
 ``AbstractCoherenceRepository``, it does provide the same features of ``CrudRepository`` and more!  We recommend
 reviewing the API docs in detail to get a feel of what is offered.

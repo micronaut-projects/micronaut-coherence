@@ -15,41 +15,45 @@
  */
 package io.micronaut.coherence.data;
 
-import com.oracle.coherence.repository.AbstractRepository;
-import com.tangosol.net.NamedMap;
-import io.micronaut.coherence.data.annotation.PersistEventSource;
-import io.micronaut.coherence.data.annotation.RemoveEventSource;
+import com.oracle.coherence.repository.AbstractAsyncRepository;
+import com.tangosol.net.AsyncNamedMap;
+import io.micronaut.coherence.data.annotation.AsyncPersistEventSource;
+import io.micronaut.coherence.data.annotation.AsyncRemoveEventSource;
+import io.micronaut.coherence.data.interceptors.GetAsyncMapInterceptor;
 import io.micronaut.coherence.data.interceptors.GetEntityTypeInterceptor;
 import io.micronaut.coherence.data.interceptors.GetIdInterceptor;
-import io.micronaut.coherence.data.interceptors.GetMapInterceptor;
 import io.micronaut.data.intercept.annotation.DataMethod;
 import io.micronaut.data.repository.GenericRepository;
 
+import java.util.concurrent.CompletableFuture;
+
 /**
- * While it's possible to annotate a simple {@link io.micronaut.data.repository.CrudRepository} with
+ * While it's possible to annotate a simple {@link io.micronaut.data.repository.async.AsyncCrudRepository} with
  * {@link io.micronaut.coherence.data.annotation.CoherenceRepository} and use Coherence as a backend cache.  However,
  * to take full advantage of the feature set Coherence has to offer, it is recommended extending this class.  This
- * will give you all of the features as documented in {@link AbstractRepository}.
+ * will give you all of the features as documented in {@link AbstractAsyncRepository}.
  *
  * Any class extending this class <em>must</em> be declared abstract and <em>cannot</em> implement any of
  * the Micronaut repository types due to overlap in methods between those interface methods and those provided
- * by {@link AbstractRepository}.
+ * by {@link AbstractAsyncRepository}.
  *
  * @param <ID> the ID type
  * @param <T> the entity type
  */
-public abstract class AbstractCoherenceRepository<T, ID> extends AbstractRepository<ID, T> implements GenericRepository<T, ID> {
+public abstract class AbstractCoherenceAsyncRepository<T, ID>
+        extends AbstractAsyncRepository<ID, T>
+        implements GenericRepository<T, ID> {
 
-    // ----- AbstractRepository ---------------------------------------------
+    // ----- AbstractAsyncRepository ----------------------------------------
 
     @Override
-    protected NamedMap<ID, T> getMap() {
+    protected AsyncNamedMap<ID, T> getMap() {
         return getMapInternal();
     }
 
     @Override
-    protected ID getId(final T entity) {
-        return getIdInternal(entity);
+    protected ID getId(final T t) {
+        return getIdInternal(t);
     }
 
     @Override
@@ -57,15 +61,15 @@ public abstract class AbstractCoherenceRepository<T, ID> extends AbstractReposit
         return getEntityTypeInternal(null);
     }
 
-    @PersistEventSource
+    @AsyncPersistEventSource
     @Override
-    public T save(final T entity) {
+    public CompletableFuture<T> save(final T entity) {
         return super.save(entity);
     }
 
-    @RemoveEventSource
+    @AsyncRemoveEventSource
     @Override
-    public boolean remove(final T entity) {
+    public CompletableFuture<Boolean> remove(final T entity) {
         return super.remove(entity);
     }
 
@@ -73,7 +77,7 @@ public abstract class AbstractCoherenceRepository<T, ID> extends AbstractReposit
 
     /**
      * This is in place to prevent Micronaut from scanning further up the inheritance tree and trying
-     * to map {@link AbstractRepository#getId(Object)} and failing.
+     * to map {@link AbstractAsyncRepository#getId(Object)} and failing.
      *
      * Called only by {@link #getId(Object)}.
      *
@@ -86,18 +90,18 @@ public abstract class AbstractCoherenceRepository<T, ID> extends AbstractReposit
 
     /**
      * This is in place to prevent Micronaut from scanning further up the inheritance tree and trying
-     * to map {@link AbstractRepository#getMap()} and failing.
+     * to map {@link AbstractAsyncRepository#getMap()} and failing.
      *
      * Called only by {@link #getId(Object)}.
      *
-     * @return the {@link NamedMap} for this {@code repository}
+     * @return the {@link AsyncNamedMap} for this {@code repository}
      */
-    @DataMethod(interceptor = GetMapInterceptor.class)
-    protected abstract NamedMap<ID, T> getMapInternal();
+    @DataMethod(interceptor = GetAsyncMapInterceptor.class)
+    protected abstract AsyncNamedMap<ID, T> getMapInternal();
 
     /**
      * This is in place to prevent Micronaut from scanning further up the inheritance tree and trying
-     * to map {@link AbstractRepository#getEntityType()} and failing.
+     * to map {@link AbstractAsyncRepository#getEntityType()} and failing.
      *
      * Note: the value passed to this may always be {@code null}.  We don't care about the value
      * as due to how the Coherence API is defined, there can never be a value.  However, we can rely

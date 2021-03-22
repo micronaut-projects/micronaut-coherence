@@ -31,8 +31,6 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.function.Supplier;
 
-import javax.annotation.Nonnull;
-
 /**
  * A {@link io.micronaut.cache.AsyncCache} implementation based on Coherence.
  *
@@ -58,7 +56,7 @@ public class CoherenceAsyncCache implements AsyncCache<NamedCache<Object, Object
         this.executorService = executorService;
     }
 
-    @Nonnull
+    @NonNull
     @Override
     public <T> CompletableFuture<Optional<T>> get(@NonNull Object key, @NonNull Argument<T> requiredType) {
         ArgumentUtils.requireNonNull("key", key);

@@ -5,11 +5,11 @@ If you're using Gradle for your build, add the following dependencies (in additi
 [source]
 .build.gradle
 ----
-annotationProcessor("io.micronaut.coherence:micronaut-coherence-processor:${version}")
+annotationProcessor("io.micronaut.coherence.data:coherence-data:${version}")
 ...
-implementation("io.micronaut.coherence:micronaut-coherence-data:${version}");
+implementation("io.micronaut.coherence.data:coherence-data:${version}");
 ...
-testAnnotationProcessor("io.micronaut.coherence:micronaut-coherence-processor:${version}")
+testAnnotationProcessor("io.micronaut.coherence.data:coherence-data:${version}")
 ----
 
 === Maven
