@@ -15,8 +15,11 @@
  */
 package io.micronaut.coherence.data;
 
+import com.tangosol.net.NamedMap;
+import io.micronaut.coherence.data.model.Author;
 import io.micronaut.coherence.data.model.Book;
 import io.micronaut.coherence.data.repositories.CoherenceBookRepository;
+import io.micronaut.coherence.data.util.BookEntityListeners;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
@@ -24,17 +27,21 @@ import org.junit.jupiter.api.TestInstance;
 
 import javax.inject.Inject;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsInstanceOf.instanceOf;
 import static org.hamcrest.core.IsNull.notNullValue;
 
 /**
  * Validation of {@link AbstractCoherenceRepository}.
  */
 @MicronautTest(propertySources = {"classpath:sessions.yaml"})
-@TestInstance(TestInstance.Lifecycle.PER_METHOD)
-public class RepositoryTests extends AbstractDataTests {
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+public class RepositoryTest extends AbstractDataTest {
 
     /**
      * The concrete {@link AbstractCoherenceRepository} implementation under test.
@@ -51,7 +58,7 @@ public class RepositoryTests extends AbstractDataTests {
     @Test
     public void shouldReturnNamedMap() {
         assertThat(repo, notNullValue());
-        assertThat(repo.getMap(), notNullValue());
+        assertThat(repo.getMap(), instanceOf(NamedMap.class));
         assertThat(repo.count(), is(4L));
     }
 

@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.micronaut.coherence.data;
+package io.micronaut.coherence.data.ops;
 
 import com.tangosol.net.NamedMap;
-import io.micronaut.data.operations.RepositoryOperations;
+import io.micronaut.data.operations.async.AsyncCapableRepository;
 
 /**
  * Exposes {@code repository} operations specific to Coherence.
  */
-public interface CoherenceRepositoryOperations extends RepositoryOperations {
+public interface CoherenceRepositoryOperations extends AsyncCapableRepository {
 
     /**
      * Obtain the {@link NamedMap} associated this this {@code repository}.

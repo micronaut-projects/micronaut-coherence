@@ -15,9 +15,10 @@
  */
 package io.micronaut.coherence.data.interceptors;
 
-import com.tangosol.net.NamedMap;
+import com.tangosol.net.AsyncNamedMap;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import io.micronaut.aop.MethodInvocationContext;
+import io.micronaut.coherence.data.ops.CoherenceAsyncRepositoryOperations;
 import io.micronaut.coherence.data.ops.CoherenceRepositoryOperations;
 import io.micronaut.data.intercept.DataInterceptor;
 import io.micronaut.data.intercept.RepositoryMethodKey;
@@ -26,15 +27,16 @@ import io.micronaut.data.runtime.intercept.AbstractQueryInterceptor;
 
 /**
  * A {@link DataInterceptor} allowing {@link io.micronaut.coherence.data.AbstractCoherenceRepository} instances
- * to obtain the {@link NamedMap} associated with the {@link io.micronaut.coherence.data.AbstractCoherenceRepository}.
+ * to obtain the {@link AsyncNamedMap} associated with the
+ * {@link io.micronaut.coherence.data.AbstractCoherenceAsyncRepository}.
  *
  * @param <D> the declaring type
  * @param <T> the entity type
  * @param <ID> the ID type of the entity
  */
-public final class GetMapInterceptor<ID, T, D>
-        extends AbstractQueryInterceptor<D, NamedMap<ID, T>>
-        implements DataInterceptor<D, NamedMap<ID, T>> {
+public final class GetAsyncMapInterceptor<ID, T, D>
+        extends AbstractQueryInterceptor<D, AsyncNamedMap<ID, T>>
+        implements DataInterceptor<D, AsyncNamedMap<ID, T>> {
 
     // ----- constructors -----------------------------------------------
 
@@ -43,15 +45,16 @@ public final class GetMapInterceptor<ID, T, D>
      *
      * @param operations the {@link RepositoryOperations}
      */
-    protected GetMapInterceptor(@NonNull RepositoryOperations operations) {
+    protected GetAsyncMapInterceptor(@NonNull RepositoryOperations operations) {
         super(operations);
     }
 
     // ----- DataInterceptor --------------------------------------------
 
     @Override
-    public NamedMap<ID, T> intercept(final RepositoryMethodKey methodKey,
-                                     final MethodInvocationContext<D, NamedMap<ID, T>> context) {
-        return ((CoherenceRepositoryOperations) operations).getNamedMap();
+    public AsyncNamedMap<ID, T> intercept(final RepositoryMethodKey methodKey,
+                                          final MethodInvocationContext<D, AsyncNamedMap<ID, T>> context) {
+        return ((CoherenceAsyncRepositoryOperations)
+                   ((CoherenceRepositoryOperations) operations).async()).getAsyncNamedMap();
     }
 }

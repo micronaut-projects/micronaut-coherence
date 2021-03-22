@@ -28,7 +28,7 @@ import java.util.Objects;
  * An entity for representing a {@code book}.
  */
 @MappedEntity
-public class Book implements Serializable {
+public class Book implements Cloneable, Serializable {
     /**
      * The unique id of this book.
      */
@@ -71,6 +71,14 @@ public class Book implements Serializable {
         this.pages = pages;
         this.author = author;
         this.published = published;
+    }
+
+    public Book(Book copy) {
+        this.uuid = copy.uuid;
+        this.title = copy.title;
+        this.pages = copy.pages;
+        this.author = copy.author;
+        this.published = copy.published;
     }
 
     /**
