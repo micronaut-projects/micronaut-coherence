@@ -34,7 +34,7 @@ public void onOrder(@Inserted                        // <2>
                     MapEvent<String, List<Object>> event) {  // <3>
     List list = event.getNewValue();
     String customerId = (String) list.get(0);        // <4>
-    String orderId = (Long) list.get(1);
+    Long orderId = (Long) list.get(1);
     // ...
 }
 ----
