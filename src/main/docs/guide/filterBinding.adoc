@@ -44,7 +44,7 @@ public class AdultMalesFilterFactory<Person> implements FilterFactory<AdultMales
     @Override
     public Filter<Person> create(AdultMales annotation) {       // <3>
         Filter<Person> male = Filters.equal("gender", "male");
-        Filter<Person> adult = Filters.greaterEqual("age", 18);
+        Filter<Person> adult = Filters.greaterEqual(Extractors.extract("age"), 18);
         return Filters.all(male, adult);
     }
 }
@@ -76,7 +76,7 @@ public class AdultFilterFactory<Person> implements FilterFactory<Adults, Person>
     @Override
     public Filter<Person> create(Males annotation) {       // <3>
         Filter<Person> male = Filters.equal("gender", annotation.value());
-        Filter<Person> adult = Filters.greaterEqual("age", 18);
+        Filter<Person> adult = Filters.greaterEqual(Extractors.extract("age"), 18);
         return Filters.all(male, adult);
     }
 }

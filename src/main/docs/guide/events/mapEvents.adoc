@@ -132,7 +132,7 @@ public void onEvent(@MapName("orders")  // <1>
 ----
 @CoherenceEventListener
 public void onEvent(@MapName("orders")
-                    @Session("Customer")  // <1>
+                    @SessionName("Customer")  // <1>
                     MapEvent<String, Order> event) {
     // ToDo: process the event
 }
@@ -142,7 +142,7 @@ public void onEvent(@MapName("orders")
 [source,java]
 ----
 @CoherenceEventListener
-public void onEvent(@Session("Customer")  // <1>
+public void onEvent(@SessionName("Customer")  // <1>
                     MapEvent<String, Order> event) {
     // ToDo: process the event
 }
@@ -153,14 +153,14 @@ In an application with multiple sessions, events can be routed by session, for e
 [source,java]
 ----
 @CoherenceEventListener
-public void onCustomerOrders(@Session("Customer")  // <1>
+public void onCustomerOrders(@SessionName("Customer")  // <1>
                              @MapName("orders")
                              MapEvent<String, Order> event) {
     // ToDo: process the event
 }
 
 @CoherenceEventListener
-public void onCatalogOrders(@Session("Catalog")   // <2>
+public void onCatalogOrders(@SessionName("Catalog")   // <2>
                             @MapName("orders")
                             MapEvent<String, Order> event) {
     // ToDo: process the event
