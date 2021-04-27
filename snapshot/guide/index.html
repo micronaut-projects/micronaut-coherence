@@ -662,11 +662,11 @@ interfaces
 <div class="listingblock">
 <div class="title">build.gradle</div>
 <div class="content">
-<pre class="highlightjs highlight"><code>annotationProcessor("io.micronaut.coherence.data:coherence-processor:${version}")
+<pre class="highlightjs highlight"><code>annotationProcessor("io.micronaut.coherence:micronaut-coherence-processor:${version}")
 ...
-implementation("io.micronaut.coherence.data:coherence-data:${version}");
+implementation("io.micronaut.coherence:micronaut-coherence-data:${version}");
 ...
-testAnnotationProcessor("io.micronaut.coherence.data:coherence-processor:${version}")</code></pre>
+testAnnotationProcessor("io.micronaut.coherence:micronaut-coherence-processor:${version}")</code></pre>
 </div>
 </div>
 </div>
@@ -4239,18 +4239,43 @@ public class CustomerController {
 <div class="paragraph">
 <p>To use <a href="https://coherence.community/">Coherence</a> as a Micronaut HTTP session store add the <code>micronaut-coherence-session</code> dependency:</p>
 </div>
-<div class="listingblock">
+<div class="paragraph">
+<p>        <div class="listingblock multi-language-sample">
+<div class="title"></div>
 <div class="content">
-<pre class="highlightjs highlight"><code>dependency:io.micronaut.coherence:micronaut-coherence-session</code></pre>
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"io.micronaut.coherence:micronaut-coherence-session")</span></code></pre>
 </div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
+    &lt;groupId&gt;io.micronaut.coherence&lt;/groupId&gt;
+    &lt;artifactId&gt;micronaut-coherence-session&lt;/artifactId&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+</p>
 </div>
 <div class="paragraph">
 <p>Also, add a Coherence dependency - either Coherence CE or commercial version:</p>
 </div>
-<div class="listingblock">
+<div class="paragraph">
+<p>        <div class="listingblock multi-language-sample">
+<div class="title"></div>
 <div class="content">
-<pre class="highlightjs highlight"><code>dependency:com.oracle.coherence.ce:coherence:{coherenceVersion}</code></pre>
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"com.oracle.coherence.ce:coherence:20.12.1")</span></code></pre>
 </div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
+    &lt;groupId&gt;com.oracle.coherence.ce&lt;/groupId&gt;
+    &lt;artifactId&gt;coherence&lt;/artifactId&gt;
+    &lt;version&gt;20.12.1&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+</p>
 </div>
 <div class="paragraph">
 <p>Enable Coherence sessions via configuration in <code>application.yml</code>:</p>
@@ -4296,18 +4321,43 @@ public class CustomerController {
 <div class="paragraph">
 <p>To use <a href="https://coherence.community/">Coherence</a> as the <a href="https://docs.micronaut.io/latest/guide/index.html#caching">caching</a> implementation, add it as a dependency to your application:</p>
 </div>
-<div class="listingblock">
+<div class="paragraph">
+<p>        <div class="listingblock multi-language-sample">
+<div class="title"></div>
 <div class="content">
-<pre class="highlightjs highlight"><code>dependency:io.micronaut.coherence:micronaut-coherence-cache:{projectVersion}</code></pre>
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"io.micronaut.coherence:micronaut-coherence-cache")</span></code></pre>
 </div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
+    &lt;groupId&gt;io.micronaut.coherence&lt;/groupId&gt;
+    &lt;artifactId&gt;micronaut-coherence-cache&lt;/artifactId&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+</p>
 </div>
 <div class="paragraph">
 <p>Also, add Coherence dependency - either Coherence CE or commercial version:</p>
 </div>
-<div class="listingblock">
+<div class="paragraph">
+<p>        <div class="listingblock multi-language-sample">
+<div class="title"></div>
 <div class="content">
-<pre class="highlightjs highlight"><code>dependency:com.oracle.coherence.ce:coherence:{coherenceVersion}</code></pre>
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"com.oracle.coherence.ce:coherence:20.12.1")</span></code></pre>
 </div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
+    &lt;groupId&gt;com.oracle.coherence.ce&lt;/groupId&gt;
+    &lt;artifactId&gt;coherence&lt;/artifactId&gt;
+    &lt;version&gt;20.12.1&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+</p>
 </div>
 <div class="paragraph">
 <p>When using the <a href="https://micronaut-projects.github.io/micronaut-cache/latest/api/io/micronaut/cache/annotation/Cacheable.html">@Cacheable</a> and other Cache Annotations, Micronaut will use default Coherence session to obtain cache instance for caching. It&#8217;s up to the user to configure Coherence specific cache.</p>
@@ -4345,18 +4395,64 @@ public class CustomerController {
 <div class="paragraph">
 <p>To use <a href="https://coherence.community/">Coherence</a> to store configuration values add following dependencies:</p>
 </div>
-<div class="listingblock">
+<div class="paragraph">
+<p>        <div class="listingblock multi-language-sample">
+<div class="title"></div>
 <div class="content">
-<pre class="highlightjs highlight"><code>dependency:io.micronaut.coherence:micronaut-coherence-distributed-configuration</code></pre>
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"io.micronaut.coherence:micronaut-coherence-distributed-configuration")</span></code></pre>
 </div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
+    &lt;groupId&gt;io.micronaut.coherence&lt;/groupId&gt;
+    &lt;artifactId&gt;micronaut-coherence-distributed-configuration&lt;/artifactId&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+</p>
 </div>
 <div class="paragraph">
 <p>Also, add Coherence dependency - either Coherence CE or commercial version:</p>
 </div>
-<div class="listingblock">
+<div class="paragraph">
+<p>        <div class="listingblock multi-language-sample">
+<div class="title"></div>
 <div class="content">
-<pre class="highlightjs highlight"><code>dependency:com.oracle.coherence.ce:coherence:{coherenceVersion}</code></pre>
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"com.oracle.coherence.ce:coherence:20.12.1")</span></code></pre>
 </div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
+    &lt;groupId&gt;com.oracle.coherence.ce&lt;/groupId&gt;
+    &lt;artifactId&gt;coherence&lt;/artifactId&gt;
+    &lt;version&gt;20.12.1&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+</p>
+</div>
+<div class="paragraph">
+<p>and coherence java client:</p>
+</div>
+<div class="paragraph">
+<p>        <div class="listingblock multi-language-sample">
+<div class="title"></div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"com.oracle.coherence.ce:coherence-java-client:20.12.1")</span></code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
+    &lt;groupId&gt;com.oracle.coherence.ce&lt;/groupId&gt;
+    &lt;artifactId&gt;coherence-java-client&lt;/artifactId&gt;
+    &lt;version&gt;20.12.1&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+</p>
 </div>
 <div class="paragraph">
 <p>To enable support simply add the following configuration to your <code>bootstrap.yml</code> file:</p>
@@ -4374,7 +4470,7 @@ coherence:
   client:
     enabled: true
     # gRPC config:
-    host: localhot
+    host: localhost
     port: 1408</code></pre>
 </div>
 </div>
