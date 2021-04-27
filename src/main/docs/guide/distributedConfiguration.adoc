@@ -1,16 +1,15 @@
 To use link:{coherenceHome}[Coherence] to store configuration values add following dependencies:
 
-[source]
-----
-dependency:io.micronaut.coherence:micronaut-coherence-distributed-configuration
-----
+dependency:coherence-distributed-configuration[groupId="io.micronaut.coherence"]
+
 
 Also, add Coherence dependency - either Coherence CE or commercial version:
 
-[source]
-----
-dependency:com.oracle.coherence.ce:coherence:{coherenceVersion}
-----
+dependency:coherence[groupId="com.oracle.coherence.ce",version="20.12.1"]
+
+and coherence java client:
+
+dependency:coherence-java-client[groupId="com.oracle.coherence.ce",version="20.12.1"]
 
 To enable support simply add the following configuration to your `bootstrap.yml` file:
 
@@ -27,7 +26,7 @@ coherence:
   client:
     enabled: true
     # gRPC config:
-    host: localhot
+    host: localhost
     port: 1408
 ----
 
