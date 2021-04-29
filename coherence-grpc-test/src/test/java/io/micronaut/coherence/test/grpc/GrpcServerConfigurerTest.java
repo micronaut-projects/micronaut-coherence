@@ -15,26 +15,24 @@
  */
 package io.micronaut.coherence.test.grpc;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import com.oracle.coherence.grpc.proxy.GrpcServerConfiguration;
-
 import com.tangosol.net.Coherence;
-
 import io.grpc.ServerBuilder;
 import io.grpc.inprocess.InProcessServerBuilder;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 @MicronautTest(propertySources = "classpath:sessions.yaml", environments = "GrpcServerConfigurerTest")
 class GrpcServerConfigurerTest {
+
+    private static final CountDownLatch latch = new CountDownLatch(2);
 
     @Inject
     ApplicationContext context;
@@ -43,53 +41,31 @@ class GrpcServerConfigurerTest {
     @Inject
     Coherence coherence;
 
-    @BeforeEach
-    void ensureCoherenceStarted() {
-        // Coherence bootstrap is async, so we need to wait for it to have started
-        coherence.whenStarted().join();
-    }
-
     @Test
-    public void shouldHaveCalledAllServerConfigurationBeans() {
-        ServerConfigurationOne cfgOne = context.findBean(ServerConfigurationOne.class)
+    public void shouldHaveCalledAllServerConfigurationBeans() throws InterruptedException {
+        latch.await(5, TimeUnit.SECONDS);
+        context.findBean(ServerConfigurationOne.class)
                 .orElseThrow(() -> new AssertionError("Could not find ServerConfigurationOne bean"));
 
-        ServerConfigurationTwo cfgTwo = context.findBean(ServerConfigurationTwo.class)
+        context.findBean(ServerConfigurationTwo.class)
                 .orElseThrow(() -> new AssertionError("Could not find ServerConfigurationTwo bean"));
-
-        assertThat(cfgOne.isExecuted(), is(true));
-        assertThat(cfgTwo.isExecuted(), is(true));
     }
 
     @Singleton
     @Requires(env = "GrpcServerConfigurerTest")
     static class ServerConfigurationOne implements GrpcServerConfiguration {
-
-        private boolean executed;
-
         @Override
         public void configure(ServerBuilder<?> serverBuilder, InProcessServerBuilder inProcessServerBuilder) {
-            executed = true;
-        }
-
-        public boolean isExecuted() {
-            return executed;
+            latch.countDown();
         }
     }
 
     @Singleton
     @Requires(env = "GrpcServerConfigurerTest")
     static class ServerConfigurationTwo implements GrpcServerConfiguration {
-
-        private boolean executed;
-
         @Override
         public void configure(ServerBuilder<?> serverBuilder, InProcessServerBuilder inProcessServerBuilder) {
-            executed = true;
-        }
-
-        public boolean isExecuted() {
-            return executed;
+            latch.countDown();
         }
     }
 }
