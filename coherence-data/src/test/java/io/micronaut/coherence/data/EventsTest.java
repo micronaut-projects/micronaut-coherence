@@ -32,7 +32,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
 import javax.inject.Inject;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -130,7 +129,7 @@ public class EventsTest extends AbstractDataTest {
      * Validate validate mutations made in pre persist event are saved against {@link #crudRepoAsync}.
      */
     @Test
-    public void shouldValidatePrePersistMutationsAsyncRepo() {
+    public void shouldValidatePrePersistMutationsAsyncRepo() throws Exception {
         runPersistEventTestMutations(crudRepoAsync);
     }
 
@@ -138,7 +137,7 @@ public class EventsTest extends AbstractDataTest {
      * Validate validate mutations made in pre persist event are saved against {@link #repoAsync}.
      */
     @Test
-    public void shouldValidatePrePersistMutationsAsyncRepoCoherence() {
+    public void shouldValidatePrePersistMutationsAsyncRepoCoherence() throws Exception {
         runPersistEventTestMutations(asAsyncCrudRepo(repoAsync));
     }
 
@@ -236,7 +235,7 @@ public class EventsTest extends AbstractDataTest {
      *
      * @param repository the {@link AsyncCrudRepository} under test
      */
-    private void runPersistEventTestMutations(AsyncCrudRepository<Book, UUID> repository) {
+    private void runPersistEventTestMutations(AsyncCrudRepository<Book, UUID> repository) throws Exception {
         MutationsBook b = beanContext.inject(new MutationsBook(IT));
         repository.save(b)
                 .thenApply(b1 -> {
@@ -245,7 +244,7 @@ public class EventsTest extends AbstractDataTest {
                 }).thenAccept(result -> assertThat(eventRecorder.getRecordedEvents(), contains(
                 new EventRecord<>(EventType.PRE_PERSIST, IT),
                 new EventRecord<>(EventType.PRE_PERSIST, result),
-                new EventRecord<>(EventType.POST_PERSIST, result))));
+                new EventRecord<>(EventType.POST_PERSIST, result)))).get(5, TimeUnit.SECONDS);
     }
 
     /**
@@ -268,8 +267,7 @@ public class EventsTest extends AbstractDataTest {
      */
     @SuppressWarnings("rawtypes")
     private void runRemoveEventTest(AsyncCrudRepository<Book, UUID> repository) throws Exception {
-        CompletableFuture deleteFuture = repository.delete(DUNE); // workaround for https://github.com/micronaut-projects/micronaut-data/issues/962
-        deleteFuture.thenAccept(unused -> assertThat(eventRecorder.getRecordedEvents(), contains(
+        repository.delete(DUNE).thenAccept(unused -> assertThat(eventRecorder.getRecordedEvents(), contains(
                 new EventRecord<>(EventType.PRE_REMOVE, DUNE),
                 new EventRecord<>(EventType.POST_REMOVE, DUNE)))).get(5, TimeUnit.SECONDS);
     }
