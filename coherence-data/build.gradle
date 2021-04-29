@@ -33,8 +33,3 @@ dependencies {
 tasks.withType(Test) {
     useJUnitPlatform()
 }
-
-test {
-    systemProperty("java.net.preferIPv4Stack", "true")
-    forkEvery 1
-}
