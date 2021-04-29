@@ -43,7 +43,7 @@ import static org.hamcrest.Matchers.is;
  */
 @SuppressWarnings("unchecked")
 @MicronautTest(propertySources = {"classpath:sessions.yaml"})
-@TestInstance(TestInstance.Lifecycle.PER_METHOD)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class EventsTest extends AbstractDataTest {
     /**
      * A sync repo that extends {@link AbstractCoherenceRepository}.

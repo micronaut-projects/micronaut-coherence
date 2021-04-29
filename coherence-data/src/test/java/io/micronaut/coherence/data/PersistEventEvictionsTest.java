@@ -25,7 +25,7 @@ import static org.hamcrest.Matchers.is;
  * Validate persist event eviction logic.
  */
 @MicronautTest(propertySources = {"classpath:sessions.yaml"}, environments = "evict-persist")
-@TestInstance(TestInstance.Lifecycle.PER_METHOD)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class PersistEventEvictionsTest extends AbstractDataTest {
     /**
      * A sync repo that extends {@link AbstractCoherenceRepository}.
