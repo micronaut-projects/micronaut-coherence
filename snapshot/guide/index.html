@@ -603,8 +603,41 @@ property:</p>
 
 
 <div class="paragraph">
-<p>While Micronaut Data is typically used with a relational database, it is possible to use Coherence as a Repository
-with Micronaut.</p>
+<p>Micronaut Data is a database access toolkit that uses Ahead of Time (AoT) compilation to pre-compute queries for repository interfaces that are then executed by a thin, lightweight runtime layer.</p>
+</div>
+<div class="paragraph">
+<p>Micronaut Data is inspired by GORM and Spring Data, however improves on those solutions in the following ways:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>No runtime model - Both GORM and Spring Data maintain a runtime meta-model that uses reflection to model relationships between entities.
+This model consumes significant memory and memory requirements grow as your application size grows.
+The problem is worse when combined with Hibernate which maintains its own meta-model as you end up with duplicate meta-models.</p>
+</li>
+<li>
+<p>No query translation - Both GORM and Spring Data use regular expressions and pattern matching in combination with runtime generated proxies to translate a method definition on a Java interface into a query at runtime.
+No such runtime translation exists in Micronaut Data and this work is carried out by the Micronaut compiler at compilation time.</p>
+</li>
+<li>
+<p>No Reflection or Runtime Proxies - Micronaut Data uses no reflection or runtime proxies, resulting in better performance, smaller stack traces and reduced memory consumption due to a complete lack of reflection caches (Note that the backing implementation, for example Hibernate, may use reflection).</p>
+</li>
+<li>
+<p>Type Safety - Micronaut Data will actively check at compile time that a repository method can be implemented and fail compilation if it cannot.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>This integration allows using Coherence as a data source for a Micronaut
+<a href="https://micronaut-projects.github.io/micronaut-data/latest/guide/#repositories">repositories</a></p>
+</div>
+<div class="paragraph">
+<p>In addition to the above, this library provides abstract synchronous and asynchronous
+<a href="https://micronaut-projects.github.io/micronaut-data/latest/guide/#repositories">repositories</a>
+that expose the power of Coherence when not using generated queries.</p>
+</div>
+<div class="paragraph">
+<p>This documentation assumes with principals of Micronaut Data as described <a href="https://micronaut-projects.github.io/micronaut-data/latest/guide/#introduction">here</a>.</p>
 </div>
 
 <h2 id="limitations"><a class="anchor" href="#limitations"></a>5.1 Limitations</h2>
@@ -631,15 +664,14 @@ by Micronaut.</p>
 </li>
 <li>
 <p><code>ORDER BY</code>; the statement will compile, however, it currently has no effect in Coherence&#8217;s query language.  For
-the time being, use the APIs offered by the Coherence Repository abstract class.</p>
+the time being, use the APIs offered by the Coherence abstract repository classes.</p>
 </li>
 <li>
 <p>pagination; this means you should not use <code>Page</code> or <code>Slice</code> as return types for such queries</p>
 </li>
 <li>
-<p>When extending the Coherence Data <code>CoherenceAbstractRepository</code>, it <strong>must not</strong> implement any other Micronaut Data
-interfaces
-(e.g., <code>CrudRepository</code>, etc.)</p>
+<p>When extending the Coherence Data <code>AbstractCoherenceRepository</code> or `AbstractCoherenceAsyncRepository, it <strong>must not</strong>
+implement any other Micronaut Data interfaces (e.g., <code>CrudRepository</code>, etc.)</p>
 </li>
 </ul>
 </div>
@@ -662,11 +694,11 @@ interfaces
 <div class="listingblock">
 <div class="title">build.gradle</div>
 <div class="content">
-<pre class="highlightjs highlight"><code>annotationProcessor("io.micronaut.coherence:micronaut-coherence-processor:${version}")
+<pre class="highlightjs highlight"><code>annotationProcessor("io.micronaut.coherence.data:coherence-data:${version}")
 ...
-implementation("io.micronaut.coherence:micronaut-coherence-data:${version}");
+implementation("io.micronaut.coherence.data:coherence-data:${version}");
 ...
-testAnnotationProcessor("io.micronaut.coherence:micronaut-coherence-processor:${version}")</code></pre>
+testAnnotationProcessor("io.micronaut.coherence.data:coherence-data:${version}")</code></pre>
 </div>
 </div>
 </div>
@@ -807,6 +839,20 @@ import io.micronaut.coherence.data.AbstractCoherenceRepository;
 ...
 @CoherenceRepository("book")
 public abstract class CoherenceBookRepository extends AbstractCoherenceRepository&lt;Book, UUID&gt; {
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>or for an asynchronous repository:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">...
+import io.micronaut.coherence.data.annotation.CoherenceRepository;
+import io.micronaut.coherence.data.AbstractCoherenceAsyncRepository;
+...
+@CoherenceRepository("book")
+public abstract class CoherenceAsyncBookRepository extends AbstractCoherenceAsyncRepository&lt;Book, UUID&gt; {
 }</code></pre>
 </div>
 </div>
@@ -1826,7 +1872,7 @@ public void onEvent(@MapName("orders")  <i class="conum" data-value="1"></i><b>(
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@CoherenceEventListener
 public void onEvent(@MapName("orders")
-                    @Session("Customer")  <i class="conum" data-value="1"></i><b>(1)</b>
+                    @SessionName("Customer")  <i class="conum" data-value="1"></i><b>(1)</b>
                     MapEvent&lt;String, Order&gt; event) {
     // ToDo: process the event
 }</code></pre>
@@ -1843,7 +1889,7 @@ public void onEvent(@MapName("orders")
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@CoherenceEventListener
-public void onEvent(@Session("Customer")  <i class="conum" data-value="1"></i><b>(1)</b>
+public void onEvent(@SessionName("Customer")  <i class="conum" data-value="1"></i><b>(1)</b>
                     MapEvent&lt;String, Order&gt; event) {
     // ToDo: process the event
 }</code></pre>
@@ -1863,14 +1909,14 @@ public void onEvent(@Session("Customer")  <i class="conum" data-value="1"></i><b
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@CoherenceEventListener
-public void onCustomerOrders(@Session("Customer")  <i class="conum" data-value="1"></i><b>(1)</b>
+public void onCustomerOrders(@SessionName("Customer")  <i class="conum" data-value="1"></i><b>(1)</b>
                              @MapName("orders")
                              MapEvent&lt;String, Order&gt; event) {
     // ToDo: process the event
 }
 
 @CoherenceEventListener
-public void onCatalogOrders(@Session("Catalog")   <i class="conum" data-value="2"></i><b>(2)</b>
+public void onCatalogOrders(@SessionName("Catalog")   <i class="conum" data-value="2"></i><b>(2)</b>
                             @MapName("orders")
                             MapEvent&lt;String, Order&gt; event) {
     // ToDo: process the event
@@ -2086,7 +2132,7 @@ public void onOrder(@Inserted                        <i class="conum" data-value
                     MapEvent&lt;String, List&lt;Object&gt;&gt; event) {  <i class="conum" data-value="3"></i><b>(3)</b>
     List list = event.getNewValue();
     String customerId = (String) list.get(0);        <i class="conum" data-value="4"></i><b>(4)</b>
-    String orderId = (Long) list.get(1);
+    Long orderId = (Long) list.get(1);
     // ...
 }</code></pre>
 </div>
@@ -2281,7 +2327,7 @@ public void onEvent(@Name(Coherence.DEFAULT_NAME) CoherenceLifecycleEvent event)
 
 
 <div class="paragraph">
-<p>A * <a href="https://coherence.community/21.06-M1/api/java/com/tangosol/net/events/SessionLifecycleEvent.html">SessionLifecycleEvents</a> are emitted to indicate the  lifecycle event of a <a href="https://coherence.community/21.06-M1/api/java/com/tangosol/net/Session.html">Session</a> instance.</p>
+<p><a href="https://coherence.community/21.06-M1/api/java/com/tangosol/net/events/SessionLifecycleEvent.html">SessionLifecycleEvents</a> are emitted to indicate the  lifecycle event of a <a href="https://coherence.community/21.06-M1/api/java/com/tangosol/net/Session.html">Session</a> instance.</p>
 </div>
 <div class="paragraph">
 <p>To subscribe to <code>SessionLifecycleEvent</code> simply create a Micronaut bean with a listener method annotated with <a href="../api/io/micronaut/coherence/annotation/CoherenceEventListener.html">@CoherenceEventListener</a>.
@@ -3412,7 +3458,7 @@ public class AdultMalesFilterFactory&lt;Person&gt; implements FilterFactory&lt;A
     @Override
     public Filter&lt;Person&gt; create(AdultMales annotation) {       <i class="conum" data-value="3"></i><b>(3)</b>
         Filter&lt;Person&gt; male = Filters.equal("gender", "male");
-        Filter&lt;Person&gt; adult = Filters.greaterEqual("age", 18);
+        Filter&lt;Person&gt; adult = Filters.greaterEqual(Extractors.extract("age"), 18);
         return Filters.all(male, adult);
     }
 }</code></pre>
@@ -3462,7 +3508,7 @@ public class AdultFilterFactory&lt;Person&gt; implements FilterFactory&lt;Adults
     @Override
     public Filter&lt;Person&gt; create(Males annotation) {       <i class="conum" data-value="3"></i><b>(3)</b>
         Filter&lt;Person&gt; male = Filters.equal("gender", annotation.value());
-        Filter&lt;Person&gt; adult = Filters.greaterEqual("age", 18);
+        Filter&lt;Person&gt; adult = Filters.greaterEqual(Extractors.extract("age"), 18);
         return Filters.all(male, adult);
     }
 }</code></pre>

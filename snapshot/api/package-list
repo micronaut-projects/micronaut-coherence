@@ -5,6 +5,7 @@ io.micronaut.coherence.config
 io.micronaut.coherence.data
 io.micronaut.coherence.data.annotation
 io.micronaut.coherence.data.interceptors
+io.micronaut.coherence.data.ops
 io.micronaut.coherence.data.query
 io.micronaut.coherence.discovery
 io.micronaut.coherence.event

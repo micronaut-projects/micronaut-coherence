@@ -78,6 +78,7 @@
 <li><a href="io/micronaut/coherence/data/package-tree.html">io.micronaut.coherence.data</a>, </li>
 <li><a href="io/micronaut/coherence/data/annotation/package-tree.html">io.micronaut.coherence.data.annotation</a>, </li>
 <li><a href="io/micronaut/coherence/data/interceptors/package-tree.html">io.micronaut.coherence.data.interceptors</a>, </li>
+<li><a href="io/micronaut/coherence/data/ops/package-tree.html">io.micronaut.coherence.data.ops</a>, </li>
 <li><a href="io/micronaut/coherence/data/query/package-tree.html">io.micronaut.coherence.data.query</a>, </li>
 <li><a href="io/micronaut/coherence/discovery/package-tree.html">io.micronaut.coherence.discovery</a>, </li>
 <li><a href="io/micronaut/coherence/event/package-tree.html">io.micronaut.coherence.event</a>, </li>
@@ -91,6 +92,20 @@
 <ul>
 <li type="circle">java.lang.Object
 <ul>
+<li type="circle">io.micronaut.coherence.data.interceptors.<a href="io/micronaut/coherence/data/interceptors/AbstractEventSourceInterceptor.html" title="class in io.micronaut.coherence.data.interceptors"><span class="typeNameLink">AbstractEventSourceInterceptor</span></a> (implements io.micronaut.aop.MethodInterceptor&lt;T,R&gt;)
+<ul>
+<li type="circle">io.micronaut.coherence.data.interceptors.<a href="io/micronaut/coherence/data/interceptors/AbstractAsyncEventSourceInterceptor.html" title="class in io.micronaut.coherence.data.interceptors"><span class="typeNameLink">AbstractAsyncEventSourceInterceptor</span></a>
+<ul>
+<li type="circle">io.micronaut.coherence.data.interceptors.<a href="io/micronaut/coherence/data/interceptors/AsyncPersistEventSourceInterceptor.html" title="class in io.micronaut.coherence.data.interceptors"><span class="typeNameLink">AsyncPersistEventSourceInterceptor</span></a></li>
+<li type="circle">io.micronaut.coherence.data.interceptors.<a href="io/micronaut/coherence/data/interceptors/AsyncRemoveEventSourceInterceptor.html" title="class in io.micronaut.coherence.data.interceptors"><span class="typeNameLink">AsyncRemoveEventSourceInterceptor</span></a></li>
+<li type="circle">io.micronaut.coherence.data.interceptors.<a href="io/micronaut/coherence/data/interceptors/AsyncUpdateEventSourceInterceptor.html" title="class in io.micronaut.coherence.data.interceptors"><span class="typeNameLink">AsyncUpdateEventSourceInterceptor</span></a></li>
+</ul>
+</li>
+<li type="circle">io.micronaut.coherence.data.interceptors.<a href="io/micronaut/coherence/data/interceptors/PersistEventSourceInterceptor.html" title="class in io.micronaut.coherence.data.interceptors"><span class="typeNameLink">PersistEventSourceInterceptor</span></a></li>
+<li type="circle">io.micronaut.coherence.data.interceptors.<a href="io/micronaut/coherence/data/interceptors/RemoveEventSourceInterceptor.html" title="class in io.micronaut.coherence.data.interceptors"><span class="typeNameLink">RemoveEventSourceInterceptor</span></a></li>
+<li type="circle">io.micronaut.coherence.data.interceptors.<a href="io/micronaut/coherence/data/interceptors/UpdateEventSourceInterceptor.html" title="class in io.micronaut.coherence.data.interceptors"><span class="typeNameLink">UpdateEventSourceInterceptor</span></a></li>
+</ul>
+</li>
 <li type="circle">io.micronaut.cache.AbstractMapBasedSyncCache&lt;C&gt; (implements io.micronaut.cache.SyncCache&lt;C&gt;)
 <ul>
 <li type="circle">io.micronaut.cache.coherence.<a href="io/micronaut/cache/coherence/CoherenceSyncCache.html" title="class in io.micronaut.cache.coherence"><span class="typeNameLink">CoherenceSyncCache</span></a></li>
@@ -103,14 +118,24 @@
 </li>
 <li type="circle">io.micronaut.data.runtime.intercept.AbstractQueryInterceptor&lt;T,R&gt; (implements io.micronaut.data.intercept.DataInterceptor&lt;T,R&gt;)
 <ul>
+<li type="circle">io.micronaut.coherence.data.interceptors.<a href="io/micronaut/coherence/data/interceptors/GetAsyncMapInterceptor.html" title="class in io.micronaut.coherence.data.interceptors"><span class="typeNameLink">GetAsyncMapInterceptor</span></a>&lt;ID,T,D&gt; (implements io.micronaut.data.intercept.DataInterceptor&lt;T,R&gt;)</li>
 <li type="circle">io.micronaut.coherence.data.interceptors.<a href="io/micronaut/coherence/data/interceptors/GetEntityTypeInterceptor.html" title="class in io.micronaut.coherence.data.interceptors"><span class="typeNameLink">GetEntityTypeInterceptor</span></a>&lt;T,Class&gt; (implements io.micronaut.data.intercept.DataInterceptor&lt;T,R&gt;)</li>
 <li type="circle">io.micronaut.coherence.data.interceptors.<a href="io/micronaut/coherence/data/interceptors/GetIdInterceptor.html" title="class in io.micronaut.coherence.data.interceptors"><span class="typeNameLink">GetIdInterceptor</span></a>&lt;T,ID&gt; (implements io.micronaut.data.intercept.DataInterceptor&lt;T,R&gt;)</li>
 <li type="circle">io.micronaut.coherence.data.interceptors.<a href="io/micronaut/coherence/data/interceptors/GetMapInterceptor.html" title="class in io.micronaut.coherence.data.interceptors"><span class="typeNameLink">GetMapInterceptor</span></a>&lt;ID,T,D&gt; (implements io.micronaut.data.intercept.DataInterceptor&lt;T,R&gt;)</li>
 </ul>
 </li>
+<li type="circle">com.oracle.coherence.repository.AbstractRepositoryBase&lt;ID,T,M&gt;
+<ul>
+<li type="circle">com.oracle.coherence.repository.AbstractAsyncRepository&lt;ID,T&gt;
+<ul>
+<li type="circle">io.micronaut.coherence.data.<a href="io/micronaut/coherence/data/AbstractCoherenceAsyncRepository.html" title="class in io.micronaut.coherence.data"><span class="typeNameLink">AbstractCoherenceAsyncRepository</span></a>&lt;T,ID&gt; (implements io.micronaut.data.repository.GenericRepository&lt;E,ID&gt;)</li>
+</ul>
+</li>
 <li type="circle">com.oracle.coherence.repository.AbstractRepository&lt;ID,T&gt;
 <ul>
 <li type="circle">io.micronaut.coherence.data.<a href="io/micronaut/coherence/data/AbstractCoherenceRepository.html" title="class in io.micronaut.coherence.data"><span class="typeNameLink">AbstractCoherenceRepository</span></a>&lt;T,ID&gt; (implements io.micronaut.data.repository.GenericRepository&lt;E,ID&gt;)</li>
+</ul>
+</li>
 </ul>
 </li>
 <li type="circle">io.micronaut.coherence.<a href="io/micronaut/coherence/AbstractSessionConfigurationBean.html" title="class in io.micronaut.coherence"><span class="typeNameLink">AbstractSessionConfigurationBean</span></a> (implements io.micronaut.coherence.<a href="io/micronaut/coherence/SessionConfigurationProvider.html" title="interface in io.micronaut.coherence">SessionConfigurationProvider</a>)
@@ -152,7 +177,7 @@
 <li type="circle">io.micronaut.coherence.annotation.<a href="io/micronaut/coherence/annotation/ConfigUri.Literal.html" title="class in io.micronaut.coherence.annotation"><span class="typeNameLink">ConfigUri.Literal</span></a> (implements io.micronaut.coherence.annotation.<a href="io/micronaut/coherence/annotation/ConfigUri.html" title="annotation in io.micronaut.coherence.annotation">ConfigUri</a>)</li>
 <li type="circle">io.micronaut.coherence.annotation.<a href="io/micronaut/coherence/annotation/Connecting.Literal.html" title="class in io.micronaut.coherence.annotation"><span class="typeNameLink">Connecting.Literal</span></a> (implements io.micronaut.coherence.annotation.<a href="io/micronaut/coherence/annotation/Connecting.html" title="annotation in io.micronaut.coherence.annotation">Connecting</a>)</li>
 <li type="circle">io.micronaut.coherence.annotation.<a href="io/micronaut/coherence/annotation/Created.Literal.html" title="class in io.micronaut.coherence.annotation"><span class="typeNameLink">Created.Literal</span></a> (implements io.micronaut.coherence.annotation.<a href="io/micronaut/coherence/annotation/Created.html" title="annotation in io.micronaut.coherence.annotation">Created</a>)</li>
-<li type="circle">io.micronaut.coherence.data.<a href="io/micronaut/coherence/data/DefaultCoherenceRepositoryOperations.html" title="class in io.micronaut.coherence.data"><span class="typeNameLink">DefaultCoherenceRepositoryOperations</span></a> (implements io.micronaut.coherence.data.<a href="io/micronaut/coherence/data/CoherenceRepositoryOperations.html" title="interface in io.micronaut.coherence.data">CoherenceRepositoryOperations</a>)</li>
+<li type="circle">io.micronaut.coherence.data.ops.<a href="io/micronaut/coherence/data/ops/DefaultCoherenceRepositoryOperations.html" title="class in io.micronaut.coherence.data.ops"><span class="typeNameLink">DefaultCoherenceRepositoryOperations</span></a> (implements io.micronaut.coherence.data.ops.<a href="io/micronaut/coherence/data/ops/CoherenceRepositoryOperations.html" title="interface in io.micronaut.coherence.data.ops">CoherenceRepositoryOperations</a>)</li>
 <li type="circle">io.micronaut.coherence.annotation.<a href="io/micronaut/coherence/annotation/Deleted.Literal.html" title="class in io.micronaut.coherence.annotation"><span class="typeNameLink">Deleted.Literal</span></a> (implements io.micronaut.coherence.annotation.<a href="io/micronaut/coherence/annotation/Deleted.html" title="annotation in io.micronaut.coherence.annotation">Deleted</a>)</li>
 <li type="circle">io.micronaut.coherence.annotation.<a href="io/micronaut/coherence/annotation/Departed.Literal.html" title="class in io.micronaut.coherence.annotation"><span class="typeNameLink">Departed.Literal</span></a> (implements io.micronaut.coherence.annotation.<a href="io/micronaut/coherence/annotation/Departed.html" title="annotation in io.micronaut.coherence.annotation">Departed</a>)</li>
 <li type="circle">io.micronaut.coherence.annotation.<a href="io/micronaut/coherence/annotation/Departing.Literal.html" title="class in io.micronaut.coherence.annotation"><span class="typeNameLink">Departing.Literal</span></a> (implements io.micronaut.coherence.annotation.<a href="io/micronaut/coherence/annotation/Departing.html" title="annotation in io.micronaut.coherence.annotation">Departing</a>)</li>
@@ -222,12 +247,21 @@
 </ul>
 <h2 title="Interface Hierarchy">Interface Hierarchy</h2>
 <ul>
+<li type="circle">io.micronaut.data.operations.async.AsyncRepositoryOperations
+<ul>
+<li type="circle">io.micronaut.coherence.data.ops.<a href="io/micronaut/coherence/data/ops/CoherenceAsyncRepositoryOperations.html" title="interface in io.micronaut.coherence.data.ops"><span class="typeNameLink">CoherenceAsyncRepositoryOperations</span></a></li>
+</ul>
+</li>
 <li type="circle">io.micronaut.coherence.<a href="io/micronaut/coherence/ExtractorFactory.html" title="interface in io.micronaut.coherence"><span class="typeNameLink">ExtractorFactory</span></a>&lt;A,T,E&gt;</li>
 <li type="circle">io.micronaut.coherence.<a href="io/micronaut/coherence/FilterFactory.html" title="interface in io.micronaut.coherence"><span class="typeNameLink">FilterFactory</span></a>&lt;A,T&gt;</li>
 <li type="circle">io.micronaut.coherence.<a href="io/micronaut/coherence/MapEventTransformerFactory.html" title="interface in io.micronaut.coherence"><span class="typeNameLink">MapEventTransformerFactory</span></a>&lt;A,K,V,U&gt;</li>
 <li type="circle">io.micronaut.data.operations.RepositoryOperations
 <ul>
-<li type="circle">io.micronaut.coherence.data.<a href="io/micronaut/coherence/data/CoherenceRepositoryOperations.html" title="interface in io.micronaut.coherence.data"><span class="typeNameLink">CoherenceRepositoryOperations</span></a></li>
+<li type="circle">io.micronaut.data.operations.async.AsyncCapableRepository
+<ul>
+<li type="circle">io.micronaut.coherence.data.ops.<a href="io/micronaut/coherence/data/ops/CoherenceRepositoryOperations.html" title="interface in io.micronaut.coherence.data.ops"><span class="typeNameLink">CoherenceRepositoryOperations</span></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li type="circle">io.micronaut.coherence.<a href="io/micronaut/coherence/SessionConfigurationProvider.html" title="interface in io.micronaut.coherence"><span class="typeNameLink">SessionConfigurationProvider</span></a></li>
@@ -302,7 +336,13 @@
 <li type="circle">io.micronaut.coherence.annotation.<a href="io/micronaut/coherence/annotation/Replicating.html" title="annotation in io.micronaut.coherence.annotation"><span class="typeNameLink">Replicating</span></a> (implements java.lang.annotation.Annotation)</li>
 <li type="circle">io.micronaut.coherence.annotation.<a href="io/micronaut/coherence/annotation/Executed.html" title="annotation in io.micronaut.coherence.annotation"><span class="typeNameLink">Executed</span></a> (implements java.lang.annotation.Annotation)</li>
 <li type="circle">io.micronaut.coherence.annotation.<a href="io/micronaut/coherence/annotation/WhereFilter.html" title="annotation in io.micronaut.coherence.annotation"><span class="typeNameLink">WhereFilter</span></a> (implements java.lang.annotation.Annotation)</li>
+<li type="circle">io.micronaut.coherence.data.annotation.<a href="io/micronaut/coherence/data/annotation/UpdateEventSource.html" title="annotation in io.micronaut.coherence.data.annotation"><span class="typeNameLink">UpdateEventSource</span></a> (implements java.lang.annotation.Annotation)</li>
 <li type="circle">io.micronaut.coherence.data.annotation.<a href="io/micronaut/coherence/data/annotation/CoherenceRepository.html" title="annotation in io.micronaut.coherence.data.annotation"><span class="typeNameLink">CoherenceRepository</span></a> (implements java.lang.annotation.Annotation)</li>
+<li type="circle">io.micronaut.coherence.data.annotation.<a href="io/micronaut/coherence/data/annotation/RemoveEventSource.html" title="annotation in io.micronaut.coherence.data.annotation"><span class="typeNameLink">RemoveEventSource</span></a> (implements java.lang.annotation.Annotation)</li>
+<li type="circle">io.micronaut.coherence.data.annotation.<a href="io/micronaut/coherence/data/annotation/AsyncUpdateEventSource.html" title="annotation in io.micronaut.coherence.data.annotation"><span class="typeNameLink">AsyncUpdateEventSource</span></a> (implements java.lang.annotation.Annotation)</li>
+<li type="circle">io.micronaut.coherence.data.annotation.<a href="io/micronaut/coherence/data/annotation/AsyncRemoveEventSource.html" title="annotation in io.micronaut.coherence.data.annotation"><span class="typeNameLink">AsyncRemoveEventSource</span></a> (implements java.lang.annotation.Annotation)</li>
+<li type="circle">io.micronaut.coherence.data.annotation.<a href="io/micronaut/coherence/data/annotation/PersistEventSource.html" title="annotation in io.micronaut.coherence.data.annotation"><span class="typeNameLink">PersistEventSource</span></a> (implements java.lang.annotation.Annotation)</li>
+<li type="circle">io.micronaut.coherence.data.annotation.<a href="io/micronaut/coherence/data/annotation/AsyncPersistEventSource.html" title="annotation in io.micronaut.coherence.data.annotation"><span class="typeNameLink">AsyncPersistEventSource</span></a> (implements java.lang.annotation.Annotation)</li>
 </ul>
 <h2 title="Enum Hierarchy">Enum Hierarchy</h2>
 <ul>
@@ -312,6 +352,8 @@
 <ul>
 <li type="circle">io.micronaut.coherence.annotation.<a href="io/micronaut/coherence/annotation/Backlog.Type.html" title="enum in io.micronaut.coherence.annotation"><span class="typeNameLink">Backlog.Type</span></a></li>
 <li type="circle">io.micronaut.coherence.<a href="io/micronaut/coherence/SessionType.html" title="enum in io.micronaut.coherence"><span class="typeNameLink">SessionType</span></a></li>
+<li type="circle">io.micronaut.coherence.data.interceptors.<a href="io/micronaut/coherence/data/interceptors/AbstractEventSourceInterceptor.EventGroup.html" title="enum in io.micronaut.coherence.data.interceptors"><span class="typeNameLink">AbstractEventSourceInterceptor.EventGroup</span></a></li>
+<li type="circle">io.micronaut.coherence.data.interceptors.<a href="io/micronaut/coherence/data/interceptors/AbstractEventSourceInterceptor.EventType.html" title="enum in io.micronaut.coherence.data.interceptors"><span class="typeNameLink">AbstractEventSourceInterceptor.EventType</span></a></li>
 </ul>
 </li>
 </ul>
