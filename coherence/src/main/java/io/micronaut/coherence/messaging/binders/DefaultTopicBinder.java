@@ -80,6 +80,7 @@ public class DefaultTopicBinder<T> implements ElementBinder<T> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public ArgumentBinder.BindingResult<T> bind(ArgumentConversionContext<T> context, Subscriber.Element<?> element) {
         Argument<T> argument = context.getArgument();
         Function<Subscriber.Element<?>, Object> f = defaultResolver.get(argument);

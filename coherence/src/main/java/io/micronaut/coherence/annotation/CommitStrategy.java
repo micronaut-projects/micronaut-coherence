@@ -38,7 +38,7 @@ public enum CommitStrategy {
      * itself and call {@link com.tangosol.net.topic.Subscriber.Element#commit()} or {@link com.tangosol.net.topic.Subscriber.Element#commitAsync()}
      * to commit the received element.
      */
-    MANUAL(e -> {/* no-op */}),
+    MANUAL(e -> { /* no-op */ }),
     /**
      * Synchronously commit using {@link com.tangosol.net.topic.Subscriber.Element#commit()} after each messages is processed.
      */
