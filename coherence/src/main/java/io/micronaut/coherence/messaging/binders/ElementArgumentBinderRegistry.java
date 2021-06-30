@@ -46,6 +46,7 @@ public class ElementArgumentBinderRegistry
      *
      * @param binders The binders
      */
+    @SuppressWarnings("rawtypes")
     public ElementArgumentBinderRegistry(ElementBinder<?>... binders) {
         if (ArrayUtils.isNotEmpty(binders)) {
             for (ElementBinder<?> binder : binders) {

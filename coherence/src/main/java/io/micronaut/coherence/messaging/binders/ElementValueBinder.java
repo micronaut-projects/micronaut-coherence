@@ -19,7 +19,7 @@ import com.tangosol.net.topic.Subscriber;
 import com.tangosol.util.Binary;
 import io.micronaut.core.convert.ArgumentConversionContext;
 import io.micronaut.core.convert.ConversionService;
-import io.micronaut.http.annotation.Body;
+import io.micronaut.messaging.annotation.MessageBody;
 
 import javax.inject.Singleton;
 import java.util.Optional;
@@ -32,11 +32,11 @@ import java.util.Optional;
  * @since 1.0
  */
 @Singleton
-public class ElementValueBinder<T> implements AnnotatedElementBinder<Body, T> {
+public class ElementValueBinder<T> implements AnnotatedElementBinder<MessageBody, T> {
 
     @Override
-    public Class<Body> annotationType() {
-        return Body.class;
+    public Class<MessageBody> annotationType() {
+        return MessageBody.class;
     }
 
     @Override

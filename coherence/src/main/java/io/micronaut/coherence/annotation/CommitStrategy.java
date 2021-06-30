@@ -15,10 +15,6 @@
  */
 package io.micronaut.coherence.annotation;
 
-import com.tangosol.net.topic.Subscriber;
-
-import java.util.function.Consumer;
-
 /**
  * <p>An enum representing different strategies for committing positions in a Coherence topic when
  * using {@link CoherenceTopicListener}.</p>
@@ -38,29 +34,13 @@ public enum CommitStrategy {
      * itself and call {@link com.tangosol.net.topic.Subscriber.Element#commit()} or {@link com.tangosol.net.topic.Subscriber.Element#commitAsync()}
      * to commit the received element.
      */
-    MANUAL(e -> { /* no-op */ }),
+    MANUAL,
     /**
      * Synchronously commit using {@link com.tangosol.net.topic.Subscriber.Element#commit()} after each messages is processed.
      */
-    SYNC(Subscriber.Element::commit),
+    SYNC,
     /**
      * Asynchronously commit using {@link com.tangosol.net.topic.Subscriber.Element#commitAsync()} after each messages is processed.
      */
-    ASYNC(Subscriber.Element::commitAsync),
-    ;
-
-    private final Consumer<Subscriber.Element<?>> action;
-
-    CommitStrategy(Consumer<Subscriber.Element<?>> action) {
-        this.action = action;
-    }
-
-    /**
-     * Perform the commit strategy action on the specified element.
-     *
-     * @param element  the element to commit
-     */
-    public void commit(Subscriber.Element<?> element) {
-        action.accept(element);
-    }
+    ASYNC,
 }

@@ -371,14 +371,16 @@ class CoherenceTopicListenerProcessor
          * end and the {@link com.tangosol.net.topic.Subscriber} will be closed.</p>
          */
         private void nextMessage() {
-            subscriber.receive().handle(this::handleMessage)
-                .handle((v, err) -> {
-                    if (err != null) {
-                        LOG.error("Error requesting message from topic {} for method {} - subscriber will be closed", topicName, method, err);
-                        subscriber.close();
-                    }
-                    return VOID;
-                });
+            if (subscriber.isActive()) {
+                subscriber.receive().handle(this::handleMessage)
+                        .handle((v, err) -> {
+                            if (err != null) {
+                                LOG.error("Error requesting message from topic {} for method {} - subscriber will be closed", topicName, method, err);
+                                subscriber.close();
+                            }
+                            return VOID;
+                        });
+            }
         }
 
         /**
@@ -419,17 +421,38 @@ class CoherenceTopicListenerProcessor
             }
 
             if (error == null) {
-                // message processed, do any commit
+                // message processed successfully, do any commit action
                 try {
-                    commitStrategy.commit(element);
+                    if (commitStrategy != CommitStrategy.MANUAL) {
+                        CompletableFuture<Subscriber.CommitResult> future = element.commitAsync();
+                        if (commitStrategy == CommitStrategy.ASYNC) {
+                            // async commit, so log any failure in a future handler
+                            future.handle((result, commitError) -> {
+                                if (commitError != null) {
+                                    // With auto-commit strategies the developer has chosen to ignore commit failures, just log the error
+                                    LOG.error("Error committing element channel={} position={}", element.getChannel(), element.getPosition(), commitError);
+                                } else if (!result.isSuccess()) {
+                                    // With auto-commit strategies the developer has chosen to ignore commit failures, just log the error
+                                    LOG.error("Failed to commit element channel={} position={} status {}", element.getChannel(), element.getPosition(), result);
+                                }
+                                return VOID;
+                            });
+                        } else {
+                            // sync commit so wait for it to complete
+                            Subscriber.CommitResult result = future.join();
+                            if (!result.isSuccess()) {
+                                // With auto-commit strategies the developer has chosen to ignore commit failures, just log the error
+                                LOG.error("Failed to commit element channel={} position={} status {}", element.getChannel(), element.getPosition(), result);
+                            }
+                        }
+                    }
                 } catch (Throwable thrown) {
-                    // With auto-commit strategies the developer has chosen to ignore commit failures
-                    // Just log the error
-                    LOG.error("Error committing element channel={} position={}", element.getChannel(), element.getPosition());
+                    // With auto-commit strategies the developer has chosen to ignore commit failures, just log the error
+                    LOG.error("Error committing element channel={} position={}", element.getChannel(), element.getPosition(), thrown);
                 }
             } else if (error instanceof CancellationException) {
-                // cancellation probably due to subscriber closing
-                action = SubscriberExceptionHandler.Action.Stop;
+                // cancellation probably due to subscriber closing so we ignore the error
+                action = SubscriberExceptionHandler.Action.Continue;
             } else {
                 // an error occurred
                 action = handleException(subscriber, method, element, error);
@@ -505,15 +528,17 @@ class CoherenceTopicListenerProcessor
                         if (ArrayUtils.isNotEmpty(publishers)) {
                             return Flowable.create(emitter -> {
                                 for (Publisher publisher : publishers) {
-                                    CompletableFuture<Publisher.Status> future = publisher.publish(o);
-                                    future.handle((status, exception) -> {
-                                        if (exception != null) {
-                                            emitter.onError(exception);
-                                        } else {
-                                            emitter.onNext(status);
-                                        }
-                                        return VOID;
-                                    });
+                                    if (publisher.isActive()) {
+                                        CompletableFuture<Publisher.Status> future = publisher.publish(o);
+                                        future.handle((status, exception) -> {
+                                            if (exception != null) {
+                                                emitter.onError(exception);
+                                            } else {
+                                                emitter.onNext(status);
+                                            }
+                                            return VOID;
+                                        });
+                                    }
                                 }
                                 emitter.onComplete();
                             }, BackpressureStrategy.ERROR);

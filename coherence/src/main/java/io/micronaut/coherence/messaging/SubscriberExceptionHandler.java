@@ -44,7 +44,6 @@ public interface SubscriberExceptionHandler {
         /**
          * Close the subscriber and stop receiving messages.
          */
-        Stop;
+        Stop
     }
-
 }

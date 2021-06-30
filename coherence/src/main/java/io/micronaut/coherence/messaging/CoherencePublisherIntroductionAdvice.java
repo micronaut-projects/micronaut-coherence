@@ -42,7 +42,7 @@ import io.micronaut.core.convert.ConversionService;
 import io.micronaut.core.type.Argument;
 import io.micronaut.core.type.ReturnType;
 import io.micronaut.core.util.StringUtils;
-import io.micronaut.messaging.annotation.Body;
+import io.micronaut.messaging.annotation.MessageBody;
 import io.micronaut.messaging.exceptions.MessagingClientException;
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
@@ -98,7 +98,7 @@ public class CoherencePublisherIntroductionAdvice implements MethodInterceptor<O
 
             for (int i = 0; i < arguments.length; i++) {
                 Argument<?> argument = arguments[i];
-                if (argument.isAnnotationPresent(Body.class)) {
+                if (argument.isAnnotationPresent(MessageBody.class)) {
                     bodyArgument = argument;
                     valueIndex = i;
                 } else if (argument.isAnnotationPresent(Topics.class) || argument.isAnnotationPresent(Topic.class)) {

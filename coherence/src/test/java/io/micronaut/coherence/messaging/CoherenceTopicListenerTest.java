@@ -20,19 +20,24 @@ import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import com.oracle.bedrock.testsupport.deferred.Eventually;
+import com.tangosol.internal.net.topic.impl.paged.PagedTopicCaches;
+import com.tangosol.internal.net.topic.impl.paged.PagedTopicSubscriber;
+import com.tangosol.internal.net.topic.impl.paged.model.SubscriberGroupId;
 import com.tangosol.io.Serializer;
+import com.tangosol.net.CacheService;
 import com.tangosol.net.topic.Position;
 import com.tangosol.util.Binary;
 import com.tangosol.util.ExternalizableHelper;
-import io.micronaut.coherence.annotation.PropertyExtractor;
-import io.micronaut.coherence.annotation.SubscriberGroup;
-import io.micronaut.coherence.annotation.WhereFilter;
+import io.micronaut.coherence.annotation.*;
 
 import com.tangosol.net.Coherence;
 import com.tangosol.net.topic.NamedTopic;
@@ -40,8 +45,6 @@ import com.tangosol.net.topic.Publisher;
 
 import com.tangosol.net.topic.Subscriber;
 import data.Person;
-import io.micronaut.coherence.annotation.CoherenceTopicListener;
-import io.micronaut.coherence.annotation.Topic;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.messaging.annotation.SendTo;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
@@ -51,7 +54,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
+import static com.tangosol.net.topic.Subscriber.Name.inGroup;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
@@ -81,6 +86,9 @@ class CoherenceTopicListenerTest {
 
     @Inject
     ListenerFive listenerFive;
+
+    @Inject
+    ListenerSix listenerSix;
 
     @Inject
     CoherenceTopicListenerProcessor processor;
@@ -316,6 +324,78 @@ class CoherenceTopicListenerTest {
             TreeSet<String> set = new TreeSet<>(listenerFive.listOne);
             set.addAll(listenerFive.listTwo);
             assertThat(set.size(), is(expected));
+        }
+    }
+
+    @Test
+    public void shouldCommitWithDefaultStrategy() throws Exception {
+        NamedTopic<String> topic = coherence.getSession().getTopic("TwentyDefault");
+        PagedTopicCaches caches = new PagedTopicCaches(topic.getName(), (CacheService) topic.getService());
+        SubscriberGroupId groupId = SubscriberGroupId.withName(ListenerSix.GROUP_ID);
+
+        try (Publisher<String> publisher = topic.createPublisher()) {
+            for (int i = 0 ; i < publisher.getChannelCount(); i++) {
+                publisher.publish("test").get(1, TimeUnit.MINUTES);
+            }
+
+            Eventually.assertDeferred(() -> listenerSix.countDefault.get(), is(not(0)));
+            Eventually.assertDeferred(() -> caches.isCommitted(groupId, listenerSix.element.getChannel(), listenerSix.element.getPosition()), is(true));
+        }
+    }
+
+    @Test
+    public void shouldCommitWithSyncStrategy() throws Exception {
+        NamedTopic<String> topic = coherence.getSession().getTopic("TwentySync");
+        PagedTopicCaches caches = new PagedTopicCaches(topic.getName(), (CacheService) topic.getService());
+        SubscriberGroupId groupId = SubscriberGroupId.withName(ListenerSix.GROUP_ID);
+
+        try (Publisher<String> publisher = topic.createPublisher()) {
+            for (int i = 0 ; i < publisher.getChannelCount(); i++) {
+                publisher.publish("test").get(1, TimeUnit.MINUTES);
+            }
+
+            Eventually.assertDeferred(() -> listenerSix.countSync.get(), is(not(0)));
+            Eventually.assertDeferred(() -> caches.isCommitted(groupId, listenerSix.element.getChannel(), listenerSix.element.getPosition()), is(true));
+        }
+    }
+
+    @Test
+    public void shouldCommitWithAsyncStrategy() {
+        NamedTopic<String> topic = coherence.getSession().getTopic("TwentyAsync");
+        PagedTopicCaches caches = new PagedTopicCaches(topic.getName(), (CacheService) topic.getService());
+        SubscriberGroupId groupId = SubscriberGroupId.withName(ListenerSix.GROUP_ID);
+
+        try (Publisher<String> publisher = topic.createPublisher()) {
+            for (int i = 0 ; i < publisher.getChannelCount(); i++) {
+                publisher.publish("test").join();
+            }
+
+            Eventually.assertDeferred(() -> listenerSix.countAsync.get(), is(not(0)));
+            Eventually.assertDeferred(() -> caches.isCommitted(groupId, listenerSix.element.getChannel(), listenerSix.element.getPosition()), is(true));
+        }
+    }
+
+    @Test
+    public void shouldCommitWithManualStrategy() throws Exception {
+        NamedTopic<String> topic = coherence.getSession().getTopic("TwentyManual");
+        PagedTopicCaches caches = new PagedTopicCaches(topic.getName(), (CacheService) topic.getService());
+        SubscriberGroupId groupId = SubscriberGroupId.withName(ListenerSix.GROUP_ID);
+
+        try (Publisher<String> publisher = topic.createPublisher()) {
+            // publish four messages
+            for (int i = 0; i < 4; i++) {
+                publisher.publish("element-" + i).get(1, TimeUnit.MINUTES);
+            }
+            // should receive four messages
+            Eventually.assertDeferred(() -> listenerSix.countManual.get(), is(4));
+            // fourth message should not be committed
+            assertThat(caches.isCommitted(groupId, listenerSix.element.getChannel(), listenerSix.element.getPosition()), is(false));
+            // publish a fifth message
+            publisher.publish("element-5").get(1, TimeUnit.MINUTES);
+            // should receive fifth messages
+            Eventually.assertDeferred(() -> listenerSix.countManual.get(), is(5));
+            // fifth message should not be committed
+            assertThat(caches.isCommitted(groupId, listenerSix.element.getChannel(), listenerSix.element.getPosition()), is(true));
         }
     }
 
@@ -556,5 +636,54 @@ class CoherenceTopicListenerTest {
        int received() {
            return count.get();
        }
+    }
+
+    @Singleton
+    @Requires(env = "CoherenceTopicListenerTest")
+    static class ListenerSix {
+        public static final String GROUP_ID = "test";
+
+        private final AtomicInteger countManual = new AtomicInteger();
+        private final AtomicInteger countAsync = new AtomicInteger();
+        private final AtomicInteger countSync = new AtomicInteger();
+        private final AtomicInteger countDefault = new AtomicInteger();
+
+        private volatile Subscriber.Element<String> element;
+
+        @Topic("TwentyManual")
+        @SubscriberGroup(GROUP_ID)
+        @CoherenceTopicListener(commitStrategy = CommitStrategy.MANUAL)
+        void one(Subscriber.Element<String> e) {
+            element = e;
+            // manually commit the fifth message
+            if (countManual.get() == 4) {
+                e.commit();
+            }
+            countManual.incrementAndGet();
+        }
+
+        @Topic("TwentyAsync")
+        @SubscriberGroup(GROUP_ID)
+        @CoherenceTopicListener(commitStrategy = CommitStrategy.ASYNC)
+        void two(Subscriber.Element<String> e) {
+            element = e;
+            countAsync.incrementAndGet();
+        }
+
+        @Topic("TwentySync")
+        @SubscriberGroup(GROUP_ID)
+        @CoherenceTopicListener(commitStrategy = CommitStrategy.SYNC)
+        void three(Subscriber.Element<String> e) {
+            element = e;
+            countSync.incrementAndGet();
+        }
+
+        @Topic("TwentyDefault")
+        @SubscriberGroup(GROUP_ID)
+        @CoherenceTopicListener
+        void four(Subscriber.Element<String> e) {
+            element = e;
+            countDefault.incrementAndGet();
+        }
     }
 }
