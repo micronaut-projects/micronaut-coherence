@@ -11,4 +11,6 @@ io.micronaut.coherence.discovery
 io.micronaut.coherence.event
 io.micronaut.coherence.httpsession
 io.micronaut.coherence.messaging
+io.micronaut.coherence.messaging.binders
+io.micronaut.coherence.messaging.exceptions
 io.micronaut.coherence.namespace

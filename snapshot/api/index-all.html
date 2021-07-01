@@ -67,7 +67,7 @@
 <!--   -->
 </a></div>
 <!-- ========= END OF TOP NAVBAR ========= -->
-<div class="contentContainer"><a href="#I:A">A</a>&nbsp;<a href="#I:B">B</a>&nbsp;<a href="#I:C">C</a>&nbsp;<a href="#I:D">D</a>&nbsp;<a href="#I:E">E</a>&nbsp;<a href="#I:F">F</a>&nbsp;<a href="#I:G">G</a>&nbsp;<a href="#I:I">I</a>&nbsp;<a href="#I:J">J</a>&nbsp;<a href="#I:L">L</a>&nbsp;<a href="#I:M">M</a>&nbsp;<a href="#I:N">N</a>&nbsp;<a href="#I:O">O</a>&nbsp;<a href="#I:P">P</a>&nbsp;<a href="#I:R">R</a>&nbsp;<a href="#I:S">S</a>&nbsp;<a href="#I:T">T</a>&nbsp;<a href="#I:U">U</a>&nbsp;<a href="#I:V">V</a>&nbsp;<a href="#I:W">W</a>&nbsp;<a name="I:A">
+<div class="contentContainer"><a href="#I:A">A</a>&nbsp;<a href="#I:B">B</a>&nbsp;<a href="#I:C">C</a>&nbsp;<a href="#I:D">D</a>&nbsp;<a href="#I:E">E</a>&nbsp;<a href="#I:F">F</a>&nbsp;<a href="#I:G">G</a>&nbsp;<a href="#I:H">H</a>&nbsp;<a href="#I:I">I</a>&nbsp;<a href="#I:J">J</a>&nbsp;<a href="#I:L">L</a>&nbsp;<a href="#I:M">M</a>&nbsp;<a href="#I:N">N</a>&nbsp;<a href="#I:O">O</a>&nbsp;<a href="#I:P">P</a>&nbsp;<a href="#I:R">R</a>&nbsp;<a href="#I:S">S</a>&nbsp;<a href="#I:T">T</a>&nbsp;<a href="#I:U">U</a>&nbsp;<a href="#I:V">V</a>&nbsp;<a href="#I:W">W</a>&nbsp;<a name="I:A">
 <!--   -->
 </a>
 <h2 class="title">A</h2>
@@ -154,6 +154,14 @@
 <div class="block">An annotation literal for the <a href="io/micronaut/coherence/annotation/AlwaysFilter.html" title="annotation in io.micronaut.coherence.annotation"><code>AlwaysFilter</code></a>
  annotation.</div>
 </dd>
+<dt><a href="io/micronaut/coherence/messaging/binders/AnnotatedElementBinder.html" title="interface in io.micronaut.coherence.messaging.binders"><span class="typeNameLink">AnnotatedElementBinder</span></a>&lt;<a href="io/micronaut/coherence/messaging/binders/AnnotatedElementBinder.html" title="type parameter in AnnotatedElementBinder">A</a> extends java.lang.annotation.Annotation,<a href="io/micronaut/coherence/messaging/binders/AnnotatedElementBinder.html" title="type parameter in AnnotatedElementBinder">T</a>&gt; - Interface in <a href="io/micronaut/coherence/messaging/binders/package-summary.html">io.micronaut.coherence.messaging.binders</a></dt>
+<dd>
+<div class="block">Interface for binders that bind method arguments from a <code>Subscriber.Element</code> via a annotation.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/messaging/binders/AnnotatedElementBinder.html#annotationType--">annotationType()</a></span> - Method in interface io.micronaut.coherence.messaging.binders.<a href="io/micronaut/coherence/messaging/binders/AnnotatedElementBinder.html" title="interface in io.micronaut.coherence.messaging.binders">AnnotatedElementBinder</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/messaging/binders/ElementValueBinder.html#annotationType--">annotationType()</a></span> - Method in class io.micronaut.coherence.messaging.binders.<a href="io/micronaut/coherence/messaging/binders/ElementValueBinder.html" title="class in io.micronaut.coherence.messaging.binders">ElementValueBinder</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/data/query/CohQLQueryBuilder.html#appendDeleteClause-java.lang.StringBuilder-">appendDeleteClause(StringBuilder)</a></span> - Method in class io.micronaut.coherence.data.query.<a href="io/micronaut/coherence/data/query/CohQLQueryBuilder.html" title="class in io.micronaut.coherence.data.query">CohQLQueryBuilder</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/coherence/annotation/Arrived.html" title="annotation in io.micronaut.coherence.annotation"><span class="typeNameLink">Arrived</span></a> - Annotation Type in <a href="io/micronaut/coherence/annotation/package-summary.html">io.micronaut.coherence.annotation</a></dt>
@@ -236,6 +244,10 @@
 <dd>
 <div class="block">The backlog event type.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/messaging/binders/DefaultTopicBinder.html#bind-io.micronaut.core.convert.ArgumentConversionContext-com.tangosol.net.topic.Subscriber.Element-">bind(ArgumentConversionContext&lt;T&gt;, Subscriber.Element&lt;?&gt;)</a></span> - Method in class io.micronaut.coherence.messaging.binders.<a href="io/micronaut/coherence/messaging/binders/DefaultTopicBinder.html" title="class in io.micronaut.coherence.messaging.binders">DefaultTopicBinder</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/messaging/binders/ElementValueBinder.html#bind-io.micronaut.core.convert.ArgumentConversionContext-com.tangosol.net.topic.Subscriber.Element-">bind(ArgumentConversionContext&lt;T&gt;, Subscriber.Element&lt;?&gt;)</a></span> - Method in class io.micronaut.coherence.messaging.binders.<a href="io/micronaut/coherence/messaging/binders/ElementValueBinder.html" title="class in io.micronaut.coherence.messaging.binders">ElementValueBinder</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/discovery/CoherenceConfigurationClient.html#buildChannel-io.micronaut.coherence.discovery.CoherenceClientConfiguration-">buildChannel(CoherenceClientConfiguration)</a></span> - Method in class io.micronaut.coherence.discovery.<a href="io/micronaut/coherence/discovery/CoherenceConfigurationClient.html" title="class in io.micronaut.coherence.discovery">CoherenceConfigurationClient</a></dt>
 <dd>
 <div class="block">Builds gRPC channel.</div>
@@ -377,6 +389,20 @@
 <dd>
 <div class="block">A representation of a http session.</div>
 </dd>
+<dt><a href="io/micronaut/coherence/messaging/exceptions/CoherenceSubscriberException.html" title="class in io.micronaut.coherence.messaging.exceptions"><span class="typeNameLink">CoherenceSubscriberException</span></a> - Exception in <a href="io/micronaut/coherence/messaging/exceptions/package-summary.html">io.micronaut.coherence.messaging.exceptions</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/messaging/exceptions/CoherenceSubscriberException.html#CoherenceSubscriberException-java.lang.String-java.lang.Object-com.tangosol.net.topic.Subscriber-com.tangosol.net.topic.Subscriber.Element-">CoherenceSubscriberException(String, Object, Subscriber&lt;?&gt;, Subscriber.Element&lt;?&gt;)</a></span> - Constructor for exception io.micronaut.coherence.messaging.exceptions.<a href="io/micronaut/coherence/messaging/exceptions/CoherenceSubscriberException.html" title="class in io.micronaut.coherence.messaging.exceptions">CoherenceSubscriberException</a></dt>
+<dd>
+<div class="block">Creates a new exception.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/messaging/exceptions/CoherenceSubscriberException.html#CoherenceSubscriberException-java.lang.String-java.lang.Throwable-java.lang.Object-com.tangosol.net.topic.Subscriber-com.tangosol.net.topic.Subscriber.Element-">CoherenceSubscriberException(String, Throwable, Object, Subscriber&lt;?&gt;, Subscriber.Element&lt;?&gt;)</a></span> - Constructor for exception io.micronaut.coherence.messaging.exceptions.<a href="io/micronaut/coherence/messaging/exceptions/CoherenceSubscriberException.html" title="class in io.micronaut.coherence.messaging.exceptions">CoherenceSubscriberException</a></dt>
+<dd>
+<div class="block">Creates a new exception.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/messaging/exceptions/CoherenceSubscriberException.html#CoherenceSubscriberException-java.lang.Throwable-java.lang.Object-com.tangosol.net.topic.Subscriber-com.tangosol.net.topic.Subscriber.Element-">CoherenceSubscriberException(Throwable, Object, Subscriber&lt;?&gt;, Subscriber.Element&lt;?&gt;)</a></span> - Constructor for exception io.micronaut.coherence.messaging.exceptions.<a href="io/micronaut/coherence/messaging/exceptions/CoherenceSubscriberException.html" title="class in io.micronaut.coherence.messaging.exceptions">CoherenceSubscriberException</a></dt>
+<dd>
+<div class="block">Creates a new exception.</div>
+</dd>
 <dt><a href="io/micronaut/cache/coherence/CoherenceSyncCache.html" title="class in io.micronaut.cache.coherence"><span class="typeNameLink">CoherenceSyncCache</span></a> - Class in <a href="io/micronaut/cache/coherence/package-summary.html">io.micronaut.cache.coherence</a></dt>
 <dd>
 <div class="block">A <code>SyncCache</code> implementation based on Coherence.</div>
@@ -395,6 +421,11 @@
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/data/query/CohQLQueryBuilder.html#CohQLQueryBuilder--">CohQLQueryBuilder()</a></span> - Constructor for class io.micronaut.coherence.data.query.<a href="io/micronaut/coherence/data/query/CohQLQueryBuilder.html" title="class in io.micronaut.coherence.data.query">CohQLQueryBuilder</a></dt>
 <dd>
 <div class="block">Default constructor.</div>
+</dd>
+<dt><a href="io/micronaut/coherence/annotation/CommitStrategy.html" title="enum in io.micronaut.coherence.annotation"><span class="typeNameLink">CommitStrategy</span></a> - Enum in <a href="io/micronaut/coherence/annotation/package-summary.html">io.micronaut.coherence.annotation</a></dt>
+<dd>
+<div class="block">An enum representing different strategies for committing positions in a Coherence topic when
+ using <a href="io/micronaut/coherence/annotation/CoherenceTopicListener.html" title="annotation in io.micronaut.coherence.annotation"><code>CoherenceTopicListener</code></a>.</div>
 </dd>
 <dt><a href="io/micronaut/coherence/annotation/Committed.html" title="annotation in io.micronaut.coherence.annotation"><span class="typeNameLink">Committed</span></a> - Annotation Type in <a href="io/micronaut/coherence/annotation/package-summary.html">io.micronaut.coherence.annotation</a></dt>
 <dd>
@@ -516,6 +547,14 @@
 <div class="block">A factory method to produce the default
  Java <code>Serializer</code>.</div>
 </dd>
+<dt><a href="io/micronaut/coherence/messaging/binders/DefaultTopicBinder.html" title="class in io.micronaut.coherence.messaging.binders"><span class="typeNameLink">DefaultTopicBinder</span></a>&lt;<a href="io/micronaut/coherence/messaging/binders/DefaultTopicBinder.html" title="type parameter in DefaultTopicBinder">T</a>&gt; - Class in <a href="io/micronaut/coherence/messaging/binders/package-summary.html">io.micronaut.coherence.messaging.binders</a></dt>
+<dd>
+<div class="block">The default binder that binds the Kafka value for a <code>Subscriber.Element</code>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/messaging/binders/DefaultTopicBinder.html#DefaultTopicBinder--">DefaultTopicBinder()</a></span> - Constructor for class io.micronaut.coherence.messaging.binders.<a href="io/micronaut/coherence/messaging/binders/DefaultTopicBinder.html" title="class in io.micronaut.coherence.messaging.binders">DefaultTopicBinder</a></dt>
+<dd>
+<div class="block">Default constructor.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/data/ops/DefaultCoherenceRepositoryOperations.html#delete-io.micronaut.data.model.runtime.DeleteOperation-">delete(DeleteOperation&lt;T&gt;)</a></span> - Method in class io.micronaut.coherence.data.ops.<a href="io/micronaut/coherence/data/ops/DefaultCoherenceRepositoryOperations.html" title="class in io.micronaut.coherence.data.ops">DefaultCoherenceRepositoryOperations</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/data/ops/DefaultCoherenceRepositoryOperations.html#deleteAll-io.micronaut.data.model.runtime.DeleteBatchOperation-">deleteAll(DeleteBatchOperation&lt;T&gt;)</a></span> - Method in class io.micronaut.coherence.data.ops.<a href="io/micronaut/coherence/data/ops/DefaultCoherenceRepositoryOperations.html" title="class in io.micronaut.coherence.data.ops">DefaultCoherenceRepositoryOperations</a></dt>
@@ -592,6 +631,24 @@
 </a>
 <h2 class="title">E</h2>
 <dl>
+<dt><a href="io/micronaut/coherence/messaging/binders/ElementArgumentBinderRegistry.html" title="class in io.micronaut.coherence.messaging.binders"><span class="typeNameLink">ElementArgumentBinderRegistry</span></a> - Class in <a href="io/micronaut/coherence/messaging/binders/package-summary.html">io.micronaut.coherence.messaging.binders</a></dt>
+<dd>
+<div class="block">An registry of <a href="io/micronaut/coherence/messaging/binders/ElementBinder.html" title="interface in io.micronaut.coherence.messaging.binders"><code>ElementBinder</code></a> instances.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/messaging/binders/ElementArgumentBinderRegistry.html#ElementArgumentBinderRegistry-io.micronaut.coherence.messaging.binders.ElementBinder...-">ElementArgumentBinderRegistry(ElementBinder&lt;?&gt;...)</a></span> - Constructor for class io.micronaut.coherence.messaging.binders.<a href="io/micronaut/coherence/messaging/binders/ElementArgumentBinderRegistry.html" title="class in io.micronaut.coherence.messaging.binders">ElementArgumentBinderRegistry</a></dt>
+<dd>
+<div class="block">Creates the registry for the given binders.</div>
+</dd>
+<dt><a href="io/micronaut/coherence/messaging/binders/ElementBinder.html" title="interface in io.micronaut.coherence.messaging.binders"><span class="typeNameLink">ElementBinder</span></a>&lt;<a href="io/micronaut/coherence/messaging/binders/ElementBinder.html" title="type parameter in ElementBinder">T</a>&gt; - Interface in <a href="io/micronaut/coherence/messaging/binders/package-summary.html">io.micronaut.coherence.messaging.binders</a></dt>
+<dd>
+<div class="block">Interface for binders that bind method arguments from a <code>Subscriber.Element</code>.</div>
+</dd>
+<dt><a href="io/micronaut/coherence/messaging/binders/ElementValueBinder.html" title="class in io.micronaut.coherence.messaging.binders"><span class="typeNameLink">ElementValueBinder</span></a>&lt;<a href="io/micronaut/coherence/messaging/binders/ElementValueBinder.html" title="type parameter in ElementValueBinder">T</a>&gt; - Class in <a href="io/micronaut/coherence/messaging/binders/package-summary.html">io.micronaut.coherence.messaging.binders</a></dt>
+<dd>
+<div class="block">The default binder that binds the value of an <code>element</code>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/messaging/binders/ElementValueBinder.html#ElementValueBinder--">ElementValueBinder()</a></span> - Constructor for class io.micronaut.coherence.messaging.binders.<a href="io/micronaut/coherence/messaging/binders/ElementValueBinder.html" title="class in io.micronaut.coherence.messaging.binders">ElementValueBinder</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/data/ops/DefaultCoherenceRepositoryOperations.html#ensureSession--">ensureSession()</a></span> - Method in class io.micronaut.coherence.data.ops.<a href="io/micronaut/coherence/data/ops/DefaultCoherenceRepositoryOperations.html" title="class in io.micronaut.coherence.data.ops">DefaultCoherenceRepositoryOperations</a></dt>
 <dd>
 <div class="block">Return the <code>Session</code> that should be used by this <code>repository</code>.</div>
@@ -679,6 +736,8 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/data/ops/DefaultCoherenceRepositoryOperations.html#findAll-io.micronaut.data.model.runtime.PreparedQuery-">findAll(PreparedQuery&lt;T, R&gt;)</a></span> - Method in class io.micronaut.coherence.data.ops.<a href="io/micronaut/coherence/data/ops/DefaultCoherenceRepositoryOperations.html" title="class in io.micronaut.coherence.data.ops">DefaultCoherenceRepositoryOperations</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/messaging/binders/ElementArgumentBinderRegistry.html#findArgumentBinder-io.micronaut.core.type.Argument-com.tangosol.net.topic.Subscriber.Element-">findArgumentBinder(Argument&lt;T&gt;, Subscriber.Element&lt;?&gt;)</a></span> - Method in class io.micronaut.coherence.messaging.binders.<a href="io/micronaut/coherence/messaging/binders/ElementArgumentBinderRegistry.html" title="class in io.micronaut.coherence.messaging.binders">ElementArgumentBinderRegistry</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/data/ops/DefaultCoherenceRepositoryOperations.html#findOne-java.lang.Class-java.io.Serializable-">findOne(Class&lt;T&gt;, Serializable)</a></span> - Method in class io.micronaut.coherence.data.ops.<a href="io/micronaut/coherence/data/ops/DefaultCoherenceRepositoryOperations.html" title="class in io.micronaut.coherence.data.ops">DefaultCoherenceRepositoryOperations</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/data/ops/DefaultCoherenceRepositoryOperations.html#findOne-io.micronaut.data.model.runtime.PreparedQuery-">findOne(PreparedQuery&lt;T, R&gt;)</a></span> - Method in class io.micronaut.coherence.data.ops.<a href="io/micronaut/coherence/data/ops/DefaultCoherenceRepositoryOperations.html" title="class in io.micronaut.coherence.data.ops">DefaultCoherenceRepositoryOperations</a></dt>
@@ -740,6 +799,8 @@
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/httpsession/CoherenceSessionStore.CoherenceHttpSession.html#getCreationTime--">getCreationTime()</a></span> - Method in class io.micronaut.coherence.httpsession.<a href="io/micronaut/coherence/httpsession/CoherenceSessionStore.CoherenceHttpSession.html" title="class in io.micronaut.coherence.httpsession">CoherenceSessionStore.CoherenceHttpSession</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/discovery/CoherenceConfigurationClient.html#getDescription--">getDescription()</a></span> - Method in class io.micronaut.coherence.discovery.<a href="io/micronaut/coherence/discovery/CoherenceConfigurationClient.html" title="class in io.micronaut.coherence.discovery">CoherenceConfigurationClient</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/messaging/exceptions/CoherenceSubscriberException.html#getElement--">getElement()</a></span> - Method in exception io.micronaut.coherence.messaging.exceptions.<a href="io/micronaut/coherence/messaging/exceptions/CoherenceSubscriberException.html" title="class in io.micronaut.coherence.messaging.exceptions">CoherenceSubscriberException</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/data/AbstractCoherenceAsyncRepository.html#getEntityType--">getEntityType()</a></span> - Method in class io.micronaut.coherence.data.<a href="io/micronaut/coherence/data/AbstractCoherenceAsyncRepository.html" title="class in io.micronaut.coherence.data">AbstractCoherenceAsyncRepository</a></dt>
 <dd>&nbsp;</dd>
@@ -861,6 +922,10 @@
 <dd>
 <div class="block">Returns the discovered interceptors.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/messaging/exceptions/CoherenceSubscriberException.html#getKafkaConsumer--">getKafkaConsumer()</a></span> - Method in exception io.micronaut.coherence.messaging.exceptions.<a href="io/micronaut/coherence/messaging/exceptions/CoherenceSubscriberException.html" title="class in io.micronaut.coherence.messaging.exceptions">CoherenceSubscriberException</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/messaging/exceptions/CoherenceSubscriberException.html#getKafkaListener--">getKafkaListener()</a></span> - Method in exception io.micronaut.coherence.messaging.exceptions.<a href="io/micronaut/coherence/messaging/exceptions/CoherenceSubscriberException.html" title="class in io.micronaut.coherence.messaging.exceptions">CoherenceSubscriberException</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/httpsession/CoherenceSessionStore.CoherenceHttpSession.html#getLastAccessedTime--">getLastAccessedTime()</a></span> - Method in class io.micronaut.coherence.httpsession.<a href="io/micronaut/coherence/httpsession/CoherenceSessionStore.CoherenceHttpSession.html" title="class in io.micronaut.coherence.httpsession">CoherenceSessionStore.CoherenceHttpSession</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/data/AbstractCoherenceAsyncRepository.html#getMap--">getMap()</a></span> - Method in class io.micronaut.coherence.data.<a href="io/micronaut/coherence/data/AbstractCoherenceAsyncRepository.html" title="class in io.micronaut.coherence.data">AbstractCoherenceAsyncRepository</a></dt>
@@ -939,6 +1004,16 @@
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/AbstractSessionConfigurationBean.html#getType--">getType()</a></span> - Method in class io.micronaut.coherence.<a href="io/micronaut/coherence/AbstractSessionConfigurationBean.html" title="class in io.micronaut.coherence">AbstractSessionConfigurationBean</a></dt>
 <dd>
 <div class="block">Returns the type of this configuration.</div>
+</dd>
+</dl>
+<a name="I:H">
+<!--   -->
+</a>
+<h2 class="title">H</h2>
+<dl>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/messaging/SubscriberExceptionHandler.html#handle-io.micronaut.coherence.messaging.exceptions.CoherenceSubscriberException-">handle(CoherenceSubscriberException)</a></span> - Method in interface io.micronaut.coherence.messaging.<a href="io/micronaut/coherence/messaging/SubscriberExceptionHandler.html" title="interface in io.micronaut.coherence.messaging">SubscriberExceptionHandler</a></dt>
+<dd>
+<div class="block">Handle the given exception.</div>
 </dd>
 </dl>
 <a name="I:I">
@@ -1068,6 +1143,10 @@
 <div class="block">A singleton instance of <a href="io/micronaut/coherence/annotation/View.Literal.html" title="class in io.micronaut.coherence.annotation"><code>View.Literal</code></a>
  with the cache values flag set to true.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/messaging/binders/DefaultTopicBinder.html#instance--">instance()</a></span> - Static method in class io.micronaut.coherence.messaging.binders.<a href="io/micronaut/coherence/messaging/binders/DefaultTopicBinder.html" title="class in io.micronaut.coherence.messaging.binders">DefaultTopicBinder</a></dt>
+<dd>
+<div class="block">Returns the singleton <a href="io/micronaut/coherence/messaging/binders/DefaultTopicBinder.html" title="class in io.micronaut.coherence.messaging.binders"><code>DefaultTopicBinder</code></a> instance.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/data/interceptors/AbstractAsyncEventSourceInterceptor.html#intercept-io.micronaut.aop.MethodInvocationContext-">intercept(MethodInvocationContext)</a></span> - Method in class io.micronaut.coherence.data.interceptors.<a href="io/micronaut/coherence/data/interceptors/AbstractAsyncEventSourceInterceptor.html" title="class in io.micronaut.coherence.data.interceptors">AbstractAsyncEventSourceInterceptor</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/data/interceptors/AbstractEventSourceInterceptor.html#intercept-io.micronaut.aop.MethodInvocationContext-">intercept(MethodInvocationContext)</a></span> - Method in class io.micronaut.coherence.data.interceptors.<a href="io/micronaut/coherence/data/interceptors/AbstractEventSourceInterceptor.html" title="class in io.micronaut.coherence.data.interceptors">AbstractEventSourceInterceptor</a></dt>
@@ -1125,6 +1204,10 @@
 <dd>
 <div class="block">Classes applicable to integration with Coherence messaging.</div>
 </dd>
+<dt><a href="io/micronaut/coherence/messaging/binders/package-summary.html">io.micronaut.coherence.messaging.binders</a> - package io.micronaut.coherence.messaging.binders</dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/coherence/messaging/exceptions/package-summary.html">io.micronaut.coherence.messaging.exceptions</a> - package io.micronaut.coherence.messaging.exceptions</dt>
+<dd>&nbsp;</dd>
 <dt><a href="io/micronaut/coherence/namespace/package-summary.html">io.micronaut.coherence.namespace</a> - package io.micronaut.coherence.namespace</dt>
 <dd>
 <div class="block">Classes applicable to Coherence Micronaut custom XSD namespace.</div>
@@ -1811,6 +1894,14 @@
 <div class="block">An annotation literal for the <a href="io/micronaut/coherence/annotation/Stopping.html" title="annotation in io.micronaut.coherence.annotation"><code>Stopping</code></a>
  annotation.</div>
 </dd>
+<dt><a href="io/micronaut/coherence/messaging/SubscriberExceptionHandler.html" title="interface in io.micronaut.coherence.messaging"><span class="typeNameLink">SubscriberExceptionHandler</span></a> - Interface in <a href="io/micronaut/coherence/messaging/package-summary.html">io.micronaut.coherence.messaging</a></dt>
+<dd>
+<div class="block">Interface that <a href="io/micronaut/coherence/annotation/CoherenceTopicListener.html" title="annotation in io.micronaut.coherence.annotation"><code>CoherenceTopicListener</code></a> beans can implement to handle exceptions.</div>
+</dd>
+<dt><a href="io/micronaut/coherence/messaging/SubscriberExceptionHandler.Action.html" title="enum in io.micronaut.coherence.messaging"><span class="typeNameLink">SubscriberExceptionHandler.Action</span></a> - Enum in <a href="io/micronaut/coherence/messaging/package-summary.html">io.micronaut.coherence.messaging</a></dt>
+<dd>
+<div class="block">An enumeration of possible actions to take after handling an exception.</div>
+</dd>
 <dt><a href="io/micronaut/coherence/messaging/SubscriberExecutorServiceConfig.html" title="class in io.micronaut.coherence.messaging"><span class="typeNameLink">SubscriberExecutorServiceConfig</span></a> - Class in <a href="io/micronaut/coherence/messaging/package-summary.html">io.micronaut.coherence.messaging</a></dt>
 <dd>
 <div class="block">Configures a <code>ScheduledExecutorService</code> for running
@@ -1894,6 +1985,10 @@
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/annotation/PofExtractor.Literal.html#type--">type()</a></span> - Method in class io.micronaut.coherence.annotation.<a href="io/micronaut/coherence/annotation/PofExtractor.Literal.html" title="class in io.micronaut.coherence.annotation">PofExtractor.Literal</a></dt>
 <dd>
 <div class="block">The type being extracted.</div>
+</dd>
+<dt><a href="io/micronaut/coherence/messaging/binders/TypedElementBinder.html" title="interface in io.micronaut.coherence.messaging.binders"><span class="typeNameLink">TypedElementBinder</span></a>&lt;<a href="io/micronaut/coherence/messaging/binders/TypedElementBinder.html" title="type parameter in TypedElementBinder">T</a>&gt; - Interface in <a href="io/micronaut/coherence/messaging/binders/package-summary.html">io.micronaut.coherence.messaging.binders</a></dt>
+<dd>
+<div class="block">Allows binding by type.</div>
 </dd>
 </dl>
 <a name="I:U">
@@ -2031,6 +2126,10 @@
 <dd>
 <div class="block">Returns the enum constant of this type with the specified name.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/annotation/CommitStrategy.html#valueOf-java.lang.String-">valueOf(String)</a></span> - Static method in enum io.micronaut.coherence.annotation.<a href="io/micronaut/coherence/annotation/CommitStrategy.html" title="enum in io.micronaut.coherence.annotation">CommitStrategy</a></dt>
+<dd>
+<div class="block">Returns the enum constant of this type with the specified name.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/data/interceptors/AbstractEventSourceInterceptor.EventGroup.html#valueOf-java.lang.String-">valueOf(String)</a></span> - Static method in enum io.micronaut.coherence.data.interceptors.<a href="io/micronaut/coherence/data/interceptors/AbstractEventSourceInterceptor.EventGroup.html" title="enum in io.micronaut.coherence.data.interceptors">AbstractEventSourceInterceptor.EventGroup</a></dt>
 <dd>
 <div class="block">Returns the enum constant of this type with the specified name.</div>
@@ -2039,11 +2138,20 @@
 <dd>
 <div class="block">Returns the enum constant of this type with the specified name.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/messaging/SubscriberExceptionHandler.Action.html#valueOf-java.lang.String-">valueOf(String)</a></span> - Static method in enum io.micronaut.coherence.messaging.<a href="io/micronaut/coherence/messaging/SubscriberExceptionHandler.Action.html" title="enum in io.micronaut.coherence.messaging">SubscriberExceptionHandler.Action</a></dt>
+<dd>
+<div class="block">Returns the enum constant of this type with the specified name.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/SessionType.html#valueOf-java.lang.String-">valueOf(String)</a></span> - Static method in enum io.micronaut.coherence.<a href="io/micronaut/coherence/SessionType.html" title="enum in io.micronaut.coherence">SessionType</a></dt>
 <dd>
 <div class="block">Returns the enum constant of this type with the specified name.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/annotation/Backlog.Type.html#values--">values()</a></span> - Static method in enum io.micronaut.coherence.annotation.<a href="io/micronaut/coherence/annotation/Backlog.Type.html" title="enum in io.micronaut.coherence.annotation">Backlog.Type</a></dt>
+<dd>
+<div class="block">Returns an array containing the constants of this enum type, in
+the order they are declared.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/annotation/CommitStrategy.html#values--">values()</a></span> - Static method in enum io.micronaut.coherence.annotation.<a href="io/micronaut/coherence/annotation/CommitStrategy.html" title="enum in io.micronaut.coherence.annotation">CommitStrategy</a></dt>
 <dd>
 <div class="block">Returns an array containing the constants of this enum type, in
 the order they are declared.</div>
@@ -2060,6 +2168,11 @@ the order they are declared.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/httpsession/CoherenceSessionStore.CoherenceHttpSession.html#values--">values()</a></span> - Method in class io.micronaut.coherence.httpsession.<a href="io/micronaut/coherence/httpsession/CoherenceSessionStore.CoherenceHttpSession.html" title="class in io.micronaut.coherence.httpsession">CoherenceSessionStore.CoherenceHttpSession</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/messaging/SubscriberExceptionHandler.Action.html#values--">values()</a></span> - Static method in enum io.micronaut.coherence.messaging.<a href="io/micronaut/coherence/messaging/SubscriberExceptionHandler.Action.html" title="enum in io.micronaut.coherence.messaging">SubscriberExceptionHandler.Action</a></dt>
+<dd>
+<div class="block">Returns an array containing the constants of this enum type, in
+the order they are declared.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/SessionType.html#values--">values()</a></span> - Static method in enum io.micronaut.coherence.<a href="io/micronaut/coherence/SessionType.html" title="enum in io.micronaut.coherence">SessionType</a></dt>
 <dd>
 <div class="block">Returns an array containing the constants of this enum type, in
@@ -2091,7 +2204,7 @@ the order they are declared.</div>
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/httpsession/CoherenceSessionStore.CoherenceHttpSession.html#writeExternal-com.tangosol.io.pof.PofWriter-">writeExternal(PofWriter)</a></span> - Method in class io.micronaut.coherence.httpsession.<a href="io/micronaut/coherence/httpsession/CoherenceSessionStore.CoherenceHttpSession.html" title="class in io.micronaut.coherence.httpsession">CoherenceSessionStore.CoherenceHttpSession</a></dt>
 <dd>&nbsp;</dd>
 </dl>
-<a href="#I:A">A</a>&nbsp;<a href="#I:B">B</a>&nbsp;<a href="#I:C">C</a>&nbsp;<a href="#I:D">D</a>&nbsp;<a href="#I:E">E</a>&nbsp;<a href="#I:F">F</a>&nbsp;<a href="#I:G">G</a>&nbsp;<a href="#I:I">I</a>&nbsp;<a href="#I:J">J</a>&nbsp;<a href="#I:L">L</a>&nbsp;<a href="#I:M">M</a>&nbsp;<a href="#I:N">N</a>&nbsp;<a href="#I:O">O</a>&nbsp;<a href="#I:P">P</a>&nbsp;<a href="#I:R">R</a>&nbsp;<a href="#I:S">S</a>&nbsp;<a href="#I:T">T</a>&nbsp;<a href="#I:U">U</a>&nbsp;<a href="#I:V">V</a>&nbsp;<a href="#I:W">W</a>&nbsp;</div>
+<a href="#I:A">A</a>&nbsp;<a href="#I:B">B</a>&nbsp;<a href="#I:C">C</a>&nbsp;<a href="#I:D">D</a>&nbsp;<a href="#I:E">E</a>&nbsp;<a href="#I:F">F</a>&nbsp;<a href="#I:G">G</a>&nbsp;<a href="#I:H">H</a>&nbsp;<a href="#I:I">I</a>&nbsp;<a href="#I:J">J</a>&nbsp;<a href="#I:L">L</a>&nbsp;<a href="#I:M">M</a>&nbsp;<a href="#I:N">N</a>&nbsp;<a href="#I:O">O</a>&nbsp;<a href="#I:P">P</a>&nbsp;<a href="#I:R">R</a>&nbsp;<a href="#I:S">S</a>&nbsp;<a href="#I:T">T</a>&nbsp;<a href="#I:U">U</a>&nbsp;<a href="#I:V">V</a>&nbsp;<a href="#I:W">W</a>&nbsp;</div>
 <!-- ======= START OF BOTTOM NAVBAR ====== -->
 <div class="bottomNav"><a name="navbar.bottom">
 <!--   -->
