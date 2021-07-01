@@ -28,10 +28,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
-import io.micronaut.coherence.annotation.ExtractorBinding;
-import io.micronaut.coherence.annotation.FilterBinding;
-import io.micronaut.coherence.annotation.SessionName;
-import io.micronaut.coherence.annotation.SubscriberGroup;
+import io.micronaut.coherence.annotation.*;
 
 import com.tangosol.net.Coherence;
 import com.tangosol.net.Session;
@@ -44,18 +41,15 @@ import com.tangosol.util.Filter;
 import com.tangosol.util.ValueExtractor;
 import io.micronaut.coherence.ExtractorFactories;
 import io.micronaut.coherence.FilterFactories;
-import io.micronaut.coherence.annotation.CoherenceTopicListener;
-import io.micronaut.coherence.annotation.Utils;
+import io.micronaut.coherence.messaging.binders.ElementArgumentBinderRegistry;
+import io.micronaut.coherence.messaging.exceptions.CoherenceSubscriberException;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.processor.ExecutableMethodProcessor;
 import io.micronaut.core.annotation.Blocking;
 import io.micronaut.core.async.publisher.Publishers;
-import io.micronaut.core.bind.ArgumentBinder;
-import io.micronaut.core.bind.ArgumentBinderRegistry;
 import io.micronaut.core.bind.BoundExecutable;
 import io.micronaut.core.bind.DefaultExecutableBinder;
 import io.micronaut.core.bind.ExecutableBinder;
-import io.micronaut.core.convert.ArgumentConversionContext;
 import io.micronaut.core.type.Argument;
 import io.micronaut.core.util.ArrayUtils;
 import io.micronaut.inject.BeanDefinition;
@@ -117,7 +111,7 @@ class CoherenceTopicListenerProcessor
     /**
      * The argument binder registry to use to bind method arguments.
      */
-    private final ElementArgumentBinderRegistry<?> registry;
+    private final ElementArgumentBinderRegistry registry;
 
     /**
      * The scheduler service.
@@ -133,6 +127,7 @@ class CoherenceTopicListenerProcessor
      * Create a {@link CoherenceTopicListenerProcessor}.
      *
      * @param executorService     the executor service
+     * @param registry            the binder registry
      * @param context             the Micronaut bean context
      * @param filterFactories     the filter factory to use to produce {@link com.tangosol.util.Filter Filters}
      * @param extractorFactories  the extractor factory to use to produce
@@ -140,6 +135,7 @@ class CoherenceTopicListenerProcessor
      */
     @Inject
     public CoherenceTopicListenerProcessor(@Named(TaskExecutors.MESSAGE_CONSUMER) ExecutorService executorService,
+                                           ElementArgumentBinderRegistry registry,
                                            ApplicationContext context,
                                            FilterFactories filterFactories,
                                            ExtractorFactories extractorFactories) {
@@ -147,7 +143,7 @@ class CoherenceTopicListenerProcessor
         this.context = context;
         this.filterFactories = filterFactories;
         this.extractorFactories = extractorFactories;
-        this.registry = new ElementArgumentBinderRegistry<>();
+        this.registry = registry;
     }
 
     @Override
@@ -190,29 +186,27 @@ class CoherenceTopicListenerProcessor
 
             String  sessionName = method.stringValue(SessionName.class).orElse(Coherence.DEFAULT_NAME);
             if (!coherence.hasSession(sessionName)) {
-                LOG.info("Skipping @CoherenceTopicListener annotated method subscription " + method
-                         + " Session " + sessionName + " does not exist on Coherence instance " + coherence.getName());
+                LOG.info("Skipping @CoherenceTopicListener annotated method subscription {} Session {} does not exist on Coherence instance {}", method, sessionName, coherence.getName());
                 return;
             }
 
             Session session = coherence.getSession(sessionName);
 
-            PublisherHolder[] sendToPublishers;
+            Publisher[] sendToPublishers;
             String[] sendToTopics = Utils.getSendToTopicNames(method);
             if (sendToTopics.length > 0) {
                 if (method.getReturnType().isVoid()) {
-                    LOG.info("Skipping @SendTo annotations for @CoherenceTopicListener annotated method " + method
-                             + " - method return type is void");
-                    sendToPublishers = new PublisherHolder[0];
+                    LOG.info("Skipping @SendTo annotations for @CoherenceTopicListener annotated method {} - method return type is void", method);
+                    sendToPublishers = new Publisher[0];
                 } else {
-                    sendToPublishers = new PublisherHolder[sendToTopics.length];
+                    sendToPublishers = new Publisher[sendToTopics.length];
                     for (int i = 0; i < sendToTopics.length; i++) {
                         NamedTopic<?> topic = session.getTopic(sendToTopics[i]);
-                        sendToPublishers[i] = new PublisherHolder(sendToTopics[i], topic.createPublisher());
+                        sendToPublishers[i] = topic.createPublisher();
                     }
                 }
             } else {
-                sendToPublishers = new PublisherHolder[0];
+                sendToPublishers = new Publisher[0];
             }
 
             method.stringValue(SubscriberGroup.class).ifPresent(name -> options.add(Subscriber.Name.of(name)));
@@ -302,7 +296,7 @@ class CoherenceTopicListenerProcessor
          * The optional topic {@link com.tangosol.net.topic.Publisher Publishers} to send
          * any method return value to.
          */
-        private final PublisherHolder[] publishers;
+        private final Publisher<?>[] publishers;
 
         /**
          * The bean declaring the {@link ExecutableMethod}.
@@ -312,17 +306,28 @@ class CoherenceTopicListenerProcessor
         /**
          * The {@link ExecutableMethod} to forward topic elements to.
          */
-        private final ExecutableMethod<T, R> method;
+        private final ExecutableMethod<?, ?> method;
+
+        /**
+         * The subscriber argument.
+         */
+        @SuppressWarnings("rawtypes")
+        private final Optional<Argument> subscriberArg;
 
         /**
          * The {@link ElementArgumentBinderRegistry} to use to bind method arguments.
          */
-        private final ElementArgumentBinderRegistry<E> registry;
+        private final ElementArgumentBinderRegistry registry;
 
         /**
          * The scheduler service.
          */
         private final Scheduler scheduler;
+
+        /**
+         * The commit strategy to use to commit received messages.
+         */
+        private final CommitStrategy commitStrategy;
 
         /**
          * Create a {@link TopicSubscriber}.
@@ -335,8 +340,8 @@ class CoherenceTopicListenerProcessor
          * @param registry         the {@link ElementArgumentBinderRegistry} to use to bind method arguments
          * @param scheduler        the scheduler service
          */
-        TopicSubscriber(String topicName, Subscriber<E> subscriber, PublisherHolder[] publishers, T bean,
-                        ExecutableMethod<T, R> method, ElementArgumentBinderRegistry<E> registry, Scheduler scheduler) {
+        TopicSubscriber(String topicName, Subscriber<E> subscriber, Publisher<?>[] publishers, T bean,
+                        ExecutableMethod<T, R> method, ElementArgumentBinderRegistry registry, Scheduler scheduler) {
             this.topicName = topicName;
             this.subscriber = subscriber;
             this.publishers = publishers;
@@ -344,6 +349,11 @@ class CoherenceTopicListenerProcessor
             this.method = method;
             this.registry = registry;
             this.scheduler = scheduler;
+            this.subscriberArg = Arrays.stream(method.getArguments())
+                    .filter(arg -> Subscriber.class.isAssignableFrom(arg.getType()))
+                    .findFirst();
+            this.commitStrategy = method.getValue(CoherenceTopicListener.class, "commitStrategy", CommitStrategy.class)
+                                        .orElse(CommitStrategy.SYNC);
         }
 
         @Override
@@ -351,7 +361,7 @@ class CoherenceTopicListenerProcessor
             try {
                 subscriber.close();
             } catch (Throwable t) {
-                LOG.error("Error closing subscriber for topic " + topicName, t);
+                LOG.error("Error closing subscriber for topic {}", topicName, t);
             }
         }
 
@@ -361,15 +371,16 @@ class CoherenceTopicListenerProcessor
          * end and the {@link com.tangosol.net.topic.Subscriber} will be closed.</p>
          */
         private void nextMessage() {
-            subscriber.receive().handle(this::handleMessage)
-                .handle((v, err) -> {
-                    if (err != null) {
-                        LOG.error("Error requesting message from topic " + topicName
-                                + " for method " + method + " - subscriber will be closed", err);
-                        subscriber.close();
-                    }
-                    return VOID;
-                });
+            if (subscriber.isActive()) {
+                subscriber.receive().handle(this::handleMessage)
+                        .handle((v, err) -> {
+                            if (err != null) {
+                                LOG.error("Error requesting message from topic {} for method {} - subscriber will be closed", topicName, method, err);
+                                subscriber.close();
+                            }
+                            return VOID;
+                        });
+            }
         }
 
         /**
@@ -387,28 +398,78 @@ class CoherenceTopicListenerProcessor
          *
          * @return always returns {@link java.lang.Void} (i.e. {@code null})
          */
+        @SuppressWarnings({"rawtypes", "unchecked"})
         private Void handleMessage(Subscriber.Element<E> element, Throwable throwable) {
-            if (throwable != null) {
-                if (!(throwable instanceof CancellationException)) {
-                    LOG.error("Error receiving message from topic " + topicName
-                            + " for method " + method + " - subscriber will be closed", throwable);
-                    subscriber.close();
+            SubscriberExceptionHandler.Action action = SubscriberExceptionHandler.Action.Continue;
+            Throwable error = null;
+
+            if (throwable == null) {
+                try {
+                    Map<Argument<?>, Object> mapBindings = new HashMap<>();
+                    subscriberArg.ifPresent(arg -> mapBindings.put(arg, subscriber));
+
+                    ExecutableBinder batchBinder = new DefaultExecutableBinder<>(mapBindings);
+                    BoundExecutable boundExecutable = batchBinder.bind(method, registry, element);
+
+                    Object result = boundExecutable.invoke(bean);
+                    handleResult(result);
+                } catch (Throwable thrown) {
+                    error = thrown;
                 }
-                return VOID;
+            } else {
+                error = throwable;
             }
 
-            try {
-                E value = element.getValue();
-                Map<Argument<?>, Object> mapBindings = Collections.singletonMap(Argument.of(value.getClass()), value);
-                ExecutableBinder<E> batchBinder = new DefaultExecutableBinder<>(mapBindings);
-                BoundExecutable<T, R> boundExecutable = batchBinder.bind(method, registry, value);
-
-                Object result = boundExecutable.invoke(bean);
-                handleResult(result);
-            } catch (Throwable t) {
-                LOG.error("Error processing message from topic " + topicName, t);
+            if (error == null) {
+                // message processed successfully, do any commit action
+                try {
+                    if (commitStrategy != CommitStrategy.MANUAL) {
+                        CompletableFuture<Subscriber.CommitResult> future = element.commitAsync();
+                        if (commitStrategy == CommitStrategy.ASYNC) {
+                            // async commit, so log any failure in a future handler
+                            future.handle((result, commitError) -> {
+                                if (commitError != null) {
+                                    // With auto-commit strategies the developer has chosen to ignore commit failures, just log the error
+                                    LOG.error("Error committing element channel={} position={}", element.getChannel(), element.getPosition(), commitError);
+                                } else if (!result.isSuccess()) {
+                                    // With auto-commit strategies the developer has chosen to ignore commit failures, just log the error
+                                    LOG.error("Failed to commit element channel={} position={} status {}", element.getChannel(), element.getPosition(), result);
+                                }
+                                return VOID;
+                            });
+                        } else {
+                            // sync commit so wait for it to complete
+                            Subscriber.CommitResult result = future.join();
+                            if (!result.isSuccess()) {
+                                // With auto-commit strategies the developer has chosen to ignore commit failures, just log the error
+                                LOG.error("Failed to commit element channel={} position={} status {}", element.getChannel(), element.getPosition(), result);
+                            }
+                        }
+                    }
+                } catch (Throwable thrown) {
+                    // With auto-commit strategies the developer has chosen to ignore commit failures, just log the error
+                    LOG.error("Error committing element channel={} position={}", element.getChannel(), element.getPosition(), thrown);
+                }
+            } else if (error instanceof CancellationException) {
+                // cancellation probably due to subscriber closing so we ignore the error
+                action = SubscriberExceptionHandler.Action.Continue;
+            } else {
+                // an error occurred
+                action = handleException(subscriber, method, element, error);
             }
-            nextMessage();
+
+            switch (action) {
+                case Continue:
+                    nextMessage();
+                    break;
+                case Stop:
+                    subscriber.close();
+                    break;
+                default:
+                    LOG.error("Unknown SubscriberExceptionHandler.Action {} closing subscriber", action);
+                    subscriber.close();
+            }
+
             return VOID;
         }
 
@@ -460,25 +521,31 @@ class CoherenceTopicListenerProcessor
          * @param resultFlowable  the flowable result
          * @param isBlocking      {@code true} if the method is blocking
          */
+        @SuppressWarnings({"rawtypes", "unchecked"})
         private void handleResultFlowable(ExecutableMethod<?, ?> method, Flowable<?> resultFlowable, boolean isBlocking) {
             Flowable<?> recordMetadataProducer = resultFlowable.subscribeOn(scheduler)
                     .flatMap((Function<Object, org.reactivestreams.Publisher<?>>) o -> {
                         if (ArrayUtils.isNotEmpty(publishers)) {
                             return Flowable.create(emitter -> {
-                                for (PublisherHolder publisher : publishers) {
-                                    publisher.send(o).handle((ignored, exception) -> {
-                                        if (exception != null) {
-                                            emitter.onError(exception);
-                                        }
-                                        return VOID;
-                                    });
+                                for (Publisher publisher : publishers) {
+                                    if (publisher.isActive()) {
+                                        CompletableFuture<Publisher.Status> future = publisher.publish(o);
+                                        future.handle((status, exception) -> {
+                                            if (exception != null) {
+                                                emitter.onError(exception);
+                                            } else {
+                                                emitter.onNext(status);
+                                            }
+                                            return VOID;
+                                        });
+                                    }
                                 }
                                 emitter.onComplete();
                             }, BackpressureStrategy.ERROR);
                         }
                         return Flowable.empty();
                     }).onErrorResumeNext(throwable -> {
-                        LOG.error("Error processing result from method " + method, throwable);
+                        LOG.error("Error processing result from method {}", method, throwable);
                         return Flowable.empty();
                     });
 
@@ -497,67 +564,26 @@ class CoherenceTopicListenerProcessor
                 });
             }
         }
-    }
 
-    /**
-     * An {@link io.micronaut.core.bind.ArgumentBinderRegistry} for Coherence topic elements.
-     *
-     * @param <E> the type of element
-     */
-    static class ElementArgumentBinderRegistry<E>
-            implements ArgumentBinderRegistry<E> {
-        @Override
-        public <T> Optional<ArgumentBinder<T, E>> findArgumentBinder(Argument<T> argument, E source) {
-            if (argument.getType().isAssignableFrom(source.getClass())) {
-                return Optional.of(new ElementArgumentBinder<>());
+        private SubscriberExceptionHandler.Action handleException(Subscriber<?> subscriber, Object consumerBean, Subscriber.Element<?> element, Throwable e) {
+            CoherenceSubscriberException exception = new CoherenceSubscriberException(
+                    e,
+                    consumerBean,
+                    subscriber,
+                    element
+            );
+            return handleException(consumerBean, exception);
+        }
+
+        private SubscriberExceptionHandler.Action handleException(Object consumerBean, CoherenceSubscriberException exception) {
+            if (consumerBean instanceof SubscriberExceptionHandler) {
+                return ((SubscriberExceptionHandler) consumerBean).handle(exception);
             } else {
-                return Optional.empty();
+                Subscriber.Element<?> element = exception.getElement().orElse(null);
+                Throwable cause = exception.getCause();
+                LOG.error("Closing subscriber due to error processing element [{}] for Coherence subscriber [{}] produced error: {}", element, consumerBean, cause.getMessage(), cause);
+                return SubscriberExceptionHandler.Action.Stop;
             }
-        }
-    }
-
-    /**
-     * An {@link io.micronaut.core.bind.ArgumentBinder} for Coherence topic elements.
-     *
-     * @param <T> the argument type
-     * @param <E> the type of element
-     */
-    static class ElementArgumentBinder<T, E> implements ArgumentBinder<T, E> {
-        @Override
-        @SuppressWarnings("unchecked")
-        public BindingResult<T> bind(ArgumentConversionContext<T> context, E source) {
-            return () -> Optional.of((T) source);
-        }
-    }
-
-    /**
-     * A simple holder for a publisher and topic name.
-     */
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    static class PublisherHolder implements AutoCloseable {
-        private final String topicName;
-        private final Publisher publisher;
-
-        public PublisherHolder(String topicName, Publisher<?> publisher) {
-            this.topicName = topicName;
-            this.publisher = publisher;
-        }
-
-        public String getTopicName() {
-            return topicName;
-        }
-
-        public Publisher<?> getPublisher() {
-            return publisher;
-        }
-
-        @Override
-        public void close() {
-            publisher.close();
-        }
-
-        CompletableFuture<Void> send(Object message) {
-            return publisher.send(message);
         }
     }
 }

@@ -20,14 +20,24 @@ import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import com.oracle.bedrock.testsupport.deferred.Eventually;
-import io.micronaut.coherence.annotation.PropertyExtractor;
-import io.micronaut.coherence.annotation.SubscriberGroup;
-import io.micronaut.coherence.annotation.WhereFilter;
+import com.tangosol.internal.net.topic.impl.paged.PagedTopicCaches;
+import com.tangosol.internal.net.topic.impl.paged.PagedTopicSubscriber;
+import com.tangosol.internal.net.topic.impl.paged.model.SubscriberGroupId;
+import com.tangosol.io.Serializer;
+import com.tangosol.net.CacheService;
+import com.tangosol.net.topic.Position;
+import com.tangosol.util.Binary;
+import com.tangosol.util.ExternalizableHelper;
+import io.micronaut.coherence.annotation.*;
 
 import com.tangosol.net.Coherence;
 import com.tangosol.net.topic.NamedTopic;
@@ -35,8 +45,6 @@ import com.tangosol.net.topic.Publisher;
 
 import com.tangosol.net.topic.Subscriber;
 import data.Person;
-import io.micronaut.coherence.annotation.CoherenceTopicListener;
-import io.micronaut.coherence.annotation.Topic;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.messaging.annotation.SendTo;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
@@ -46,7 +54,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
+import static com.tangosol.net.topic.Subscriber.Name.inGroup;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
@@ -72,6 +82,15 @@ class CoherenceTopicListenerTest {
     ListenerThree listenerThree;
 
     @Inject
+    ListenerFour listenerFour;
+
+    @Inject
+    ListenerFive listenerFive;
+
+    @Inject
+    ListenerSix listenerSix;
+
+    @Inject
     CoherenceTopicListenerProcessor processor;
 
     @BeforeEach
@@ -86,7 +105,7 @@ class CoherenceTopicListenerTest {
         String message = "message one";
 
         try (Publisher<String> publisher = getPublisher("One")) {
-            publisher.send(message);
+            publisher.publish(message);
 
             assertThat(listenerOne.latchOne.await(1, TimeUnit.MINUTES), is(true));
             assertThat(listenerOne.messageOne, is(message));
@@ -103,7 +122,7 @@ class CoherenceTopicListenerTest {
 
         String message = "message two";
         try (Publisher<String> publisher = topic.createPublisher()) {
-            publisher.send(message);
+            publisher.publish(message);
             assertThat(listenerOne.latchTwoFoo.await(1, TimeUnit.MINUTES), is(true));
             assertThat(listenerOne.messageTwoFoo, is(message));
             assertThat(listenerOne.latchTwoBar.await(1, TimeUnit.MINUTES), is(true));
@@ -115,9 +134,9 @@ class CoherenceTopicListenerTest {
     void shouldHaveSubscribedWithFilter() throws Exception {
         try (Publisher<Person> publisher = getPublisher("Three")) {
             Person homer = new Person("Homer", "Simpson", LocalDate.now(), null);
-            publisher.send(new Person("Ned", "Flanders", LocalDate.now(), null));
-            publisher.send(homer);
-            publisher.send(new Person("Apu", "Nahasapeemapetilon", LocalDate.now(), null));
+            publisher.publish(new Person("Ned", "Flanders", LocalDate.now(), null));
+            publisher.publish(homer);
+            publisher.publish(new Person("Apu", "Nahasapeemapetilon", LocalDate.now(), null));
 
             assertThat(listenerOne.latchThree.await(1, TimeUnit.MINUTES), is(true));
             assertThat(listenerOne.messageThree, is(notNullValue()));
@@ -128,7 +147,7 @@ class CoherenceTopicListenerTest {
     @Test
     void shouldHaveSubscribedWithConverter() throws Exception {
         try (Publisher<Person> publisher = getPublisher("People")) {
-            publisher.send(new Person("Homer", "Simpson", LocalDate.now(), null));
+            publisher.publish(new Person("Homer", "Simpson", LocalDate.now(), null));
 
             assertThat(listenerOne.latchPeopleConverted.await(1, TimeUnit.MINUTES), is(true));
             assertThat(listenerOne.messagePeopleConverted, is(notNullValue()));
@@ -140,7 +159,7 @@ class CoherenceTopicListenerTest {
     void shouldHaveSubscribedToTopicFromMethodName() throws Exception {
         try (Publisher<String> publisher = getPublisher("four")) {
             String message = "message four";
-            publisher.send(message);
+            publisher.publish(message);
 
             assertThat(listenerOne.latchFour.await(1, TimeUnit.MINUTES), is(true));
             assertThat(listenerOne.messageFour, is(message));
@@ -158,9 +177,7 @@ class CoherenceTopicListenerTest {
             CompletableFuture<Subscriber.Element<String>> future = subscriber.receive();
 
             String message = "message five";
-System.err.println("****** Publishing message to topic Five");
-            publisher.send(message).join();
-System.err.println("****** Published message to topic Five");
+            publisher.publish(message).join();
 
             Subscriber.Element<String> element = future.get(1, TimeUnit.MINUTES);
             assertThat(element, is(notNullValue()));
@@ -176,9 +193,9 @@ System.err.println("****** Published message to topic Five");
             CompletableFuture<Subscriber.Element<String>> future = subscriber.receive();
 
             String message = "message seven";
-            publisher.send(message).get(1, TimeUnit.MINUTES);
+            publisher.publish(message).get(1, TimeUnit.MINUTES);
 
-            getPublisher("Eight").send("No Message").get(1, TimeUnit.MINUTES);
+            getPublisher("Eight").publish("No Message").get(1, TimeUnit.MINUTES);
             Subscriber.Element<String> element = future.get(1, TimeUnit.MINUTES);
             assertThat(element, is(notNullValue()));
             assertThat(element.getValue(), is("No Message"));
@@ -195,7 +212,7 @@ System.err.println("****** Published message to topic Five");
             CompletableFuture<Subscriber.Element<String>> future2 = subscriber2.receive();
 
             String message = "message nine";
-            publisher.send(message);
+            publisher.publish(message);
 
             Subscriber.Element<String> element = future1.get(1, TimeUnit.MINUTES);
             assertThat(element, is(notNullValue()));
@@ -215,7 +232,7 @@ System.err.println("****** Published message to topic Five");
             CompletableFuture<Subscriber.Element<String>> future = subscriber.receive();
 
             String message = "message twelve";
-            publisher.send(message);
+            publisher.publish(message);
 
             Subscriber.Element<String> element = future.get(1, TimeUnit.MINUTES);
             assertThat(element, is(notNullValue()));
@@ -231,7 +248,7 @@ System.err.println("****** Published message to topic Five");
             CompletableFuture<Subscriber.Element<String>> future = subscriber.receive();
 
             String message = "message fourteen";
-            publisher.send(message);
+            publisher.publish(message);
 
             Subscriber.Element<String> element = future.get(1, TimeUnit.MINUTES);
             assertThat(element, is(notNullValue()));
@@ -247,7 +264,7 @@ System.err.println("****** Published message to topic Five");
             CompletableFuture<Subscriber.Element<Character>> future = subscriber.receive();
 
             String message = "ABC";
-            publisher.send(message);
+            publisher.publish(message);
 
             Subscriber.Element<Character> element = future.get(1, TimeUnit.MINUTES);
             assertThat(element, is(notNullValue()));
@@ -265,10 +282,127 @@ System.err.println("****** Published message to topic Five");
         }
     }
 
-    @SuppressWarnings("unchecked")
-    private <T> Publisher<T> getPublisher(String name) {
+    @Test
+    public void shouldReceiveElementBinderArguments() throws Exception {
+        int channel = 1;
+        try (Publisher<String> publisher = getPublisher("Eighteen", Publisher.OrderBy.id(channel))) {
+            String message = "ABC";
+            Publisher.Status status = publisher.publish(message).get(1, TimeUnit.MINUTES);
+
+            listenerFour.latch.await(1, TimeUnit.MINUTES);
+            assertThat(listenerFour.lastElementOne, is(notNullValue()));
+            assertThat(listenerFour.lastElementOne.getChannel(), is(status.getChannel()));
+            assertThat(listenerFour.lastElementOne.getPosition(), is(status.getPosition()));
+            assertThat(listenerFour.lastElementOne.getValue(), is(message));
+            assertThat(listenerFour.lastElementTwo, is(notNullValue()));
+            assertThat(listenerFour.lastElementTwo.getChannel(), is(status.getChannel()));
+            assertThat(listenerFour.lastElementTwo.getPosition(), is(status.getPosition()));
+            assertThat(listenerFour.lastElementTwo.getValue(), is(message));
+            assertThat(listenerFour.lastSubscriberTwo, is(notNullValue()));
+            assertThat(listenerFour.lastValueThree, is(message));
+            assertThat(listenerFour.lastChannelFour, is(status.getChannel()));
+            assertThat(listenerFour.lastValueFour, is(message));
+            assertThat(listenerFour.lastPositionFive, is(status.getPosition()));
+            assertThat(listenerFour.lastValueFive, is(message));
+            assertThat(listenerFour.lastBinary, is(notNullValue()));
+            Serializer serializer = publisher.getNamedTopic().getService().getSerializer();
+            assertThat(ExternalizableHelper.fromBinary(listenerFour.lastBinary, serializer), is(message));
+        }
+    }
+
+    @Test
+    public void shouldReceiveMessagesForMultipleSubscribersInSameGroup() {
+        AtomicInteger count = new AtomicInteger();
+
+        try (Publisher<String> publisher = getPublisher("Nineteen", Publisher.OrderByValue.value(v -> count.getAndIncrement()))) {
+            for (int i = 0; i < publisher.getChannelCount() * 2; i++) {
+                publisher.publish("message-" + i);
+            }
+
+            int expected = count.get();
+            Eventually.assertDeferred(() -> listenerFive.received(), is(expected));
+            TreeSet<String> set = new TreeSet<>(listenerFive.listOne);
+            set.addAll(listenerFive.listTwo);
+            assertThat(set.size(), is(expected));
+        }
+    }
+
+    @Test
+    public void shouldCommitWithDefaultStrategy() throws Exception {
+        NamedTopic<String> topic = coherence.getSession().getTopic("TwentyDefault");
+        PagedTopicCaches caches = new PagedTopicCaches(topic.getName(), (CacheService) topic.getService());
+        SubscriberGroupId groupId = SubscriberGroupId.withName(ListenerSix.GROUP_ID);
+
+        try (Publisher<String> publisher = topic.createPublisher()) {
+            for (int i = 0 ; i < publisher.getChannelCount(); i++) {
+                publisher.publish("test").get(1, TimeUnit.MINUTES);
+            }
+
+            Eventually.assertDeferred(() -> listenerSix.countDefault.get(), is(not(0)));
+            Eventually.assertDeferred(() -> caches.isCommitted(groupId, listenerSix.element.getChannel(), listenerSix.element.getPosition()), is(true));
+        }
+    }
+
+    @Test
+    public void shouldCommitWithSyncStrategy() throws Exception {
+        NamedTopic<String> topic = coherence.getSession().getTopic("TwentySync");
+        PagedTopicCaches caches = new PagedTopicCaches(topic.getName(), (CacheService) topic.getService());
+        SubscriberGroupId groupId = SubscriberGroupId.withName(ListenerSix.GROUP_ID);
+
+        try (Publisher<String> publisher = topic.createPublisher()) {
+            for (int i = 0 ; i < publisher.getChannelCount(); i++) {
+                publisher.publish("test").get(1, TimeUnit.MINUTES);
+            }
+
+            Eventually.assertDeferred(() -> listenerSix.countSync.get(), is(not(0)));
+            Eventually.assertDeferred(() -> caches.isCommitted(groupId, listenerSix.element.getChannel(), listenerSix.element.getPosition()), is(true));
+        }
+    }
+
+    @Test
+    public void shouldCommitWithAsyncStrategy() {
+        NamedTopic<String> topic = coherence.getSession().getTopic("TwentyAsync");
+        PagedTopicCaches caches = new PagedTopicCaches(topic.getName(), (CacheService) topic.getService());
+        SubscriberGroupId groupId = SubscriberGroupId.withName(ListenerSix.GROUP_ID);
+
+        try (Publisher<String> publisher = topic.createPublisher()) {
+            for (int i = 0 ; i < publisher.getChannelCount(); i++) {
+                publisher.publish("test").join();
+            }
+
+            Eventually.assertDeferred(() -> listenerSix.countAsync.get(), is(not(0)));
+            Eventually.assertDeferred(() -> caches.isCommitted(groupId, listenerSix.element.getChannel(), listenerSix.element.getPosition()), is(true));
+        }
+    }
+
+    @Test
+    public void shouldCommitWithManualStrategy() throws Exception {
+        NamedTopic<String> topic = coherence.getSession().getTopic("TwentyManual");
+        PagedTopicCaches caches = new PagedTopicCaches(topic.getName(), (CacheService) topic.getService());
+        SubscriberGroupId groupId = SubscriberGroupId.withName(ListenerSix.GROUP_ID);
+
+        try (Publisher<String> publisher = topic.createPublisher()) {
+            // publish four messages
+            for (int i = 0; i < 4; i++) {
+                publisher.publish("element-" + i).get(1, TimeUnit.MINUTES);
+            }
+            // should receive four messages
+            Eventually.assertDeferred(() -> listenerSix.countManual.get(), is(4));
+            // fourth message should not be committed
+            assertThat(caches.isCommitted(groupId, listenerSix.element.getChannel(), listenerSix.element.getPosition()), is(false));
+            // publish a fifth message
+            publisher.publish("element-5").get(1, TimeUnit.MINUTES);
+            // should receive fifth messages
+            Eventually.assertDeferred(() -> listenerSix.countManual.get(), is(5));
+            // fifth message should not be committed
+            assertThat(caches.isCommitted(groupId, listenerSix.element.getChannel(), listenerSix.element.getPosition()), is(true));
+        }
+    }
+
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    private <T> Publisher<T> getPublisher(String name, Publisher.Option... options) {
         NamedTopic<String> topic = coherence.getSession().getTopic(name);
-        return (Publisher<T>) topic.createPublisher();
+        return (Publisher<T>) topic.createPublisher(options);
     }
 
     @SuppressWarnings("unchecked")
@@ -327,6 +461,10 @@ System.err.println("****** Published message to topic Five");
             latchPeopleConverted.countDown();
         }
 
+        /**
+         * Receives messages sent to topic "four"
+         */
+        @SuppressWarnings("unused")
         void four(String value) {
             messageFour = value;
             latchFour.countDown();
@@ -401,6 +539,151 @@ System.err.println("****** Published message to topic Five");
                 list.add(c);
             }
             return Observable.fromArray(list.toArray(new Character[0]));
+        }
+    }
+
+    @Singleton
+    @Requires(env = "CoherenceTopicListenerTest")
+    static class ListenerFour {
+
+        CountDownLatch latch = new CountDownLatch(6);
+        Subscriber.Element<String> lastElementOne;
+        Subscriber.Element<String> lastElementTwo;
+        Subscriber<String> lastSubscriberTwo;
+        String lastValueThree;
+        String lastValueFour;
+        int lastChannelFour;
+        String lastValueFive;
+        Position lastPositionFive;
+        Binary lastBinary;
+
+        @Topic("Eighteen")
+        @SubscriberGroup("One")
+        @CoherenceTopicListener
+        void element(Subscriber.Element<String> element) {
+            lastElementOne = element;
+            latch.countDown();
+        }
+
+        @Topic("Eighteen")
+        @SubscriberGroup("Two")
+        @CoherenceTopicListener
+        void subscriberAndElement(Subscriber<String> subscriber, Subscriber.Element<String> element) {
+            lastElementTwo = element;
+            lastSubscriberTwo = subscriber;
+            latch.countDown();
+        }
+
+        @Topic("Eighteen")
+        @SubscriberGroup("Three")
+        @CoherenceTopicListener
+        void value(String s) {
+            lastValueThree = s;
+            latch.countDown();
+        }
+
+        @Topic("Eighteen")
+        @SubscriberGroup("Four")
+        @CoherenceTopicListener
+        void subscriberAndElement(int channel, String s) {
+            lastChannelFour = channel;
+            lastValueFour = s;
+            latch.countDown();
+        }
+
+        @Topic("Eighteen")
+        @SubscriberGroup("Five")
+        @CoherenceTopicListener
+        void subscriberAndElement(Position position, String s) {
+            lastPositionFive = position;
+            lastValueFive = s;
+            latch.countDown();
+        }
+
+        @Topic("Eighteen")
+        @SubscriberGroup("Six")
+        @CoherenceTopicListener
+        void binary(Binary binary) {
+            lastBinary = binary;
+            latch.countDown();
+        }
+    }
+
+    @Singleton
+    @Requires(env = "CoherenceTopicListenerTest")
+    static class ListenerFive {
+
+        private final List<String> listOne = new ArrayList<>();
+        private final  List<String> listTwo = new ArrayList<>();
+        private final  AtomicInteger count = new AtomicInteger();
+
+        @Topic("Nineteen")
+        @SubscriberGroup("test")
+        @CoherenceTopicListener
+        void one(String value) {
+            listOne.add(value);
+            count.incrementAndGet();
+        }
+
+        @Topic("Nineteen")
+        @SubscriberGroup("test")
+        @CoherenceTopicListener
+        void two(String value) {
+            listTwo.add(value);
+            count.incrementAndGet();
+        }
+
+       int received() {
+           return count.get();
+       }
+    }
+
+    @Singleton
+    @Requires(env = "CoherenceTopicListenerTest")
+    static class ListenerSix {
+        public static final String GROUP_ID = "test";
+
+        private final AtomicInteger countManual = new AtomicInteger();
+        private final AtomicInteger countAsync = new AtomicInteger();
+        private final AtomicInteger countSync = new AtomicInteger();
+        private final AtomicInteger countDefault = new AtomicInteger();
+
+        private volatile Subscriber.Element<String> element;
+
+        @Topic("TwentyManual")
+        @SubscriberGroup(GROUP_ID)
+        @CoherenceTopicListener(commitStrategy = CommitStrategy.MANUAL)
+        void one(Subscriber.Element<String> e) {
+            element = e;
+            // manually commit the fifth message
+            if (countManual.get() == 4) {
+                e.commit();
+            }
+            countManual.incrementAndGet();
+        }
+
+        @Topic("TwentyAsync")
+        @SubscriberGroup(GROUP_ID)
+        @CoherenceTopicListener(commitStrategy = CommitStrategy.ASYNC)
+        void two(Subscriber.Element<String> e) {
+            element = e;
+            countAsync.incrementAndGet();
+        }
+
+        @Topic("TwentySync")
+        @SubscriberGroup(GROUP_ID)
+        @CoherenceTopicListener(commitStrategy = CommitStrategy.SYNC)
+        void three(Subscriber.Element<String> e) {
+            element = e;
+            countSync.incrementAndGet();
+        }
+
+        @Topic("TwentyDefault")
+        @SubscriberGroup(GROUP_ID)
+        @CoherenceTopicListener
+        void four(Subscriber.Element<String> e) {
+            element = e;
+            countDefault.incrementAndGet();
         }
     }
 }

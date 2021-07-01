@@ -36,4 +36,10 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Target({ElementType.TYPE, ElementType.METHOD, ElementType.ANNOTATION_TYPE})
 @MessageListener
 public @interface CoherenceTopicListener {
+    /**
+     * The {@link CommitStrategy} to use for the subscriber.
+     *
+     * @return The {@link CommitStrategy}
+     */
+    CommitStrategy commitStrategy() default CommitStrategy.SYNC;
 }

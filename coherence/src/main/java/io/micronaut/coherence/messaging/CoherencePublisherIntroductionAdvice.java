@@ -19,7 +19,6 @@ import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.*;
 
-import javax.annotation.Nonnull;
 import javax.inject.Singleton;
 
 import io.micronaut.aop.InterceptedMethod;
@@ -36,13 +35,14 @@ import io.micronaut.coherence.annotation.Topic;
 import io.micronaut.coherence.annotation.Topics;
 import io.micronaut.coherence.annotation.Utils;
 import io.micronaut.context.BeanContext;
+import io.micronaut.core.annotation.NonNull;
 import io.micronaut.core.async.publisher.Publishers;
 import io.micronaut.core.bind.annotation.Bindable;
 import io.micronaut.core.convert.ConversionService;
 import io.micronaut.core.type.Argument;
 import io.micronaut.core.type.ReturnType;
 import io.micronaut.core.util.StringUtils;
-import io.micronaut.messaging.annotation.Body;
+import io.micronaut.messaging.annotation.MessageBody;
 import io.micronaut.messaging.exceptions.MessagingClientException;
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
@@ -98,7 +98,7 @@ public class CoherencePublisherIntroductionAdvice implements MethodInterceptor<O
 
             for (int i = 0; i < arguments.length; i++) {
                 Argument<?> argument = arguments[i];
-                if (argument.isAnnotationPresent(Body.class)) {
+                if (argument.isAnnotationPresent(MessageBody.class)) {
                     bodyArgument = argument;
                     valueIndex = i;
                 } else if (argument.isAnnotationPresent(Topics.class) || argument.isAnnotationPresent(Topic.class)) {
@@ -223,7 +223,7 @@ public class CoherencePublisherIntroductionAdvice implements MethodInterceptor<O
         }
     }
 
-    @Nonnull
+    @NonNull
     private Publisher<Object> getPublisher(String topicName, String sessionName) {
         TopicKey key = new TopicKey(topicName, sessionName);
 
