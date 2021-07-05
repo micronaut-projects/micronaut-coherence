@@ -187,7 +187,7 @@ public class CoherencePublisherIntroductionAdvice implements MethodInterceptor<O
                     });
                 } else {
                     // return type is a future and value is single message
-                    publisher.send(value).handle((result, exception) -> {
+                    publisher.publish(value).handle((status, exception) -> {
                         if (exception != null) {
                             completableFuture.completeExceptionally(wrapException(context, exception));
                         } else {
@@ -251,8 +251,8 @@ public class CoherencePublisherIntroductionAdvice implements MethodInterceptor<O
         }
 
         Class<?> finalJavaReturnType = javaReturnType;
-        Flowable<Object> sendFlowable = valueFlowable.flatMap(o -> {
-            return Flowable.create(emitter -> publisher.send(o).handle((metadata, exception) -> {
+        Flowable<Object> sendFlowable = valueFlowable.flatMap(o ->
+            Flowable.create(emitter -> publisher.publish(o).handle((metadata, exception) -> {
                 if (exception != null) {
                     emitter.onError(wrapException(context, exception));
                 } else {
@@ -264,8 +264,7 @@ public class CoherencePublisherIntroductionAdvice implements MethodInterceptor<O
                     emitter.onComplete();
                 }
                 return null;
-            }), BackpressureStrategy.BUFFER);
-        });
+            }), BackpressureStrategy.BUFFER));
 
         if (maxBlock != null) {
             sendFlowable = sendFlowable.timeout(maxBlock.toMillis(), TimeUnit.MILLISECONDS);

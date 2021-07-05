@@ -53,7 +53,7 @@ public class DefaultTopicBinder<T> implements ElementBinder<T> {
         Function<Subscriber.Element<?>, Object> timestampLongFunc = e -> e.getTimestamp().toEpochMilli();
 
         this.defaultResolver.put(
-                Argument.of(int.class, "channel"),
+                Argument.of(Integer.class, "channel"),
                 channelFunc
         );
         this.defaultResolver.put(
