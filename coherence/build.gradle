@@ -2,6 +2,7 @@ dependencies {
     api "io.micronaut:micronaut-inject"
     api "io.micronaut:micronaut-messaging"
     api "io.micronaut:micronaut-runtime"
+    api ("javax.inject:javax.inject:1")
 
     compileOnly "com.oracle.coherence.ce:coherence"
     compileOnly "com.oracle.coherence.ce:coherence-json"

@@ -18,9 +18,8 @@ package io.micronaut.cache.coherence;
 import com.tangosol.net.AsyncNamedCache;
 import com.tangosol.net.NamedCache;
 
-import edu.umd.cs.findbugs.annotations.NonNull;
-
 import io.micronaut.cache.AsyncCache;
+import io.micronaut.core.annotation.NonNull;
 import io.micronaut.core.convert.ConversionContext;
 import io.micronaut.core.convert.ConversionService;
 import io.micronaut.core.type.Argument;

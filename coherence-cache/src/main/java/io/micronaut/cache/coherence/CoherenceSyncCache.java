@@ -17,10 +17,9 @@ package io.micronaut.cache.coherence;
 
 import com.tangosol.net.NamedCache;
 
-import edu.umd.cs.findbugs.annotations.NonNull;
-
 import io.micronaut.cache.AbstractMapBasedSyncCache;
 import io.micronaut.cache.AsyncCache;
+import io.micronaut.core.annotation.NonNull;
 import io.micronaut.core.convert.ConversionService;
 
 import java.util.concurrent.ExecutorService;

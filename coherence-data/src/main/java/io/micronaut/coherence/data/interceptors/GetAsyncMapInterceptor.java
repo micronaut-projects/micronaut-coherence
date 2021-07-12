@@ -16,10 +16,10 @@
 package io.micronaut.coherence.data.interceptors;
 
 import com.tangosol.net.AsyncNamedMap;
-import edu.umd.cs.findbugs.annotations.NonNull;
 import io.micronaut.aop.MethodInvocationContext;
 import io.micronaut.coherence.data.ops.CoherenceAsyncRepositoryOperations;
 import io.micronaut.coherence.data.ops.CoherenceRepositoryOperations;
+import io.micronaut.core.annotation.NonNull;
 import io.micronaut.data.intercept.DataInterceptor;
 import io.micronaut.data.intercept.RepositoryMethodKey;
 import io.micronaut.data.operations.RepositoryOperations;

@@ -19,10 +19,9 @@ import com.tangosol.net.Coherence;
 import com.tangosol.net.NamedCache;
 import com.tangosol.net.Session;
 
-import edu.umd.cs.findbugs.annotations.NonNull;
-
 import io.micronaut.cache.DynamicCacheManager;
 import io.micronaut.cache.SyncCache;
+import io.micronaut.core.annotation.NonNull;
 import io.micronaut.core.convert.ConversionService;
 import io.micronaut.scheduling.TaskExecutors;
 

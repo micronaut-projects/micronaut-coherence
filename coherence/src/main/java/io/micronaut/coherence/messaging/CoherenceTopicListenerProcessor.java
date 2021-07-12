@@ -312,7 +312,7 @@ class CoherenceTopicListenerProcessor
          * The subscriber argument.
          */
         @SuppressWarnings("rawtypes")
-        private final Optional<Argument> subscriberArg;
+        private final Optional<Argument<?>> subscriberArg;
 
         /**
          * The {@link ElementArgumentBinderRegistry} to use to bind method arguments.
