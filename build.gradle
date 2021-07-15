@@ -25,10 +25,13 @@ buildscript {
 
 subprojects { Project subproject ->
     group "io.micronaut.coherence"
-
+    ext {
+        micronautVersion = '3.0.0-SNAPSHOT'
+    }
     repositories {
         jcenter()
         mavenCentral()
+        maven { url "https://s01.oss.sonatype.org/content/repositories/snapshots/" }
         maven {
             url "https://oss.sonatype.org/content/repositories/snapshots"
             mavenContent {

@@ -26,6 +26,7 @@ import com.tangosol.util.QueryHelper;
 import io.micronaut.coherence.data.annotation.PersistEventSource;
 import io.micronaut.coherence.data.annotation.RemoveEventSource;
 import io.micronaut.coherence.data.annotation.UpdateEventSource;
+import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.BeanContext;
 import io.micronaut.context.annotation.EachProperty;
 import io.micronaut.context.annotation.Parameter;
@@ -121,24 +122,38 @@ public class DefaultCoherenceRepositoryOperations implements CoherenceRepository
      */
     private final CoherenceAsyncRepositoryOperations asyncOperations;
 
+    /**
+     * Associated {@link ApplicationContext}.
+     */
+    private final ApplicationContext applicationContext;
+
     // ----- constructors ---------------------------------------------------
 
     /**
      * Constructs a new operations instance.
      *
      * @param mapName the name of the {@link NamedMap} (from configuration)
+     * @param applicationContext the {@link ApplicationContext}
      * @param beanContext the {@link BeanContext} used to look up a {@link Session} instance
      */
     protected DefaultCoherenceRepositoryOperations(@Parameter String mapName,
+                                                   ApplicationContext applicationContext,
                                                    BeanContext beanContext) {
         ArgumentUtils.requireNonNull("mapName", mapName);
         ArgumentUtils.requireNonNull("beanContext", beanContext);
+        ArgumentUtils.requireNonNull("applicationContext", beanContext);
         this.mapName = mapName;
         this.beanContext = beanContext;
         this.asyncOperations = beanContext.createBean(DefaultCoherenceAsyncRepositoryOperations.class, this);
+        this.applicationContext = applicationContext;
     }
 
     // ----- CoherenceRepositoryOperations interface ------------------------
+
+    @Override
+    public ApplicationContext getApplicationContext() {
+        return applicationContext;
+    }
 
     @Override
     public <ID, T> NamedMap<ID, T> getNamedMap() {
