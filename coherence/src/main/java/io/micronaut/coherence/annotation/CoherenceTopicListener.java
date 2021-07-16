@@ -15,6 +15,7 @@
  */
 package io.micronaut.coherence.annotation;
 
+import io.micronaut.context.annotation.Executable;
 import io.micronaut.messaging.annotation.MessageListener;
 
 import java.lang.annotation.Documented;
@@ -35,6 +36,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 @Target({ElementType.TYPE, ElementType.METHOD, ElementType.ANNOTATION_TYPE})
 @MessageListener
+@Executable(processOnStartup = true)
 public @interface CoherenceTopicListener {
     /**
      * The {@link CommitStrategy} to use for the subscriber.
