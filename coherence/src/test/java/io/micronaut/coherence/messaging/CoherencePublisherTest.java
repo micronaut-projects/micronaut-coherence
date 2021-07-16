@@ -15,6 +15,9 @@
  */
 package io.micronaut.coherence.messaging;
 
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
@@ -30,8 +33,6 @@ import io.micronaut.coherence.annotation.Topic;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
-import io.reactivex.Observable;
-import io.reactivex.Single;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
@@ -100,7 +101,7 @@ class CoherencePublisherTest {
         CompletableFuture<Subscriber.Element<String>> future = subscriber.receive();
 
         String message = "Testing Two...";
-        Single<Void> sent = publishersOne.sendWithReactiveResponse(message);
+        Mono<Void> sent = publishersOne.sendWithReactiveResponse(message);
 
         sent.toFuture().get(1, TimeUnit.MINUTES);
 
@@ -115,7 +116,7 @@ class CoherencePublisherTest {
         CompletableFuture<Subscriber.Element<String>> future = subscriber.receive();
 
         String message = "Testing Reactive...";
-        Observable<String> observable = Observable.fromArray(message);
+        Flux<String> observable = Flux.fromArray(new String[]{message});
         publishersOne.sendReactive(observable);
 
         Subscriber.Element<String> element = future.get(1, TimeUnit.MINUTES);
@@ -130,7 +131,7 @@ class CoherencePublisherTest {
 
         future = subscriber.receive();
 
-        Observable<String> observable = Observable.fromArray("One", "Two", "Three");
+        Flux<String> observable = Flux.fromArray(new String[]{"One", "Two", "Three"});
         publishersOne.sendReactive(observable);
 
         Subscriber.Element<String> element = future.get(1, TimeUnit.MINUTES);
@@ -154,7 +155,7 @@ class CoherencePublisherTest {
         CompletableFuture<Subscriber.Element<String>> future = subscriber.receive();
 
         String message = "Testing Reactive...";
-        Observable<String> observable = Observable.fromArray(message);
+        Flux<String> observable = Flux.fromArray(new String[]{message});
         CompletableFuture<Void> sendFuture = publishersOne.sendReactiveAsync(observable);
 
         sendFuture.get(1, TimeUnit.MINUTES);
@@ -171,7 +172,7 @@ class CoherencePublisherTest {
 
         future = subscriber.receive();
 
-        Observable<String> observable = Observable.fromArray("One", "Two", "Three");
+        Flux<String> observable = Flux.fromArray(new String[] {"One", "Two", "Three"});
         CompletableFuture<Void> sendFuture = publishersOne.sendReactiveAsync(observable);
 
         sendFuture.get(1, TimeUnit.MINUTES);
@@ -197,8 +198,8 @@ class CoherencePublisherTest {
         CompletableFuture<Subscriber.Element<String>> future = subscriber.receive();
 
         String message = "Testing Reactive...";
-        Observable<String> observable = Observable.fromArray(message);
-        Single<Void> sent = publishersOne.sendReactiveWithReactiveResponse(observable);
+        Flux<String> observable = Flux.fromArray(new String[]{message});
+        Mono<Void> sent = publishersOne.sendReactiveWithReactiveResponse(observable);
 
         sent.toFuture().get(1, TimeUnit.MINUTES);
 
@@ -214,8 +215,8 @@ class CoherencePublisherTest {
 
         future = subscriber.receive();
 
-        Observable<String> observable = Observable.fromArray("One", "Two", "Three");
-        Single<Void> sent = publishersOne.sendReactiveWithReactiveResponse(observable);
+        Flux<String> observable = Flux.fromArray(new String[]{"One", "Two", "Three"});
+        Mono<Void> sent = publishersOne.sendReactiveWithReactiveResponse(observable);
         sent.toFuture().get(1, TimeUnit.MINUTES);
 
         Subscriber.Element<String> element = future.get(1, TimeUnit.MINUTES);
@@ -251,15 +252,15 @@ class CoherencePublisherTest {
         CompletableFuture<Void> sendAsync(String message);
 
         @Topic("Three")
-        Single<Void> sendWithReactiveResponse(String message);
+        Mono<Void> sendWithReactiveResponse(String message);
 
         @Topic("Four")
-        void sendReactive(Observable<String> observable);
+        void sendReactive(Flux<String> observable);
 
         @Topic("Five")
-        CompletableFuture<Void> sendReactiveAsync(Observable<String> observable);
+        CompletableFuture<Void> sendReactiveAsync(Flux<String> observable);
 
         @Topic("Six")
-        Single<Void> sendReactiveWithReactiveResponse(Observable<String> observable);
+        Mono<Void> sendReactiveWithReactiveResponse(Flux<String> observable);
     }
 }

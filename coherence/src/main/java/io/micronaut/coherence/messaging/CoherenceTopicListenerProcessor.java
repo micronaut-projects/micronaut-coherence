@@ -21,6 +21,7 @@ import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.ExecutorService;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import javax.annotation.PreDestroy;
@@ -56,13 +57,12 @@ import io.micronaut.inject.BeanDefinition;
 import io.micronaut.inject.ExecutableMethod;
 
 import io.micronaut.scheduling.TaskExecutors;
-import io.reactivex.BackpressureStrategy;
-import io.reactivex.Flowable;
-import io.reactivex.Scheduler;
-import io.reactivex.functions.Function;
-import io.reactivex.schedulers.Schedulers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.FluxSink;
+import reactor.core.scheduler.Scheduler;
+import reactor.core.scheduler.Schedulers;
 
 /**
  * <p>A processor for processing methods annotated with {@literal @}{@link CoherenceTopicListener}.</p>
@@ -139,7 +139,7 @@ class CoherenceTopicListenerProcessor
                                            ApplicationContext context,
                                            FilterFactories filterFactories,
                                            ExtractorFactories extractorFactories) {
-        this.scheduler = Schedulers.from(executorService);
+        this.scheduler = Schedulers.fromExecutor(executorService);
         this.context = context;
         this.filterFactories = filterFactories;
         this.extractorFactories = extractorFactories;
@@ -501,56 +501,56 @@ class CoherenceTopicListenerProcessor
                             return VOID;
                         });
             } else {
-                Flowable<?> resultFlowable;
+                Flux<?> resultFlux;
                 boolean isBlocking;
                 if (Publishers.isConvertibleToPublisher(result)) {
-                    resultFlowable = Publishers.convertPublisher(result, Flowable.class);
+                    resultFlux = Publishers.convertPublisher(result, Flux.class);
                     isBlocking = method.hasAnnotation(Blocking.class);
                 } else {
-                    resultFlowable = Flowable.just(result);
+                    resultFlux = Flux.just(result);
                     isBlocking = true;
                 }
-                handleResultFlowable(method, resultFlowable, isBlocking);
+                handleResultFlux(method, resultFlux, isBlocking);
             }
         }
 
         /**
-         * Handle a listener method result that is a reactive flowable.
+         * Handle a listener method result that is a reactive flux.
          *
          * @param method          the listener method
-         * @param resultFlowable  the flowable result
+         * @param resultFlux      the flux result
          * @param isBlocking      {@code true} if the method is blocking
          */
         @SuppressWarnings({"rawtypes", "unchecked"})
-        private void handleResultFlowable(ExecutableMethod<?, ?> method, Flowable<?> resultFlowable, boolean isBlocking) {
-            Flowable<?> recordMetadataProducer = resultFlowable.subscribeOn(scheduler)
+        private void handleResultFlux(ExecutableMethod<?, ?> method, Flux<?> resultFlux, boolean isBlocking) {
+            Flux<?> recordMetadataProducer = resultFlux.subscribeOn(scheduler)
                     .flatMap((Function<Object, org.reactivestreams.Publisher<?>>) o -> {
                         if (ArrayUtils.isNotEmpty(publishers)) {
-                            return Flowable.create(emitter -> {
+                            return Flux.create(emitter -> {
                                 for (Publisher publisher : publishers) {
                                     if (publisher.isActive()) {
                                         CompletableFuture<Publisher.Status> future = publisher.publish(o);
                                         future.handle((status, exception) -> {
                                             if (exception != null) {
-                                                emitter.onError(exception);
+                                                emitter.error(exception);
                                             } else {
-                                                emitter.onNext(status);
+                                                emitter.next(status);
                                             }
                                             return VOID;
                                         });
                                     }
                                 }
-                                emitter.onComplete();
-                            }, BackpressureStrategy.ERROR);
+                                emitter.complete();
+                            }, FluxSink.OverflowStrategy.ERROR);
                         }
-                        return Flowable.empty();
-                    }).onErrorResumeNext(throwable -> {
+                        return Flux.empty();
+                    }).onErrorResume(throwable -> {
                         LOG.error("Error processing result from method {}", method, throwable);
-                        return Flowable.empty();
+                        return Flux.empty();
                     });
 
             if (isBlocking) {
-                recordMetadataProducer.blockingSubscribe(recordMetadata -> {
+                recordMetadataProducer.toStream().forEach(recordMetadata -> {
                     if (LOG.isTraceEnabled()) {
                         LOG.trace("Method [{}] produced record metadata: {}", method, recordMetadata);
                     }

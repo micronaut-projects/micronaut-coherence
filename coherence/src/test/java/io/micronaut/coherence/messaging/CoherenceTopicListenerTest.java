@@ -20,17 +20,13 @@ import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import com.oracle.bedrock.testsupport.deferred.Eventually;
 import com.tangosol.internal.net.topic.impl.paged.PagedTopicCaches;
-import com.tangosol.internal.net.topic.impl.paged.PagedTopicSubscriber;
 import com.tangosol.internal.net.topic.impl.paged.model.SubscriberGroupId;
 import com.tangosol.io.Serializer;
 import com.tangosol.net.CacheService;
@@ -48,13 +44,12 @@ import data.Person;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.messaging.annotation.SendTo;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
-import io.reactivex.Observable;
-import io.reactivex.Single;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
-import static com.tangosol.net.topic.Subscriber.Name.inGroup;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -526,19 +521,19 @@ class CoherenceTopicListenerTest {
         @Topic("Fourteen")
         @SendTo("Fifteen")
         @CoherenceTopicListener
-        Single<String> reactiveSingleSendTo(String value) {
-            return Single.fromFuture(CompletableFuture.supplyAsync(value::toUpperCase));
+        Mono<String> reactiveSingleSendTo(String value) {
+            return Mono.fromFuture(CompletableFuture.supplyAsync(value::toUpperCase));
         }
 
         @Topic("Sixteen")
         @SendTo("Seventeen")
         @CoherenceTopicListener
-        Observable<Character> reactiveSendTo(String value) {
+        Flux<Character> reactiveSendTo(String value) {
             List<Character> list = new ArrayList<>();
             for (char c : value.toCharArray()) {
                 list.add(c);
             }
-            return Observable.fromArray(list.toArray(new Character[0]));
+            return Flux.fromArray(list.toArray(new Character[0]));
         }
     }
 

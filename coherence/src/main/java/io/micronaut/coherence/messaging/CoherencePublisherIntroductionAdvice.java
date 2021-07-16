@@ -15,6 +15,9 @@
  */
 package io.micronaut.coherence.messaging;
 
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.FluxSink;
+
 import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.*;
@@ -44,8 +47,6 @@ import io.micronaut.core.type.ReturnType;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.messaging.annotation.MessageBody;
 import io.micronaut.messaging.exceptions.MessagingClientException;
-import io.reactivex.BackpressureStrategy;
-import io.reactivex.Flowable;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 import org.slf4j.Logger;
@@ -140,8 +141,8 @@ public class CoherencePublisherIntroductionAdvice implements MethodInterceptor<O
             InterceptedMethod interceptedMethod = InterceptedMethod.of(context);
             if (isReactiveReturnType) {
                 // return type is a reactive type
-                Flowable<?> flowable = buildSendFlowable(context, publisher, Argument.OBJECT_ARGUMENT, maxBlock, value);
-                return Publishers.convertPublisher(flowable, javaReturnType);
+                Flux<?> flux = buildSendFlux(context, publisher, Argument.OBJECT_ARGUMENT, maxBlock, value);
+                return Publishers.convertPublisher(flux, javaReturnType);
             } else {
                 // return type is a future - must be future of Void
                 Argument<?> returnArg = returnType.getFirstTypeVariable().orElse(Argument.of(Void.class));
@@ -152,7 +153,7 @@ public class CoherencePublisherIntroductionAdvice implements MethodInterceptor<O
 
                 if (isReactiveValue) {
                     // return type is a future and value is reactive
-                    Flowable<?> sendFlowable = buildSendFlowable(
+                    Flux<?> sendFlux = buildSendFlux(
                             context,
                             publisher,
                             returnArg,
@@ -161,11 +162,11 @@ public class CoherencePublisherIntroductionAdvice implements MethodInterceptor<O
                     );
 
                     if (!Publishers.isSingle(value.getClass())) {
-                        sendFlowable = sendFlowable.toList().toFlowable();
+                        sendFlux = sendFlux.collectList().flux();
                     }
 
                     //noinspection ReactiveStreamsSubscriberImplementation
-                    sendFlowable.subscribe(new Subscriber<Object>() {
+                    sendFlux.subscribe(new Subscriber<Object>() {
                         @Override
                         public void onSubscribe(Subscription s) {
                             s.request(1);
@@ -236,14 +237,14 @@ public class CoherencePublisherIntroductionAdvice implements MethodInterceptor<O
         });
     }
 
-    private Flowable<Object> buildSendFlowable(
+    private Flux<Object> buildSendFlux(
             MethodInvocationContext<Object, Object> context,
             Publisher<Object> publisher,
             Argument<?> returnType,
             Duration maxBlock,
             Object value) {
 
-        Flowable<?> valueFlowable = Publishers.convertPublisher(value, Flowable.class);
+        Flux<?> valueFlux = Publishers.convertPublisher(value, Flux.class);
         Class<?> javaReturnType = returnType.getType();
 
         if (Iterable.class.isAssignableFrom(javaReturnType)) {
@@ -251,26 +252,26 @@ public class CoherencePublisherIntroductionAdvice implements MethodInterceptor<O
         }
 
         Class<?> finalJavaReturnType = javaReturnType;
-        Flowable<Object> sendFlowable = valueFlowable.flatMap(o -> {
-            return Flowable.create(emitter -> publisher.send(o).handle((metadata, exception) -> {
+        Flux<Object> sendFlux = valueFlux.flatMap(o -> {
+            return Flux.create(emitter -> publisher.send(o).handle((metadata, exception) -> {
                 if (exception != null) {
-                    emitter.onError(wrapException(context, exception));
+                    emitter.error(wrapException(context, exception));
                 } else {
                     if (finalJavaReturnType.isInstance(o)) {
-                        emitter.onNext(o);
+                        emitter.next(o);
                     } else {
-                        conversionService.convert(metadata, finalJavaReturnType).ifPresent(emitter::onNext);
+                        conversionService.convert(metadata, finalJavaReturnType).ifPresent(emitter::next);
                     }
-                    emitter.onComplete();
+                    emitter.complete();
                 }
                 return null;
-            }), BackpressureStrategy.BUFFER);
+            }), FluxSink.OverflowStrategy.BUFFER);
         });
 
         if (maxBlock != null) {
-            sendFlowable = sendFlowable.timeout(maxBlock.toMillis(), TimeUnit.MILLISECONDS);
+            sendFlux = sendFlux.timeout(maxBlock);
         }
-        return sendFlowable;
+        return sendFlux;
     }
 
     private MessagingClientException wrapException(MethodInvocationContext<Object, Object> context, Throwable exception) {
