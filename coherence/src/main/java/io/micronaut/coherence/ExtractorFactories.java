@@ -23,7 +23,6 @@ import io.micronaut.coherence.annotation.PropertyExtractor;
 import com.tangosol.util.Extractors;
 import com.tangosol.util.ValueExtractor;
 import io.micronaut.context.ApplicationContext;
-import io.micronaut.context.annotation.Any;
 import io.micronaut.context.annotation.Factory;
 import io.micronaut.context.annotation.Prototype;
 import io.micronaut.core.annotation.AnnotationMetadata;
@@ -73,7 +72,6 @@ public class ExtractorFactories {
      * on the injection point
      */
     @Prototype
-    @Any
     @SuppressWarnings({"rawtypes", "unchecked"})
     ValueExtractor<?, ?> extractor(InjectionPoint<?> injectionPoint) {
         List<ValueExtractor> list = new ArrayList<>();

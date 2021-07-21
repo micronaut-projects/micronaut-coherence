@@ -26,7 +26,6 @@ import com.tangosol.net.topic.Subscriber;
 import com.tangosol.util.Filter;
 import com.tangosol.util.ValueExtractor;
 import io.micronaut.context.BeanContext;
-import io.micronaut.context.annotation.Any;
 import io.micronaut.context.annotation.Bean;
 import io.micronaut.context.annotation.Factory;
 import io.micronaut.context.annotation.Prototype;
@@ -76,7 +75,6 @@ class NamedTopicFactories {
     @Bean(preDestroy = "release")
     @Prototype
     @Type(NamedTopic.class)
-    @Any
     <V> NamedTopic<V> getTopic(InjectionPoint<?> injectionPoint) {
         return getTopicInternal(injectionPoint);
     }
@@ -84,7 +82,6 @@ class NamedTopicFactories {
     @Bean(preDestroy = "close")
     @Prototype
     @Type(Publisher.class)
-    @Any
     <V> Publisher<V> getPublisher(InjectionPoint<?> injectionPoint) {
         NamedTopic<V> topic = getTopicInternal(injectionPoint);
         return topic.createPublisher();
@@ -93,7 +90,6 @@ class NamedTopicFactories {
     @Bean(preDestroy = "close")
     @Prototype
     @Type(Subscriber.class)
-    @Any
     @SuppressWarnings({"unchecked", "rawtypes"})
     <V> Subscriber<V> getSubscriber(InjectionPoint<?> injectionPoint) {
         AnnotationMetadata metadata = injectionPoint.getAnnotationMetadata();

@@ -30,7 +30,6 @@ import com.tangosol.util.MapEventTransformer;
 import com.tangosol.util.ValueExtractor;
 import com.tangosol.util.transformer.ExtractorEventTransformer;
 import io.micronaut.context.ApplicationContext;
-import io.micronaut.context.annotation.Any;
 import io.micronaut.context.annotation.Factory;
 import io.micronaut.context.annotation.Prototype;
 import io.micronaut.core.annotation.AnnotationMetadata;
@@ -117,7 +116,6 @@ public class MapEventTransformerFactories {
      * @return a {@link MapEventTransformer} for the specified injection point
      */
     @Prototype
-    @Any
     @SuppressWarnings({"rawtypes", "unchecked"})
     MapEventTransformer transformer(InjectionPoint<?> injectionPoint) {
         AnnotationMetadata metadata = injectionPoint.getAnnotationMetadata();

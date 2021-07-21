@@ -88,7 +88,6 @@ class NamedCacheFactories {
     @Prototype
     @Type({NamedCache.class})
     @Primary
-    @Any
     <K, V> NamedCache<K, V> getCache(InjectionPoint<?> injectionPoint) {
         return getCacheInternal(injectionPoint, false);
     }
@@ -107,7 +106,6 @@ class NamedCacheFactories {
     @Prototype
     @Type(ContinuousQueryCache.class)
     @Secondary
-    @Any
     <K, V_BACK, V_FRONT> ContinuousQueryCache<K, V_BACK, V_FRONT> getNamedView(InjectionPoint<?> injectionPoint) {
         return (ContinuousQueryCache<K, V_BACK, V_FRONT>) getCacheInternal(injectionPoint, true);
     }
@@ -122,7 +120,6 @@ class NamedCacheFactories {
      * @return  the required {@link AsyncNamedCache}
      */
     @Prototype
-    @Any
     <K, V> AsyncNamedCache<K, V> getAsyncCache(InjectionPoint<?> injectionPoint) {
         NamedCache<K, V> cache = getCacheInternal(injectionPoint, false);
         return cache.async();
