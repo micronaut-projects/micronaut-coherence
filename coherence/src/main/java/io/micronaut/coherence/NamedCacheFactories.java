@@ -84,8 +84,9 @@ class NamedCacheFactories {
      *
      * @return  the required {@link NamedCache}
      */
-    @Bean(preDestroy = "release", typed = NamedCache.class)
+    @Bean(preDestroy = "release")
     @Prototype
+    @Type({NamedCache.class})
     @Primary
     <K, V> NamedCache<K, V> getCache(InjectionPoint<?> injectionPoint) {
         return getCacheInternal(injectionPoint, false);
@@ -101,8 +102,9 @@ class NamedCacheFactories {
      *
      * @return  the required {@link ContinuousQueryCache}
      */
-    @Bean(preDestroy = "release", typed = ContinuousQueryCache.class)
+    @Bean(preDestroy = "release")
     @Prototype
+    @Type(ContinuousQueryCache.class)
     @Secondary
     <K, V_BACK, V_FRONT> ContinuousQueryCache<K, V_BACK, V_FRONT> getNamedView(InjectionPoint<?> injectionPoint) {
         return (ContinuousQueryCache<K, V_BACK, V_FRONT>) getCacheInternal(injectionPoint, true);
