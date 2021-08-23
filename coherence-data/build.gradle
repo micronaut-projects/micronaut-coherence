@@ -20,7 +20,7 @@ dependencies {
     testImplementation "com.oracle.coherence.ce:coherence:${coherenceVersion}"
 
     testImplementation "org.hamcrest:hamcrest:2.2"
-    testImplementation "io.micronaut.test:micronaut-test-junit5:2.3.7"
+    testImplementation "io.micronaut.test:micronaut-test-junit5:3.0.0"
     testImplementation "com.oracle.bedrock:bedrock-testing-support:${bedrockVersion}"
     testImplementation "io.micronaut.data:micronaut-data-processor:$micronautDataVersion"
 
