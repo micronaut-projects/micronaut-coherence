@@ -31,8 +31,6 @@ import io.micronaut.context.env.PropertySource;
 import io.micronaut.discovery.config.ConfigurationClient;
 import io.micronaut.runtime.ApplicationConfiguration;
 
-import io.reactivex.Flowable;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -47,6 +45,7 @@ import org.reactivestreams.Publisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import reactor.core.publisher.Flux;
 
 /**
  * A {@link ConfigurationClient} that works with Coherence as a config source.
@@ -59,7 +58,7 @@ public class CoherenceConfigurationClient implements ConfigurationClient {
     private static final String DEFAULT_APPLICATION = "application";
 
     private final ApplicationConfiguration applicationConfiguration;
-    private final List<Flowable<PropertySource>> propertySources = new ArrayList<>();
+    private final List<Flux<PropertySource>> propertySources = new ArrayList<>();
     private final CoherenceClientConfiguration coherenceClientConfiguration;
 
     public CoherenceConfigurationClient(ApplicationConfiguration applicationConfiguration,
@@ -80,10 +79,10 @@ public class CoherenceConfigurationClient implements ConfigurationClient {
             final Integer priority = entry.getKey();
             final String propertySource = entry.getValue();
             NamedMap<String, Object> configMap = session.getMap(propertySource);
-            Flowable<PropertySource> propertySourceFlowable = Flowable.just(PropertySource.of(propertySource, configMap, priority));
-            propertySources.add(propertySourceFlowable);
+            Flux<PropertySource> propertySourceFlux = Flux.just(PropertySource.of(propertySource, configMap, priority));
+            propertySources.add(propertySourceFlux);
         }
-        return Flowable.merge(propertySources);
+        return Flux.merge(propertySources);
     }
 
     /**

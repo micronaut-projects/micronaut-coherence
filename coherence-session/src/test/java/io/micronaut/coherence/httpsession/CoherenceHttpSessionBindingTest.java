@@ -27,12 +27,14 @@ import io.micronaut.runtime.server.EmbeddedServer;
 import io.micronaut.session.Session;
 import io.micronaut.session.annotation.SessionValue;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
-import io.reactivex.Flowable;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
 import javax.inject.Inject;
 import java.util.Optional;
+
+import reactor.core.publisher.Flux;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -49,34 +51,34 @@ public class CoherenceHttpSessionBindingTest {
         try {
             HttpClient client = context.createBean(HttpClient.class, embeddedServer.getURL());
 
-            Flowable<HttpResponse<String>> flowable = Flowable.fromPublisher(client.exchange(HttpRequest.GET("/sessiontest/simple"), String.class));
-            HttpResponse<String> response = flowable.blockingFirst();
+            Flux<HttpResponse<String>> flux = Flux.from(client.exchange(HttpRequest.GET("/sessiontest/simple"), String.class));
+            HttpResponse<String> response = flux.blockFirst();
 
             assertEquals("not in session", response.getBody().get());
             assertNotNull(response.header(HttpHeaders.AUTHORIZATION_INFO));
 
             String sessionId = response.header(HttpHeaders.AUTHORIZATION_INFO);
-            flowable = Flowable.fromPublisher(client.exchange(
+            flux = Flux.from(client.exchange(
                     HttpRequest.GET("/sessiontest/simple").header(HttpHeaders.AUTHORIZATION_INFO, sessionId),
                     String.class));
-            response = flowable.blockingFirst();
+            response = flux.blockFirst();
 
             assertEquals("value in session", response.getBody().get());
             assertNotNull(response.header(HttpHeaders.AUTHORIZATION_INFO));
 
 
-            flowable = Flowable.fromPublisher(client.exchange(
+            flux = Flux.from(client.exchange(
                     HttpRequest.GET("/sessiontest/value").header(HttpHeaders.AUTHORIZATION_INFO, sessionId),
                     String.class));
-            response = flowable.blockingFirst();
+            response = flux.blockFirst();
             assertEquals("value in session", response.getBody().get());
             assertNotNull(response.header(HttpHeaders.AUTHORIZATION_INFO));
 
 
-            flowable = Flowable.fromPublisher(client.exchange(
+            flux = Flux.from(client.exchange(
                     HttpRequest.GET("/sessiontest/optional").header(HttpHeaders.AUTHORIZATION_INFO, sessionId),
                     String.class));
-            response = flowable.blockingFirst();
+            response = flux.blockFirst();
             assertEquals("value in session", response.getBody().get());
             assertNotNull(response.header(HttpHeaders.AUTHORIZATION_INFO));
         } finally {

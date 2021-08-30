@@ -29,8 +29,6 @@ import io.micronaut.context.env.PropertySource;
 import io.micronaut.runtime.ApplicationConfiguration;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 
-import io.reactivex.Flowable;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -45,6 +43,8 @@ import org.junit.jupiter.api.TestInstance;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.reactivestreams.Publisher;
+
+import reactor.core.publisher.Flux;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.arrayContainingInAnyOrder;
@@ -128,8 +128,7 @@ class CoherenceConfigurationClientTest {
         };
 
         Publisher<PropertySource> propertySourcePublisher = client.getPropertySources(context.getEnvironment());
-        Iterable<PropertySource> propsIt = Flowable.fromPublisher(propertySourcePublisher)
-                .blockingIterable();
+        Iterable<PropertySource> propsIt = Flux.from(propertySourcePublisher).toIterable();
 
         Map<String, PropertySource> propertySources = StreamSupport.stream(propsIt.spliterator(), false)
                 .collect(Collectors.toMap(PropertySource::getName, Function.identity()));

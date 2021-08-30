@@ -3,8 +3,7 @@ dependencies {
     api "io.micronaut:micronaut-messaging"
     api "io.micronaut:micronaut-runtime"
     api "javax.inject:javax.inject:1"
-    api "io.reactivex.rxjava2:rxjava:${rxjavaVersion}"
-    api "io.micronaut.reactor:micronaut-reactor"
+    implementation("io.micronaut.reactor:micronaut-reactor")
 
     compileOnly "com.oracle.coherence.ce:coherence"
     compileOnly "com.oracle.coherence.ce:coherence-json"
