@@ -340,6 +340,7 @@ class CoherenceTopicListenerProcessor
          * @param registry         the {@link ElementArgumentBinderRegistry} to use to bind method arguments
          * @param scheduler        the scheduler service
          */
+        @SuppressWarnings({"rawtypes", "unchecked"})
         TopicSubscriber(String topicName, Subscriber<E> subscriber, Publisher<?>[] publishers, T bean,
                         ExecutableMethod<T, R> method, ElementArgumentBinderRegistry registry, Scheduler scheduler) {
             this.topicName = topicName;
@@ -349,8 +350,9 @@ class CoherenceTopicListenerProcessor
             this.method = method;
             this.registry = registry;
             this.scheduler = scheduler;
+            Class<? extends Subscriber> cls = subscriber.getClass();
             this.subscriberArg = Arrays.stream(method.getArguments())
-                    .filter(arg -> Subscriber.class.isAssignableFrom(arg.getType()))
+                    .filter(arg -> Subscriber.class.isAssignableFrom(arg.getType()) && arg.getType().isAssignableFrom(cls))
                     .findFirst();
             this.commitStrategy = method.getValue(CoherenceTopicListener.class, "commitStrategy", CommitStrategy.class)
                                         .orElse(CommitStrategy.SYNC);

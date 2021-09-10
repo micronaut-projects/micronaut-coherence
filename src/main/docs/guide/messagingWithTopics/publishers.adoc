@@ -18,7 +18,7 @@ public interface ProductClient {
 }
 ----
 
-<1> The ``@CoherencePublisher`` annotation is used to designate this interface as a message publisher.
+<1> The `@CoherencePublisher` annotation is used to designate this interface as a message publisher.
 <2> The `@Topic` annotation indicates which topics the message should be published to
 <3> The method defines a single parameter, which is the message value. In this case the values being published are String instances but they could be any type that can be serialized by Coherence.
 <4> It is also possible for the topic to be dynamic by making it a method argument annotated with .

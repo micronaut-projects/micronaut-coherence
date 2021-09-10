@@ -188,7 +188,7 @@ public class CoherencePublisherIntroductionAdvice implements MethodInterceptor<O
                     });
                 } else {
                     // return type is a future and value is single message
-                    publisher.send(value).handle((result, exception) -> {
+                    publisher.publish(value).handle((status, exception) -> {
                         if (exception != null) {
                             completableFuture.completeExceptionally(wrapException(context, exception));
                         } else {
