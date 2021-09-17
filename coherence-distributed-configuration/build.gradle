@@ -3,7 +3,7 @@ dependencies {
     implementation project(':coherence-grpc-client')
     api "io.micronaut:micronaut-inject"
     api "io.micronaut:micronaut-runtime"
-    implementation "io.micronaut.discovery:micronaut-discovery-client:2.5.0"
+    implementation "io.micronaut.discovery:micronaut-discovery-client:3.0.0"
     implementation("io.micronaut.reactor:micronaut-reactor")
     compileOnly "com.oracle.coherence.ce:coherence"
 
