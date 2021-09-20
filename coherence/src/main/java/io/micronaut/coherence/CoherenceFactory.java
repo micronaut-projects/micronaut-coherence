@@ -55,6 +55,14 @@ class CoherenceFactory {
     private final BeanContext beanContext;
 
     /**
+     * Property controlling the overall {@code mode} of the Coherence instance.
+     * Value values are {@code ClusterMember} or {@code Client}.  If not configured,
+     * it will default to {@code ClusterMember}.
+     */
+    @Property(name = "coherence.type", defaultValue = "ClusterMember")
+    protected String mode;
+
+    /**
      * Create a {@link CacheFactory} bean.
      *
      * @param beanContext  the micronaut bean context
@@ -108,13 +116,16 @@ class CoherenceFactory {
             synchronized (this) {
                 coherence = Coherence.getInstance(Coherence.DEFAULT_NAME);
                 if (coherence == null) {
+                    Coherence.Mode cohMode = getMode();
                     CoherenceConfiguration cfg = CoherenceConfiguration.builder()
-                            .withSessions(CoherenceFactory.collectConfigurations(configurations, providers))
+                            .withSessions(CoherenceFactory.collectConfigurations(cohMode, configurations, providers))
                             .withEventInterceptors(lifecycleListeners)
                             .withEventInterceptors(listenerProcessor.getInterceptors())
                             .build();
 
-                    coherence = Coherence.clusterMember(cfg);
+                    coherence = Coherence.Mode.Client.equals(cohMode)
+                                    ? Coherence.client(cfg)
+                                    : Coherence.clusterMember(cfg);
                 }
             }
         }
@@ -170,16 +181,27 @@ class CoherenceFactory {
      * <p>If two configurations with the same {@link com.tangosol.net.SessionConfiguration#getName() name} are found
      * the first one discovered wins.</p>
      *
+     * @param mode           the {@link Coherence.Mode mode} the {@link Coherence} instance is for
      * @param configurations the {@link com.tangosol.net.SessionConfiguration} beans
      * @param providers      the {@link SessionConfigurationProvider} beans
      *
      * @return the definitive collection of configurations to use
      */
-    static Collection<SessionConfiguration> collectConfigurations(SessionConfiguration[] configurations,
+    static Collection<SessionConfiguration> collectConfigurations(Coherence.Mode mode,
+                                                                  SessionConfiguration[] configurations,
                                                                   SessionConfigurationProvider[] providers) {
 
         List<SessionConfiguration> allConfigs = new ArrayList<>(Arrays.asList(configurations));
+        boolean filterServerSessions = Coherence.Mode.Client.equals(mode);
+
         Arrays.stream(providers)
+                .filter(p -> {
+                    if (p instanceof AbstractSessionConfigurationBean) {
+                        AbstractSessionConfigurationBean b = (AbstractSessionConfigurationBean) p;
+                        return !filterServerSessions || !b.getType().equals(SessionType.server);
+                    }
+                    return false;
+                })
                 .map(SessionConfigurationProvider::getConfiguration)
                 .filter(Optional::isPresent)
                 .map(Optional::get)
@@ -190,11 +212,8 @@ class CoherenceFactory {
 
         Map<String, SessionConfiguration> configMap = new HashMap<>();
         for (SessionConfiguration cfg : allConfigs) {
-            if (cfg != null && cfg.isEnabled()) {
-                String name = cfg.getName();
-                if (!configMap.containsKey(name)) {
-                    configMap.put(name, cfg);
-                }
+            if (cfg.isEnabled()) {
+                configMap.putIfAbsent(cfg.getName(), cfg);
             }
         }
 
@@ -216,6 +235,14 @@ class CoherenceFactory {
             LOG.info("Stopping Coherence");
             Coherence.closeAll();
             LOG.info("Stopped Coherence");
+        }
+    }
+
+    protected Coherence.Mode getMode() {
+        try {
+            return Coherence.Mode.valueOf(mode);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Invalid Coherence mode configured: " + mode);
         }
     }
 }

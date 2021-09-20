@@ -1,5 +1,6 @@
 coherence:
   cluster: test-cluster
+  type: "ClusterMember"
   role: test
   ttl: 0
   distributed:

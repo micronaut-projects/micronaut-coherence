@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 original authors
+ * Copyright 2021 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,68 +15,54 @@
  */
 package io.micronaut.coherence;
 
-import javax.inject.Inject;
-
-import io.micronaut.coherence.annotation.Name;
-
-import com.tangosol.net.Cluster;
 import com.tangosol.net.Coherence;
 import com.tangosol.net.Session;
-
+import io.micronaut.coherence.annotation.Name;
 import io.micronaut.context.BeanContext;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
+import javax.inject.Inject;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertThrows;
 
-@MicronautTest(propertySources = "classpath:sessions.yaml")
+@MicronautTest(propertySources = "classpath:client-sessions.yaml")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class CoherenceFactoryTest {
+class ClientCoherenceFactoryTest {
 
     @Inject
     BeanContext context;
 
     @Inject
-    Session defaultSession;
-
-    @Inject
-    @Name("test")
-    Session testSession;
-
-    @Inject
-    Cluster cluster;
+    @Name("extend")
+    Session extendSession;
 
     @Inject
     Coherence coherence;
 
     @Test
     public void shouldInjectSessions() {
-        assertThat(defaultSession, is(notNullValue()));
-        assertThat(defaultSession.getScopeName(), is(Coherence.DEFAULT_SCOPE));
-
-        assertThat(testSession, is(notNullValue()));
-        assertThat(testSession.getScopeName(), is("Test"));
+        assertThat(extendSession, is(notNullValue()));
     }
 
     @Test
     public void shouldGetSessionByName() {
-        Session session = context.createBean(Session.class, "test");
+        Session session = context.createBean(Session.class, "extend");
         assertThat(session, is(notNullValue()));
-        assertThat(session.getScopeName(), is("Test"));
     }
 
     @Test
-    void shouldInjectCluster() {
-        assertThat(cluster, is(notNullValue()));
-        assertThat(cluster.getLocalMember().getClusterName(), is("test-cluster"));
-        assertThat(cluster.getLocalMember().getRoleName(), is("test"));
+    public void shouldNotHaveServerSessions() {
+        assertThrows(Exception.class, () -> context.createBean(Session.class));
     }
 
     @Test
     void shouldHaveExpectedType() {
-        assertThat(coherence.getMode(), is(Coherence.Mode.ClusterMember));
+        assertThat(coherence.getMode(), is(Coherence.Mode.Client));
     }
 }
