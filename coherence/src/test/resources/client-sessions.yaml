@@ -1,0 +1,15 @@
+coherence:
+  cluster: test-cluster
+  type: Client
+  role: client
+  sessions:
+    test:
+      type: server
+      scopeName: Test
+      config: test-coherence-config.xml
+    grpc:
+      type: grpc
+      channel: foo
+    extend:
+      type: client
+      config: coherence-cache-config.xml
