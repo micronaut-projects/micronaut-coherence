@@ -876,12 +876,12 @@ This makes the applications easier to develop, test and reason about, and the co
 </div>
 <div class="paragraph">
 <p>Micronaut Coherence allows you to do the same for Coherence objects, such as
-<a href="https://coherence.community/21.06-M2/api/java//com/tangosol/net/Session.html">Session</a>,
-<a href="https://coherence.community/21.06-M2/api/java//com/tangosol/net/NamedMap.html">NamedMap</a>,
-<a href="https://coherence.community/21.06-M2/api/java//com/tangosol/net/NamedCache.html">NamedCache</a>,
-<a href="https://coherence.community/21.06-M2/api/java//com/tangosol/net/ContinuousQueryCache.html">ContinuousQueryCache</a>,
-<a href="https://coherence.community/21.06-M2/api/java//com/tangosol/net/ConfigurableCacheFactory.html">ConfigurableCacheFactory</a>,
-<a href="https://coherence.community/21.06-M2/api/java//com/tangosol/net/Cluster.html">Cluster</a>, etc&#8230;&#8203;</p>
+<a href="https://coherence.community/latest/21.06/api/java/index.html/com/tangosol/net/Session.html">Session</a>,
+<a href="https://coherence.community/latest/21.06/api/java/index.html/com/tangosol/net/NamedMap.html">NamedMap</a>,
+<a href="https://coherence.community/latest/21.06/api/java/index.html/com/tangosol/net/NamedCache.html">NamedCache</a>,
+<a href="https://coherence.community/latest/21.06/api/java/index.html/com/tangosol/net/ContinuousQueryCache.html">ContinuousQueryCache</a>,
+<a href="https://coherence.community/latest/21.06/api/java/index.html/com/tangosol/net/ConfigurableCacheFactory.html">ConfigurableCacheFactory</a>,
+<a href="https://coherence.community/latest/21.06/api/java/index.html/com/tangosol/net/Cluster.html">Cluster</a>, etc&#8230;&#8203;</p>
 </div>
 
 <h2 id="injectNamedMap"><a class="anchor" href="#injectNamedMap"></a>6.1 Injecting NamedMap & NamedCache</h2>
@@ -894,7 +894,7 @@ This makes the applications easier to develop, test and reason about, and the co
 
 
 <div class="paragraph">
-<p>Coherence <a href="https://coherence.community/21.06-M2/api/java//com/tangosol/net/NamedMap.html">NamedMap</a> and <a href="https://coherence.community/21.06-M2/api/java//com/tangosol/net/NamedCache.html">NamedCache</a> instances can be injected as beans in Micronaut applications.
+<p>Coherence <a href="https://coherence.community/latest/21.06/api/java/index.html/com/tangosol/net/NamedMap.html">NamedMap</a> and <a href="https://coherence.community/latest/21.06/api/java/index.html/com/tangosol/net/NamedCache.html">NamedCache</a> instances can be injected as beans in Micronaut applications.
 The mechanics of injecting <code>NamedMap</code> or <code>NamedCache</code> beans is identical, so any use of <code>NamedMap</code> in the examples below can be replaced with <code>NamedCache</code>. Other more specialized forms of <code>NamedMap</code> and <code>NamedCache</code> can also be injected,
 for example the asynchronous forms of both classes, as well as views.</p>
 </div>
@@ -949,7 +949,7 @@ public class SomeBean {
 <h2 id="_specify_the_owning_session_name">Specify the Owning Session Name</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Whilst most applications probably use a single Coherence <a href="https://coherence.community/21.06-M2/api/java//com/tangosol/net/Session.html">Session</a> there are uses-cases where an application may
+<p>Whilst most applications probably use a single Coherence <a href="https://coherence.community/latest/21.06/api/java/index.html/com/tangosol/net/Session.html">Session</a> there are uses-cases where an application may
 have multiple sessions. In this case, when injecting a <code>NamedMap</code> the specific session can be specified
 by annotating the injection point with <a href="../api/io/micronaut/coherence/annotation/SessionName.html">@SessionName</a>.</p>
 </div>
@@ -996,7 +996,7 @@ public class CatalogController {
 
 
 <div class="paragraph">
-<p>It is possible to inject the asynchronous classes <a href="https://coherence.community/21.06-M2/api/java//com/tangosol/net/AsyncNamedMap.html">AsyncNamedMap</a> and <a href="https://coherence.community/21.06-M2/api/java//com/tangosol/net/AsyncNamedCache.html">AsyncNamedCache</a> as beans in exactly the same way as described above. Just change the type of the injection point to be <code>AsyncNamedMap</code> or <code>AsyncNamedCache</code>.</p>
+<p>It is possible to inject the asynchronous classes <a href="https://coherence.community/latest/21.06/api/java/index.html/com/tangosol/net/AsyncNamedMap.html">AsyncNamedMap</a> and <a href="https://coherence.community/latest/21.06/api/java/index.html/com/tangosol/net/AsyncNamedCache.html">AsyncNamedCache</a> as beans in exactly the same way as described above. Just change the type of the injection point to be <code>AsyncNamedMap</code> or <code>AsyncNamedCache</code>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1016,9 +1016,9 @@ private AsyncNamedMap&lt;String, Person&gt; map;</code></pre>
 
 
 <div class="paragraph">
-<p>View (or <a href="https://coherence.community/21.06-M2/api/java//com/tangosol/net/ContinuousQueryCache.html">ContinuousQueryCache</a>) beans can be injected by specifying the
+<p>View (or <a href="https://coherence.community/latest/21.06/api/java/index.html/com/tangosol/net/ContinuousQueryCache.html">ContinuousQueryCache</a>) beans can be injected by specifying the
 <a href="../api/io/micronaut/coherence/annotation/View.html">@View</a> annotation at the injection point.
-A view is a sub-set of the data in an underlying cache, controlled by a <a href="https://coherence.community/21.06-M2/api/java//com/tangosol/util/Filter.html">Filter</a>.</p>
+A view is a sub-set of the data in an underlying cache, controlled by a <a href="https://coherence.community/latest/21.06/api/java/index.html/com/tangosol/util/Filter.html">Filter</a>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1039,7 +1039,7 @@ of a <code>ContinuousQueryCache</code>.</td>
 </div>
 <div class="paragraph">
 <p>In the above example, no <code>Filter</code> has been specified, so the default behaviour is to use
-an <a href="https://coherence.community/21.06-M2/api/java//com/tangosol/util/filter/AlwaysFilter.html">AlwaysFilter</a>.
+an <a href="https://coherence.community/latest/21.06/api/java/index.html/com/tangosol/util/filter/AlwaysFilter.html">AlwaysFilter</a>.
 This means that the view will contain all the entries from the underlying cache (typically a distributed cache).
 As a <code>ContinuousQueryCache</code> will hold keys and values locally in deserialized form this can often a better approach
 than using a replicated cache.</p>
@@ -1077,7 +1077,7 @@ private NamedMap&lt;String, Person&gt; simpsons;</code></pre>
 <p>Other built-in or custom filter binding annotations can be used.
 Multiple filter-binding annotations can be added to the same injection point to build up more complex
 views. The <code>Filter</code> instances produced from each filter binding annotation will all be collected together in
-an <a href="https://coherence.community/21.06-M2/api/java//com/tangosol/util/filter/AllFilter.html">AllFilter</a>, which will logically AND then together.</p>
+an <a href="https://coherence.community/latest/21.06/api/java/index.html/com/tangosol/util/filter/AllFilter.html">AllFilter</a>, which will logically AND then together.</p>
 </div>
 <div class="paragraph">
 <p>For example:</p>
@@ -1102,7 +1102,7 @@ attribute greater than 10. Equivalent to <code>lastName = 'Simpson' &amp;&amp; a
 <h2 id="_specify_a_view_transformer">Specify a View Transformer</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The values in a view map do not have to be the same as the value sin the underlying cache, a <a href="https://coherence.community/21.06-M2/api/java//com/tangosol/util/ValueExtractor.html">ValueExtractor</a> can be used to transform the actual cache value into a different value in the view.
+<p>The values in a view map do not have to be the same as the value sin the underlying cache, a <a href="https://coherence.community/latest/21.06/api/java/index.html/com/tangosol/util/ValueExtractor.html">ValueExtractor</a> can be used to transform the actual cache value into a different value in the view.
 ValueExtractor are specified for views using a special extractor binding annotation.
 These are annotations that are themselves annotated with the meta-annotation
 <a href="../api/io/micronaut/coherence/annotation/ExtractorBinding.html">@ExtractorBinding</a>.
@@ -1162,7 +1162,7 @@ private NamedMap&lt;String, Integer&gt; ages;     <i class="conum" data-value="4
 
 
 <div class="paragraph">
-<p>Coherence <a href="https://coherence.community/21.06-M2/api/java//com/tangosol/net/topic/NamedTopic.html">NamedTopic</a>
+<p>Coherence <a href="https://coherence.community/latest/21.06/api/java/index.html/com/tangosol/net/topic/NamedTopic.html">NamedTopic</a>
 instances can be injected as beans in Micronaut applications.</p>
 </div>
 <div class="paragraph">
@@ -1222,7 +1222,7 @@ public class SomeBean {
 <h2 id="_specify_the_session_name">Specify the Session Name</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Whilst most applications probably use a single Coherence <a href="https://coherence.community/21.06-M2/api/java//com/tangosol/net/Session.html">Session</a> there are uses-cases where an application may
+<p>Whilst most applications probably use a single Coherence <a href="https://coherence.community/latest/21.06/api/java/index.html/com/tangosol/net/Session.html">Session</a> there are uses-cases where an application may
 have multiple sessions. In this case, when injecting a <code>NamedTopic</code> the specific session can be specified
 by annotating the injection point with <a href="../api/io/micronaut/coherence/annotation/SessionName.html">@SessionName</a>.</p>
 </div>
@@ -1271,7 +1271,7 @@ public class OrderProcessor {
 
 <div class="paragraph">
 <p>If application code only needs to publish messages to a Coherence <code>NamedTopic</code> then instead of injecting a
-<code>NamedTopic</code> bean, a <a href="https://coherence.community/21.06-M2/api/java//com/tangosol/net/topic/Publisher.html">Publisher</a> bean can be injected.</p>
+<code>NamedTopic</code> bean, a <a href="https://coherence.community/latest/21.06/api/java/index.html/com/tangosol/net/topic/Publisher.html">Publisher</a> bean can be injected.</p>
 </div>
 <div class="paragraph">
 <p>The simplest way to inject a <code>Publisher</code> is just to annotate the injection point of type <code>Publisher</code> with <code>@Inject</code>,
@@ -1346,7 +1346,7 @@ private Publisher&lt;Order&gt; orders;</code></pre>
 
 <div class="paragraph">
 <p>If application code only needs to subscribe to messages from a Coherence <code>NamedTopic</code> then instead of injecting a
-<code>NamedTopic</code> bean, a <a href="https://coherence.community/21.06-M2/api/java//com/tangosol/net/topic/Subscriber.html">Subscriber</a> bean can be injected.</p>
+<code>NamedTopic</code> bean, a <a href="https://coherence.community/latest/21.06/api/java/index.html/com/tangosol/net/topic/Subscriber.html">Subscriber</a> bean can be injected.</p>
 </div>
 <div class="paragraph">
 <p>The simplest way to inject a <code>Subscriber</code> is just to annotate the injection point of type <code>Subscriber</code> with <code>@Inject</code>,
@@ -1421,7 +1421,7 @@ private Subscriber&lt;Order&gt; orders;</code></pre>
 
 <div class="paragraph">
 <p>A <code>Subscriber</code> can filter the messages that it receives from the <code>NamedTopic</code> by using a
-<a href="https://coherence.community/21.06-M2/api/java//com/tangosol/util/Filter.html">Filter</a>.
+<a href="https://coherence.community/latest/21.06/api/java/index.html/com/tangosol/util/Filter.html">Filter</a>.
 Filtering of messages takes place on the server, so for use cases where the application is only interested in a sub-set of messages, this can be more efficient than bringing all messages back to the client for processing.</p>
 </div>
 <div class="paragraph">
@@ -1471,7 +1471,7 @@ public class OrderController {
 
 <div class="paragraph">
 <p>A <code>Subscriber</code> can be configured to receive just a part of a <code>NamedTopic</code> message using a
-<a href="https://coherence.community/21.06-M2/api/java//com/tangosol/util/ValueExtractor.html">ValueExtractor</a>.
+<a href="https://coherence.community/latest/21.06/api/java/index.html/com/tangosol/util/ValueExtractor.html">ValueExtractor</a>.
 The message transformation happens on the server so in use-cases where a <code>Subscriber</code> only requires a part of a message, it can be much more efficient to extract the required parts on the server instead of bringing the full payload back to the client.</p>
 </div>
 <div class="paragraph">
@@ -1526,7 +1526,7 @@ public class OrderController {
 <div class="paragraph">
 <p>Sometimes it might not be possible to inject a Coherence resource, such as <code>NamedMap</code> or <code>NamedCache</code> directly because
 the name of the resource to be injected is not known until runtime. In this case it makes sense to inject a
-<a href="https://coherence.community/21.06-M2/api/java/com/tangosol/net/Session.html">Session</a> instance which can then be used to obtain other resources.</p>
+<a href="https://coherence.community/latest/21.06/api/java/index.htmlcom/tangosol/net/Session.html">Session</a> instance which can then be used to obtain other resources.</p>
 </div>
 <div class="paragraph">
 <p>The simplest way to inject a <code>Session</code> is just to annotate a field, method parameter, or other injection point.</p>
@@ -1609,8 +1609,8 @@ The named <code>Session</code> must have previously been configured when <a href
 Coherence produces a number of events that can be used by applications to respond to data changes and other actions in Coherence.</p>
 </div>
 <div class="paragraph">
-<p>There are two types of events in Coherence. There are <a href="https://coherence.community/21.06-M2/api/java/com/tangosol/util/MapEvent.html">MapEvents</a>,
-that in a traditional Coherence application are subscribed to using <a href="https://coherence.community/21.06-M2/api/java/com/tangosol/util/MapListener.html">MapListener</a> and there are a number of different types of <a href="https://coherence.community/21.06-M2/api/java/com/tangosol/net/events/Event.html">Event</a>, that are in a traditional Coherence application are subscribed to using an <a href="https://coherence.community/21.06-M2/api/java/com/tangosol/net/events/EventInterceptor.html">EventInterceptor</a>.</p>
+<p>There are two types of events in Coherence. There are <a href="https://coherence.community/latest/21.06/api/java/index.htmlcom/tangosol/util/MapEvent.html">MapEvents</a>,
+that in a traditional Coherence application are subscribed to using <a href="https://coherence.community/latest/21.06/api/java/index.htmlcom/tangosol/util/MapListener.html">MapListener</a> and there are a number of different types of <a href="https://coherence.community/latest/21.06/api/java/index.htmlcom/tangosol/net/events/Event.html">Event</a>, that are in a traditional Coherence application are subscribed to using an <a href="https://coherence.community/latest/21.06/api/java/index.htmlcom/tangosol/net/events/EventInterceptor.html">EventInterceptor</a>.</p>
 </div>
 <div class="paragraph">
 <p>Micronaut makes subscribing to both of these event types much simpler, using observer methods annotated with
@@ -1645,13 +1645,13 @@ void onEvent(CoherenceLifecycleEvent event) {
 
 <div class="paragraph">
 <p>Listening for changes to data in Coherence is a common use case in applications.
-Typically this involves creating an implementation of a <a href="https://coherence.community/21.06-M2/api/java/com/tangosol/util/MapListener.html">MapListener</a>
+Typically this involves creating an implementation of a <a href="https://coherence.community/latest/21.06/api/java/index.htmlcom/tangosol/util/MapListener.html">MapListener</a>
  and adding that listener to a <code>NamedMap</code> or <code>NamedCache</code>. Using Coherence Micronaut makes this much simpler by just requiring Micronaut beans with suitably annotated observer methods that will receive events.</p>
 </div>
 <div class="sect2">
 <h3 id="_mapevent_observer_methods">MapEvent Observer Methods</h3>
 <div class="paragraph">
-<p>A <a href="https://coherence.community/21.06-M2/api/java/com/tangosol/util/MapEvent.html">MapEvent</a> observer method is a method on a Micronaut bean that is annotated with <a href="../api/io/micronaut/coherence/annotation/CoherenceEventListener.html">@CoherenceEventListener</a>. The method has a <code>void</code> return type and takes a single method parameter of type <code>MapEvent</code>, typically this has the generic types of the underlying map/cache key and value.</p>
+<p>A <a href="https://coherence.community/latest/21.06/api/java/index.htmlcom/tangosol/util/MapEvent.html">MapEvent</a> observer method is a method on a Micronaut bean that is annotated with <a href="../api/io/micronaut/coherence/annotation/CoherenceEventListener.html">@CoherenceEventListener</a>. The method has a <code>void</code> return type and takes a single method parameter of type <code>MapEvent</code>, typically this has the generic types of the underlying map/cache key and value.</p>
 </div>
 <div class="paragraph">
 <p>For example, assuming that there is a map/cache named <code>people</code>, with keys of type <code>String</code> and values of type <code>Person</code>, and the application has logic that should be executed each time a new <code>Person</code> is inserted into the map:</p>
@@ -2006,7 +2006,7 @@ public void onEvent(@MapName("test") MapEvent&lt;String, String&gt; event) {
 
 <div class="paragraph">
 <p>The <code>MapEvents</code> received by an observer method can be further restricted by applying a filter.
-Filters are applied by annotating the method with a <a href="#filterBinding">filter binding</a> annotation, which is a link to a factory that creates a specific instance of a <a href="https://coherence.community/21.06-M2/api/java/com/tangosol/util/Filter.html">Filter</a>.
+Filters are applied by annotating the method with a <a href="#filterBinding">filter binding</a> annotation, which is a link to a factory that creates a specific instance of a <a href="https://coherence.community/latest/21.06/api/java/index.htmlcom/tangosol/util/Filter.html">Filter</a>.
 Event filters applied in this way are executed on the server, which can make receiving events more efficient for clients as the event will not be sent from the server at all.</p>
 </div>
 <div class="paragraph">
@@ -2055,7 +2055,7 @@ public void onAdult(MapEvent&lt;String, Person&gt; people) {
 <p>In some use-cases the <code>MapEvent</code> observer method does not require the whole map or cache value to process, it might only require one, or a few, properties of the value, or it might require some calculated value. This can be achieved by using an event transformer to transform the values that will be received by the observer method. The transformation takes place on the server before the event is emitted to the method. This can improve efficiency on a client in cases where the cache value is large but the client only requires a small part of that value because only the required values are sent over the wire to the client.</p>
 </div>
 <div class="paragraph">
-<p>In the Coherence Micronaut framework, event values are transformed using a <a href="https://coherence.community/21.06-M2/api/java/com/tangosol/util/ValueExtractor.html">ValueExtractor</a>. A <code>ValueExtractor</code> is a simple interface that takes in one value and transforms it into another value. The <code>ValueExtractor</code> is applied to the event value; events contain both a new and old values and the extractor is applied to both as applicable. For <code>Insert</code> events there is only a new value, for <code>Update</code> events there will be both a new and old value and for <code>Delete</code> events there will only be an old value. The extractor is not applied to the event key.</p>
+<p>In the Coherence Micronaut framework, event values are transformed using a <a href="https://coherence.community/latest/21.06/api/java/index.htmlcom/tangosol/util/ValueExtractor.html">ValueExtractor</a>. A <code>ValueExtractor</code> is a simple interface that takes in one value and transforms it into another value. The <code>ValueExtractor</code> is applied to the event value; events contain both a new and old values and the extractor is applied to both as applicable. For <code>Insert</code> events there is only a new value, for <code>Update</code> events there will be both a new and old value and for <code>Delete</code> events there will only be an old value. The extractor is not applied to the event key.</p>
 </div>
 <div class="paragraph">
 <p>The <code>ValueExtractor</code> to use for a <code>MapEvent</code> observer method is indicated by annotating the method with an <a href="#valueExtractorBinding">extractor binding annotation</a>. An extractor binding is an annotation that is itself annotated with the meta-annotation <a href="../api/io/micronaut/coherence/annotation/ExtractorBinding.html">@ExtractorBinding</a>.
@@ -2091,7 +2091,7 @@ public void onOrder(@MapName("orders")                  <i class="conum" data-va
 </table>
 </div>
 <div class="paragraph">
-<p>It is possible to apply multiple filter binding annotations to a method. In this case the extractors are combined into a Coherence <a href="https://coherence.community/21.06-M2/api/java/com/tangosol/util/extractor/ChainedExtractor.html">ChainedExtractor</a>, which will return the extracted values as a <code>java.util.List</code>.</p>
+<p>It is possible to apply multiple filter binding annotations to a method. In this case the extractors are combined into a Coherence <a href="https://coherence.community/latest/21.06/api/java/index.htmlcom/tangosol/util/extractor/ChainedExtractor.html">ChainedExtractor</a>, which will return the extracted values as a <code>java.util.List</code>.</p>
 </div>
 <div class="paragraph">
 <p>Expanding on the example above, if the <code>Order</code> class also has an <code>orderId</code> property of type <code>Long</code>, and an observer method, only interested in <code>Insert</code> events needs both the <code>customerId</code> and <code>orderId</code>, then the method can be annotated with an two <code>@PropertyExtractor</code> annotations:</p>
@@ -2143,7 +2143,7 @@ public void onOrder(@Inserted                        <i class="conum" data-value
 
 <div class="paragraph">
 <p>Coherence produces many events in response to various serverside and client side actions. For example, Lifecycle events for Coherence itself, maps and cache, Entry events when data in maps and caches changes, Partition events for partition lifecycle and distribution, EntryProcessor events when invoked on a map or cache, etc.
-In a stand-alone Coherence application these events are subscribed to using a <a href="https://coherence.community/21.06-M2/api/java/com/tangosol/net/events/EventInterceptor.html">EventInterceptor</a> implementation registered to listen to specific event types.</p>
+In a stand-alone Coherence application these events are subscribed to using a <a href="https://coherence.community/latest/21.06/api/java/index.htmlcom/tangosol/net/events/EventInterceptor.html">EventInterceptor</a> implementation registered to listen to specific event types.</p>
 </div>
 <div class="paragraph">
 <p>The Coherence Micronaut API makes subscribing to these events much simpler, by using the same approach used for Micronaut events, namely annotated event observer methods.
@@ -2159,31 +2159,31 @@ The annotations applied will vary depending on the type of the event.</p>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://coherence.community/21.06-M2/api/java/com/tangosol/net/events/CoherenceLifecycleEvent.html">CoherenceLifecycleEvent</a> - lifecycle events for  <a href="https://coherence.community/21.06-M2/api/java/com/tangosol/net/Coherence.html">Coherence</a> instances</p>
+<p><a href="https://coherence.community/latest/21.06/api/java/index.htmlcom/tangosol/net/events/CoherenceLifecycleEvent.html">CoherenceLifecycleEvent</a> - lifecycle events for  <a href="https://coherence.community/latest/21.06/api/java/index.htmlcom/tangosol/net/Coherence.html">Coherence</a> instances</p>
 </li>
 <li>
-<p><a href="https://coherence.community/21.06-M2/api/java/com/tangosol/net/events/SessionLifecycleEvent.html">SessionLifecycleEvent</a> - lifecycle events for <a href="https://coherence.community/21.06-M2/api/java/com/tangosol/net/Session.html">Session</a> instances</p>
+<p><a href="https://coherence.community/latest/21.06/api/java/index.htmlcom/tangosol/net/events/SessionLifecycleEvent.html">SessionLifecycleEvent</a> - lifecycle events for <a href="https://coherence.community/latest/21.06/api/java/index.htmlcom/tangosol/net/Session.html">Session</a> instances</p>
 </li>
 <li>
-<p><a href="https://coherence.community/21.06-M2/api/java/com/tangosol/net/events/application/LifecycleEvent.html">LifecycleEvent</a> - lifecycle events for <a href="https://coherence.community/21.06-M2/api/java/com/tangosol/net/ConfigurableCacheFactory.html">ConfigurableCacheFactory</a> instances</p>
+<p><a href="https://coherence.community/latest/21.06/api/java/index.htmlcom/tangosol/net/events/application/LifecycleEvent.html">LifecycleEvent</a> - lifecycle events for <a href="https://coherence.community/latest/21.06/api/java/index.htmlcom/tangosol/net/ConfigurableCacheFactory.html">ConfigurableCacheFactory</a> instances</p>
 </li>
 <li>
-<p><a href="https://coherence.community/21.06-M2/api/java/com/tangosol/net/events/partition/cache/CacheLifecycleEvent.html">CacheLifecycleEvent</a> - lifecycle events for <a href="https://coherence.community/21.06-M2/api/java/com/tangosol/net/NamedMap.html">NamedMap</a> and <a href="https://coherence.community/21.06-M2/api/java/com/tangosol/net/NamedCache.html">NamedCache</a> instances</p>
+<p><a href="https://coherence.community/latest/21.06/api/java/index.htmlcom/tangosol/net/events/partition/cache/CacheLifecycleEvent.html">CacheLifecycleEvent</a> - lifecycle events for <a href="https://coherence.community/latest/21.06/api/java/index.htmlcom/tangosol/net/NamedMap.html">NamedMap</a> and <a href="https://coherence.community/latest/21.06/api/java/index.htmlcom/tangosol/net/NamedCache.html">NamedCache</a> instances</p>
 </li>
 <li>
-<p><a href="https://coherence.community/21.06-M2/api/java/com/tangosol/net/events/partition/cache/EntryEvent.html">EntryEvent</a> - events emitted by the mutation of entries in a <a href="https://coherence.community/21.06-M2/api/java/com/tangosol/net/NamedMap.html">NamedMap</a> or <a href="https://coherence.community/21.06-M2/api/java/com/tangosol/net/NamedCache.html">NamedCache</a></p>
+<p><a href="https://coherence.community/latest/21.06/api/java/index.htmlcom/tangosol/net/events/partition/cache/EntryEvent.html">EntryEvent</a> - events emitted by the mutation of entries in a <a href="https://coherence.community/latest/21.06/api/java/index.htmlcom/tangosol/net/NamedMap.html">NamedMap</a> or <a href="https://coherence.community/latest/21.06/api/java/index.htmlcom/tangosol/net/NamedCache.html">NamedCache</a></p>
 </li>
 <li>
-<p><a href="https://coherence.community/21.06-M2/api/java/com/tangosol/net/events/partition/cache/EntryProcessorEvent.html">EntryProcessorEvent</a> - events emitted by the invocation of an <a href="https://coherence.community/21.06-M2/api/java/com/tangosol/util/EntryProcessor.html">EntryProcessor</a> on entries in a <a href="https://coherence.community/21.06-M2/api/java/com/tangosol/net/NamedMap.html">NamedMap</a> or <a href="https://coherence.community/21.06-M2/api/java/com/tangosol/net/NamedCache.html">NamedCache</a></p>
+<p><a href="https://coherence.community/latest/21.06/api/java/index.htmlcom/tangosol/net/events/partition/cache/EntryProcessorEvent.html">EntryProcessorEvent</a> - events emitted by the invocation of an <a href="https://coherence.community/latest/21.06/api/java/index.htmlcom/tangosol/util/EntryProcessor.html">EntryProcessor</a> on entries in a <a href="https://coherence.community/latest/21.06/api/java/index.htmlcom/tangosol/net/NamedMap.html">NamedMap</a> or <a href="https://coherence.community/latest/21.06/api/java/index.htmlcom/tangosol/net/NamedCache.html">NamedCache</a></p>
 </li>
 <li>
-<p><a href="https://coherence.community/21.06-M2/api/java/com/tangosol/net/events/partition/TransactionEvent.html">TransactionEvent</a> - events pertaining to all mutations performed within the context of a single request in a partition of a <a href="https://coherence.community/21.06-M2/api/java/com/tangosol/net/NamedMap.html">NamedMap</a> or <a href="https://coherence.community/21.06-M2/api/java/com/tangosol/net/NamedCache.html">NamedCache</a>, also referred to as "partition level transactions".</p>
+<p><a href="https://coherence.community/latest/21.06/api/java/index.htmlcom/tangosol/net/events/partition/TransactionEvent.html">TransactionEvent</a> - events pertaining to all mutations performed within the context of a single request in a partition of a <a href="https://coherence.community/latest/21.06/api/java/index.htmlcom/tangosol/net/NamedMap.html">NamedMap</a> or <a href="https://coherence.community/latest/21.06/api/java/index.htmlcom/tangosol/net/NamedCache.html">NamedCache</a>, also referred to as "partition level transactions".</p>
 </li>
 <li>
-<p><a href="https://coherence.community/21.06-M2/api/java/com/tangosol/net/events/partition/TransferEvent.html">TransferEvent</a> - captures information concerning the transfer of a partition for a storage enabled member.</p>
+<p><a href="https://coherence.community/latest/21.06/api/java/index.htmlcom/tangosol/net/events/partition/TransferEvent.html">TransferEvent</a> - captures information concerning the transfer of a partition for a storage enabled member.</p>
 </li>
 <li>
-<p><a href="https://coherence.community/21.06-M2/api/java/com/tangosol/net/events/partition/UnsolicitedCommitEvent.html">UnsolicitedCommitEvent</a> - captures changes pertaining to all observed mutations performed against caches that were not directly caused (solicited) by the partitioned service. These events may be due to changes made internally by the backing map, such as eviction, or referrers of the backing map causing changes.</p>
+<p><a href="https://coherence.community/latest/21.06/api/java/index.htmlcom/tangosol/net/events/partition/UnsolicitedCommitEvent.html">UnsolicitedCommitEvent</a> - captures changes pertaining to all observed mutations performed against caches that were not directly caused (solicited) by the partitioned service. These events may be due to changes made internally by the backing map, such as eviction, or referrers of the backing map causing changes.</p>
 </li>
 <li>
 <p>If using commercial versions of Coherence with the Coherence Micronaut framework, there are also events associated to the federation of data between different clusters.</p>
@@ -2205,7 +2205,7 @@ The annotations applied will vary depending on the type of the event.</p>
 
 
 <div class="paragraph">
-<p><a href="https://coherence.community/21.06-M2/api/java/com/tangosol/net/events/CoherenceLifecycleEvent.html">CoherenceLifecycleEvents</a> are emitted to indicate the lifecycle of a <a href="https://coherence.community/21.06-M2/api/java/com/tangosol/net/Coherence.html">Coherence</a> instance.</p>
+<p><a href="https://coherence.community/latest/21.06/api/java/index.htmlcom/tangosol/net/events/CoherenceLifecycleEvent.html">CoherenceLifecycleEvents</a> are emitted to indicate the lifecycle of a <a href="https://coherence.community/latest/21.06/api/java/index.htmlcom/tangosol/net/Coherence.html">Coherence</a> instance.</p>
 </div>
 <div class="paragraph">
 <p>To subscribe to <code>CoherenceLifecycleEvent</code> simply create a Micronaut bean with a listener method annotated with <a href="../api/io/micronaut/coherence/annotation/CoherenceEventListener.html">@CoherenceEventListener</a>.
@@ -2298,7 +2298,7 @@ public void onEvent(@Name(Coherence.DEFAULT_NAME) CoherenceLifecycleEvent event)
 
 
 <div class="paragraph">
-<p><a href="https://coherence.community/21.06-M2/api/java/com/tangosol/net/events/SessionLifecycleEvent.html">SessionLifecycleEvents</a> are emitted to indicate the  lifecycle event of a <a href="https://coherence.community/21.06-M2/api/java/com/tangosol/net/Session.html">Session</a> instance.</p>
+<p><a href="https://coherence.community/latest/21.06/api/java/index.htmlcom/tangosol/net/events/SessionLifecycleEvent.html">SessionLifecycleEvents</a> are emitted to indicate the  lifecycle event of a <a href="https://coherence.community/latest/21.06/api/java/index.htmlcom/tangosol/net/Session.html">Session</a> instance.</p>
 </div>
 <div class="paragraph">
 <p>To subscribe to <code>SessionLifecycleEvent</code> simply create a Micronaut bean with a listener method annotated with <a href="../api/io/micronaut/coherence/annotation/CoherenceEventListener.html">@CoherenceEventListener</a>.
@@ -2391,7 +2391,7 @@ public void onEvent(@Name(Coherence.DEFAULT_NAME) SessionLifecycleEvent event) {
 
 
 <div class="paragraph">
-<p><a href="https://coherence.community/21.06-M2/api/java/com/tangosol/net/events/application/LifecycleEvent.html">LifecycleEvent</a> are emitted to indicate the lifecycle of a <a href="https://coherence.community/21.06-M2/api/java/com/tangosol/net/ConfigurableCacheFactory.html">ConfigurableCacheFactory</a> instance.</p>
+<p><a href="https://coherence.community/latest/21.06/api/java/index.htmlcom/tangosol/net/events/application/LifecycleEvent.html">LifecycleEvent</a> are emitted to indicate the lifecycle of a <a href="https://coherence.community/latest/21.06/api/java/index.htmlcom/tangosol/net/ConfigurableCacheFactory.html">ConfigurableCacheFactory</a> instance.</p>
 </div>
 <div class="paragraph">
 <p>To subscribe to <code>LifecycleEvent</code> simply create a Micronaut bean with a listener method annotated with <a href="../api/io/micronaut/coherence/annotation/CoherenceEventListener.html">@CoherenceEventListener</a>.
@@ -2453,7 +2453,7 @@ public void onEvent(@Activated @Disposing LifecycleEvent event) {
 
 
 <div class="paragraph">
-<p><a href="https://coherence.community/21.06-M2/api/java/com/tangosol/net/events/partition/cache/CacheLifecycleEvent.html">CacheLifecycleEvent</a> are emitted to indicate the lifecycle of a cache instance.</p>
+<p><a href="https://coherence.community/latest/21.06/api/java/index.htmlcom/tangosol/net/events/partition/cache/CacheLifecycleEvent.html">CacheLifecycleEvent</a> are emitted to indicate the lifecycle of a cache instance.</p>
 </div>
 <div class="paragraph">
 <p>To subscribe to <code>CacheLifecycleEvent</code> simply create a Micronaut bean with a listener method annotated with <a href="../api/io/micronaut/coherence/annotation/CoherenceEventListener.html">@CoherenceEventListener</a>.
@@ -2570,7 +2570,7 @@ public void onEvent(@SessionName("BackEnd") CacheLifecycleEvent event) {
 
 
 <div class="paragraph">
-<p>An <a href="https://coherence.community/21.06-M2/api/java/com/tangosol/net/events/partition/cache/EntryEvent.html">EntryEvent</a> is emitted when a <a href="https://coherence.community/21.06-M2/api/java/com/tangosol/util/EntryProcessor.html">EntryProcessor</a> is invoked on a cache. These events are only emitted on the storage enabled member that is the primary owner of the entry that the <code>EntryProcessor</code> is invoked on.</p>
+<p>An <a href="https://coherence.community/latest/21.06/api/java/index.htmlcom/tangosol/net/events/partition/cache/EntryEvent.html">EntryEvent</a> is emitted when a <a href="https://coherence.community/latest/21.06/api/java/index.htmlcom/tangosol/util/EntryProcessor.html">EntryProcessor</a> is invoked on a cache. These events are only emitted on the storage enabled member that is the primary owner of the entry that the <code>EntryProcessor</code> is invoked on.</p>
 </div>
 <div class="paragraph">
 <p>To subscribe to <code>EntryEvent</code> simply create a Micronaut bean with a listener method annotated with <a href="../api/io/micronaut/coherence/annotation/CoherenceEventListener.html">@CoherenceEventListener</a>.
@@ -2713,7 +2713,7 @@ public void onEvent(@SessionName("BackEnd") EntryEvents event) {
 
 
 <div class="paragraph">
-<p>An <a href="https://coherence.community/21.06-M2/api/java/com/tangosol/net/events/partition/cache/EntryProcessorEvent.html">EntryProcessorEvent</a> is emitted when a mutation occurs on an entry in a cache. These events are only emitted on the storage enabled member that is the primary owner of the entry.</p>
+<p>An <a href="https://coherence.community/latest/21.06/api/java/index.htmlcom/tangosol/net/events/partition/cache/EntryProcessorEvent.html">EntryProcessorEvent</a> is emitted when a mutation occurs on an entry in a cache. These events are only emitted on the storage enabled member that is the primary owner of the entry.</p>
 </div>
 <div class="paragraph">
 <p>To subscribe to <code>EntryProcessorEvent</code> simply create a Micronaut bean with a listener method annotated with <a href="../api/io/micronaut/coherence/annotation/CoherenceEventListener.html">@CoherenceEventListener</a>.
@@ -2844,7 +2844,7 @@ public void onEvent(@SessionName("BackEnd") EntryProcessorEvents event) {
 
 
 <div class="paragraph">
-<p>A <a href="https://coherence.community/21.06-M2/api/java/com/tangosol/net/events/partition/TransactionEvent.html">TransactionEvent</a> is emitted in relation to all mutations in a single partition in response to executing a single request.
+<p>A <a href="https://coherence.community/latest/21.06/api/java/index.htmlcom/tangosol/net/events/partition/TransactionEvent.html">TransactionEvent</a> is emitted in relation to all mutations in a single partition in response to executing a single request.
 These are commonly referred to as partition level transactions.
 For example, an <code>EntryProcessor</code> that mutates more than one entry (which could be in multiple caches) as part of a single invocation will cause a partition level transaction to occur encompassing all of those cache entries.</p>
 </div>
@@ -2925,7 +2925,7 @@ public void onEvent(@ServiceName("StorageService") TransactionEvent event) {
 
 
 <div class="paragraph">
-<p>A <a href="https://coherence.community/21.06-M2/api/java/com/tangosol/net/events/partition/TransferEvent.html">TransferEvent</a> captures information concerning the transfer of a partition for a storage enabled member. Transfer events are raised against the set of <a href="https://coherence.community/21.06-M2/api/java/com/tangosol/util/BinaryEntry.html">BinaryEntry</a> instances that are being transferred.</p>
+<p>A <a href="https://coherence.community/latest/21.06/api/java/index.htmlcom/tangosol/net/events/partition/TransferEvent.html">TransferEvent</a> captures information concerning the transfer of a partition for a storage enabled member. Transfer events are raised against the set of <a href="https://coherence.community/latest/21.06/api/java/index.htmlcom/tangosol/util/BinaryEntry.html">BinaryEntry</a> instances that are being transferred.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -2962,7 +2962,7 @@ public void onEvent(TransferEvent event) {
 <div class="ulist">
 <ul>
 <li>
-<p>Arrived - This <code>TransferEvent</code> is dispatched when a set of <code>BinaryEntry</code> instances have been transferred to the <a href="https://coherence.community/21.06-M2/api/java/com/tangosol/net/events/partition/TransferEvent.html#getLocalMember()">local member</a> or restored from backup.The reason for the event (primary transfer from another member or restore from backup) can be derived as follows:</p>
+<p>Arrived - This <code>TransferEvent</code> is dispatched when a set of <code>BinaryEntry</code> instances have been transferred to the <a href="https://coherence.community/latest/21.06/api/java/index.htmlcom/tangosol/net/events/partition/TransferEvent.html#getLocalMember()">local member</a> or restored from backup.The reason for the event (primary transfer from another member or restore from backup) can be derived as follows:</p>
 </li>
 </ul>
 </div>
@@ -2978,23 +2978,23 @@ boolean restored = event.getRemoteMember() == event.getLocalMember();</code></pr
 <div class="ulist">
 <ul>
 <li>
-<p>Assigned -  This <code>TransferEvent</code> is dispatched when a partition has been assigned to the <a href="https://coherence.community/21.06-M2/api/java/com/tangosol/net/events/partition/TransferEvent.html#getLocalMember()">local member</a>. This event will only be emitted by the ownership senior during the initial partition assignment.
+<p>Assigned -  This <code>TransferEvent</code> is dispatched when a partition has been assigned to the <a href="https://coherence.community/latest/21.06/api/java/index.htmlcom/tangosol/net/events/partition/TransferEvent.html#getLocalMember()">local member</a>. This event will only be emitted by the ownership senior during the initial partition assignment.
 Use the <a href="../api/io/micronaut/coherence/annotation/Assigned.html">@Assigned</a> annotation to restrict received events.</p>
 </li>
 <li>
-<p>Departing - This <code>TransferEvent</code> is dispatched when a set of <code>BinaryEntry</code> are being transferred from the <a href="https://coherence.community/21.06-M2/api/java/com/tangosol/net/events/partition/TransferEvent.html#getLocalMember()">local member</a>. This event is followed by either a <code>Departed</code> or <code>Rollback</code> event to indicate the success or failure of the transfer.
+<p>Departing - This <code>TransferEvent</code> is dispatched when a set of <code>BinaryEntry</code> are being transferred from the <a href="https://coherence.community/latest/21.06/api/java/index.htmlcom/tangosol/net/events/partition/TransferEvent.html#getLocalMember()">local member</a>. This event is followed by either a <code>Departed</code> or <code>Rollback</code> event to indicate the success or failure of the transfer.
 Use the <a href="../api/io/micronaut/coherence/annotation/Departing.html">@Departing</a> annotation to restrict received events.</p>
 </li>
 <li>
-<p>Departed - This <code>TransferEvent</code> is dispatched when a partition has been successfully transferred from the <a href="https://coherence.community/21.06-M2/api/java/com/tangosol/net/events/partition/TransferEvent.html#getLocalMember()">local member</a>. To derive the <code>BinaryEntry</code> instances associated with the transfer, consumers should subscribe to the <code>Departing</code> event that would precede this event.
+<p>Departed - This <code>TransferEvent</code> is dispatched when a partition has been successfully transferred from the <a href="https://coherence.community/latest/21.06/api/java/index.htmlcom/tangosol/net/events/partition/TransferEvent.html#getLocalMember()">local member</a>. To derive the <code>BinaryEntry</code> instances associated with the transfer, consumers should subscribe to the <code>Departing</code> event that would precede this event.
 Use the <a href="../api/io/micronaut/coherence/annotation/Departed.html">@Departed</a> annotation to restrict received events.</p>
 </li>
 <li>
-<p>Lost - This <code>TransferEvent</code> is dispatched when a partition has been orphaned (data loss <em>may</em> have occurred), and the ownership is assumed by the <a href="https://coherence.community/21.06-M2/api/java/com/tangosol/net/events/partition/TransferEvent.html#getLocalMember()">local member</a>. This event is only be emitted by the ownership senior.
+<p>Lost - This <code>TransferEvent</code> is dispatched when a partition has been orphaned (data loss <em>may</em> have occurred), and the ownership is assumed by the <a href="https://coherence.community/latest/21.06/api/java/index.htmlcom/tangosol/net/events/partition/TransferEvent.html#getLocalMember()">local member</a>. This event is only be emitted by the ownership senior.
 Use the <a href="../api/io/micronaut/coherence/annotation/Lost.html">@Lost</a> annotation to restrict received events.</p>
 </li>
 <li>
-<p>Recovered - This <code>TransferEvent</code> is dispatched when a set of <code>BinaryEntry</code> instances have been recovered from a persistent storage by the <a href="https://coherence.community/21.06-M2/api/java/com/tangosol/net/events/partition/TransferEvent.html#getLocalMember()">local member</a>.
+<p>Recovered - This <code>TransferEvent</code> is dispatched when a set of <code>BinaryEntry</code> instances have been recovered from a persistent storage by the <a href="https://coherence.community/latest/21.06/api/java/index.htmlcom/tangosol/net/events/partition/TransferEvent.html#getLocalMember()">local member</a>.
 Use the <a href="../api/io/micronaut/coherence/annotation/Recovered.html">@Recovered</a> annotation to restrict received events.</p>
 </li>
 <li>
@@ -3047,7 +3047,7 @@ public void onEvent(@ServiceName("StorageService") TransferEvent event) {
 
 
 <div class="paragraph">
-<p>An <a href="https://coherence.community/21.06-M2/api/java/com/tangosol/net/events/partition/UnsolicitedCommitEvent.html">UnsolicitedCommitEvent</a> captures changes pertaining to all observed mutations performed against caches that were not directly caused (solicited) by the partitioned service. These events may be due to changes made internally by the backing map, such as eviction, or referrers of the backing map causing changes.</p>
+<p>An <a href="https://coherence.community/latest/21.06/api/java/index.htmlcom/tangosol/net/events/partition/UnsolicitedCommitEvent.html">UnsolicitedCommitEvent</a> captures changes pertaining to all observed mutations performed against caches that were not directly caused (solicited) by the partitioned service. These events may be due to changes made internally by the backing map, such as eviction, or referrers of the backing map causing changes.</p>
 </div>
 <div class="paragraph">
 <p>Unsolicited commit events are emitted by storage enabled cache services, they will only e received on the same member.</p>
@@ -3081,7 +3081,7 @@ public void onEvent(UnsolicitedCommitEvent event) {
 <p>Micronaut Coherence integration provides support for message driven applications by integrating <a href="https://docs.micronaut.io/latest/guide/index.html#messaging">Micronaut Messaging</a> and Coherence topics.</p>
 </div>
 <div class="paragraph">
-<p>A Coherence <a href="https://coherence.community/21.06-M2/api/java/com/tangosol/net/topic/NamedTopic.html">NamedTopic</a> is analogous to a queue or pub/sub topic, depending on the configuration and application code. Messages published to the topic are stored in Coherence caches, so topics are scalable and performant.</p>
+<p>A Coherence <a href="https://coherence.community/latest/21.06/api/java/index.htmlcom/tangosol/net/topic/NamedTopic.html">NamedTopic</a> is analogous to a queue or pub/sub topic, depending on the configuration and application code. Messages published to the topic are stored in Coherence caches, so topics are scalable and performant.</p>
 </div>
 <div class="paragraph">
 <p>A typical stand-alone Coherence application would create a <code>NamedTopic</code> along with <code>Publisher</code> or <code>Subscriber</code> instances to publish to or subscribe to topics. Injection of topics into Micronaut applications is already covered in <a href="#injectNamedTopic">Injecting NamedTopics</a>. With Micronaut messaging this becomes much simpler.</p>
@@ -3247,7 +3247,7 @@ public class ProductListener {
 <div class="sect2">
 <h3 id="_method_parameter_bindings">Method Parameter Bindings</h3>
 <div class="paragraph">
-<p>When using a Coherence topic <a href="https://coherence.community/21.06-M2/api/java//com/tangosol/net/topic/Subscriber.html">Subscriber</a> directly in application code, the <code>receive</code> method returns an <a href="https://coherence.community/21.06-M2/api/java//com/tangosol/net/topic/Subscriber.Element.html">Element</a>, which contains the message value and metadata. The annotated subscriber method can take various parameter types that will bind to the element itself, the message, or the metadata fields of the element.</p>
+<p>When using a Coherence topic <a href="https://coherence.community/latest/21.06/api/java/index.html/com/tangosol/net/topic/Subscriber.html">Subscriber</a> directly in application code, the <code>receive</code> method returns an <a href="https://coherence.community/latest/21.06/api/java/index.html/com/tangosol/net/topic/Subscriber.Element.html">Element</a>, which contains the message value and metadata. The annotated subscriber method can take various parameter types that will bind to the element itself, the message, or the metadata fields of the element.</p>
 </div>
 <div class="paragraph">
 <p>For example</p>
@@ -3262,7 +3262,7 @@ public void receive(Element&lt;Product&gt; product) {
 </div>
 </div>
 <div class="paragraph">
-<p>The method above will be passed the <a href="https://coherence.community/21.06-M2/api/java//com/tangosol/net/topic/Subscriber.Element.html">Element</a> received from the topic. By receiving the element, the method has access to the message value and all the metadata stored with the message.</p>
+<p>The method above will be passed the <a href="https://coherence.community/latest/21.06/api/java/index.html/com/tangosol/net/topic/Subscriber.Element.html">Element</a> received from the topic. By receiving the element, the method has access to the message value and all the metadata stored with the message.</p>
 </div>
 <div class="paragraph">
 <p>Alternatively, just select parts of the metadata can be passed as parameters.</p>
@@ -3508,7 +3508,7 @@ public class ProductListener {
 
 <div class="paragraph">
 <p>Filter binding annotations are normal annotations that are themselves annotated with the <a href="../api/io/micronaut/coherence/annotation/FilterBinding.html">@FilterBinding</a> meta-annotation.
-A filter binding annotation represents a Coherence <a href="https://coherence.community/21.06-M2/api/java//com/tangosol/util/Filter.html">Filter</a> and is used to specify a <code>Filter</code> in certain injection points, for example a View (CQC), <code>NamedTopic</code> <code>Subscriber</code> beans, event listeners, etc.</p>
+A filter binding annotation represents a Coherence <a href="https://coherence.community/latest/21.06/api/java/index.html/com/tangosol/util/Filter.html">Filter</a> and is used to specify a <code>Filter</code> in certain injection points, for example a View (CQC), <code>NamedTopic</code> <code>Subscriber</code> beans, event listeners, etc.</p>
 </div>
 <div class="paragraph">
 <p>There are three parts to using a filter binding:</p>
@@ -3677,7 +3677,7 @@ private NamedMap&lt;String, Person&gt; adultMales;</code></pre>
 
 <div class="paragraph">
 <p>ValueExtractor binding annotations are normal annotations that are themselves annotated with the <a href="../api/io/micronaut/coherence/annotation/ExtractorBinding.html">@ExtractorBinding</a> meta-annotation.
-An extractor binding annotation represents a Coherence <a href="https://coherence.community/21.06-M2/api/java//com/tangosol/util/ValueExtractor.html">ValueExtractor</a> and is used to specify a <code>ValueExtractor</code> in certain injection points, for example a View (CQC), <code>NamedTopic</code> <code>Subscriber</code> beans, <code>MapEvent</code> listeners, etc.</p>
+An extractor binding annotation represents a Coherence <a href="https://coherence.community/latest/21.06/api/java/index.html/com/tangosol/util/ValueExtractor.html">ValueExtractor</a> and is used to specify a <code>ValueExtractor</code> in certain injection points, for example a View (CQC), <code>NamedTopic</code> <code>Subscriber</code> beans, <code>MapEvent</code> listeners, etc.</p>
 </div>
 <div class="paragraph">
 <p>There are three parts to using an extractor binding:</p>
@@ -4127,7 +4127,7 @@ When using Coherence Micronaut, these same properties can be configured in the M
 <div class="sect2">
 <h3 id="_custom_server_configuration">Custom Server Configuration</h3>
 <div class="paragraph">
-<p>If more control over the server configuration is required than that provided out of the box by Coherence, then a Micronaut bean can be created of type <a href="https://coherence.community/21.06-M2/api/java//com/oracle/coherence/grpc/proxy/GrpcServerConfiguration.html">GrpcServerConfiguration</a>.</p>
+<p>If more control over the server configuration is required than that provided out of the box by Coherence, then a Micronaut bean can be created of type <a href="https://coherence.community/latest/21.06/api/java/index.html/com/oracle/coherence/grpc/proxy/GrpcServerConfiguration.html">GrpcServerConfiguration</a>.</p>
 </div>
 <div class="paragraph">
 <p>A Coherence gRPC proxy runs both a gRPC server listening for remote connections, and an in-process gRPC server to allow connections to services from within the same JVM.
@@ -4245,7 +4245,7 @@ public class ServerBuilderFactory {
 <div class="sect2">
 <h3 id="_configure_the_client_sessions">Configure the Client Sessions</h3>
 <div class="paragraph">
-<p>When building a gRPC client application, Coherence resources can be accessed via a <a href="https://coherence.community/21.06-M2/api/java//com/tangosol/net/Session.html">Session</a>, the same as any other Coherence application. The Coherence gRPC Java client allows gRPC client sessions to be configured via system properties. When building a Micronaut gRPC client application, those same configuration properties can be provided via Micronaut configuration. The properties names are in the format <code>coherence.sessions.&lt;name&gt;.*</code> where <code>&lt;name&gt;</code> is the name of the <code>Session</code>. The majority of applications would only require a single <code>Session</code> so would configure the default session, that has the name <code>default</code>. If an application needs to connect to multiple Coherence gRPC servers then multiple named sessions can be configured.</p>
+<p>When building a gRPC client application, Coherence resources can be accessed via a <a href="https://coherence.community/latest/21.06/api/java/index.html/com/tangosol/net/Session.html">Session</a>, the same as any other Coherence application. The Coherence gRPC Java client allows gRPC client sessions to be configured via system properties. When building a Micronaut gRPC client application, those same configuration properties can be provided via Micronaut configuration. The properties names are in the format <code>coherence.sessions.&lt;name&gt;.*</code> where <code>&lt;name&gt;</code> is the name of the <code>Session</code>. The majority of applications would only require a single <code>Session</code> so would configure the default session, that has the name <code>default</code>. If an application needs to connect to multiple Coherence gRPC servers then multiple named sessions can be configured.</p>
 </div>
 <div class="paragraph">
 <p>For example, to make the <code>default</code> session a gRPC client session, the property <code>coherence.sessions.default.type</code> must be set to <code>grpc</code>.</p>
