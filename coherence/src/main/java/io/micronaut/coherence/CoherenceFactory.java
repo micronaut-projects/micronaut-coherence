@@ -50,17 +50,17 @@ class CoherenceFactory {
     private static final Logger LOG = LoggerFactory.getLogger(CoherenceFactory.class);
 
     /**
-     * The micronaut bean context.
-     */
-    private final BeanContext beanContext;
-
-    /**
      * Property controlling the overall {@code mode} of the Coherence instance.
      * Value values are {@code ClusterMember} or {@code Client}.  If not configured,
      * it will default to {@code ClusterMember}.
      */
     @Property(name = "coherence.type", defaultValue = "ClusterMember")
     protected String mode;
+
+    /**
+     * The micronaut bean context.
+     */
+    private final BeanContext beanContext;
 
     /**
      * Create a {@link CacheFactory} bean.

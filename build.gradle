@@ -39,6 +39,7 @@ subprojects { Project subproject ->
             }
         }
         maven { url "https://oss.sonatype.org/content/groups/staging" }
+        mavenLocal()
     }
 
     if (subproject.name.endsWith('-bom')) {
