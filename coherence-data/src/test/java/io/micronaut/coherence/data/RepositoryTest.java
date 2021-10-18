@@ -16,19 +16,17 @@
 package io.micronaut.coherence.data;
 
 import com.tangosol.net.NamedMap;
-import io.micronaut.coherence.data.model.Author;
+import com.tangosol.net.Session;
 import io.micronaut.coherence.data.model.Book;
+import io.micronaut.coherence.data.repositories.CoherenceBook2Repository;
+import io.micronaut.coherence.data.repositories.CoherenceBook3Repository;
 import io.micronaut.coherence.data.repositories.CoherenceBookRepository;
-import io.micronaut.coherence.data.util.BookEntityListeners;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
 import javax.inject.Inject;
-
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
@@ -44,10 +42,28 @@ import static org.hamcrest.core.IsNull.notNullValue;
 public class RepositoryTest extends AbstractDataTest {
 
     /**
-     * The concrete {@link AbstractCoherenceRepository} implementation under test.
+     * Defined in configuration and using the default Session.
      */
     @Inject
     protected CoherenceBookRepository repo;
+
+    /**
+     * Defined in configuration and using the {@code custom} Session.
+     */
+    @Inject
+    protected CoherenceBook2Repository repo2;
+
+    /**
+     * Not defined in configuration using the default Session.
+     */
+    @Inject
+    protected CoherenceBook3Repository repo3;
+
+    /**
+     * Custom {@code Session}.
+     */
+    @Inject
+    protected Session custom;
 
     // ----- test methods ---------------------------------------------------
 
@@ -89,5 +105,28 @@ public class RepositoryTest extends AbstractDataTest {
     public void shouldAllowGeneratedQueries() {
         assertThat(repo.findByTitleStartingWith("Du"), containsInAnyOrder(
                 books.stream().filter(book -> book.getTitle().startsWith("Du")).toArray()));
+    }
+
+    /**
+     * Ensure custom session is used properly.
+     *
+     * @since 3.0.1
+     */
+    @Test
+    public void shouldUseCustomSession() {
+        assertThat(repo2, notNullValue());
+        assertThat(repo2.getEntityType(), Matchers.typeCompatibleWith(Book.class));
+        assertThat(custom.getMap("book2").size(), is(4));
+    }
+
+    /**
+     * Ensure it's possible to create a Repository that has zero configuration.
+     *
+     * @since 3.0.1
+     */
+    @Test
+    public void shouldCreateRepoWithNoConfig() {
+        assertThat(repo3, notNullValue());
+        assertThat(repo3.getEntityType(), Matchers.typeCompatibleWith(Book.class));
     }
 }

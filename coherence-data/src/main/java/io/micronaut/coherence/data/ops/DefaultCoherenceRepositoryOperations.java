@@ -136,9 +136,9 @@ public class DefaultCoherenceRepositoryOperations implements CoherenceRepository
      * @param applicationContext the {@link ApplicationContext}
      * @param beanContext the {@link BeanContext} used to look up a {@link Session} instance
      */
-    protected DefaultCoherenceRepositoryOperations(@Parameter String mapName,
-                                                   ApplicationContext applicationContext,
-                                                   BeanContext beanContext) {
+    public DefaultCoherenceRepositoryOperations(@Parameter String mapName,
+                                                ApplicationContext applicationContext,
+                                                BeanContext beanContext) {
         ArgumentUtils.requireNonNull("mapName", mapName);
         ArgumentUtils.requireNonNull("beanContext", beanContext);
         ArgumentUtils.requireNonNull("applicationContext", beanContext);

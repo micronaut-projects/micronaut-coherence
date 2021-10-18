@@ -11,7 +11,8 @@ coherence:
 ----
 
 ``<repository-name>`` maps to the name of the Coherence cache.  The optional ``session`` attribute specifies the name
-of the Coherence session that should be used to lookup the specified cache.  Review the main
+of the Coherence session that should be used to look up the specified cache.  If the ``session`` attribute is
+omitted, then the default Coherence Session will be assumed.  Review the main
 link:../bootstrap/configuration.adoc:[documentation] for details on configuration sessions.
 
 Any repositories that the developer wishes to use with Coherence *must* be annotated with the
@@ -28,19 +29,25 @@ coherence:
     book:
 ----
 
+NOTE: As any repository, like ``book`` above, that doesn't have explicit session configuration, will use the default
+Coherence session.  If that's the desired configuration, then there is no need reference any repositories within
+the configuration.
+
 and the Java-based Repository could look something like:
 
 [source, java]
 ----
-...
+//...
 import io.micronaut.coherence.data.annotation.CoherenceRepository;
 import io.micronaut.data.repository.CrudRepository;
-...
+//...
 @CoherenceRepository("book")
 public interface BookRepository extends CrudRepository<Book, UUID> {
-    ...
+//    ...
 }
 ----
+
+NOTE:
 
 The developer may then start adding queries to the interface for Micronaut to implement.
 
@@ -55,15 +62,15 @@ Coherence.
 ====
 When extending the Coherence ``AbstractCoherenceRepository``, developers must not also implement any of the standard
 Micronaut
-data sterotype interfaces (e.g., ``CrudRepository`` and the like).
+data stereotype interfaces (e.g., ``CrudRepository`` and the like).
 ====
 
 [source, java]
 ----
-...
+//...
 import io.micronaut.coherence.data.annotation.CoherenceRepository;
 import io.micronaut.coherence.data.AbstractCoherenceRepository;
-...
+//...
 @CoherenceRepository("book")
 public abstract class CoherenceBookRepository extends AbstractCoherenceRepository<Book, UUID> {
 }
@@ -73,10 +80,10 @@ or for an asynchronous repository:
 
 [source, java]
 ----
-...
+//...
 import io.micronaut.coherence.data.annotation.CoherenceRepository;
 import io.micronaut.coherence.data.AbstractCoherenceAsyncRepository;
-...
+//...
 @CoherenceRepository("book")
 public abstract class CoherenceAsyncBookRepository extends AbstractCoherenceAsyncRepository<Book, UUID> {
 }

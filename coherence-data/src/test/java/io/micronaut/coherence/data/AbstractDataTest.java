@@ -18,6 +18,7 @@ package io.micronaut.coherence.data;
 import com.tangosol.net.NamedMap;
 import com.tangosol.util.Filters;
 import com.tangosol.util.UUID;
+import io.micronaut.coherence.annotation.SessionName;
 import io.micronaut.coherence.data.model.Author;
 import io.micronaut.coherence.data.model.Book;
 import io.micronaut.coherence.data.util.EventRecorder;
@@ -32,6 +33,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
@@ -113,6 +115,19 @@ public abstract class AbstractDataTest {
     protected NamedMap<UUID, Book> book;
 
     /**
+     * Backing named map for all tests.
+     */
+    @Inject
+    @SessionName("custom")
+    protected NamedMap<UUID, Book> book2;
+
+    /**
+     * Backing named map for all tests.
+     */
+    @Inject
+    protected NamedMap<UUID, Book> book3;
+
+    /**
      * Event recorder; used by event tests.
      */
     @Inject
@@ -134,7 +149,10 @@ public abstract class AbstractDataTest {
         books.add(NAME_OF_THE_WIND);
         books.add(HOBBIT);
 
-        book.putAll(books.stream().collect(Collectors.toMap(Book::getUuid, b -> b)));
+        Map<UUID, Book> booksMap = books.stream().collect(Collectors.toMap(Book::getUuid, b -> b));
+        book.putAll(booksMap);
+        book2.putAll(booksMap);
+        book3.putAll(booksMap);
 
         // ensure we're not picking up events we're not supposed to
         assertThat(eventRecorder.getRecordedEvents().size(), is(0));
@@ -165,7 +183,7 @@ public abstract class AbstractDataTest {
 
             @NonNull
             @Override
-            public Iterable updateAll(@Valid @NotNull final Iterable entities) {
+            public Iterable updateAll(@Valid @NotNull @NonNull final Iterable entities) {
                 repo.saveAll(StreamSupport.stream(entities.spliterator(), false));
                 return entities;
             }
@@ -250,7 +268,7 @@ public abstract class AbstractDataTest {
 
             @NonNull
             @Override
-            public CompletableFuture<? extends Iterable> updateAll(@Valid @NotNull final Iterable entities) {
+            public CompletableFuture<? extends Iterable> updateAll(@Valid @NotNull @NonNull final Iterable entities) {
                 return repo.saveAll(StreamSupport.stream(entities.spliterator(), false)).thenApply(o -> entities);
             }
 
