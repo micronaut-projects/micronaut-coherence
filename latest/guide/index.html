@@ -73,7 +73,7 @@
                                 
                                 <div class="toc-item" style="margin-left:0"><a href="#cache"><strong>15</strong><span>Using Coherence as Micronaut Cache implementation</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#distributedConfiguration"><strong>16</strong><span>Using Coherence as a Distributed Configuration provided</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#distributedConfiguration"><strong>16</strong><span>Using Coherence as a Distributed Configuration provider</span></a></div>
                                 
                             </div>
                         </div>
@@ -202,7 +202,7 @@
         
         <div class="toc-item" style="margin-left:0px" id="toc-item-cache"><a href="#cache"><strong>15</strong><span>Using Coherence as Micronaut Cache implementation</span></a></div>
         
-        <div class="toc-item" style="margin-left:0px" id="toc-item-distributedConfiguration"><a href="#distributedConfiguration"><strong>16</strong><span>Using Coherence as a Distributed Configuration provided</span></a></div>
+        <div class="toc-item" style="margin-left:0px" id="toc-item-distributedConfiguration"><a href="#distributedConfiguration"><strong>16</strong><span>Using Coherence as a Distributed Configuration provider</span></a></div>
         
         </div>
     </div>
@@ -212,7 +212,7 @@
         <h1>Micronaut Coherence</h1>
         <p></p>
         <p>Integration between Micronaut and Oracle Coherence</p>
-        <p><strong>Version:</strong> <select style='max-width: 200px' onChange='window.document.location.href=this.options[this.selectedIndex].value;'><option value='https://micronaut-projects.github.io/micronaut-coherence/snapshot/guide/index.html'>SNAPSHOT</option><option selected='selected' value='https://micronaut-projects.github.io/micronaut-coherence/3.0.0/guide/index.html'>3.0.0</option><option value='https://micronaut-projects.github.io/micronaut-coherence/1.0.0/guide/index.html'>1.0.0</option><option value='https://micronaut-projects.github.io/micronaut-coherence/1.0.0.M2/guide/index.html'>1.0.0.M2</option><option value='https://micronaut-projects.github.io/micronaut-coherence/1.0.0.M1/guide/index.html'>1.0.0.M1</option></select></p>
+        <p><strong>Version:</strong> <select style='max-width: 200px' onChange='window.document.location.href=this.options[this.selectedIndex].value;'><option value='https://micronaut-projects.github.io/micronaut-coherence/snapshot/guide/index.html'>SNAPSHOT</option><option selected='selected' value='https://micronaut-projects.github.io/micronaut-coherence/3.0.1/guide/index.html'>3.0.1</option><option value='https://micronaut-projects.github.io/micronaut-coherence/3.0.0/guide/index.html'>3.0.0</option><option value='https://micronaut-projects.github.io/micronaut-coherence/1.0.0/guide/index.html'>1.0.0</option><option value='https://micronaut-projects.github.io/micronaut-coherence/1.0.0.M2/guide/index.html'>1.0.0.M2</option><option value='https://micronaut-projects.github.io/micronaut-coherence/1.0.0.M1/guide/index.html'>1.0.0.M1</option></select></p>
     </div>
     
 <h1 id="introduction"><a class="anchor" href="#introduction"></a>1 Introduction</h1>
@@ -758,7 +758,8 @@ testAnnotationProcessor("io.micronaut.coherence.data:coherence-data:${version}")
 </div>
 <div class="paragraph">
 <p><code>&lt;repository-name&gt;</code> maps to the name of the Coherence cache.  The optional <code>session</code> attribute specifies the name
-of the Coherence session that should be used to lookup the specified cache.  Review the main
+of the Coherence session that should be used to look up the specified cache.  If the <code>session</code> attribute is
+omitted, then the default Coherence Session will be assumed.  Review the main
 <a href="../bootstrap/configuration.adoc:">documentation</a> for details on configuration sessions.</p>
 </div>
 <div class="paragraph">
@@ -777,20 +778,37 @@ like the following:</p>
     book:</code></pre>
 </div>
 </div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+As any repository, like <code>book</code> above, that doesn&#8217;t have explicit session configuration, will use the default
+Coherence session.  If that&#8217;s the desired configuration, then there is no need reference any repositories within
+the configuration.
+</td>
+</tr>
+</table>
+</div>
 <div class="paragraph">
 <p>and the Java-based Repository could look something like:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">...
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">//...
 import io.micronaut.coherence.data.annotation.CoherenceRepository;
 import io.micronaut.data.repository.CrudRepository;
-...
+//...
 @CoherenceRepository("book")
 public interface BookRepository extends CrudRepository&lt;Book, UUID&gt; {
-    ...
+//    ...
 }</code></pre>
 </div>
+</div>
+<div class="paragraph">
+<p>NOTE:</p>
 </div>
 <div class="paragraph">
 <p>The developer may then start adding queries to the interface for Micronaut to implement.</p>
@@ -814,7 +832,7 @@ Coherence.</p>
 <div class="paragraph">
 <p>When extending the Coherence <code>AbstractCoherenceRepository</code>, developers must not also implement any of the standard
 Micronaut
-data sterotype interfaces (e.g., <code>CrudRepository</code> and the like).</p>
+data stereotype interfaces (e.g., <code>CrudRepository</code> and the like).</p>
 </div>
 </td>
 </tr>
@@ -822,10 +840,10 @@ data sterotype interfaces (e.g., <code>CrudRepository</code> and the like).</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">...
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">//...
 import io.micronaut.coherence.data.annotation.CoherenceRepository;
 import io.micronaut.coherence.data.AbstractCoherenceRepository;
-...
+//...
 @CoherenceRepository("book")
 public abstract class CoherenceBookRepository extends AbstractCoherenceRepository&lt;Book, UUID&gt; {
 }</code></pre>
@@ -836,10 +854,10 @@ public abstract class CoherenceBookRepository extends AbstractCoherenceRepositor
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">...
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">//...
 import io.micronaut.coherence.data.annotation.CoherenceRepository;
 import io.micronaut.coherence.data.AbstractCoherenceAsyncRepository;
-...
+//...
 @CoherenceRepository("book")
 public abstract class CoherenceAsyncBookRepository extends AbstractCoherenceAsyncRepository&lt;Book, UUID&gt; {
 }</code></pre>
@@ -4540,7 +4558,7 @@ public class CustomerController {
 </div>
 </div>
 
-<h1 id="distributedConfiguration"><a class="anchor" href="#distributedConfiguration"></a>16 Using Coherence as a Distributed Configuration provided</h1>
+<h1 id="distributedConfiguration"><a class="anchor" href="#distributedConfiguration"></a>16 Using Coherence as a Distributed Configuration provider</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master/src/main/docs/guide/distributedConfiguration.adoc"'>
