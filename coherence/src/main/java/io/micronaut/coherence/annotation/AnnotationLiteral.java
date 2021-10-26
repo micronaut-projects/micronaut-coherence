@@ -25,7 +25,7 @@ import java.util.Arrays;
 /**
  * Supports inline instantiation of annotation type instances.
  * <p>
- * An instance of an annotation type may be obtained by subclassing <tt>AnnotationLiteral</tt>.
+ * An instance of an annotation type may be obtained by subclassing {@code AnnotationLiteral}.
  * <pre>
  * public abstract class PayByQualifier
  *       extends AnnotationLiteral&lt;PayBy&gt;
