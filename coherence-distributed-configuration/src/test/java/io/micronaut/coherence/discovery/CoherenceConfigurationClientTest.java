@@ -56,7 +56,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@MicronautTest(startApplication = false, environments = "backend", propertySources = "classpath:sessions.yaml")
+@MicronautTest(startApplication = false, environments = "backend")
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
 class CoherenceConfigurationClientTest {
 
@@ -103,6 +103,7 @@ class CoherenceConfigurationClientTest {
         ApplicationConfiguration applicationConfiguration = new ApplicationConfiguration();
         applicationConfiguration.setName("my-app");
         CoherenceClientConfiguration clientConfig = new CoherenceClientConfiguration();
+        clientConfig.setEnabled(true);
         CoherenceConfigurationClient client = new CoherenceConfigurationClient(applicationConfiguration, clientConfig) {
             @Override
             protected Session buildSession(CoherenceClientConfiguration coherenceClientConfiguration) {

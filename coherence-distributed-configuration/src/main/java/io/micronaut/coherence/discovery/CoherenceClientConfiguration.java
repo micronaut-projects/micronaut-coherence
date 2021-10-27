@@ -18,18 +18,23 @@ package io.micronaut.coherence.discovery;
 
 import io.micronaut.context.annotation.BootstrapContextCompatible;
 import io.micronaut.context.annotation.ConfigurationProperties;
+import io.micronaut.context.annotation.Requires;
+import io.micronaut.core.util.StringUtils;
+import io.micronaut.core.util.Toggleable;
 
 /**
  * The Coherence client configuration.
  */
 @ConfigurationProperties(CoherenceClientConfiguration.PREFIX)
 @BootstrapContextCompatible
-public class CoherenceClientConfiguration {
+@Requires(property = "coherence.client.enabled", value = StringUtils.TRUE, defaultValue = StringUtils.FALSE)
+public class CoherenceClientConfiguration implements Toggleable {
     public static final String PREFIX = "coherence.client";
 
     private String host = "localhost";
     private int port = 1408;
     private boolean enableTls;
+    private boolean enabled;
 
     /**
      * Returns host name of gRPC server.
@@ -85,10 +90,29 @@ public class CoherenceClientConfiguration {
         this.enableTls = enableTls;
     }
 
+    /**
+     * Returns true if distributed configuration is enabled.
+     *
+     * @return Is distributed configuration enabled. True if it is.
+     */
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    /**
+     * Enables distributed configuration
+     *
+     * @param enabled Enable the distributed configuration
+     */
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
     @Override
     public String toString() {
         return "CoherenceClientConfiguration{" +
-                "host='" + host + '\'' +
+                "enabled=" + enabled +
+                ", host='" + host + '\'' +
                 ", port=" + port +
                 ", enableTls=" + enableTls +
                 '}';
