@@ -25,6 +25,7 @@ import io.grpc.Channel;
 import io.grpc.ManagedChannelBuilder;
 
 import io.micronaut.context.annotation.BootstrapContextCompatible;
+import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.env.Environment;
 import io.micronaut.context.env.EnvironmentPropertySource;
 import io.micronaut.context.env.PropertySource;
@@ -52,6 +53,7 @@ import reactor.core.publisher.Flux;
  */
 @Singleton
 @BootstrapContextCompatible
+@Requires(beans = CoherenceClientConfiguration.class)
 public class CoherenceConfigurationClient implements ConfigurationClient {
 
     private static final Logger LOG = LoggerFactory.getLogger(CoherenceConfigurationClient.class);
@@ -72,6 +74,9 @@ public class CoherenceConfigurationClient implements ConfigurationClient {
 
     @Override
     public Publisher<PropertySource> getPropertySources(Environment environment) {
+        if (!coherenceClientConfiguration.isEnabled()) {
+            return Flux.empty();
+        }
         Session session = buildSession(coherenceClientConfiguration);
 
         Map<Integer, String> keys = buildSourceNames(applicationConfiguration, environment);

@@ -13,18 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/**
- * Distributed Configuration client for Oracle Coherence back end.
- *
- * @author Vaso Putica
- * @since 1.0
- */
-@Requires(property = ConfigurationClient.ENABLED, value = StringUtils.TRUE, defaultValue = StringUtils.FALSE)
-@Requires(property = CoherenceClientConfiguration.PREFIX + ".enabled", value = StringUtils.TRUE, defaultValue = StringUtils.FALSE)
 @Configuration
 package io.micronaut.coherence.discovery;
 
 import io.micronaut.context.annotation.Configuration;
-import io.micronaut.context.annotation.Requires;
-import io.micronaut.core.util.StringUtils;
-import io.micronaut.discovery.config.ConfigurationClient;
