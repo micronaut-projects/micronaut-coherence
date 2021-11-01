@@ -100,7 +100,7 @@ public class CoherenceClientConfiguration implements Toggleable {
     }
 
     /**
-     * Enables distributed configuration
+     * Enables distributed configuration.
      *
      * @param enabled Enable the distributed configuration
      */
