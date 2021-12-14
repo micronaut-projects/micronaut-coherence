@@ -41,6 +41,7 @@ import io.micronaut.data.model.runtime.InsertBatchOperation;
 import io.micronaut.data.model.runtime.InsertOperation;
 import io.micronaut.data.model.runtime.PagedQuery;
 import io.micronaut.data.model.runtime.PreparedQuery;
+import io.micronaut.data.model.runtime.QueryParameterBinding;
 import io.micronaut.data.model.runtime.RuntimePersistentEntity;
 import io.micronaut.data.model.runtime.RuntimePersistentProperty;
 import io.micronaut.data.model.runtime.UpdateOperation;
@@ -53,6 +54,7 @@ import java.io.StringWriter;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -423,7 +425,15 @@ public class DefaultCoherenceRepositoryOperations implements CoherenceRepository
      * @return the modified query
      */
     protected <T> String replaceTarget(String query, Class<? extends T> entityClass) {
-        return query.replace(entityClass.getName(), getNamedMap().getName());
+        // ugly hack to due to unexpected behavioral changes in micronaut-data 3.2.x; statements that result
+        // in a boolean are now including TRUE in the select statement, which COHQL doesn't like.  Haven't
+        // been able to determine a cleaner fix.
+        String queryLocal = query.replace("SELECT TRUE", "SELECT ");
+
+        // Another hack as it doesn't seem the CohQLQueryBuilder is called when generating delete statements.
+        queryLocal = queryLocal.replace("DELETE ", "DELETE FROM ");
+
+        return queryLocal.replace(entityClass.getName(), getNamedMap().getName());
     }
 
     /**
@@ -434,9 +444,18 @@ public class DefaultCoherenceRepositoryOperations implements CoherenceRepository
      * @return the parameters necessary to execute a CohQL statement
      */
     protected Map<String, Object> createBindingMap(PreparedQuery preparedQuery) {
-        String[] bindingNames = preparedQuery.getParameterNames();
+        List<QueryParameterBinding> bindings = preparedQuery.getQueryBindings();
+        int bindingsLen = bindings.size();
+        String[] bindingNames = new String[bindingsLen];
+        Integer[] bindingIndexes = new Integer[bindingsLen];
+
+        for (int i = 0; i < bindingsLen; i++) {
+            QueryParameterBinding binding = bindings.get(i);
+            bindingNames[i] = binding.getName();
+            bindingIndexes[i] = binding.getParameterIndex();
+        }
+
         Object[] bindingValues = preparedQuery.getParameterArray();
-        int[] bindingIndexes = preparedQuery.getIndexedParameterBinding();
 
         return IntStream.range(0, bindingNames.length).boxed()
                 .collect(Collectors.toMap(i -> bindingNames[i],
