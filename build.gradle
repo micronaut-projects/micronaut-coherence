@@ -19,14 +19,14 @@ buildscript {
         maven { url "https://repo.grails.org/grails/core" }
     }
     dependencies {
-        classpath "io.micronaut.build.internal:micronaut-gradle-plugins:5.0.2"
+        classpath "io.micronaut.build.internal:micronaut-gradle-plugins:5.1.0"
     }
 }
 
 subprojects { Project subproject ->
     group "io.micronaut.coherence"
     ext {
-        micronautVersion = '3.1.4'
+        micronautVersion = '3.2.2'
     }
     repositories {
         jcenter()
