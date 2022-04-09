@@ -4,7 +4,7 @@ dependency:coherence-session[groupId="io.micronaut.coherence"]
 
 Also, add a Coherence dependency - either Coherence CE or commercial version:
 
-dependency:coherence[groupId="com.oracle.coherence.ce",version="20.12.1"]
+dependency:coherence[groupId="com.oracle.coherence.ce",version="21.12.3"]
 
 Enable Coherence sessions via configuration in `application.yml`:
 
