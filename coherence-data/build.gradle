@@ -7,7 +7,7 @@ repositories {
 
 dependencies {
     annotationProcessor "io.micronaut:micronaut-inject-java:$micronautVersion"
-    annotationProcessor "io.micronaut.docs:micronaut-docs-asciidoc-config-props:$micronautDocsVersion"
+    annotationProcessor "io.micronaut.docs:micronaut-docs-asciidoc-config-props:2.0.0"
 
     api project(":coherence")
     api "io.micronaut.data:micronaut-data-model:$micronautDataVersion"
@@ -20,7 +20,7 @@ dependencies {
     testImplementation "com.oracle.coherence.ce:coherence:${coherenceVersion}"
 
     testImplementation "org.hamcrest:hamcrest:2.2"
-    testImplementation "io.micronaut.test:micronaut-test-junit5:3.0.5"
+    testImplementation "io.micronaut.test:micronaut-test-junit5:3.1.1"
     testImplementation "com.oracle.bedrock:bedrock-testing-support:${bedrockVersion}"
     testImplementation "io.micronaut.data:micronaut-data-processor:$micronautDataVersion"
 

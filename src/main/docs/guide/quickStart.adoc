@@ -4,7 +4,7 @@ dependency:coherence[groupId="io.micronaut.coherence"]
 
 Next, you also need to add the version of Coherence that your application will be using. For example, to use Coherence CE:
 
-dependency:coherence[groupId="com.oracle.coherence.ce",version="20.12.1"]
+dependency:coherence[groupId="com.oracle.coherence.ce",version="21.12.3"]
 
 or to use a commercial version Coherence:
 
