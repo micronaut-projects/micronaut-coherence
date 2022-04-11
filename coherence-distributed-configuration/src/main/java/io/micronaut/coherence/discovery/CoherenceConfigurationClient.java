@@ -133,7 +133,7 @@ public class CoherenceConfigurationClient implements ConfigurationClient {
         GrpcSessionConfiguration grpcSessionConfiguration = builder.build();
 
         Optional<Session> optional = Session.create(grpcSessionConfiguration);
-        return optional.get();
+        return optional.orElseThrow(() -> new IllegalStateException("Unable to create session"));
     }
 
     /**
