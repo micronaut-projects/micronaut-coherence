@@ -71,7 +71,7 @@ class FactoryQualifier<T> implements Qualifier<T> {
     <BT extends BeanType<T>> boolean filter(BT bt) {
         if (holder == null) {
             // there is no holder, if we find the type it must have an annotations value of zero size
-            return bt.isAnnotationPresent(type) && Objects.requireNonNull(bt.getAnnotation(type)).getAnnotations("value").size() == 0;
+            return bt.isAnnotationPresent(type) && Objects.requireNonNull(bt.getAnnotation(type)).getAnnotations("value").isEmpty();
         }
         // there is a holder (i.e. type is @Repeatable), if we find the holder it must have an annotations value of
         // size 1
