@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 original authors
+ * Copyright 2017-2022 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -214,6 +214,10 @@ public class CoherencePublisherIntroductionAdvice implements MethodInterceptor<O
                 publisher.flush().get(1, TimeUnit.MINUTES);
             } catch (Throwable t) {
                 LOG.error("Error flushing publisher", t);
+                if (t instanceof InterruptedException) {
+                    //noinspection ResultOfMethodCallIgnored
+                    Thread.interrupted();
+                }
             }
 
             try {
