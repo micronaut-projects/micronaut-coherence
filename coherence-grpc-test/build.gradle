@@ -3,8 +3,8 @@ dependencies {
     api project(':coherence-grpc-client')
     api "io.micronaut:micronaut-inject"
     api "io.micronaut:micronaut-runtime"
-    api "com.oracle.coherence.ce:coherence-grpc-proxy"
-    api "com.oracle.coherence.ce:coherence-json"
+    api "com.oracle.coherence.ce:coherence-grpc-proxy:${coherenceVersion}"
+    api "com.oracle.coherence.ce:coherence-json:${coherenceVersion}"
 
     testImplementation "org.mockito:mockito-core:${mockitoVersion}"
     testImplementation "org.hamcrest:hamcrest:${hamcrestVersion}"

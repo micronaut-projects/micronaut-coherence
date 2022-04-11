@@ -1,10 +1,10 @@
 dependencies {
     api project(':coherence')
     api "io.micronaut:micronaut-session"
-    compileOnly "com.oracle.coherence.ce:coherence"
+    compileOnly "com.oracle.coherence.ce:coherence:${coherenceVersion}"
     implementation("io.micronaut.reactor:micronaut-reactor")
 
-    testImplementation "com.oracle.coherence.ce:coherence"
+    testImplementation "com.oracle.coherence.ce:coherence:${coherenceVersion}"
     testImplementation "io.micronaut:micronaut-http-client"
     testRuntimeOnly "io.micronaut:micronaut-http-server-netty"
 

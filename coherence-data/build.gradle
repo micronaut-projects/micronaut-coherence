@@ -14,7 +14,7 @@ dependencies {
     api "io.micronaut.data:micronaut-data-runtime:$micronautDataVersion"
     api "io.micronaut.data:micronaut-data-processor:$micronautDataVersion"
 
-    compileOnly "com.oracle.coherence.ce:coherence"
+    compileOnly "com.oracle.coherence.ce:coherence:${coherenceVersion}"
 
     testImplementation(platform("com.oracle.coherence.ce:coherence-bom:${coherenceVersion}"))
     testImplementation "com.oracle.coherence.ce:coherence:${coherenceVersion}"

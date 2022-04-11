@@ -2,7 +2,7 @@ dependencies {
     api project(':coherence')
     api "io.micronaut:micronaut-inject"
     api "io.micronaut:micronaut-runtime"
-    api "com.oracle.coherence.ce:coherence-java-client"
+    api "com.oracle.coherence.ce:coherence-java-client:${coherenceVersion}"
 
     testImplementation "org.mockito:mockito-core:${mockitoVersion}"
     testImplementation "org.hamcrest:hamcrest:${hamcrestVersion}"

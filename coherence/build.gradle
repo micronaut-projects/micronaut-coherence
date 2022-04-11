@@ -5,9 +5,9 @@ dependencies {
     api "javax.inject:javax.inject:1"
     implementation("io.micronaut.reactor:micronaut-reactor")
 
-    compileOnly "com.oracle.coherence.ce:coherence"
-    compileOnly "com.oracle.coherence.ce:coherence-json"
-    compileOnly "com.oracle.coherence.ce:coherence-grpc-proxy"
+    compileOnly "com.oracle.coherence.ce:coherence:${coherenceVersion}"
+    compileOnly "com.oracle.coherence.ce:coherence-json:${coherenceVersion}"
+    compileOnly "com.oracle.coherence.ce:coherence-grpc-proxy:${coherenceVersion}"
 
     testImplementation "com.oracle.coherence.ce:coherence:${coherenceVersion}"
 
