@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 original authors
+ * Copyright 2017-2022 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@ package io.micronaut.coherence;
 
 import java.lang.annotation.Annotation;
 import java.lang.annotation.Repeatable;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 import io.micronaut.context.Qualifier;
@@ -69,10 +70,11 @@ class FactoryQualifier<T> implements Qualifier<T> {
      */
     <BT extends BeanType<T>> boolean filter(BT bt) {
         if (holder == null) {
-            // there is no holder, if we find the type it must have a annotations value of zero size
-            return bt.isAnnotationPresent(type) && bt.getAnnotation(type).getAnnotations("value").size() == 0;
+            // there is no holder, if we find the type it must have an annotations value of zero size
+            return bt.isAnnotationPresent(type) && Objects.requireNonNull(bt.getAnnotation(type)).getAnnotations("value").isEmpty();
         }
-        // there is a holder (i.e. type is @Repeatable), if we find the holder it must have a annotations value of size 1
-        return bt.isAnnotationPresent(holder) && bt.getAnnotation(holder).getAnnotations("value").size() == 1;
+        // there is a holder (i.e. type is @Repeatable), if we find the holder it must have an annotations value of
+        // size 1
+        return bt.isAnnotationPresent(holder) && Objects.requireNonNull(bt.getAnnotation(holder)).getAnnotations("value").size() == 1;
     }
 }
