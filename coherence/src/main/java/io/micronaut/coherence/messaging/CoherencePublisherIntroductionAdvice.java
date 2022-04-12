@@ -256,21 +256,20 @@ public class CoherencePublisherIntroductionAdvice implements MethodInterceptor<O
         }
 
         Class<?> finalJavaReturnType = javaReturnType;
-        Flux<Object> sendFlux = valueFlux.flatMap(o -> {
-            return Flux.create(emitter -> publisher.send(o).handle((metadata, exception) -> {
-                if (exception != null) {
-                    emitter.error(wrapException(context, exception));
+        Flux<Object> sendFlux = valueFlux.flatMap(o -> Flux.create(
+                emitter -> publisher.publish(o).handle((metadata, exception) -> {
+            if (exception != null) {
+                emitter.error(wrapException(context, exception));
+            } else {
+                if (finalJavaReturnType.isInstance(o)) {
+                    emitter.next(o);
                 } else {
-                    if (finalJavaReturnType.isInstance(o)) {
-                        emitter.next(o);
-                    } else {
-                        conversionService.convert(metadata, finalJavaReturnType).ifPresent(emitter::next);
-                    }
-                    emitter.complete();
+                    conversionService.convert(metadata, finalJavaReturnType).ifPresent(emitter::next);
                 }
-                return null;
-            }), FluxSink.OverflowStrategy.BUFFER);
-        });
+                emitter.complete();
+            }
+            return null;
+        }), FluxSink.OverflowStrategy.BUFFER));
 
         if (maxBlock != null) {
             sendFlux = sendFlux.timeout(maxBlock);

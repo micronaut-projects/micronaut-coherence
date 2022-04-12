@@ -27,6 +27,7 @@ import io.micronaut.coherence.annotation.*;
 
 import java.lang.annotation.Annotation;
 import java.util.EnumSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
@@ -184,6 +185,19 @@ class AnnotatedMapListener<K, V> implements MapListener<K, V>, Comparable<Annota
     }
 
     @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (!(o instanceof AnnotatedMapListener)) return false;
+        final AnnotatedMapListener<?, ?> that = (AnnotatedMapListener<?, ?>) o;
+        return getCacheName().equals(that.getCacheName()) && getServiceName().equals(that.getServiceName()) && session.equals(that.session);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getCacheName(), getServiceName(), session);
+    }
+
+    @Override
     public int compareTo(AnnotatedMapListener<?, ?> other) {
         int result = SafeComparator.compareSafe(Remote.Comparator.naturalOrder(), this.session, other.session);
         if (result == 0) {
@@ -336,6 +350,7 @@ class AnnotatedMapListener<K, V> implements MapListener<K, V>, Comparable<Annota
      *
      * @return {@code true} if this is synchronous event listener
      */
+    @Override
     public boolean isSynchronous() {
         return synchronousEvents;
     }
