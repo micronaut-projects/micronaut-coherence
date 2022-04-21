@@ -78,7 +78,7 @@ public class CoherenceSessionStore implements SessionStore<CoherenceSessionStore
 
     @Override
     public CompletableFuture<Optional<CoherenceHttpSession>> findSession(String id) {
-        return findSessionInternal(id, false);
+        return findSessionInternal(id);
     }
 
     @Override
@@ -99,7 +99,7 @@ public class CoherenceSessionStore implements SessionStore<CoherenceSessionStore
     }
 
     @SuppressWarnings("unchecked")
-    private CompletableFuture<Optional<CoherenceHttpSession>> findSessionInternal(String id, boolean allowExpired) {
+    private CompletableFuture<Optional<CoherenceHttpSession>> findSessionInternal(String id) {
         return cache.async()
                 .invoke(id, entry -> {
                     if (!entry.isPresent()) {
@@ -184,7 +184,7 @@ public class CoherenceSessionStore implements SessionStore<CoherenceSessionStore
         /**
          * Set whether session is a newly created and unsaved.
          *
-         * @param aNew
+         * @param aNew is the session new or not
          */
         public void setNew(boolean aNew) {
             isNew = aNew;

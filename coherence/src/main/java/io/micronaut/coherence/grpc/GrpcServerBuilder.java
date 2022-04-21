@@ -72,12 +72,6 @@ class GrpcServerBuilder {
      */
     public static class GrpcServerBuilderProviderBean implements GrpcServerBuilderProvider {
 
-        /**
-         * Public constructor used by Coherence to load this class via the {@link java.util.ServiceLoader}.
-         */
-        public GrpcServerBuilderProviderBean() {
-        }
-
         @Override
         public ServerBuilder<?> getServerBuilder(int port) {
             if (BUILDERS.isEmpty()) {

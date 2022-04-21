@@ -52,6 +52,9 @@ import java.util.function.Function;
  */
 public class EventObserverSupport {
 
+    private EventObserverSupport() {
+    }
+
     @SuppressWarnings({"unchecked", "rawtypes"})
     public static <E extends Event<T>, T extends Enum<T>>
     EventHandler<E, T> createObserver(Class<E> type, ExecutableMethodEventObserver<E, ?, ?> observer) {

@@ -95,6 +95,7 @@ public class CoherenceClientConfiguration implements Toggleable {
      *
      * @return Is distributed configuration enabled. True if it is.
      */
+    @Override
     public boolean isEnabled() {
         return enabled;
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 original authors
+ * Copyright 2017-2022 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,6 +28,8 @@ import com.tangosol.net.topic.Subscriber;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
+import org.junit.Ignore;
+import org.junit.Test;
 import org.junit.jupiter.api.TestInstance;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -40,8 +42,9 @@ class NamedTopicPreDestroyTest {
     @Inject
     ApplicationContext ctx;
 
-    //@Test
-    void shouldClosePublisherOnScopeDeactivation() {
+    @Test
+    @Ignore
+    public void shouldClosePublisherOnScopeDeactivation() {
         Publishers publishers = ctx.getBean(Publishers.class);
         Publisher<String> publisher = publishers.getPublisher();
         Publisher<String> qualifiedPublisher = publishers.getQualifiedPublisher();

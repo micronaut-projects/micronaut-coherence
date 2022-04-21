@@ -29,9 +29,6 @@ import java.util.Optional;
 public class CoherenceHttpSessionConfiguration extends HttpSessionConfiguration implements Toggleable {
     private String cacheName;
 
-    public CoherenceHttpSessionConfiguration() {
-    }
-
     /**
      * Get HTTP session cache name.
      *

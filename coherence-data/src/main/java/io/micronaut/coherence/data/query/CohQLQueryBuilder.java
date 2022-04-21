@@ -27,12 +27,6 @@ import java.util.Map;
  */
 public class CohQLQueryBuilder extends JpaQueryBuilder {
 
-    /**
-     * Default constructor.
-     */
-    public CohQLQueryBuilder() {
-    }
-
     @Override
     protected String[] buildJoin(String alias, JoinPath joinPath, String joinType, StringBuilder target, Map<String, String> appliedJoinPaths, QueryState queryState) {
         throw new UnsupportedOperationException("Coherence Query Language does not support joins");

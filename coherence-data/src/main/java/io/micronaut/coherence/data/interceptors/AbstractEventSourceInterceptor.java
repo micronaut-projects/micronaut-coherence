@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 original authors
+ * Copyright 2017-2022 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -50,7 +50,7 @@ public abstract class AbstractEventSourceInterceptor implements MethodIntercepto
     @Override
     public Object intercept(final MethodInvocationContext context) {
         Object[] parameters = context.getParameterValues();
-        if (parameters != null && parameters.length == 1) {
+        if (parameters.length == 1) {
             Object eventFor = parameters[0];
 
             if (eventFor instanceof EntityInstanceOperation) {
@@ -114,7 +114,7 @@ public abstract class AbstractEventSourceInterceptor implements MethodIntercepto
      *         of an event.  Any values returned for {@code POST} events is meaningless.
      */
     @SuppressWarnings("unchecked")
-    protected Boolean trigger(EventType eventType, Object entity) {
+    protected boolean trigger(EventType eventType, Object entity) {
         ArgumentUtils.requireNonNull("eventType", eventType);
         ArgumentUtils.requireNonNull("entity", eventType);
 
@@ -149,7 +149,7 @@ public abstract class AbstractEventSourceInterceptor implements MethodIntercepto
                     registry.getEntityEventListener().postRemove(new DefaultEntityEventContext<>(rpe, entity));
                 }
         }
-        return Boolean.TRUE;
+        return true;
     }
 
     /**

@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2020 original authors
+ * Copyright 2017-2022 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,10 +17,13 @@ package io.micronaut.coherence;
 
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
+import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
 import javax.inject.Inject;
+
+import java.util.concurrent.CompletableFuture;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.sameInstance;
@@ -40,14 +43,4 @@ class CoherenceContextTest {
     void shouldSupplyContext() {
         assertThat(CoherenceContext.getApplicationContext(), is(sameInstance(beanContext)));
     }
-
-    @Test
-    void shouldCleanup() throws Exception {
-//        Coherence coherence = Coherence.create();
-//        CompletableFuture<Void> future = coherence.whenClosed();
-//        beanContext.close();
-//        // The Coherence instance should be auto-closed by the PreDestroy method of CoherenceContext
-//        future.get(1, TimeUnit.MINUTES);
-    }
-
 }

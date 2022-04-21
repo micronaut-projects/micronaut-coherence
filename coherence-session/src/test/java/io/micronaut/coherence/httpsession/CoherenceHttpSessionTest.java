@@ -129,6 +129,7 @@ public class CoherenceHttpSessionTest {
         session.put("foo", new Foo("Fred", 10));
         session.setMaxInactiveInterval(Duration.ofSeconds(1));
         Session saved = sessionStore.save(session).get();
+
         Thread.sleep(1100);
         assertFalse(sessionStore.findSession(saved.getId()).get().isPresent());
     }

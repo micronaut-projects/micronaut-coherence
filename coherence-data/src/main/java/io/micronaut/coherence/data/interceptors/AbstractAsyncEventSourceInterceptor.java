@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 original authors
+ * Copyright 2017-2022 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,7 +33,7 @@ public abstract class AbstractAsyncEventSourceInterceptor extends AbstractEventS
      *
      * @param registry the {@link RuntimeEntityRegistry}
      */
-    public AbstractAsyncEventSourceInterceptor(final RuntimeEntityRegistry registry) {
+    protected AbstractAsyncEventSourceInterceptor(final RuntimeEntityRegistry registry) {
         super(registry);
     }
 
@@ -41,7 +41,7 @@ public abstract class AbstractAsyncEventSourceInterceptor extends AbstractEventS
     @Override
     public Object intercept(final MethodInvocationContext context) {
         Object[] parameters = context.getParameterValues();
-        if (parameters != null && parameters.length == 1) {
+        if (parameters.length == 1) {
             Object eventFor = parameters[0];
             if (eventFor instanceof EntityInstanceOperation) {
                 eventFor = ((EntityInstanceOperation) eventFor).getEntity();
@@ -62,13 +62,18 @@ public abstract class AbstractAsyncEventSourceInterceptor extends AbstractEventS
                 }
             }
 
-            return ((CompletionStage) context.proceed()).thenApplyAsync(result -> {
+            Object contextResult = context.proceed();
+            if (contextResult != null) {
+                return ((CompletionStage) contextResult).thenApplyAsync(result -> {
                     trigger(getHandledPostEventType(),
                             eventLocal.getClass().isInstance(result)
                                     ? result
                                     : eventLocal);
-                return result;
-            });
+                    return result;
+                });
+            } else {
+                return null;
+            }
         }
 
         return context.proceed();

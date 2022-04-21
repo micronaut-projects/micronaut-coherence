@@ -71,12 +71,6 @@ class GrpcServerConfigurer {
      */
     public static class GrpcServerConfigurationBean implements GrpcServerConfiguration {
 
-        /**
-         * Public constructor used by Coherence to load this class via the {@link java.util.ServiceLoader}.
-         */
-        public GrpcServerConfigurationBean() {
-        }
-
         @Override
         public void configure(ServerBuilder<?> serverBuilder, InProcessServerBuilder inProcessServerBuilder) {
             for (GrpcServerConfiguration bean : CONFIGS) {

@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 original authors
+ * Copyright 2017-2022 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,6 +27,7 @@ import io.micronaut.coherence.annotation.*;
 
 import java.lang.annotation.Annotation;
 import java.util.EnumSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
@@ -195,6 +196,34 @@ class AnnotatedMapListener<K, V> implements MapListener<K, V>, Comparable<Annota
         return result;
     }
 
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (!(o instanceof AnnotatedMapListener)) {
+            return false;
+        }
+
+        final AnnotatedMapListener<?, ?> that = (AnnotatedMapListener<?, ?>) o;
+        return liteEvents == that.liteEvents && synchronousEvents == that.synchronousEvents &&
+                Objects.equals(observer, that.observer) && Objects.equals(getCacheName(), that.getCacheName()) &&
+                Objects.equals(getServiceName(), that.getServiceName()) && Objects.equals(getScopeName(), that.getScopeName()) &&
+                Objects.equals(eventTypes, that.eventTypes) && Objects.equals(filterAnnotations, that.filterAnnotations) &&
+                Objects.equals(transformerAnnotations, that.transformerAnnotations) &&
+                Objects.equals(extractorAnnotations, that.extractorAnnotations) &&
+                Objects.equals(session, that.session) && Objects.equals(getFilter(), that.getFilter()) &&
+                Objects.equals(getTransformer(), that.getTransformer());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(observer, getCacheName(), getServiceName(), getScopeName(), eventTypes, filterAnnotations,
+                transformerAnnotations, extractorAnnotations, session, liteEvents, synchronousEvents,
+                getFilter(), getTransformer());
+    }
+
     /**
      * Return the name of the session that this listener is for.
      *
@@ -336,6 +365,7 @@ class AnnotatedMapListener<K, V> implements MapListener<K, V>, Comparable<Annota
      *
      * @return {@code true} if this is synchronous event listener
      */
+    @Override
     public boolean isSynchronous() {
         return synchronousEvents;
     }
