@@ -50,7 +50,7 @@ import java.util.function.Function;
  * @author Jonathan Knight
  * @since 1.0
  */
-public class EventObserverSupport {
+public final class EventObserverSupport {
 
     private EventObserverSupport() {
     }

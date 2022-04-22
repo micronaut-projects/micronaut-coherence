@@ -15,25 +15,14 @@
  */
 package io.micronaut.coherence.messaging;
 
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.FluxSink;
-
-import java.time.Duration;
-import java.util.*;
-import java.util.concurrent.*;
-
-import javax.inject.Singleton;
-
-import io.micronaut.aop.InterceptedMethod;
-import io.micronaut.coherence.annotation.SessionName;
-
 import com.tangosol.net.Coherence;
 import com.tangosol.net.Session;
 import com.tangosol.net.topic.Publisher;
-
+import io.micronaut.aop.InterceptedMethod;
 import io.micronaut.aop.MethodInterceptor;
 import io.micronaut.aop.MethodInvocationContext;
 import io.micronaut.coherence.annotation.CoherencePublisher;
+import io.micronaut.coherence.annotation.SessionName;
 import io.micronaut.coherence.annotation.Topic;
 import io.micronaut.coherence.annotation.Topics;
 import io.micronaut.coherence.annotation.Utils;
@@ -51,6 +40,15 @@ import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.FluxSink;
+
+import javax.inject.Singleton;
+import java.time.Duration;
+import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Implementation of the {@link io.micronaut.coherence.annotation.CoherencePublisher} advice annotation.
@@ -212,9 +210,9 @@ public class CoherencePublisherIntroductionAdvice implements MethodInterceptor<O
             Publisher<Object> publisher = entry.getValue();
             try {
                 publisher.flush().get(1, TimeUnit.MINUTES);
-            } catch (Throwable t) {
-                LOG.error("Error flushing publisher", t);
-                if (t instanceof InterruptedException) {
+            } catch (Exception e) {
+                LOG.error("Error flushing publisher", e);
+                if (e instanceof InterruptedException) {
                     //noinspection ResultOfMethodCallIgnored
                     Thread.interrupted();
                 }
@@ -222,8 +220,8 @@ public class CoherencePublisherIntroductionAdvice implements MethodInterceptor<O
 
             try {
                 publisher.close();
-            } catch (Throwable t) {
-                LOG.error("Error closing publisher", t);
+            } catch (Exception e) {
+                LOG.error("Error closing publisher", e);
             }
         }
     }
@@ -256,21 +254,20 @@ public class CoherencePublisherIntroductionAdvice implements MethodInterceptor<O
         }
 
         Class<?> finalJavaReturnType = javaReturnType;
-        Flux<Object> sendFlux = valueFlux.flatMap(o -> {
-            return Flux.create(emitter -> publisher.send(o).handle((metadata, exception) -> {
-                if (exception != null) {
-                    emitter.error(wrapException(context, exception));
-                } else {
-                    if (finalJavaReturnType.isInstance(o)) {
-                        emitter.next(o);
+        Flux<Object> sendFlux = valueFlux.flatMap(o ->
+                Flux.create(emitter -> publisher.publish(o).handle((metadata, exception) -> {
+                    if (exception != null) {
+                        emitter.error(wrapException(context, exception));
                     } else {
-                        conversionService.convert(metadata, finalJavaReturnType).ifPresent(emitter::next);
+                        if (finalJavaReturnType.isInstance(o)) {
+                            emitter.next(o);
+                        } else {
+                            conversionService.convert(metadata, finalJavaReturnType).ifPresent(emitter::next);
+                        }
+                        emitter.complete();
                     }
-                    emitter.complete();
-                }
-                return null;
-            }), FluxSink.OverflowStrategy.BUFFER);
-        });
+                    return null;
+                }), FluxSink.OverflowStrategy.BUFFER));
 
         if (maxBlock != null) {
             sendFlux = sendFlux.timeout(maxBlock);

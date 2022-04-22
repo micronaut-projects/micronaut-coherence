@@ -311,7 +311,6 @@ class CoherenceTopicListenerProcessor
         /**
          * The subscriber argument.
          */
-        @SuppressWarnings("rawtypes")
         private final Optional<Argument<?>> subscriberArg;
 
         /**
@@ -340,7 +339,7 @@ class CoherenceTopicListenerProcessor
          * @param registry         the {@link ElementArgumentBinderRegistry} to use to bind method arguments
          * @param scheduler        the scheduler service
          */
-        @SuppressWarnings({"rawtypes", "unchecked"})
+        @SuppressWarnings({"rawtypes"})
         TopicSubscriber(String topicName, Subscriber<E> subscriber, Publisher<?>[] publishers, T bean,
                         ExecutableMethod<T, R> method, ElementArgumentBinderRegistry registry, Scheduler scheduler) {
             this.topicName = topicName;
@@ -362,8 +361,8 @@ class CoherenceTopicListenerProcessor
         public void close() {
             try {
                 subscriber.close();
-            } catch (Throwable t) {
-                LOG.error("Error closing subscriber for topic {}", topicName, t);
+            } catch (Exception e) {
+                LOG.error("Error closing subscriber for topic {}", topicName, e);
             }
         }
 
@@ -448,7 +447,7 @@ class CoherenceTopicListenerProcessor
                             }
                         }
                     }
-                } catch (Throwable thrown) {
+                } catch (Exception thrown) {
                     // With auto-commit strategies the developer has chosen to ignore commit failures, just log the error
                     LOG.error("Error committing element channel={} position={}", element.getChannel(), element.getPosition(), thrown);
                 }
@@ -558,7 +557,6 @@ class CoherenceTopicListenerProcessor
                     }
                 });
             } else {
-                //noinspection ResultOfMethodCallIgnored
                 recordMetadataProducer.subscribe(recordMetadata -> {
                     if (LOG.isTraceEnabled()) {
                         LOG.trace("Method [{}] produced record metadata: {}", method, recordMetadata);
