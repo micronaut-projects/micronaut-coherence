@@ -16,6 +16,8 @@
 package io.micronaut.coherence.annotation;
 
 import java.lang.annotation.*;
+import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * A {@link ExtractorBinding} annotation representing a {@link
@@ -118,6 +120,28 @@ public @interface PofExtractor {
             public PofExtractor[] value() {
                 return m_aExtractors;
             }
+
+            @Override
+            public boolean equals(final Object o) {
+                if (this == o) {
+                    return true;
+                }
+                if (o == null || getClass() != o.getClass()) {
+                    return false;
+                }
+                if (!super.equals(o)) {
+                    return false;
+                }
+                final Literal literal = (Literal) o;
+                return Arrays.equals(m_aExtractors, literal.m_aExtractors);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = super.hashCode();
+                result = 31 * result + Arrays.hashCode(m_aExtractors);
+                return result;
+            }
         }
     }
 
@@ -219,6 +243,29 @@ public @interface PofExtractor {
          */
         public Class<?> type() {
             return f_clzType;
+        }
+
+        @Override
+        public boolean equals(final Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+            if (!super.equals(o)) {
+                return false;
+            }
+            final Literal literal = (Literal) o;
+            return Arrays.equals(f_anIndex, literal.f_anIndex) &&
+                    Objects.equals(f_sPath, literal.f_sPath) && Objects.equals(f_clzType, literal.f_clzType);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = Objects.hash(super.hashCode(), f_sPath, f_clzType);
+            result = 31 * result + Arrays.hashCode(f_anIndex);
+            return result;
         }
     }
 }

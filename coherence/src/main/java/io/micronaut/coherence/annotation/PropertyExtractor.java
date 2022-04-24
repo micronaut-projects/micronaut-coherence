@@ -16,6 +16,8 @@
 package io.micronaut.coherence.annotation;
 
 import java.lang.annotation.*;
+import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * A {@link ExtractorBinding} annotation representing a {@link
@@ -95,6 +97,28 @@ public @interface PropertyExtractor {
             public PropertyExtractor[] value() {
                 return f_aExtractors;
             }
+
+            @Override
+            public boolean equals(final Object o) {
+                if (this == o) {
+                    return true;
+                }
+                if (o == null || getClass() != o.getClass()) {
+                    return false;
+                }
+                if (!super.equals(o)) {
+                    return false;
+                }
+                final Literal literal = (Literal) o;
+                return Arrays.equals(f_aExtractors, literal.f_aExtractors);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = super.hashCode();
+                result = 31 * result + Arrays.hashCode(f_aExtractors);
+                return result;
+            }
         }
     }
 
@@ -135,6 +159,26 @@ public @interface PropertyExtractor {
          */
         public String value() {
             return f_sPropertyName;
+        }
+
+        @Override
+        public boolean equals(final Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+            if (!super.equals(o)) {
+                return false;
+            }
+            final Literal literal = (Literal) o;
+            return Objects.equals(f_sPropertyName, literal.f_sPropertyName);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(super.hashCode(), f_sPropertyName);
         }
     }
 }

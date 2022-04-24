@@ -19,6 +19,7 @@ import java.lang.annotation.Documented;
 import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.Objects;
 
 /**
  * A {@link FilterBinding} annotation representing a {@link com.tangosol.util.Filter}
@@ -76,6 +77,26 @@ public @interface WhereFilter {
          */
         public String value() {
             return f_sQuery;
+        }
+
+        @Override
+        public boolean equals(final Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+            if (!super.equals(o)) {
+                return false;
+            }
+            final Literal literal = (Literal) o;
+            return Objects.equals(f_sQuery, literal.f_sQuery);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(super.hashCode(), f_sQuery);
         }
     }
 }

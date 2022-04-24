@@ -20,6 +20,7 @@ import com.tangosol.util.InvocableMap;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.Objects;
 
 /**
  * A qualifier annotation used to annotate the parameter {@link CoherenceEventListener} annotated methods
@@ -79,6 +80,26 @@ public @interface Processor {
          */
         public Class<? extends InvocableMap.EntryProcessor> value() {
             return processorClass;
+        }
+
+        @Override
+        public boolean equals(final Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+            if (!super.equals(o)) {
+                return false;
+            }
+            final Literal literal = (Literal) o;
+            return Objects.equals(processorClass, literal.processorClass);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(super.hashCode(), processorClass);
         }
     }
 }

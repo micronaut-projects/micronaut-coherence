@@ -20,6 +20,7 @@ import com.tangosol.net.Coherence;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.Objects;
 
 /**
  * A qualifier annotation used when injecting Coherence resource to indicate a
@@ -74,6 +75,26 @@ public @interface SessionName {
          */
         public String value() {
             return m_sName;
+        }
+
+        @Override
+        public boolean equals(final Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+            if (!super.equals(o)) {
+                return false;
+            }
+            final Literal literal = (Literal) o;
+            return Objects.equals(m_sName, literal.m_sName);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(super.hashCode(), m_sName);
         }
     }
 }

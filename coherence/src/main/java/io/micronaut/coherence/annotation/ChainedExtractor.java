@@ -16,6 +16,7 @@
 package io.micronaut.coherence.annotation;
 
 import java.lang.annotation.*;
+import java.util.Arrays;
 
 /**
  * An {@link ExtractorBinding} annotation representing a
@@ -31,7 +32,7 @@ import java.lang.annotation.*;
 @Repeatable(ChainedExtractor.Extractors.class)
 public @interface ChainedExtractor {
     /**
-     * Returns the a method or property name to use when creating a {@link
+     * Returns the method or property name to use when creating a {@link
      * com.tangosol.util.extractor.ChainedExtractor}.
      * <p>
      * If the value does not end in {@code "()"} the value is assumed to be a
@@ -93,6 +94,28 @@ public @interface ChainedExtractor {
             public ChainedExtractor[] value() {
                 return f_aExtractors;
             }
+
+            @Override
+            public boolean equals(final Object o) {
+                if (this == o) {
+                    return true;
+                }
+                if (o == null || getClass() != o.getClass()) {
+                    return false;
+                }
+                if (!super.equals(o)) {
+                    return false;
+                }
+                final Literal literal = (Literal) o;
+                return Arrays.equals(f_aExtractors, literal.f_aExtractors);
+            }
+
+            @Override
+            public int hashCode() {
+                int result = super.hashCode();
+                result = 31 * result + Arrays.hashCode(f_aExtractors);
+                return result;
+            }
         }
     }
 
@@ -134,6 +157,28 @@ public @interface ChainedExtractor {
          */
         public String[] value() {
             return f_asFields;
+        }
+
+        @Override
+        public boolean equals(final Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+            if (!super.equals(o)) {
+                return false;
+            }
+            final Literal literal = (Literal) o;
+            return Arrays.equals(f_asFields, literal.f_asFields);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = super.hashCode();
+            result = 31 * result + Arrays.hashCode(f_asFields);
+            return result;
         }
     }
 }

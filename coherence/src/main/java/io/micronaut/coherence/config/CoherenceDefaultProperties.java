@@ -60,20 +60,6 @@ class CoherenceDefaultProperties {
         context.getEnvironment().addPropertySource(new CoherenceDefaultPropertySource());
     }
 
-    private static Map<String, Object> createConfig() {
-        Map<String, Object> map = new HashMap<>();
-
-        // service defaults
-        map.put(SERVICE_NAME_PREFIX, "${coherence.role}");
-
-        // logging defaults
-        map.put(LOG_DESTINATION, "slf4j");
-        map.put(LOG_LOGGER_NAME, "coherence");
-        map.put(LOG_MESSAGE_FORMAT, "(thread={thread}, member={member}, up={uptime}): {text}");
-
-        return map;
-    }
-
     /**
      * An implementation of a {@link io.micronaut.context.env.PropertySource}
      * to provide the default properties.
@@ -87,6 +73,20 @@ class CoherenceDefaultProperties {
         @Override
         public int getOrder() {
             return LOWEST_PRECEDENCE;
+        }
+
+        private static Map<String, Object> createConfig() {
+            Map<String, Object> map = new HashMap<>();
+
+            // service defaults
+            map.put(SERVICE_NAME_PREFIX, "${coherence.role}");
+
+            // logging defaults
+            map.put(LOG_DESTINATION, "slf4j");
+            map.put(LOG_LOGGER_NAME, "coherence");
+            map.put(LOG_MESSAGE_FORMAT, "(thread={thread}, member={member}, up={uptime}): {text}");
+
+            return map;
         }
     }
 }
