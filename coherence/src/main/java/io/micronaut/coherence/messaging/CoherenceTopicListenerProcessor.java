@@ -212,7 +212,7 @@ class CoherenceTopicListenerProcessor
             method.stringValue(SubscriberGroup.class).ifPresent(name -> options.add(Subscriber.Name.of(name)));
 
             List<String> filterBindings = method.getAnnotationNamesByStereotype(FilterBinding.class);
-            if (filterBindings.size() > 0) {
+            if (!filterBindings.isEmpty()) {
                 Set<Annotation> annotations = filterBindings.stream()
                         .map(s -> method.getAnnotationType(s).orElse(null))
                         .filter(Objects::nonNull)
@@ -226,7 +226,7 @@ class CoherenceTopicListenerProcessor
             }
 
             List<String> extractorBindings = method.getAnnotationNamesByStereotype(ExtractorBinding.class);
-            if (extractorBindings.size() > 0) {
+            if (!extractorBindings.isEmpty()) {
                 Set<Annotation> annotations = extractorBindings.stream()
                         .map(s -> method.getAnnotationType(s).orElse(null))
                         .filter(Objects::nonNull)

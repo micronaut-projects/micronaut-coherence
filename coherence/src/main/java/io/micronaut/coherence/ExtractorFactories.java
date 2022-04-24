@@ -48,6 +48,10 @@ import java.util.Set;
 public class ExtractorFactories {
 
     /**
+     * Unsatisfied dependency message.
+     */
+    private static final String UNSATISFIED_DEPENDENCY = "Unsatisfied dependency - no ExtractorFactory bean found annotated with ";
+    /**
      * The Micronaut bean context.
      */
     private final ApplicationContext ctx;
@@ -87,7 +91,7 @@ public class ExtractorFactories {
             ExtractorFactory extractorFactory = ctx.findBean(ExtractorFactory.class, new FactoryQualifier<>(type))
                     .orElse(null);
             if (extractorFactory == null) {
-                throw new IllegalStateException("Unsatisfied dependency - no ExtractorFactory bean found annotated with " + type);
+                throw new IllegalStateException(UNSATISFIED_DEPENDENCY + type);
             }
 
             ValueExtractor extractor = extractorFactory.create(injectionPoint.synthesize(type));
@@ -100,7 +104,7 @@ public class ExtractorFactories {
 
         ValueExtractor[] aExtractors = list.toArray(new ValueExtractor[0]);
         if (aExtractors.length == 0) {
-            throw new IllegalStateException("Unsatisfied dependency - no ExtractorFactory bean found annotated with " + bindings);
+            throw new IllegalStateException(UNSATISFIED_DEPENDENCY + bindings);
         } else if (aExtractors.length == 1) {
             return aExtractors[0];
         } else {
@@ -126,7 +130,7 @@ public class ExtractorFactories {
             ExtractorFactory extractorFactory = ctx.findBean(ExtractorFactory.class, new FactoryQualifier<>(type))
                     .orElse(null);
             if (extractorFactory == null) {
-                throw new IllegalStateException("Unsatisfied dependency - no ExtractorFactory bean found annotated with " + type);
+                throw new IllegalStateException(UNSATISFIED_DEPENDENCY + type);
             }
 
             ValueExtractor extractor = extractorFactory.create(annotation);

@@ -65,7 +65,7 @@ public final class EventObserverSupport {
             return (EventHandler<E, T>) new CoherenceLifecycleEventHandler((ExecutableMethodEventObserver<CoherenceLifecycleEvent, ?, ?>) observer);
         }
         if (EntryEvent.class.equals(type)) {
-            return (EventHandler<E, T>) new EntryEventHandler(observer);
+            return new EntryEventHandler(observer);
         }
         if (EntryProcessorEvent.class.equals(type)) {
             return (EventHandler<E, T>) new EntryProcessorEventHandler((ExecutableMethodEventObserver<EntryProcessorEvent, ?, ?>) observer);

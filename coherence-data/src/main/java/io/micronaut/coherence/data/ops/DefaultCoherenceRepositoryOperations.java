@@ -84,6 +84,11 @@ public class DefaultCoherenceRepositoryOperations implements CoherenceRepository
     private static final boolean LOG_QUERIES = Boolean.getBoolean(LOG_QUERIES_PROPERTY);
 
     /**
+     * Paging queries not supported message.
+     */
+    private static final String PAGING_QUERIES_ARE_NOT_SUPPORTED = "paging queries are not supported";
+
+    /**
      * The name of the {@link NamedMap}.  This is pulled from application configuration.
      */
     private final String mapName;
@@ -230,7 +235,7 @@ public class DefaultCoherenceRepositoryOperations implements CoherenceRepository
     @NonNull
     @Override
     public <T> Iterable<T> findAll(@NonNull final PagedQuery<T> query) {
-        throw new UnsupportedOperationException("paging queries are not supported");
+        throw new UnsupportedOperationException(PAGING_QUERIES_ARE_NOT_SUPPORTED);
     }
 
     @Override
@@ -258,18 +263,18 @@ public class DefaultCoherenceRepositoryOperations implements CoherenceRepository
     @Override
     public <T, R> Stream<R> findStream(@NonNull final PreparedQuery<T, R> preparedQuery) {
         Map m = (Map) execute(preparedQuery);
-        return (Stream<R>) m.values().stream();
+        return m.values().stream();
     }
 
     @NonNull
     @Override
     public <T> Stream<T> findStream(@NonNull final PagedQuery<T> query) {
-        throw new UnsupportedOperationException("paging queries are not supported");
+        throw new UnsupportedOperationException(PAGING_QUERIES_ARE_NOT_SUPPORTED);
     }
 
     @Override
     public <R> Page<R> findPage(@NonNull final PagedQuery<R> query) {
-        throw new UnsupportedOperationException("paging queries are not supported");
+        throw new UnsupportedOperationException(PAGING_QUERIES_ARE_NOT_SUPPORTED);
     }
 
     @NonNull
@@ -429,9 +434,6 @@ public class DefaultCoherenceRepositoryOperations implements CoherenceRepository
         // in a boolean are now including TRUE in the select statement, which COHQL doesn't like.  Haven't
         // been able to determine a cleaner fix.
         String queryLocal = query.replace("SELECT TRUE", "SELECT ");
-
-        // Another hack as it doesn't seem the CohQLQueryBuilder is called when generating delete statements.
-//        queryLocal = queryLocal.replace("DELETE  ", "DELETE ");
 
         return queryLocal.replace(entityClass.getName(), getNamedMap().getName());
     }

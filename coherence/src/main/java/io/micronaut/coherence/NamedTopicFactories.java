@@ -126,8 +126,8 @@ class NamedTopicFactories {
             Session session = beanContext.createBean(Session.class, sessionName);
 
             return session.getTopic(name);
-        } catch (Throwable t) {
-            LOG.error("Error getting NamedTopic " + name + " from session " + sessionName, t);
+        } catch (Exception e) {
+            LOG.error("Error getting NamedTopic " + name + " from session " + sessionName, e);
             throw new IllegalStateException("Failed getting NamedTopic " + name + " from session " + sessionName);
         }
     }
