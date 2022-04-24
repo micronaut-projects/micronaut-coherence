@@ -59,6 +59,11 @@ class DefaultCoherenceAsyncRepositoryOperations
     private static final Executor SAME_THREAD_EXECUTOR = Runnable::run;
 
     /**
+     * Paging queries not supported message.
+     */
+    private static final String PAGING_QUERIES_ARE_NOT_SUPPORTED = "paging queries are not supported";
+
+    /**
      * The associated {@link DefaultCoherenceRepositoryOperations}.
      */
     private final DefaultCoherenceRepositoryOperations repositoryOperations;
@@ -149,6 +154,7 @@ class DefaultCoherenceAsyncRepositoryOperations
                 }
                 return m.values().stream().findFirst().orElse(null);
             }
+
             return o;
         });
     }
@@ -156,13 +162,13 @@ class DefaultCoherenceAsyncRepositoryOperations
     @NonNull
     @Override
     public <T> CompletionStage<Iterable<T>> findAll(final PagedQuery<T> pagedQuery) {
-        throw new UnsupportedOperationException("paging queries are not supported");
+        throw new UnsupportedOperationException(PAGING_QUERIES_ARE_NOT_SUPPORTED);
     }
 
     @NonNull
     @Override
     public <T> CompletionStage<Long> count(final PagedQuery<T> pagedQuery) {
-        throw new UnsupportedOperationException("paging queries are not supported");
+        throw new UnsupportedOperationException(PAGING_QUERIES_ARE_NOT_SUPPORTED);
     }
 
     @NonNull
@@ -241,7 +247,7 @@ class DefaultCoherenceAsyncRepositoryOperations
     @NonNull
     @Override
     public <R> CompletionStage<Page<R>> findPage(@NonNull final PagedQuery<R> pagedQuery) {
-        throw new UnsupportedOperationException("paging queries are not supported");
+        throw new UnsupportedOperationException(PAGING_QUERIES_ARE_NOT_SUPPORTED);
     }
 
     // ----- helper methods ---------------------------------------------
