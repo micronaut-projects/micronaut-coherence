@@ -18,7 +18,6 @@ package io.micronaut.coherence.annotation;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-import java.util.Objects;
 
 /**
  * A qualifier annotation used when injecting a {@link com.tangosol.io.Serializer}
@@ -41,19 +40,14 @@ public @interface SerializerFormat {
      * An annotation literal for the {@link SerializerFormat} annotation.
      */
     @SuppressWarnings("ClassExplicitlyAnnotation")
-    class Literal extends AnnotationLiteral<SerializerFormat> implements SerializerFormat {
-        /**
-         * The name of the serializer.
-         */
-        private final String m_sName;
-
+    class Literal extends AbstractNamedLiteral<SerializerFormat> implements SerializerFormat {
         /**
          * Construct {@code Literal} instance.
          *
          * @param sName the name of the serializer
          */
         private Literal(String sName) {
-            this.m_sName = sName;
+            super(sName);
         }
 
         /**
@@ -72,27 +66,7 @@ public @interface SerializerFormat {
          * @return the name of the serializer
          */
         public String value() {
-            return m_sName;
-        }
-
-        @Override
-        public boolean equals(final Object o) {
-            if (this == o) {
-                return true;
-            }
-            if (o == null || getClass() != o.getClass()) {
-                return false;
-            }
-            if (!super.equals(o)) {
-                return false;
-            }
-            final Literal literal = (Literal) o;
-            return Objects.equals(m_sName, literal.m_sName);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(super.hashCode(), m_sName);
+            return f_sName;
         }
     }
 }

@@ -18,7 +18,6 @@ package io.micronaut.coherence.annotation;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-import java.util.Objects;
 
 /**
  * A qualifier annotation used to indicate a specific service name.
@@ -41,19 +40,14 @@ public @interface ServiceName {
      * An annotation literal for the {@link ServiceName} annotation.
      */
     @SuppressWarnings("ClassExplicitlyAnnotation")
-    class Literal extends AnnotationLiteral<ServiceName> implements ServiceName {
-        /**
-         * The service name.
-         */
-        private final String f_sName;
-
+    class Literal extends AbstractNamedLiteral<ServiceName> implements ServiceName {
         /**
          * Construct {@link Literal} instance.
          *
          * @param sName the service name
          */
         private Literal(String sName) {
-            f_sName = sName;
+            super(sName);
         }
 
         /**
@@ -73,26 +67,6 @@ public @interface ServiceName {
          */
         public String value() {
             return f_sName;
-        }
-
-        @Override
-        public boolean equals(final Object o) {
-            if (this == o) {
-                return true;
-            }
-            if (o == null || getClass() != o.getClass()) {
-                return false;
-            }
-            if (!super.equals(o)) {
-                return false;
-            }
-            final Literal literal = (Literal) o;
-            return Objects.equals(f_sName, literal.f_sName);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(super.hashCode(), f_sName);
         }
     }
 }

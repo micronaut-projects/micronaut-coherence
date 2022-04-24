@@ -18,7 +18,6 @@ package io.micronaut.coherence.annotation;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-import java.util.Objects;
 
 /**
  * A qualifier annotation used when injecting {@link com.tangosol.net.topic.Subscriber}
@@ -43,19 +42,14 @@ public @interface SubscriberGroup {
      * An annotation literal for the {@link SubscriberGroup} annotation.
      */
     @SuppressWarnings("ClassExplicitlyAnnotation")
-    class Literal extends AnnotationLiteral<SubscriberGroup> implements SubscriberGroup {
-        /**
-         * The name of the subscriber group.
-         */
-        private final String f_sName;
-
+    class Literal extends AbstractNamedLiteral<SubscriberGroup> implements SubscriberGroup {
         /**
          * Construct {@code Literal} instance.
          *
          * @param sName the name of the subscriber group
          */
         private Literal(String sName) {
-            f_sName = sName;
+            super(sName);
         }
 
         /**
@@ -75,26 +69,6 @@ public @interface SubscriberGroup {
          */
         public String value() {
             return f_sName;
-        }
-
-        @Override
-        public boolean equals(final Object o) {
-            if (this == o) {
-                return true;
-            }
-            if (o == null || getClass() != o.getClass()) {
-                return false;
-            }
-            if (!super.equals(o)) {
-                return false;
-            }
-            final Literal literal = (Literal) o;
-            return Objects.equals(f_sName, literal.f_sName);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(super.hashCode(), f_sName);
         }
     }
 }

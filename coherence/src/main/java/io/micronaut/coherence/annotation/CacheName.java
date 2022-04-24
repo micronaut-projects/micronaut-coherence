@@ -18,7 +18,6 @@ package io.micronaut.coherence.annotation;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-import java.util.Objects;
 
 /**
  * A qualifier annotation used to indicate a specific cache name.
@@ -40,19 +39,14 @@ public @interface CacheName {
      * An annotation literal for the {@link CacheName} annotation.
      */
     @SuppressWarnings("ClassExplicitlyAnnotation")
-    class Literal extends AnnotationLiteral<CacheName> implements CacheName {
-        /**
-         * The cache name.
-         */
-        private final String f_sName;
-
+    class Literal extends AbstractNamedLiteral<CacheName> implements CacheName {
         /**
          * Construct {@link Literal} instance.
          *
          * @param sName the cache name
          */
         private Literal(String sName) {
-            f_sName = sName;
+            super(sName);
         }
 
         /**
@@ -72,26 +66,6 @@ public @interface CacheName {
          */
         public String value() {
             return f_sName;
-        }
-
-        @Override
-        public boolean equals(final Object o) {
-            if (this == o) {
-                return true;
-            }
-            if (o == null || getClass() != o.getClass()) {
-                return false;
-            }
-            if (!super.equals(o)) {
-                return false;
-            }
-            final Literal literal = (Literal) o;
-            return Objects.equals(f_sName, literal.f_sName);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(super.hashCode(), f_sName);
         }
     }
 }

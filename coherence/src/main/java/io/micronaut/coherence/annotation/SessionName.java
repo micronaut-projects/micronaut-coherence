@@ -20,7 +20,6 @@ import com.tangosol.net.Coherence;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-import java.util.Objects;
 
 /**
  * A qualifier annotation used when injecting Coherence resource to indicate a
@@ -43,19 +42,14 @@ public @interface SessionName {
      * An annotation literal for the {@link SessionName} annotation.
      */
     @SuppressWarnings("ClassExplicitlyAnnotation")
-    class Literal extends AnnotationLiteral<SessionName> implements SessionName {
-        /**
-         * The session name.
-         */
-        private final String m_sName;
-
+    class Literal extends AbstractNamedLiteral<SessionName> implements SessionName {
         /**
          * Construct {@link Literal} instance.
          *
          * @param sName the session name
          */
         private Literal(String sName) {
-            m_sName = sName;
+            super(sName);
         }
 
         /**
@@ -74,27 +68,7 @@ public @interface SessionName {
          * @return the name used to identify a specific session
          */
         public String value() {
-            return m_sName;
-        }
-
-        @Override
-        public boolean equals(final Object o) {
-            if (this == o) {
-                return true;
-            }
-            if (o == null || getClass() != o.getClass()) {
-                return false;
-            }
-            if (!super.equals(o)) {
-                return false;
-            }
-            final Literal literal = (Literal) o;
-            return Objects.equals(m_sName, literal.m_sName);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(super.hashCode(), m_sName);
+            return f_sName;
         }
     }
 }
