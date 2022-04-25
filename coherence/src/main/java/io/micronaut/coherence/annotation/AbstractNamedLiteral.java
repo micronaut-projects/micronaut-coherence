@@ -49,8 +49,8 @@ public abstract class AbstractNamedLiteral<T extends Annotation> extends Annotat
         if (!super.equals(o)) {
             return false;
         }
-        final CacheName.Literal literal = (CacheName.Literal) o;
-        return Objects.equals(f_sName, literal.f_sName);
+        final AbstractNamedLiteral<?> that = (AbstractNamedLiteral<?>) o;
+        return Objects.equals(f_sName, that.f_sName);
     }
 
     @Override

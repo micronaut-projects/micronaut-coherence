@@ -10,6 +10,7 @@ dependencies {
     compileOnly "com.oracle.coherence.ce:coherence-grpc-proxy:${coherenceVersion}"
 
     testImplementation "com.oracle.coherence.ce:coherence:${coherenceVersion}"
+    testImplementation "org.junit.jupiter:junit-jupiter-params:${junitVersion}"
 
     testImplementation "org.mockito:mockito-core:${mockitoVersion}"
     testImplementation "org.hamcrest:hamcrest:${hamcrestVersion}"
