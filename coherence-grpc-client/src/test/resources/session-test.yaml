@@ -6,5 +6,13 @@ coherence:
     bar:
       type: grpc
       channelName: default
+      serializer: java
+      tracing: true
+    baz:
+      type: grpc
+      scopeName: scoped
+      channelName: default
+      serializer: binary
+      tracing: false
     default:
       config: coherence-config.xml

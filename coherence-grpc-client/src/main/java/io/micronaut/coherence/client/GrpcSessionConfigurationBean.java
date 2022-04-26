@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2020 original authors
+ * Copyright 2017-2022 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -102,7 +102,7 @@ class GrpcSessionConfigurationBean extends AbstractSessionConfigurationBean {
                 .withTracing(tracingEnabled)
                 .withPriority(getPriority());
 
-        if (serializer != null && serializer.trim().isEmpty()) {
+        if (serializer != null && !serializer.trim().isEmpty()) {
             Optional<Serializer> optional = ctx.findBean(Serializer.class, Qualifiers.byName(serializer));
             if (optional.isPresent()) {
                 builder.withSerializer(optional.get(), serializer);

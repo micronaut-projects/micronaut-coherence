@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2020 original authors
+ * Copyright 2017-2022 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,8 @@ import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
+import com.oracle.coherence.client.GrpcSessionConfiguration;
+import com.tangosol.io.Serializer;
 import com.tangosol.net.Coherence;
 import com.tangosol.net.SessionConfiguration;
 
@@ -30,6 +32,7 @@ import io.micronaut.context.ApplicationContext;
 import io.micronaut.inject.qualifiers.Qualifiers;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import org.junit.jupiter.api.Test;
+import org.opentest4j.AssertionFailedError;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -52,13 +55,23 @@ class GrpcSessionConfigurationBeanTest {
 
         Optional<Channel> optional = ctx.findBean(Channel.class, Qualifiers.byName("default"));
         assertThat(optional.isPresent(), is(true));
-        Channel channel = optional.get();
 
-        assertThat(beans.size(), is(1));
+        assertThat(beans.size(), is(2));
 
-        SessionConfiguration beanBar = beans.get("bar");
+        GrpcSessionConfiguration beanBar = (GrpcSessionConfiguration) beans.get("bar");
         assertThat(beanBar, is(notNullValue()));
         assertThat(beanBar.getName(), is("bar"));
         assertThat(beanBar.getScopeName(), is(Coherence.DEFAULT_SCOPE));
+        assertThat(beanBar.getSerializer().orElseThrow(AssertionFailedError::new), notNullValue());
+        assertThat(beanBar.getFormat().orElseThrow(AssertionFailedError::new), is("java"));
+        assertThat(beanBar.enableTracing(), is(true));
+
+        GrpcSessionConfiguration beanBaz = (GrpcSessionConfiguration) beans.get("baz");
+        assertThat(beanBaz, is(notNullValue()));
+        assertThat(beanBaz.getName(), is("baz"));
+        assertThat(beanBaz.getScopeName(), is("scoped"));
+        assertThat(beanBaz.getSerializer().isPresent(), is(false));
+        assertThat(beanBaz.getFormat().orElseThrow(AssertionFailedError::new), is("binary"));
+        assertThat(beanBaz.enableTracing(), is(false));
     }
 }
