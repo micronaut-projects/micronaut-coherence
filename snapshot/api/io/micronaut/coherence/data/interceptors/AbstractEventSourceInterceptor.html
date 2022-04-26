@@ -138,13 +138,13 @@ implements io.micronaut.aop.MethodInterceptor</pre>
 <th class="colLast" scope="col">Class and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>protected static class&nbsp;</code></td>
+<td class="colFirst"><code>static class&nbsp;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/coherence/data/interceptors/AbstractEventSourceInterceptor.EventGroup.html" title="enum in io.micronaut.coherence.data.interceptors">AbstractEventSourceInterceptor.EventGroup</a></span></code>
 <div class="block">Represents the logical operations for multiple event types (i.e., pre, post persist).</div>
 </td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code>protected static class&nbsp;</code></td>
+<td class="colFirst"><code>static class&nbsp;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/coherence/data/interceptors/AbstractEventSourceInterceptor.EventType.html" title="enum in io.micronaut.coherence.data.interceptors">AbstractEventSourceInterceptor.EventType</a></span></code>
 <div class="block">Various entity event types used by Micronaut Data.</div>
 </td>
@@ -221,19 +221,19 @@ implements io.micronaut.aop.MethodInterceptor</pre>
 <th class="colLast" scope="col">Method and Description</th>
 </tr>
 <tr id="i0" class="altColor">
-<td class="colFirst"><code>protected abstract <a href="../../../../../io/micronaut/coherence/data/interceptors/AbstractEventSourceInterceptor.EventGroup.html" title="enum in io.micronaut.coherence.data.interceptors">AbstractEventSourceInterceptor.EventGroup</a></code></td>
+<td class="colFirst"><code>abstract <a href="../../../../../io/micronaut/coherence/data/interceptors/AbstractEventSourceInterceptor.EventGroup.html" title="enum in io.micronaut.coherence.data.interceptors">AbstractEventSourceInterceptor.EventGroup</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/coherence/data/interceptors/AbstractEventSourceInterceptor.html#getEventGroup--">getEventGroup</a></span>()</code>
 <div class="block">Return the <code>EventGroup</code> handled by this interceptor.</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
-<td class="colFirst"><code>protected abstract <a href="../../../../../io/micronaut/coherence/data/interceptors/AbstractEventSourceInterceptor.EventType.html" title="enum in io.micronaut.coherence.data.interceptors">AbstractEventSourceInterceptor.EventType</a></code></td>
+<td class="colFirst"><code>abstract <a href="../../../../../io/micronaut/coherence/data/interceptors/AbstractEventSourceInterceptor.EventType.html" title="enum in io.micronaut.coherence.data.interceptors">AbstractEventSourceInterceptor.EventType</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/coherence/data/interceptors/AbstractEventSourceInterceptor.html#getHandledPostEventType--">getHandledPostEventType</a></span>()</code>
 <div class="block">Return the <code>POST</code> event type this interceptor wishes to emit.</div>
 </td>
 </tr>
 <tr id="i2" class="altColor">
-<td class="colFirst"><code>protected abstract <a href="../../../../../io/micronaut/coherence/data/interceptors/AbstractEventSourceInterceptor.EventType.html" title="enum in io.micronaut.coherence.data.interceptors">AbstractEventSourceInterceptor.EventType</a></code></td>
+<td class="colFirst"><code>abstract <a href="../../../../../io/micronaut/coherence/data/interceptors/AbstractEventSourceInterceptor.EventType.html" title="enum in io.micronaut.coherence.data.interceptors">AbstractEventSourceInterceptor.EventType</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/coherence/data/interceptors/AbstractEventSourceInterceptor.html#getHandledPreEventType--">getHandledPreEventType</a></span>()</code>
 <div class="block">Return the <code>PRE</code> event type this interceptor wishes to emit.</div>
 </td>
@@ -344,7 +344,7 @@ implements io.micronaut.aop.MethodInterceptor</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>getEventGroup</h4>
-<pre>protected abstract&nbsp;<a href="../../../../../io/micronaut/coherence/data/interceptors/AbstractEventSourceInterceptor.EventGroup.html" title="enum in io.micronaut.coherence.data.interceptors">AbstractEventSourceInterceptor.EventGroup</a>&nbsp;getEventGroup()</pre>
+<pre>public abstract&nbsp;<a href="../../../../../io/micronaut/coherence/data/interceptors/AbstractEventSourceInterceptor.EventGroup.html" title="enum in io.micronaut.coherence.data.interceptors">AbstractEventSourceInterceptor.EventGroup</a>&nbsp;getEventGroup()</pre>
 <div class="block">Return the <code>EventGroup</code> handled by this interceptor.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -358,7 +358,7 @@ implements io.micronaut.aop.MethodInterceptor</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>getHandledPreEventType</h4>
-<pre>protected abstract&nbsp;<a href="../../../../../io/micronaut/coherence/data/interceptors/AbstractEventSourceInterceptor.EventType.html" title="enum in io.micronaut.coherence.data.interceptors">AbstractEventSourceInterceptor.EventType</a>&nbsp;getHandledPreEventType()</pre>
+<pre>public abstract&nbsp;<a href="../../../../../io/micronaut/coherence/data/interceptors/AbstractEventSourceInterceptor.EventType.html" title="enum in io.micronaut.coherence.data.interceptors">AbstractEventSourceInterceptor.EventType</a>&nbsp;getHandledPreEventType()</pre>
 <div class="block">Return the <code>PRE</code> event type this interceptor wishes to emit.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -372,7 +372,7 @@ implements io.micronaut.aop.MethodInterceptor</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>getHandledPostEventType</h4>
-<pre>protected abstract&nbsp;<a href="../../../../../io/micronaut/coherence/data/interceptors/AbstractEventSourceInterceptor.EventType.html" title="enum in io.micronaut.coherence.data.interceptors">AbstractEventSourceInterceptor.EventType</a>&nbsp;getHandledPostEventType()</pre>
+<pre>public abstract&nbsp;<a href="../../../../../io/micronaut/coherence/data/interceptors/AbstractEventSourceInterceptor.EventType.html" title="enum in io.micronaut.coherence.data.interceptors">AbstractEventSourceInterceptor.EventType</a>&nbsp;getHandledPostEventType()</pre>
 <div class="block">Return the <code>POST</code> event type this interceptor wishes to emit.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
