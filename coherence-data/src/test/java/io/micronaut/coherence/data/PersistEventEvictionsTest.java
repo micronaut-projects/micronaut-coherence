@@ -68,29 +68,11 @@ public class PersistEventEvictionsTest extends AbstractDataTest {
     }
 
     /**
-     * Validate event listener returning false results in the entity not being persisted using {@link #repo}.
-     */
-    @SuppressWarnings("unchecked")
-    @Test
-    public void shouldValidatePrePersistEvictionSyncRepoCoherence() {
-        runPersistEventTestEviction(asCrudRepo(repo));
-    }
-
-    /**
      * Validate event listener returning false results in the entity not being persisted using {@link #crudRepoAsync}.
      */
     @Test
     public void shouldValidatePrePersistEvictionAsyncRepo() {
         runPersistEventTestEviction(crudRepoAsync);
-    }
-
-    /**
-     * Validate event listener returning false results in the entity not being persisted using {@link #repoAsync}.
-     */
-    @SuppressWarnings("unchecked")
-    @Test
-    public void shouldValidatePrePersistEvictionAsyncRepoCoherence() {
-        runPersistEventTestEviction(asAsyncCrudRepo(repoAsync));
     }
 
     // ----- helper methods -------------------------------------------------

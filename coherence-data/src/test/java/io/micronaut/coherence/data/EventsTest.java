@@ -41,7 +41,6 @@ import static org.hamcrest.Matchers.is;
 /**
  * Validate entity events.
  */
-@SuppressWarnings("unchecked")
 @MicronautTest(propertySources = {"classpath:sessions.yaml"})
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class EventsTest extends AbstractDataTest {
@@ -86,27 +85,11 @@ public class EventsTest extends AbstractDataTest {
     }
 
     /**
-     * Validate pre/post persist events are triggered for {@link #repo}.
-     */
-    @Test
-    public void shouldTriggerPreAndPostPersistEventsSyncRepoCoherence() {
-        runPersistEventTest(asCrudRepo(repo));
-    }
-
-    /**
      * Validate pre/post persist events are triggered for {@link #crudRepoAsync}.
      */
     @Test
     public void shouldTriggerPreAndPostPersistEventsAsyncRepo() throws Exception {
         runPersistEventTest(crudRepoAsync);
-    }
-
-    /**
-     * Validate pre/post persist events are triggered for {@link #repoAsync}.
-     */
-    @Test
-    public void shouldTriggerPreAndPostPersistEventsAsyncRepoCoherence() throws Exception {
-        runPersistEventTest(asAsyncCrudRepo(repoAsync));
     }
 
     /**
@@ -118,27 +101,11 @@ public class EventsTest extends AbstractDataTest {
     }
 
     /**
-     * Validate validate mutations made in pre persist event are saved against {@link #repo}.
-     */
-    @Test
-    public void shouldValidatePrePersistMutationsSyncRepoCoherence() {
-        runPersistEventTestMutations(asCrudRepo(repo));
-    }
-
-    /**
      * Validate validate mutations made in pre persist event are saved against {@link #crudRepoAsync}.
      */
     @Test
     public void shouldValidatePrePersistMutationsAsyncRepo() throws Exception {
         runPersistEventTestMutations(crudRepoAsync);
-    }
-
-    /**
-     * Validate validate mutations made in pre persist event are saved against {@link #repoAsync}.
-     */
-    @Test
-    public void shouldValidatePrePersistMutationsAsyncRepoCoherence() throws Exception {
-        runPersistEventTestMutations(asAsyncCrudRepo(repoAsync));
     }
 
     /**
@@ -165,27 +132,11 @@ public class EventsTest extends AbstractDataTest {
     }
 
     /**
-     * Validate pre/post remove events are triggered for {@link #repo}.
-     */
-    @Test
-    public void shouldTriggerPreAndPostRemoveEventsSyncRepoCoherence() {
-        runRemoveEventTest(asCrudRepo(repo));
-    }
-
-    /**
      * Validate pre/post remove events are triggered for {@link #crudRepoAsync}.
      */
     @Test
     public void shouldTriggerPreAndPostRemoveEventsAsyncRepo() throws Exception {
         runRemoveEventTest(crudRepoAsync);
-    }
-
-    /**
-     * Validate pre/post remove events are triggered for {@link #repoAsync}.
-     */
-    @Test
-    public void shouldTriggerPreAndPostRemoveEventsAsyncRepoCoherence() throws Exception {
-        runRemoveEventTest(asAsyncCrudRepo(repoAsync));
     }
 
     // ----- helper methods -------------------------------------------------
@@ -265,7 +216,6 @@ public class EventsTest extends AbstractDataTest {
      *
      * @param repository the {@link AsyncCrudRepository} under test
      */
-    @SuppressWarnings("rawtypes")
     private void runRemoveEventTest(AsyncCrudRepository<Book, UUID> repository) throws Exception {
         repository.delete(DUNE).thenAccept(unused -> assertThat(eventRecorder.getRecordedEvents(), contains(
                 new EventRecord<>(EventType.PRE_REMOVE, DUNE),

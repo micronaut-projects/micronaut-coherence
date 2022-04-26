@@ -67,15 +67,6 @@ public class UpdateEventEvictionsTest extends AbstractDataTest {
         runUpdateEventTestEviction(crudRepo);
     }
 
-    /**
-     * Validate event listener returning false results in the entity not being updated using {@link #repo}.
-     */
-    @SuppressWarnings("unchecked")
-    @Test
-    public void shouldValidatePreUpdateEvictionSyncRepoCoherence() {
-        runUpdateEventTestEviction(asCrudRepo(repo));
-    }
-
     // ----- helper methods -------------------------------------------------
 
     /**

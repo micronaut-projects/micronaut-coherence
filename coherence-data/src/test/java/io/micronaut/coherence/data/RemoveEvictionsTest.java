@@ -70,29 +70,11 @@ public class RemoveEvictionsTest extends AbstractDataTest {
     }
 
     /**
-     * Validate event listener returning false results in the entity not being removed using {@link #repo}.
-     */
-    @SuppressWarnings("unchecked")
-    @Test
-    public void shouldValidatePreRemoveEvictionSyncRepoCoherence() {
-        runRemoveEventTestEviction(asCrudRepo(repo));
-    }
-
-    /**
      * Validate event listener returning false results in the entity not being removed using {@link #crudRepoAsync}.
      */
     @Test
     public void shouldValidatePreRemoveEvictionAsyncRepo() {
         runRemoveEventTestEviction(crudRepoAsync);
-    }
-
-    /**
-     * Validate event listener returning false results in the entity not being removed using {@link #repoAsync}.
-     */
-    @SuppressWarnings("unchecked")
-    @Test
-    public void shouldValidatePreRemoveEvictionAsyncRepoCoherence() {
-        runRemoveEventTestEviction(asAsyncCrudRepo(repoAsync));
     }
 
     // ----- helper methods -------------------------------------------------

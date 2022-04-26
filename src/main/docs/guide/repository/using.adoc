@@ -62,7 +62,8 @@ Coherence.
 ====
 When extending the Coherence ``AbstractCoherenceRepository``, developers must not also implement any of the standard
 Micronaut
-data stereotype interfaces (e.g., ``CrudRepository`` and the like).
+data stereotype interfaces (e.g., ``CrudRepository`` and the like).  In fact, this is the recommended approach to
+be able to fully utilize Coherence.
 ====
 
 [source, java]
