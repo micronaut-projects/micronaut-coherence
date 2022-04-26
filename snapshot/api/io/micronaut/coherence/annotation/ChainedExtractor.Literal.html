@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":9,"i4":10};
+var methods = {"i0":10,"i1":9,"i2":10};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -73,7 +73,7 @@ var activeTableTab = "activeTableTab";
 <ul class="subNavList">
 <li>Summary:&nbsp;</li>
 <li>Nested&nbsp;|&nbsp;</li>
-<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#fields.inherited.from.class.io.micronaut.coherence.annotation.AbstractArrayLiteral">Field</a>&nbsp;|&nbsp;</li>
 <li>Constr&nbsp;|&nbsp;</li>
 <li><a href="#method.summary">Method</a></li>
 </ul>
@@ -98,7 +98,12 @@ var activeTableTab = "activeTableTab";
 <li>java.lang.Object</li>
 <li>
 <ul class="inheritance">
+<li><a href="../../../../io/micronaut/coherence/annotation/AbstractArrayLiteral.html" title="class in io.micronaut.coherence.annotation">io.micronaut.coherence.annotation.AbstractArrayLiteral</a>&lt;<a href="../../../../io/micronaut/coherence/annotation/ChainedExtractor.html" title="annotation in io.micronaut.coherence.annotation">ChainedExtractor</a>&gt;</li>
+<li>
+<ul class="inheritance">
 <li>io.micronaut.coherence.annotation.ChainedExtractor.Literal</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -116,7 +121,7 @@ var activeTableTab = "activeTableTab";
 <hr>
 <br>
 <pre>public static class <span class="typeNameLabel">ChainedExtractor.Literal</span>
-extends java.lang.Object
+extends <a href="../../../../io/micronaut/coherence/annotation/AbstractArrayLiteral.html" title="class in io.micronaut.coherence.annotation">AbstractArrayLiteral</a>&lt;<a href="../../../../io/micronaut/coherence/annotation/ChainedExtractor.html" title="annotation in io.micronaut.coherence.annotation">ChainedExtractor</a>&gt;
 implements <a href="../../../../io/micronaut/coherence/annotation/ChainedExtractor.html" title="annotation in io.micronaut.coherence.annotation">ChainedExtractor</a></pre>
 <div class="block">An annotation literal for the <a href="../../../../io/micronaut/coherence/annotation/ChainedExtractor.html" title="annotation in io.micronaut.coherence.annotation"><code>ChainedExtractor</code></a> annotation.</div>
 <dl>
@@ -144,6 +149,21 @@ implements <a href="../../../../io/micronaut/coherence/annotation/ChainedExtract
 </ul>
 </li>
 </ul>
+<!-- =========== FIELD SUMMARY =========== -->
+<ul class="blockList">
+<li class="blockList"><a name="field.summary">
+<!--   -->
+</a>
+<h3>Field Summary</h3>
+<ul class="blockList">
+<li class="blockList"><a name="fields.inherited.from.class.io.micronaut.coherence.annotation.AbstractArrayLiteral">
+<!--   -->
+</a>
+<h3>Fields inherited from class&nbsp;io.micronaut.coherence.annotation.<a href="../../../../io/micronaut/coherence/annotation/AbstractArrayLiteral.html" title="class in io.micronaut.coherence.annotation">AbstractArrayLiteral</a></h3>
+<code><a href="../../../../io/micronaut/coherence/annotation/AbstractArrayLiteral.html#array">array</a></code></li>
+</ul>
+</li>
+</ul>
 <!-- ========== METHOD SUMMARY =========== -->
 <ul class="blockList">
 <li class="blockList"><a name="method.summary">
@@ -163,26 +183,25 @@ implements <a href="../../../../io/micronaut/coherence/annotation/ChainedExtract
 </td>
 </tr>
 <tr id="i1" class="rowColor">
-<td class="colFirst"><code>boolean</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../io/micronaut/coherence/annotation/ChainedExtractor.Literal.html#equals-java.lang.Object-">equals</a></span>(java.lang.Object&nbsp;o)</code>&nbsp;</td>
-</tr>
-<tr id="i2" class="altColor">
-<td class="colFirst"><code>int</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../io/micronaut/coherence/annotation/ChainedExtractor.Literal.html#hashCode--">hashCode</a></span>()</code>&nbsp;</td>
-</tr>
-<tr id="i3" class="rowColor">
 <td class="colFirst"><code>static <a href="../../../../io/micronaut/coherence/annotation/ChainedExtractor.Literal.html" title="class in io.micronaut.coherence.annotation">ChainedExtractor.Literal</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../io/micronaut/coherence/annotation/ChainedExtractor.Literal.html#of-java.lang.String...-">of</a></span>(java.lang.String...&nbsp;asFields)</code>
 <div class="block">Create a <a href="../../../../io/micronaut/coherence/annotation/ChainedExtractor.Extractors.Literal.html" title="class in io.micronaut.coherence.annotation"><code>ChainedExtractor.Extractors.Literal</code></a>.</div>
 </td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i2" class="altColor">
 <td class="colFirst"><code>java.lang.String[]</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../io/micronaut/coherence/annotation/ChainedExtractor.Literal.html#value--">value</a></span>()</code>
 <div class="block">The value used for the where clause when creating a <code>com.tangosol.util.extractor.ChainedExtractor</code>.</div>
 </td>
 </tr>
 </table>
+<ul class="blockList">
+<li class="blockList"><a name="methods.inherited.from.class.io.micronaut.coherence.annotation.AbstractArrayLiteral">
+<!--   -->
+</a>
+<h3>Methods inherited from class&nbsp;io.micronaut.coherence.annotation.<a href="../../../../io/micronaut/coherence/annotation/AbstractArrayLiteral.html" title="class in io.micronaut.coherence.annotation">AbstractArrayLiteral</a></h3>
+<code><a href="../../../../io/micronaut/coherence/annotation/AbstractArrayLiteral.html#equals-java.lang.Object-">equals</a>, <a href="../../../../io/micronaut/coherence/annotation/AbstractArrayLiteral.html#hashCode--">hashCode</a></code></li>
+</ul>
 <ul class="blockList">
 <li class="blockList"><a name="methods.inherited.from.class.java.lang.Object">
 <!--   -->
@@ -195,7 +214,7 @@ implements <a href="../../../../io/micronaut/coherence/annotation/ChainedExtract
 <!--   -->
 </a>
 <h3>Methods inherited from interface&nbsp;java.lang.annotation.Annotation</h3>
-<code>annotationType, toString</code></li>
+<code>annotationType, equals, hashCode, toString</code></li>
 </ul>
 </li>
 </ul>
@@ -238,32 +257,6 @@ implements <a href="../../../../io/micronaut/coherence/annotation/ChainedExtract
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the value used for the where clause when creating a <code>com.tangosol.util.extractor.ChainedExtractor</code></dd>
-</dl>
-</li>
-</ul>
-<a name="equals-java.lang.Object-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>equals</h4>
-<pre>public&nbsp;boolean&nbsp;equals(java.lang.Object&nbsp;o)</pre>
-<dl>
-<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code>equals</code>&nbsp;in interface&nbsp;<code>java.lang.annotation.Annotation</code></dd>
-</dl>
-</li>
-</ul>
-<a name="hashCode--">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>hashCode</h4>
-<pre>public&nbsp;int&nbsp;hashCode()</pre>
-<dl>
-<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code>hashCode</code>&nbsp;in interface&nbsp;<code>java.lang.annotation.Annotation</code></dd>
 </dl>
 </li>
 </ul>
@@ -337,7 +330,7 @@ implements <a href="../../../../io/micronaut/coherence/annotation/ChainedExtract
 <ul class="subNavList">
 <li>Summary:&nbsp;</li>
 <li>Nested&nbsp;|&nbsp;</li>
-<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#fields.inherited.from.class.io.micronaut.coherence.annotation.AbstractArrayLiteral">Field</a>&nbsp;|&nbsp;</li>
 <li>Constr&nbsp;|&nbsp;</li>
 <li><a href="#method.summary">Method</a></li>
 </ul>

@@ -72,6 +72,14 @@
 </a>
 <h2 class="title">A</h2>
 <dl>
+<dt><a href="io/micronaut/coherence/annotation/AbstractArrayLiteral.html" title="class in io.micronaut.coherence.annotation"><span class="typeNameLink">AbstractArrayLiteral</span></a>&lt;<a href="io/micronaut/coherence/annotation/AbstractArrayLiteral.html" title="type parameter in AbstractArrayLiteral">T</a> extends java.lang.annotation.Annotation&gt; - Class in <a href="io/micronaut/coherence/annotation/package-summary.html">io.micronaut.coherence.annotation</a></dt>
+<dd>
+<div class="block">Base class for array-based annotation literals.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/annotation/AbstractArrayLiteral.html#AbstractArrayLiteral-java.lang.Object:A-">AbstractArrayLiteral(Object[])</a></span> - Constructor for class io.micronaut.coherence.annotation.<a href="io/micronaut/coherence/annotation/AbstractArrayLiteral.html" title="class in io.micronaut.coherence.annotation">AbstractArrayLiteral</a></dt>
+<dd>
+<div class="block">Constructs a new array-based annotation literal.</div>
+</dd>
 <dt><a href="io/micronaut/coherence/data/interceptors/AbstractAsyncEventSourceInterceptor.html" title="class in io.micronaut.coherence.data.interceptors"><span class="typeNameLink">AbstractAsyncEventSourceInterceptor</span></a> - Class in <a href="io/micronaut/coherence/data/interceptors/package-summary.html">io.micronaut.coherence.data.interceptors</a></dt>
 <dd>
 <div class="block">Base class for async operation interceptors.</div>
@@ -172,6 +180,10 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/data/query/CohQLQueryBuilder.html#appendDeleteClause-java.lang.StringBuilder-">appendDeleteClause(StringBuilder)</a></span> - Method in class io.micronaut.coherence.data.query.<a href="io/micronaut/coherence/data/query/CohQLQueryBuilder.html" title="class in io.micronaut.coherence.data.query">CohQLQueryBuilder</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/annotation/AbstractArrayLiteral.html#array">array</a></span> - Variable in class io.micronaut.coherence.annotation.<a href="io/micronaut/coherence/annotation/AbstractArrayLiteral.html" title="class in io.micronaut.coherence.annotation">AbstractArrayLiteral</a></dt>
+<dd>
+<div class="block">The values for this annotation.</div>
+</dd>
 <dt><a href="io/micronaut/coherence/annotation/Arrived.html" title="annotation in io.micronaut.coherence.annotation"><span class="typeNameLink">Arrived</span></a> - Annotation Type in <a href="io/micronaut/coherence/annotation/package-summary.html">io.micronaut.coherence.annotation</a></dt>
 <dd>
 <div class="block">A qualifier annotation used to annotate the parameter <a href="io/micronaut/coherence/annotation/CoherenceEventListener.html" title="annotation in io.micronaut.coherence.annotation"><code>CoherenceEventListener</code></a> annotated methods
@@ -665,13 +677,11 @@
 <dd>
 <div class="block">Return the <code>Session</code> that should be used by this <code>repository</code>.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/annotation/AbstractArrayLiteral.html#equals-java.lang.Object-">equals(Object)</a></span> - Method in class io.micronaut.coherence.annotation.<a href="io/micronaut/coherence/annotation/AbstractArrayLiteral.html" title="class in io.micronaut.coherence.annotation">AbstractArrayLiteral</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/annotation/AbstractNamedLiteral.html#equals-java.lang.Object-">equals(Object)</a></span> - Method in class io.micronaut.coherence.annotation.<a href="io/micronaut/coherence/annotation/AbstractNamedLiteral.html" title="class in io.micronaut.coherence.annotation">AbstractNamedLiteral</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/annotation/Backlog.Literal.html#equals-java.lang.Object-">equals(Object)</a></span> - Method in class io.micronaut.coherence.annotation.<a href="io/micronaut/coherence/annotation/Backlog.Literal.html" title="class in io.micronaut.coherence.annotation">Backlog.Literal</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/micronaut/coherence/annotation/ChainedExtractor.Extractors.Literal.html#equals-java.lang.Object-">equals(Object)</a></span> - Method in class io.micronaut.coherence.annotation.<a href="io/micronaut/coherence/annotation/ChainedExtractor.Extractors.Literal.html" title="class in io.micronaut.coherence.annotation">ChainedExtractor.Extractors.Literal</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/micronaut/coherence/annotation/ChainedExtractor.Literal.html#equals-java.lang.Object-">equals(Object)</a></span> - Method in class io.micronaut.coherence.annotation.<a href="io/micronaut/coherence/annotation/ChainedExtractor.Literal.html" title="class in io.micronaut.coherence.annotation">ChainedExtractor.Literal</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/annotation/ConfigUri.Literal.html#equals-java.lang.Object-">equals(Object)</a></span> - Method in class io.micronaut.coherence.annotation.<a href="io/micronaut/coherence/annotation/ConfigUri.Literal.html" title="class in io.micronaut.coherence.annotation">ConfigUri.Literal</a></dt>
 <dd>&nbsp;</dd>
@@ -684,8 +694,6 @@
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/annotation/PofExtractor.Literal.html#equals-java.lang.Object-">equals(Object)</a></span> - Method in class io.micronaut.coherence.annotation.<a href="io/micronaut/coherence/annotation/PofExtractor.Literal.html" title="class in io.micronaut.coherence.annotation">PofExtractor.Literal</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/annotation/Processor.Literal.html#equals-java.lang.Object-">equals(Object)</a></span> - Method in class io.micronaut.coherence.annotation.<a href="io/micronaut/coherence/annotation/Processor.Literal.html" title="class in io.micronaut.coherence.annotation">Processor.Literal</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/micronaut/coherence/annotation/PropertyExtractor.Extractors.Literal.html#equals-java.lang.Object-">equals(Object)</a></span> - Method in class io.micronaut.coherence.annotation.<a href="io/micronaut/coherence/annotation/PropertyExtractor.Extractors.Literal.html" title="class in io.micronaut.coherence.annotation">PropertyExtractor.Extractors.Literal</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/annotation/PropertyExtractor.Literal.html#equals-java.lang.Object-">equals(Object)</a></span> - Method in class io.micronaut.coherence.annotation.<a href="io/micronaut/coherence/annotation/PropertyExtractor.Literal.html" title="class in io.micronaut.coherence.annotation">PropertyExtractor.Literal</a></dt>
 <dd>&nbsp;</dd>
@@ -1063,13 +1071,11 @@
 <dd>
 <div class="block">Handle the given exception.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/coherence/annotation/AbstractArrayLiteral.html#hashCode--">hashCode()</a></span> - Method in class io.micronaut.coherence.annotation.<a href="io/micronaut/coherence/annotation/AbstractArrayLiteral.html" title="class in io.micronaut.coherence.annotation">AbstractArrayLiteral</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/annotation/AbstractNamedLiteral.html#hashCode--">hashCode()</a></span> - Method in class io.micronaut.coherence.annotation.<a href="io/micronaut/coherence/annotation/AbstractNamedLiteral.html" title="class in io.micronaut.coherence.annotation">AbstractNamedLiteral</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/annotation/Backlog.Literal.html#hashCode--">hashCode()</a></span> - Method in class io.micronaut.coherence.annotation.<a href="io/micronaut/coherence/annotation/Backlog.Literal.html" title="class in io.micronaut.coherence.annotation">Backlog.Literal</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/micronaut/coherence/annotation/ChainedExtractor.Extractors.Literal.html#hashCode--">hashCode()</a></span> - Method in class io.micronaut.coherence.annotation.<a href="io/micronaut/coherence/annotation/ChainedExtractor.Extractors.Literal.html" title="class in io.micronaut.coherence.annotation">ChainedExtractor.Extractors.Literal</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/micronaut/coherence/annotation/ChainedExtractor.Literal.html#hashCode--">hashCode()</a></span> - Method in class io.micronaut.coherence.annotation.<a href="io/micronaut/coherence/annotation/ChainedExtractor.Literal.html" title="class in io.micronaut.coherence.annotation">ChainedExtractor.Literal</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/annotation/ConfigUri.Literal.html#hashCode--">hashCode()</a></span> - Method in class io.micronaut.coherence.annotation.<a href="io/micronaut/coherence/annotation/ConfigUri.Literal.html" title="class in io.micronaut.coherence.annotation">ConfigUri.Literal</a></dt>
 <dd>&nbsp;</dd>
@@ -1082,8 +1088,6 @@
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/annotation/PofExtractor.Literal.html#hashCode--">hashCode()</a></span> - Method in class io.micronaut.coherence.annotation.<a href="io/micronaut/coherence/annotation/PofExtractor.Literal.html" title="class in io.micronaut.coherence.annotation">PofExtractor.Literal</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/annotation/Processor.Literal.html#hashCode--">hashCode()</a></span> - Method in class io.micronaut.coherence.annotation.<a href="io/micronaut/coherence/annotation/Processor.Literal.html" title="class in io.micronaut.coherence.annotation">Processor.Literal</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/micronaut/coherence/annotation/PropertyExtractor.Extractors.Literal.html#hashCode--">hashCode()</a></span> - Method in class io.micronaut.coherence.annotation.<a href="io/micronaut/coherence/annotation/PropertyExtractor.Extractors.Literal.html" title="class in io.micronaut.coherence.annotation">PropertyExtractor.Extractors.Literal</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/coherence/annotation/PropertyExtractor.Literal.html#hashCode--">hashCode()</a></span> - Method in class io.micronaut.coherence.annotation.<a href="io/micronaut/coherence/annotation/PropertyExtractor.Literal.html" title="class in io.micronaut.coherence.annotation">PropertyExtractor.Literal</a></dt>
 <dd>&nbsp;</dd>
