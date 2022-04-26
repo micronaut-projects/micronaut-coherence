@@ -88,21 +88,21 @@ public abstract class AbstractEventSourceInterceptor implements MethodIntercepto
      *
      * @return the {@code EventGroup} handled by this interceptor
      */
-    protected abstract EventGroup getEventGroup();
+    public abstract EventGroup getEventGroup();
 
     /**
      * Return the {@code PRE} event type this interceptor wishes to emit.
      *
      * @return the {@code PRE} event type this interceptor wishes to emit
      */
-    protected abstract EventType getHandledPreEventType();
+    public abstract EventType getHandledPreEventType();
 
     /**
      * Return the {@code POST} event type this interceptor wishes to emit.
      *
      * @return the {@code POST} event type this interceptor wishes to emit
      */
-    protected abstract EventType getHandledPostEventType();
+    public abstract EventType getHandledPostEventType();
 
     /**
      * Trigger the specified event using the provided entity as the event value.
@@ -158,7 +158,7 @@ public abstract class AbstractEventSourceInterceptor implements MethodIntercepto
     /**
      * Represents the logical operations for multiple event types (i.e., pre, post persist).
      */
-    protected enum EventGroup {
+    public enum EventGroup {
         /**
          * Persist events.
          */
@@ -178,7 +178,7 @@ public abstract class AbstractEventSourceInterceptor implements MethodIntercepto
     /**
      * Various entity event types used by Micronaut Data.
      */
-    protected enum EventType {
+    public enum EventType {
         /**
          * @see io.micronaut.data.annotation.event.PrePersist
          */

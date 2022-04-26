@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 original authors
+ * Copyright 2017-2022 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,17 +41,17 @@ public class AsyncRemoveEventSourceInterceptor extends AbstractAsyncEventSourceI
     // ----- AbstractAsyncEventSourceInterceptor methods --------------------
 
     @Override
-    protected EventGroup getEventGroup() {
+    public EventGroup getEventGroup() {
         return EventGroup.REMOVE;
     }
 
     @Override
-    protected EventType getHandledPreEventType() {
+    public EventType getHandledPreEventType() {
         return EventType.PRE_REMOVE;
     }
 
     @Override
-    protected EventType getHandledPostEventType() {
+    public EventType getHandledPostEventType() {
         return EventType.POST_REMOVE;
     }
 }

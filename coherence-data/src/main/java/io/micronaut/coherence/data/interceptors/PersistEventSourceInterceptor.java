@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 original authors
+ * Copyright 2017-2022 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,24 +35,24 @@ public class PersistEventSourceInterceptor extends AbstractEventSourceIntercepto
      *
      * @param registry the {@link RuntimeEntityRegistry}
      */
-    protected PersistEventSourceInterceptor(RuntimeEntityRegistry registry) {
+    public PersistEventSourceInterceptor(RuntimeEntityRegistry registry) {
        super(registry);
     }
 
     // ----- AbstractEventSourceInterceptor methods -------------------------
 
     @Override
-    protected EventGroup getEventGroup() {
+    public EventGroup getEventGroup() {
         return EventGroup.PERSIST;
     }
 
     @Override
-    protected EventType getHandledPreEventType() {
+    public EventType getHandledPreEventType() {
         return EventType.PRE_PERSIST;
     }
 
     @Override
-    protected EventType getHandledPostEventType() {
+    public EventType getHandledPostEventType() {
         return EventType.POST_PERSIST;
     }
 }
