@@ -17,10 +17,15 @@ package io.micronaut.coherence.annotation;
 
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import java.lang.reflect.*;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * Supports inline instantiation of annotation type instances.
@@ -43,6 +48,8 @@ import java.util.Arrays;
 abstract class AnnotationLiteral<T extends Annotation> implements Annotation, Serializable {
 
     private static final long serialVersionUID = -3645430766814376616L;
+
+    private transient volatile boolean m_fAnnotationTypeChecked;
     private transient Class<T> m_annotationType;
     private transient Method[] m_aMembers;
 
@@ -80,7 +87,10 @@ abstract class AnnotationLiteral<T extends Annotation> implements Annotation, Se
         if (type instanceof ParameterizedType) {
             ParameterizedType parameterizedType = (ParameterizedType) type;
             if (parameterizedType.getActualTypeArguments().length == 1) {
-                return (Class<T>) parameterizedType.getActualTypeArguments()[0];
+                Object result = parameterizedType.getActualTypeArguments()[0];
+                if (Class.class.equals(result)) {
+                    return (Class<T>) parameterizedType.getActualTypeArguments()[0];
+                }
             }
         }
         return null;
@@ -105,13 +115,19 @@ abstract class AnnotationLiteral<T extends Annotation> implements Annotation, Se
         }
     }
 
+    @SuppressWarnings("unchecked")
     private Method[] getMembers() {
         if (m_aMembers == null) {
-            m_aMembers = AccessController.doPrivileged((PrivilegedAction<Method[]>) annotationType()::getDeclaredMethods);
+            Class<T> annotationType = (Class<T>) annotationType();
+            if (annotationType != null) {
+                m_aMembers = AccessController.doPrivileged((PrivilegedAction<Method[]>) annotationType()::getDeclaredMethods);
 
-            if (m_aMembers.length > 0 && !annotationType().isAssignableFrom(this.getClass())) {
-                throw new RuntimeException(
-                        getClass() + " does not implement the annotation type with members " + annotationType().getName());
+                if (m_aMembers.length > 0 && !annotationType().isAssignableFrom(this.getClass())) {
+                    throw new RuntimeException(
+                            getClass() + " does not implement the annotation type with members " + annotationType().getName());
+                }
+            } else {
+                m_aMembers = new Method[0];
             }
         }
         return m_aMembers;
@@ -124,15 +140,13 @@ abstract class AnnotationLiteral<T extends Annotation> implements Annotation, Se
      * @return annotation type of this literal.
      */
     public Class<? extends Annotation> annotationType() {
-        if (m_annotationType == null) {
+        if (!m_fAnnotationTypeChecked) {
+            m_fAnnotationTypeChecked = true;
             Class<?> annotationLiteralSubclass = getAnnotationLiteralSubclass(this.getClass());
             if (annotationLiteralSubclass == null) {
                 throw new RuntimeException(getClass() + "is not a subclass of AnnotationLiteral");
             }
             m_annotationType = getTypeParameter(annotationLiteralSubclass);
-            if (m_annotationType == null) {
-                throw new RuntimeException(getClass() + " does not specify the type parameter T of AnnotationLiteral<T>");
-            }
         }
         return m_annotationType;
     }
@@ -141,7 +155,7 @@ abstract class AnnotationLiteral<T extends Annotation> implements Annotation, Se
     public boolean equals(Object other) {
         if (other instanceof Annotation) {
             Annotation that = (Annotation) other;
-            if (this.annotationType().equals(that.annotationType())) {
+            if (Objects.equals(this.annotationType(), that.annotationType())) {
                 for (Method member : getMembers()) {
                     Object thisValue = invoke(member, this);
                     Object thatValue = invoke(member, that);
@@ -225,5 +239,10 @@ abstract class AnnotationLiteral<T extends Annotation> implements Annotation, Se
             hashCode += memberNameHashCode ^ memberValueHashCode;
         }
         return hashCode;
+    }
+
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target(ElementType.METHOD)
+    public @interface NoType {
     }
 }
