@@ -23,7 +23,7 @@ import io.micronaut.data.operations.async.AsyncRepositoryOperations;
  */
 public interface CoherenceAsyncRepositoryOperations extends AsyncRepositoryOperations {
     /**
-     * Obtain the {@link AsyncNamedMap} associated this this {@code repository}.
+     * Obtain the {@link AsyncNamedMap} associated with this {@code repository}.
      *
      * @param <ID> the type of the entity id
      * @param <T> the entity type

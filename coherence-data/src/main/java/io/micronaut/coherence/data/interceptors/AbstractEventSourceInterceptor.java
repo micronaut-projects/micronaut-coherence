@@ -110,7 +110,7 @@ public abstract class AbstractEventSourceInterceptor implements MethodIntercepto
      * @param eventType the {@link EventType}
      * @param entity the event value
      *
-     * @return the result of any of the {@code PRE} events may be inspected to stop processing
+     * @return the result of any {@code PRE} events may be inspected to stop processing
      *         of an event.  Any values returned for {@code POST} events is meaningless.
      */
     @SuppressWarnings("unchecked")
@@ -125,24 +125,27 @@ public abstract class AbstractEventSourceInterceptor implements MethodIntercepto
                 if (rpe.hasPrePersistEventListeners()) {
                     return registry.getEntityEventListener().prePersist(new DefaultEntityEventContext(rpe, entity));
                 }
+                break;
             case POST_PERSIST:
                 if (rpe.hasPostPersistEventListeners()) {
                     registry.getEntityEventListener().postPersist(new DefaultEntityEventContext(rpe, entity));
-                    break;
                 }
+                break;
             case PRE_UPDATE:
                 if (rpe.hasPreUpdateEventListeners()) {
                     return registry.getEntityEventListener().preUpdate(new DefaultEntityEventContext(rpe, entity));
                 }
+                break;
             case POST_UPDATE:
                 if (rpe.hasPostUpdateEventListeners()) {
                     registry.getEntityEventListener().postUpdate(new DefaultEntityEventContext<>(rpe, entity));
-                    break;
                 }
+                break;
             case PRE_REMOVE:
                 if (rpe.hasPreRemoveEventListeners()) {
                     return registry.getEntityEventListener().preRemove(new DefaultEntityEventContext<>(rpe, entity));
                 }
+                break;
             case POST_REMOVE:
             default:
                 if (rpe.hasPostRemoveEventListeners()) {

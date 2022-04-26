@@ -24,7 +24,7 @@ import io.micronaut.data.operations.async.AsyncCapableRepository;
 public interface CoherenceRepositoryOperations extends AsyncCapableRepository {
 
     /**
-     * Obtain the {@link NamedMap} associated this this {@code repository}.
+     * Obtain the {@link NamedMap} associated with this {@code repository}.
      *
      * @param <ID> the type of the entity id
      * @param <T> the entity type

@@ -130,7 +130,7 @@ public class CoherenceDataIntroductionAdvice implements MethodInterceptor<Object
         try {
             datastore = (RepositoryOperations) beanLocator.getBean(operationsType, qualifier);
         } catch (NoSuchBeanException e) {
-            // if there is no explict configuration, use a DefaultCoherenceRepositoryOperations implementation
+            // if there is no explicit configuration, use a DefaultCoherenceRepositoryOperations implementation
             // using the default Coherence session
             datastore = new DefaultCoherenceRepositoryOperations(dataSourceName,
                                                                  (ApplicationContext) beanLocator,
