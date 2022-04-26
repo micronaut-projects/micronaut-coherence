@@ -15,8 +15,11 @@
  */
 package io.micronaut.coherence.annotation;
 
-import java.lang.annotation.*;
-import java.util.Arrays;
+import java.lang.annotation.Documented;
+import java.lang.annotation.Inherited;
+import java.lang.annotation.Repeatable;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 /**
  * An {@link ExtractorBinding} annotation representing a
@@ -65,14 +68,10 @@ public @interface ChainedExtractor {
          * An annotation literal for the {@link Extractors} annotation.
          */
         @SuppressWarnings("ClassExplicitlyAnnotation")
-        class Literal extends AnnotationLiteral<Extractors> implements Extractors {
-            /**
-             * The extractors value for this literal.
-             */
-            private final ChainedExtractor[] f_aExtractors;
+        class Literal extends AbstractArrayLiteral<Extractors> implements Extractors {
 
             private Literal(ChainedExtractor... aExtractors) {
-                f_aExtractors = aExtractors;
+                super(aExtractors);
             }
 
             /**
@@ -92,29 +91,7 @@ public @interface ChainedExtractor {
              * @return the extractor annotations contained in this annotation
              */
             public ChainedExtractor[] value() {
-                return f_aExtractors;
-            }
-
-            @Override
-            public boolean equals(final Object o) {
-                if (this == o) {
-                    return true;
-                }
-                if (o == null || getClass() != o.getClass()) {
-                    return false;
-                }
-                if (!super.equals(o)) {
-                    return false;
-                }
-                final Literal literal = (Literal) o;
-                return Arrays.equals(f_aExtractors, literal.f_aExtractors);
-            }
-
-            @Override
-            public int hashCode() {
-                int result = super.hashCode();
-                result = 31 * result + Arrays.hashCode(f_aExtractors);
-                return result;
+                return (ChainedExtractor[]) array;
             }
         }
     }
@@ -123,19 +100,14 @@ public @interface ChainedExtractor {
      * An annotation literal for the {@link ChainedExtractor} annotation.
      */
     @SuppressWarnings("ClassExplicitlyAnnotation")
-    class Literal extends AnnotationLiteral<ChainedExtractor> implements ChainedExtractor {
-        /**
-         * The extractor value for this literal.
-         */
-        private final String[] f_asFields;
-
+    class Literal extends AbstractArrayLiteral<ChainedExtractor> implements ChainedExtractor {
         /**
          * Construct {@code Literal} instance.
          *
          * @param asFields the value used to create the extractor
          */
         private Literal(String[] asFields) {
-            this.f_asFields = asFields;
+            super(asFields);
         }
 
         /**
@@ -156,29 +128,7 @@ public @interface ChainedExtractor {
          * com.tangosol.util.extractor.ChainedExtractor}
          */
         public String[] value() {
-            return f_asFields;
-        }
-
-        @Override
-        public boolean equals(final Object o) {
-            if (this == o) {
-                return true;
-            }
-            if (o == null || getClass() != o.getClass()) {
-                return false;
-            }
-            if (!super.equals(o)) {
-                return false;
-            }
-            final Literal literal = (Literal) o;
-            return Arrays.equals(f_asFields, literal.f_asFields);
-        }
-
-        @Override
-        public int hashCode() {
-            int result = super.hashCode();
-            result = 31 * result + Arrays.hashCode(f_asFields);
-            return result;
+            return (String[]) array;
         }
     }
 }

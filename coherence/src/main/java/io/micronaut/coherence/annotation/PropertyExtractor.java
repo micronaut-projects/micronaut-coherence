@@ -15,8 +15,11 @@
  */
 package io.micronaut.coherence.annotation;
 
-import java.lang.annotation.*;
-import java.util.Arrays;
+import java.lang.annotation.Documented;
+import java.lang.annotation.Inherited;
+import java.lang.annotation.Repeatable;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.Objects;
 
 /**
@@ -63,19 +66,14 @@ public @interface PropertyExtractor {
          * An annotation literal for the {@link Extractors} annotation.
          */
         @SuppressWarnings("ClassExplicitlyAnnotation")
-        class Literal extends AnnotationLiteral<Extractors> implements Extractors {
-            /**
-             * The extractors array for this literal.
-             */
-            private final PropertyExtractor[] f_aExtractors;
-
+        class Literal extends AbstractArrayLiteral<Extractors> implements Extractors {
             /**
              * Construct {@code Literal} instance.
              *
              * @param aExtractors the extractors
              */
             private Literal(PropertyExtractor... aExtractors) {
-                f_aExtractors = aExtractors;
+                super(aExtractors);
             }
 
             /**
@@ -95,29 +93,7 @@ public @interface PropertyExtractor {
              * @return the extractor annotations contained in this annotation
              */
             public PropertyExtractor[] value() {
-                return f_aExtractors;
-            }
-
-            @Override
-            public boolean equals(final Object o) {
-                if (this == o) {
-                    return true;
-                }
-                if (o == null || getClass() != o.getClass()) {
-                    return false;
-                }
-                if (!super.equals(o)) {
-                    return false;
-                }
-                final Literal literal = (Literal) o;
-                return Arrays.equals(f_aExtractors, literal.f_aExtractors);
-            }
-
-            @Override
-            public int hashCode() {
-                int result = super.hashCode();
-                result = 31 * result + Arrays.hashCode(f_aExtractors);
-                return result;
+                return (PropertyExtractor[]) array;
             }
         }
     }
