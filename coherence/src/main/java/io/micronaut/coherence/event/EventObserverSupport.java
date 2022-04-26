@@ -261,7 +261,7 @@ public final class EventObserverSupport {
     static class CoherenceLifecycleEventHandler
             extends EventHandler<CoherenceLifecycleEvent, CoherenceLifecycleEvent.Type> {
 
-        private String name;
+        String name;
 
         CoherenceLifecycleEventHandler(ExecutableMethodEventObserver<CoherenceLifecycleEvent, ?, ?> observer) {
             super(observer, CoherenceLifecycleEvent.Type.class);
@@ -294,7 +294,7 @@ public final class EventObserverSupport {
      */
     static class SessionLifecycleEventHandler extends EventHandler<SessionLifecycleEvent, SessionLifecycleEvent.Type> {
 
-        private String name;
+        String name;
 
         SessionLifecycleEventHandler(ExecutableMethodEventObserver<SessionLifecycleEvent, ?, ?> observer) {
             super(observer, SessionLifecycleEvent.Type.class);
@@ -465,7 +465,7 @@ public final class EventObserverSupport {
      */
     static class EntryProcessorEventHandler
             extends CacheEventHandler<EntryProcessorEvent, EntryProcessorEvent.Type> {
-        private final Class<?> m_classProcessor;
+        final Class<?> m_classProcessor;
 
         EntryProcessorEventHandler(ExecutableMethodEventObserver<EntryProcessorEvent, ?, ?> observer) {
             super(observer, EntryProcessorEvent.Type.class);

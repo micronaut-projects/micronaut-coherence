@@ -5,7 +5,7 @@
  * http://oss.oracle.com/licenses/upl.
  */
 
-package io.micronaut.coherence.events;
+package io.micronaut.coherence.event;
 
 import java.util.Map;
 
