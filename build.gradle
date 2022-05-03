@@ -50,15 +50,15 @@ subprojects { Project subproject ->
         apply plugin: "io.micronaut.build.internal.common"
 
         dependencies {
-            annotationProcessor "io.micronaut:micronaut-inject-java:${micronautVersion}"
-            annotationProcessor "io.micronaut.docs:micronaut-docs-asciidoc-config-props:2.0.0"
+            annotationProcessor(libs.micronaut.inject.java)
+            annotationProcessor(libs.micronaut.docs.asciidoc.config.props)
 
             if(!subproject.name.endsWith('-processor')) {
-                compileOnly(platform("com.oracle.coherence.ce:coherence-bom:${coherenceVersion}"))
-                testImplementation(platform("com.oracle.coherence.ce:coherence-bom:${coherenceVersion}"))
+                compileOnly(platform(libs.boms.coherence))
+                testImplementation(platform(libs.boms.coherence))
             }
 
-            testAnnotationProcessor "io.micronaut:micronaut-inject-java:${micronautVersion}"
+            testAnnotationProcessor(libs.micronaut.inject.java)
         }
     }
 

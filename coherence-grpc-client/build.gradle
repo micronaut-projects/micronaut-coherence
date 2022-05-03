@@ -1,15 +1,15 @@
 dependencies {
     api project(':coherence')
-    api "io.micronaut:micronaut-inject"
-    api "io.micronaut:micronaut-runtime"
-    api "com.oracle.coherence.ce:coherence-java-client:${coherenceVersion}"
+    api(libs.micronaut.inject)
+    api(libs.micronaut.runtime)
+    api(libs.managed.coherence.java.client)
 
-    testImplementation "org.mockito:mockito-core:${mockitoVersion}"
-    testImplementation "org.hamcrest:hamcrest:${hamcrestVersion}"
-    testImplementation "io.micronaut.test:micronaut-test-junit5:${micronautTestVersion}"
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.hamcrest)
+    testImplementation(libs.micronaut.test.junit5)
 
-    testImplementation "com.oracle.bedrock:bedrock-testing-support:$bedrockVersion"
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
+    testImplementation(libs.bedrock.testing.support)
+    testRuntimeOnly(libs.junit.jupiter.engine)
 }
 
 tasks.withType(Test) {

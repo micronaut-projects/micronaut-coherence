@@ -1,18 +1,18 @@
 dependencies {
     api project(':coherence')
     implementation project(':coherence-grpc-client')
-    api "io.micronaut:micronaut-inject"
-    api "io.micronaut:micronaut-runtime"
-    implementation "io.micronaut.discovery:micronaut-discovery-client:3.1.0"
-    implementation("io.micronaut.reactor:micronaut-reactor")
-    compileOnly "com.oracle.coherence.ce:coherence"
+    api(libs.micronaut.inject)
+    api(libs.micronaut.runtime)
+    implementation(libs.micronaut.discovery.client)
+    implementation(libs.micronaut.reactor)
+    compileOnly(libs.managed.coherence)
 
-    testImplementation "org.mockito:mockito-core:${mockitoVersion}"
-    testImplementation "org.mockito:mockito-inline:${mockitoVersion}"
-    testImplementation "org.hamcrest:hamcrest:${hamcrestVersion}"
-    testImplementation "io.micronaut.test:micronaut-test-junit5:${micronautTestVersion}"
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.inline)
+    testImplementation(libs.hamcrest)
+    testImplementation(libs.micronaut.test.junit5)
 
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
+    testRuntimeOnly(libs.junit.jupiter.engine)
 }
 
 tasks.withType(Test) {

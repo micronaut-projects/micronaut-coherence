@@ -1,17 +1,17 @@
 dependencies {
     api project(':coherence')
-    api "io.micronaut:micronaut-session"
-    compileOnly "com.oracle.coherence.ce:coherence:${coherenceVersion}"
-    implementation("io.micronaut.reactor:micronaut-reactor")
+    api(libs.micronaut.session)
+    compileOnly(libs.managed.coherence)
+    implementation(libs.micronaut.reactor)
 
-    testImplementation "com.oracle.coherence.ce:coherence:${coherenceVersion}"
-    testImplementation "io.micronaut:micronaut-http-client"
-    testRuntimeOnly "io.micronaut:micronaut-http-server-netty"
+    testImplementation(libs.managed.coherence)
+    testImplementation(libs.micronaut.http.client)
+    testRuntimeOnly(libs.micronaut.http.server.netty)
 
-    testImplementation "org.hamcrest:hamcrest:${hamcrestVersion}"
-    testImplementation "io.micronaut.test:micronaut-test-junit5:${micronautTestVersion}"
+    testImplementation(libs.hamcrest)
+    testImplementation(libs.micronaut.test.junit5)
 
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
+    testRuntimeOnly(libs.junit.jupiter.engine)
 }
 
 tasks.withType(Test) {

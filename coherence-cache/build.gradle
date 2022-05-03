@@ -1,15 +1,14 @@
 dependencies {
-    annotationProcessor "io.micronaut:micronaut-inject-groovy"
+    annotationProcessor(libs.micronaut.inject.groovy)
 
     implementation project(":coherence")
-    api "io.micronaut:micronaut-inject"
-    api "io.micronaut.cache:micronaut-cache-core"
-    compileOnly "com.oracle.coherence.ce:coherence:${coherenceVersion}"
+    api(libs.micronaut.inject)
+    api(libs.micronaut.cache.core)
+    compileOnly(libs.managed.coherence)
 
-    testAnnotationProcessor "io.micronaut:micronaut-inject-groovy"
-    testImplementation "com.oracle.coherence.ce:coherence:${coherenceVersion}"
-    testImplementation "io.micronaut:micronaut-inject-groovy:${micronautVersion}"
-    testImplementation "io.micronaut.test:micronaut-test-spock:${micronautTestVersion}"
-    testImplementation "io.micronaut.cache:micronaut-cache-tck:${micronautCacheVersion}"
-    testImplementation "org.testcontainers:spock:${testContainersVersion}"
+    testAnnotationProcessor(libs.micronaut.inject.groovy)
+    testImplementation(libs.managed.coherence)
+    testImplementation(libs.micronaut.inject.groovy)
+    testImplementation(libs.micronaut.test.spock)
+    testImplementation(libs.micronaut.cache.tck)
 }
