@@ -8,7 +8,8 @@ junit = "5.8.2"
 mockito = "4.5.1"
 
 # Micronaut
-micronaut = "3.4.4"
+micronaut = "3.5.0"
+micronaut-grpc = "3.3.1"
 micronaut-cache = "3.4.1"
 micronaut-data = "3.4.1"
 micronaut-discovery-client = "3.1.0"
@@ -34,6 +35,7 @@ micronaut-data-processor = { module = "io.micronaut.data:micronaut-data-processo
 micronaut-data-runtime = { module = "io.micronaut.data:micronaut-data-runtime", version.ref = "micronaut-data" }
 micronaut-discovery-client = { module = "io.micronaut.discovery:micronaut-discovery-client", version.ref = "micronaut-discovery-client" }
 micronaut-docs-asciidoc-config-props = { module = "io.micronaut.docs:micronaut-docs-asciidoc-config-props", version.ref = "micronaut-docs-asciidoc-config-props" }
+micronaut-grpc-runtime = {module = "io.micronaut.grpc:micronaut-grpc-client-runtime", version.ref = "micronaut-grpc"}
 micronaut-http-client = { module = "io.micronaut:micronaut-http-client" }
 micronaut-http-server-netty = { module = "io.micronaut:micronaut-http-server-netty" }
 micronaut-inject = { module = "io.micronaut:micronaut-inject" }

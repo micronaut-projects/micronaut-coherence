@@ -2,6 +2,7 @@ dependencies {
     api project(':coherence')
     api(libs.micronaut.inject)
     api(libs.micronaut.runtime)
+    api(libs.micronaut.grpc.runtime)
     api(libs.managed.coherence.java.client)
 
     testImplementation(libs.mockito.core)
