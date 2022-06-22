@@ -25,6 +25,9 @@ buildscript {
 
 subprojects { Project subproject ->
     group "io.micronaut.coherence"
+    ext {
+        micronautVersion = '3.5.2'
+    }
     repositories {
         //jcenter()
         mavenCentral()
