@@ -150,7 +150,16 @@ class NamedCacheFactories {
             WeakReference<ContinuousQueryCache> refCQC = views.compute(id, (key, ref) -> {
                 ContinuousQueryCache cqc = ref == null ? null : ref.get();
                 if (cqc == null || !cqc.isActive()) {
-                    cqc = new ContinuousQueryCache<>(cache, filter, hasValues, null, extractor);
+                    cqc = new ContinuousQueryCache(cache, filter, hasValues, null, extractor) {
+                        @Override
+                        public String toString() {
+                            try {
+                                return super.toString();
+                            } catch (Exception e) {
+                                return "View{name=" + name + ", destroyed=true}";
+                            }
+                        }
+                    };
                     return new WeakReference<>(cqc);
                 } else {
                     return ref;
