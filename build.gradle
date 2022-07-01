@@ -13,21 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-repositories {
-    //jcenter()
-    mavenCentral()
-    maven { url "https://s01.oss.sonatype.org/content/repositories/snapshots/" }
-    maven {
-        url "https://oss.sonatype.org/content/repositories/snapshots"
-        mavenContent {
-            snapshotsOnly()
-        }
-    }
-    maven { url "https://oss.sonatype.org/content/groups/staging" }
-    mavenLocal()
-}
-
 apply plugin: "io.micronaut.build.internal.docs"
 apply plugin: "io.micronaut.build.internal.dependency-updates"
 apply plugin: "io.micronaut.build.internal.quality-reporting"
