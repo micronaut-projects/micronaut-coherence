@@ -1,8 +1,14 @@
+plugins {
+    id "io.micronaut.build.internal.coherence-module"
+}
+
 dependencies {
     api project(':coherence')
     api(libs.micronaut.session)
     compileOnly(libs.managed.coherence)
     implementation(libs.micronaut.reactor)
+
+    testAnnotationProcessor(libs.micronaut.inject.java)
 
     testImplementation(libs.managed.coherence)
     testImplementation(libs.micronaut.http.client)

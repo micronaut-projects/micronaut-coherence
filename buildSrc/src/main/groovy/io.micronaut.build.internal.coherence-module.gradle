@@ -1,0 +1,7 @@
+/**
+ * Plugin for Coherence modules.
+ */
+plugins {
+    id "io.micronaut.build.internal.coherence-base"
+    id "io.micronaut.build.internal.module"
+}

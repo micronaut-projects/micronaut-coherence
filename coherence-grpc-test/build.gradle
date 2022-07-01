@@ -1,3 +1,7 @@
+plugins {
+    id "io.micronaut.build.internal.coherence-module"
+}
+
 dependencies {
     api project(':coherence')
     api project(':coherence-grpc-client')
@@ -5,6 +9,8 @@ dependencies {
     api(libs.micronaut.runtime)
     api(libs.managed.coherence.grpc.proxy)
     api(libs.managed.coherence.json)
+
+    testAnnotationProcessor(libs.micronaut.inject.java)
 
     testImplementation(libs.mockito.core)
     testImplementation(libs.hamcrest)

@@ -1,18 +1,13 @@
 plugins {
-    id 'java-platform'
+    id "io.micronaut.build.internal.coherence-base"
+    id 'io.micronaut.build.internal.bom'
 }
 
-javaPlatform {
-    allowDependencies()
-}
-
-dependencies {
-    constraints {
-        for (Project p : rootProject.subprojects) {
-            if (p.name == "coherence-bom") {
-                continue
-            }
-            api "$p.group:micronaut-$p.name:$p.version"
-        }
+micronautBom {
+    suppressions {
+        dependencies.addAll([
+                "com.oracle.coherence.ce:coherence-mock:22.06",
+                "com.oracle.coherence.ce:coherence-loadbalancer:22.06"
+        ])
     }
 }

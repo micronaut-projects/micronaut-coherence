@@ -14,53 +14,18 @@
  * limitations under the License.
  */
 
-buildscript {
-    repositories {
-        maven { url "https://repo.grails.org/grails/core" }
-    }
-    dependencies {
-        classpath "io.micronaut.build.internal:micronaut-gradle-plugins:5.3.10"
-    }
-}
-
-subprojects { Project subproject ->
-    group "io.micronaut.coherence"
-    repositories {
-        //jcenter()
-        mavenCentral()
-        maven { url "https://s01.oss.sonatype.org/content/repositories/snapshots/" }
-        maven {
-            url "https://oss.sonatype.org/content/repositories/snapshots"
-            mavenContent {
-                snapshotsOnly()
-            }
-        }
-        maven { url "https://oss.sonatype.org/content/groups/staging" }
-        mavenLocal()
-    }
-
-    if (subproject.name.endsWith('-bom')) {
-        apply plugin: "java-platform"
-        version projectVersion
-
-    } else {
-        apply plugin: "io.micronaut.build.internal.common"
-
-        dependencies {
-            annotationProcessor(libs.micronaut.inject.java)
-            annotationProcessor(libs.micronaut.docs.asciidoc.config.props)
-
-            if(!subproject.name.endsWith('-processor')) {
-                compileOnly(platform(libs.boms.coherence))
-                testImplementation(platform(libs.boms.coherence))
-            }
-
-            testAnnotationProcessor(libs.micronaut.inject.java)
+repositories {
+    //jcenter()
+    mavenCentral()
+    maven { url "https://s01.oss.sonatype.org/content/repositories/snapshots/" }
+    maven {
+        url "https://oss.sonatype.org/content/repositories/snapshots"
+        mavenContent {
+            snapshotsOnly()
         }
     }
-
-    apply plugin: "io.micronaut.build.internal.dependency-updates"
-    apply plugin: "io.micronaut.build.internal.publishing"
+    maven { url "https://oss.sonatype.org/content/groups/staging" }
+    mavenLocal()
 }
 
 apply plugin: "io.micronaut.build.internal.docs"
