@@ -10,7 +10,7 @@ dependency:coherence-grpc-client[groupId="io.micronaut.coherence"]
 
 Add the Coherence Java client module for the version of Coherence being used:
 
-dependency:coherence-java-client[groupId="com.oracle.coherence.ce",version="21.12.3"]
+dependency:coherence-java-client[groupId="com.oracle.coherence.ce",version="22.06"]
 
 === Configure the Client Sessions
 
