@@ -1,7 +1,7 @@
 [versions]
 managed-coherence = "22.06.1-SNAPSHOT"
 
-bedrock = "6.0.0"
+bedrock = "6.0.1"
 hamcrest = "2.2"
 javax-inject = "1"
 junit = "5.8.2"
