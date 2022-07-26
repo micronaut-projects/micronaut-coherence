@@ -2,12 +2,3 @@ plugins {
     id "io.micronaut.build.internal.coherence-base"
     id 'io.micronaut.build.internal.bom'
 }
-
-micronautBom {
-    suppressions {
-        dependencies.addAll([
-                "com.oracle.coherence.ce:coherence-mock:22.06",
-                "com.oracle.coherence.ce:coherence-loadbalancer:22.06"
-        ])
-    }
-}
