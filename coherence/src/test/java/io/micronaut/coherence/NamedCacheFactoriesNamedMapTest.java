@@ -48,7 +48,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 @SuppressWarnings("rawtypes")
 class NamedCacheFactoriesNamedMapTest {
 
-    @Inject 
+    @Inject
     ApplicationContext ctx;
 
     @Test
@@ -87,13 +87,11 @@ class NamedCacheFactoriesNamedMapTest {
         assertThat(bean.getDefaultCcfNumbers().getName(), is("numbers"));
         assertThat(bean.getDefaultCcfAsyncNumbers(), is(notNullValue()));
         assertThat(bean.getDefaultCcfAsyncNumbers().getNamedMap().getName(), is("numbers"));
-        assertThat(bean.getDefaultCcfAsyncNumbers().getNamedMap(), is(bean.getDefaultCcfNumbers()));
 
         assertThat(bean.getSpecificCcfNumbers(), is(notNullValue()));
         assertThat(bean.getSpecificCcfNumbers().getName(), is("numbers"));
         assertThat(bean.getSpecificCcfAsyncNumbers(), is(notNullValue()));
         assertThat(bean.getSpecificCcfAsyncNumbers().getNamedMap().getName(), is("numbers"));
-        assertThat(bean.getSpecificCcfAsyncNumbers().getNamedMap(), is(bean.getSpecificCcfNumbers()));
 
         assertThat(bean.getDefaultCcfNumbers(), is(not(bean.getSpecificCcfNumbers())));
     }

@@ -4,6 +4,9 @@ coherence:
   ttl: 0
   distributed:
     localstorage: true
+  grpc:
+    server:
+      port: 1408
 
   sessions:
     default:
