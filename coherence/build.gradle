@@ -8,10 +8,13 @@ dependencies {
     api(libs.micronaut.runtime)
     api(libs.javax.inject)
     implementation(libs.micronaut.reactor)
+  implementation 'io.grpc:grpc-all:1.50.2'
 
-    compileOnly(libs.managed.coherence)
+  compileOnly(libs.managed.coherence)
     compileOnly(libs.managed.coherence.json)
-    compileOnly(libs.managed.coherence.grpc.proxy)
+    compileOnly(libs.managed.coherence.grpc.proxy) {
+      exclude group: 'io.helidon.grpc', module: "io.grpc"
+    }
 
     testAnnotationProcessor(libs.micronaut.inject.java)
 
@@ -33,4 +36,8 @@ tasks.withType(Test) {
 test {
     systemProperty("java.net.preferIPv4Stack", "true")
     forkEvery 1
+}
+
+repositories {
+  mavenCentral()
 }

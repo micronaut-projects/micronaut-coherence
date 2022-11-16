@@ -7,7 +7,10 @@ dependencies {
     api(libs.micronaut.inject)
     api(libs.micronaut.runtime)
     api(libs.micronaut.grpc.runtime)
-    api(libs.managed.coherence.java.client)
+    api("io.grpc:grpc-core")
+    api(libs.managed.coherence.java.client) {
+      exclude group: 'io.helidon.grpc', module: 'io.grpc'
+    }
 
     testAnnotationProcessor(libs.micronaut.inject.java)
 
