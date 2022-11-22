@@ -40,7 +40,7 @@ jobs:
         uses: graalvm/setup-graalvm@v1
         with:
           version: ${{ matrix.graalvm }}
-          java-version: ${{ matrix.java }}
+          java-version: '17'
           components: 'native-image'
       - name: Build with Gradle
         run: |
