@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 original authors
+ * Copyright 2017-2023 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -66,7 +66,7 @@ public @interface PropertyExtractor {
          * An annotation literal for the {@link Extractors} annotation.
          */
         @SuppressWarnings("ClassExplicitlyAnnotation")
-        class Literal extends AbstractArrayLiteral<Extractors> implements Extractors {
+        final class Literal extends AbstractArrayLiteral<Extractors> implements Extractors {
             /**
              * Construct {@code Literal} instance.
              *
@@ -103,7 +103,7 @@ public @interface PropertyExtractor {
      * An annotation literal for the {@link PropertyExtractor} annotation.
      */
     @SuppressWarnings("ClassExplicitlyAnnotation")
-    class Literal extends AnnotationLiteral<PropertyExtractor> implements PropertyExtractor {
+    final class Literal extends AnnotationLiteral<PropertyExtractor> implements PropertyExtractor {
         /**
          * The name of the property to extract.
          */

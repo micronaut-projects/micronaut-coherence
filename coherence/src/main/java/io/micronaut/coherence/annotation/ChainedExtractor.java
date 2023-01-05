@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 original authors
+ * Copyright 2017-2023 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -68,7 +68,7 @@ public @interface ChainedExtractor {
          * An annotation literal for the {@link Extractors} annotation.
          */
         @SuppressWarnings("ClassExplicitlyAnnotation")
-        class Literal extends AbstractArrayLiteral<Extractors> implements Extractors {
+        final class Literal extends AbstractArrayLiteral<Extractors> implements Extractors {
 
             private Literal(ChainedExtractor... aExtractors) {
                 super(aExtractors);
@@ -100,7 +100,7 @@ public @interface ChainedExtractor {
      * An annotation literal for the {@link ChainedExtractor} annotation.
      */
     @SuppressWarnings("ClassExplicitlyAnnotation")
-    class Literal extends AbstractArrayLiteral<ChainedExtractor> implements ChainedExtractor {
+    final class Literal extends AbstractArrayLiteral<ChainedExtractor> implements ChainedExtractor {
         /**
          * Construct {@code Literal} instance.
          *
