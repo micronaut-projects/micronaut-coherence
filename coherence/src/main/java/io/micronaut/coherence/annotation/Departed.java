@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 original authors
+ * Copyright 2017-2023 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,7 +35,7 @@ public @interface Departed {
      * annotation.
      */
     @SuppressWarnings("ClassExplicitlyAnnotation")
-    class Literal extends AnnotationLiteral<Departed> implements Departed {
+    final class Literal extends AnnotationLiteral<Departed> implements Departed {
         public static final Literal INSTANCE = new Literal();
     }
 }

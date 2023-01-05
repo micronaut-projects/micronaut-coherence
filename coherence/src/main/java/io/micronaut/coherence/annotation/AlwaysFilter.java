@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 original authors
+ * Copyright 2017-2023 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,7 +38,7 @@ public @interface AlwaysFilter {
      * annotation.
      */
     @SuppressWarnings("ClassExplicitlyAnnotation")
-    class Literal extends AnnotationLiteral<AlwaysFilter> implements AlwaysFilter {
+    final class Literal extends AnnotationLiteral<AlwaysFilter> implements AlwaysFilter {
 
         /**
          * A {@link Literal} instance.

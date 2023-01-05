@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 original authors
+ * Copyright 2017-2023 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -60,7 +60,7 @@ public @interface Backlog {
      * An annotation literal for the {@link Backlog} annotation.
      */
     @SuppressWarnings("ClassExplicitlyAnnotation")
-    class Literal extends AnnotationLiteral<Backlog> implements Backlog {
+    final class Literal extends AnnotationLiteral<Backlog> implements Backlog {
 
         /**
          * The backlog event type.

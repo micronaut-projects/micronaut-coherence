@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 original authors
+ * Copyright 2017-2023 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,7 +40,7 @@ public @interface ServiceName {
      * An annotation literal for the {@link ServiceName} annotation.
      */
     @SuppressWarnings("ClassExplicitlyAnnotation")
-    class Literal extends AbstractNamedLiteral<ServiceName> implements ServiceName {
+    final class Literal extends AbstractNamedLiteral<ServiceName> implements ServiceName {
         /**
          * Construct {@link Literal} instance.
          *

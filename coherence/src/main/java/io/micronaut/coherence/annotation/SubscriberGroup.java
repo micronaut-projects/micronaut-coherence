@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 original authors
+ * Copyright 2017-2023 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,7 +42,7 @@ public @interface SubscriberGroup {
      * An annotation literal for the {@link SubscriberGroup} annotation.
      */
     @SuppressWarnings("ClassExplicitlyAnnotation")
-    class Literal extends AbstractNamedLiteral<SubscriberGroup> implements SubscriberGroup {
+    final class Literal extends AbstractNamedLiteral<SubscriberGroup> implements SubscriberGroup {
         /**
          * Construct {@code Literal} instance.
          *
