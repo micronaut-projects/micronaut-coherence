@@ -4,7 +4,7 @@ managed-coherence = "22.09"
 bedrock = "7.0.1"
 hamcrest = "2.2"
 javax-inject = "1"
-junit = "5.9.1"
+junit = "5.9.2"
 mockito = "4.11.0"
 
 # Micronaut
