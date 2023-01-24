@@ -15,13 +15,12 @@
  */
 package io.micronaut.coherence.test.grpc;
 
-import javax.inject.Named;
-import javax.inject.Singleton;
-
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.micronaut.context.annotation.Bean;
 import io.micronaut.context.annotation.Factory;
+import jakarta.inject.Named;
+import jakarta.inject.Singleton;
 
 @Factory
 public class Channels {

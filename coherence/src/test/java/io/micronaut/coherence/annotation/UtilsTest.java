@@ -15,13 +15,12 @@
  */
 package io.micronaut.coherence.annotation;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.core.annotation.AnnotationMetadata;
 import io.micronaut.inject.BeanDefinition;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 

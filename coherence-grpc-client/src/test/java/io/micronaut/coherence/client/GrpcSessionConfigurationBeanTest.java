@@ -19,10 +19,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import javax.inject.Inject;
-
 import com.oracle.coherence.client.GrpcSessionConfiguration;
-import com.tangosol.io.Serializer;
 import com.tangosol.net.Coherence;
 import com.tangosol.net.SessionConfiguration;
 
@@ -31,6 +28,7 @@ import io.micronaut.coherence.SessionConfigurationProvider;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.inject.qualifiers.Qualifiers;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
+import jakarta.inject.Inject;
 import org.junit.jupiter.api.Test;
 import org.opentest4j.AssertionFailedError;
 

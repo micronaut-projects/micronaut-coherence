@@ -1,9 +1,8 @@
 package io.micronaut.coherence.data.util;
 
-import io.micronaut.coherence.data.model.Book;
 import io.micronaut.context.annotation.Any;
+import jakarta.inject.Singleton;
 
-import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
 

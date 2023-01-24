@@ -18,9 +18,9 @@ package io.micronaut.coherence.config;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.annotation.Context;
 import io.micronaut.context.env.MapPropertySource;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import java.util.HashMap;
 import java.util.Map;
 

@@ -16,29 +16,20 @@
 package io.micronaut.coherence.data;
 
 import com.tangosol.net.NamedMap;
-import com.tangosol.util.Filters;
 import com.tangosol.util.UUID;
 import io.micronaut.coherence.annotation.SessionName;
 import io.micronaut.coherence.data.model.Author;
 import io.micronaut.coherence.data.model.Book;
 import io.micronaut.coherence.data.util.EventRecorder;
-import io.micronaut.core.annotation.NonNull;
-import io.micronaut.data.repository.CrudRepository;
-import io.micronaut.data.repository.async.AsyncCrudRepository;
+import jakarta.inject.Inject;
 import org.junit.jupiter.api.BeforeEach;
 
-import javax.inject.Inject;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.LinkedHashSet;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
-import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;

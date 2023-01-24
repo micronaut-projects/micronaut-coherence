@@ -20,10 +20,10 @@ import io.micronaut.coherence.data.model.Author;
 import io.micronaut.coherence.data.model.Book;
 import io.micronaut.coherence.data.repositories.BookRepository;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
+import jakarta.inject.Inject;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
-import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;

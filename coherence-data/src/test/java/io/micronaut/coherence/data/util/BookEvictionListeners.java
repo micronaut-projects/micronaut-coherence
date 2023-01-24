@@ -6,9 +6,8 @@ import io.micronaut.context.annotation.Requires;
 import io.micronaut.data.event.listeners.PrePersistEventListener;
 import io.micronaut.data.event.listeners.PreRemoveEventListener;
 import io.micronaut.data.event.listeners.PreUpdateEventListener;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 
 @Factory
 public class BookEvictionListeners {

@@ -8,7 +8,6 @@ dependencies {
     api(mn.micronaut.runtime)
     implementation(mnReactor.micronaut.reactor)
 
-    api(libs.javax.inject)
     implementation 'io.grpc:grpc-all:1.52.1'
 
     compileOnly(libs.managed.coherence)

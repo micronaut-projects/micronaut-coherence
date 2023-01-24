@@ -3,8 +3,8 @@ package io.micronaut.coherence.data.model;
 import io.micronaut.coherence.data.util.EventRecorder;
 import io.micronaut.coherence.data.util.EventType;
 import io.micronaut.data.annotation.event.PrePersist;
+import jakarta.inject.Inject;
 
-import javax.inject.Inject;
 import java.util.Calendar;
 
 public final class MutationsBook extends Book {

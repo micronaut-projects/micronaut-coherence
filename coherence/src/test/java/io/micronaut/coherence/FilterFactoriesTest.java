@@ -21,9 +21,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.Arrays;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import io.micronaut.coherence.annotation.AlwaysFilter;
 import io.micronaut.coherence.annotation.FilterBinding;
 import io.micronaut.coherence.annotation.WhereFilter;
@@ -33,6 +30,8 @@ import com.tangosol.util.QueryHelper;
 import com.tangosol.util.filter.AllFilter;
 
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 

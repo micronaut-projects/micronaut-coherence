@@ -27,9 +27,8 @@ import io.grpc.inprocess.InProcessServerBuilder;
 import io.micronaut.context.BeanContext;
 import io.micronaut.context.event.StartupEvent;
 import io.micronaut.runtime.event.annotation.EventListener;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 
 /**
  * A bean that collects {@link GrpcServerConfiguration} beans.

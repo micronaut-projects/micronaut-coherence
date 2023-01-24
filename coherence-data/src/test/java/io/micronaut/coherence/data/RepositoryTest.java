@@ -22,11 +22,10 @@ import io.micronaut.coherence.data.repositories.CoherenceBook2Repository;
 import io.micronaut.coherence.data.repositories.CoherenceBook3Repository;
 import io.micronaut.coherence.data.repositories.CoherenceBookRepository;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
+import jakarta.inject.Inject;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-
-import javax.inject.Inject;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;

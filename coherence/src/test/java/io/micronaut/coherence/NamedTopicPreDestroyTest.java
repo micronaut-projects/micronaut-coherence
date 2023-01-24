@@ -17,9 +17,6 @@ package io.micronaut.coherence;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import io.micronaut.coherence.annotation.Name;
 
 import com.tangosol.net.topic.Publisher;
@@ -28,6 +25,8 @@ import com.tangosol.net.topic.Subscriber;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.jupiter.api.TestInstance;

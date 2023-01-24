@@ -61,11 +61,11 @@ import io.micronaut.coherence.annotation.Updating;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import java.time.LocalDate;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;

@@ -15,14 +15,13 @@
  */
 package io.micronaut.coherence.config;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import com.tangosol.coherence.config.EnvironmentVariableResolver;
 import com.tangosol.coherence.config.SystemPropertyResolver;
 
 import io.micronaut.context.annotation.Context;
 import io.micronaut.context.env.Environment;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 
 /**
  * A Coherence {@link com.tangosol.coherence.config.SystemPropertyResolver} and

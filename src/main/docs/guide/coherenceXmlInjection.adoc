@@ -29,7 +29,7 @@ For examples, with the following entry event interceptor:
 
 [source,java]
 ----
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 import com.tangosol.net.events.EventInterceptor;
 import com.tangosol.net.events.annotation.EntryEvents;

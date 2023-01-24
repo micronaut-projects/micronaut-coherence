@@ -22,10 +22,10 @@ import io.grpc.inprocess.InProcessServerBuilder;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import org.junit.jupiter.api.Test;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 

@@ -23,10 +23,10 @@ import com.tangosol.net.NamedCache;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.session.Session;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
+import jakarta.inject.Inject;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
-import javax.inject.Inject;
 import java.io.IOException;
 import java.io.Serializable;
 import java.time.Duration;

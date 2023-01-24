@@ -15,14 +15,13 @@
  */
 package io.micronaut.coherence.namespace;
 
-import javax.inject.Named;
-import javax.inject.Singleton;
-
 import com.tangosol.net.*;
 import com.tangosol.net.cache.CacheStore;
 import com.tangosol.net.cache.ReadWriteBackingMap;
 
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
+import jakarta.inject.Named;
+import jakarta.inject.Singleton;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

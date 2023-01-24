@@ -35,8 +35,8 @@ import io.micronaut.session.Session;
 import io.micronaut.session.SessionIdGenerator;
 import io.micronaut.session.SessionSettings;
 import io.micronaut.session.SessionStore;
+import jakarta.inject.Singleton;
 
-import javax.inject.Singleton;
 import java.io.IOException;
 import java.io.Serializable;
 import java.time.Duration;

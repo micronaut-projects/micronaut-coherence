@@ -15,11 +15,10 @@
  */
 package io.micronaut.coherence;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.annotation.Context;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 
 /**
  * A utility class to capture the {@link ApplicationContext}
