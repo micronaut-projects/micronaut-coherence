@@ -19,8 +19,14 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        java: ['17']
-        graalvm: ['latest', 'dev']
+        graalvm: [ 'latest', 'dev' ]
+        java: [ '17' ]
+        include:
+          - graalvm: 'dev'
+            java: '19'
+        exclude:
+          - graalvm: 'dev'
+            java: '17'
     steps:
        # https://github.com/actions/virtual-environments/issues/709
       - name: Free disk space
@@ -63,7 +69,7 @@ jobs:
            GRADLE_ENTERPRISE_CACHE_PASSWORD: ${{ secrets.GRADLE_ENTERPRISE_CACHE_PASSWORD }}
            PREDICTIVE_TEST_SELECTION: "${{ github.event_name == 'pull_request' && 'true' || 'false' }}"
       - name: Add build scan URL as PR comment
-        uses: actions/github-script@v6
+        uses: actions/github-script@v5
         if: github.event_name == 'pull_request' && failure()
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
