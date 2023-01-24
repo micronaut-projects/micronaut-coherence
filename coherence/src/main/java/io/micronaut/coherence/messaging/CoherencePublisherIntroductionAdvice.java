@@ -36,6 +36,7 @@ import io.micronaut.core.type.ReturnType;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.messaging.annotation.MessageBody;
 import io.micronaut.messaging.exceptions.MessagingClientException;
+import jakarta.inject.Singleton;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 import org.slf4j.Logger;
@@ -43,7 +44,6 @@ import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.FluxSink;
 
-import javax.inject.Singleton;
 import java.time.Duration;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -62,7 +62,7 @@ public class CoherencePublisherIntroductionAdvice implements MethodInterceptor<O
 
     private final BeanContext beanContext;
 
-    private final ConversionService<?> conversionService;
+    private final ConversionService conversionService;
 
     private final Map<TopicKey, Publisher<Object>> publisherMap = new ConcurrentHashMap<>();
 
@@ -72,7 +72,7 @@ public class CoherencePublisherIntroductionAdvice implements MethodInterceptor<O
      * @param beanContext       the Micronaut bean context
      * @param conversionService the conversion service
      */
-    CoherencePublisherIntroductionAdvice(BeanContext beanContext, ConversionService<?> conversionService) {
+    CoherencePublisherIntroductionAdvice(BeanContext beanContext, ConversionService conversionService) {
         this.beanContext = beanContext;
         this.conversionService = conversionService;
     }

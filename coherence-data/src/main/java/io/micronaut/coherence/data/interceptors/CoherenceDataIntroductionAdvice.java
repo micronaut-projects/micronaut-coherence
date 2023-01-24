@@ -28,6 +28,7 @@ import io.micronaut.core.annotation.NonNull;
 import io.micronaut.core.annotation.Nullable;
 import io.micronaut.core.beans.BeanIntrospection;
 import io.micronaut.core.beans.BeanIntrospector;
+import io.micronaut.core.convert.ConversionService;
 import io.micronaut.core.order.Ordered;
 import io.micronaut.data.annotation.Repository;
 import io.micronaut.data.annotation.RepositoryConfiguration;
@@ -54,14 +55,16 @@ import java.util.concurrent.ConcurrentHashMap;
 @Singleton
 public class CoherenceDataIntroductionAdvice implements MethodInterceptor<Object, Object> {
     private final BeanLocator beanLocator;
+    private final ConversionService conversionService;
     private final Map<RepositoryMethodKey, DataInterceptor> interceptorMap = new ConcurrentHashMap<>(20);
 
     /**
      * Default constructor.
      * @param beanLocator The bean locator
      */
-    CoherenceDataIntroductionAdvice(BeanLocator beanLocator) {
+    CoherenceDataIntroductionAdvice(BeanLocator beanLocator, ConversionService conversionService) {
         this.beanLocator = beanLocator;
+        this.conversionService = conversionService;
     }
 
     @Override
@@ -134,6 +137,7 @@ public class CoherenceDataIntroductionAdvice implements MethodInterceptor<Object
             // using the default Coherence session
             datastore = new DefaultCoherenceRepositoryOperations(dataSourceName,
                                                                  (ApplicationContext) beanLocator,
+                                                                 conversionService,
                                                                  (BeanContext) beanLocator);
             ((ApplicationContext) beanLocator).registerSingleton(RepositoryOperations.class, datastore, qualifier);
         }

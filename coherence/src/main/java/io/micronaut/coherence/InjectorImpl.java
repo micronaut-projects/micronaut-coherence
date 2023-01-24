@@ -36,9 +36,8 @@ public class InjectorImpl implements Injector {
     public void inject(Object target) {
         ApplicationContext ctx = CoherenceContext.getApplicationContext();
         BeanDefinition bd = ctx.getBeanDefinition(target.getClass());
-        bd.inject(ctx, target);
-        if (bd instanceof InitializingBeanDefinition) {
-            ((InitializingBeanDefinition) bd).initialize(ctx, target);
+        if (bd instanceof InitializingBeanDefinition initializingBeanDefinition) {
+            initializingBeanDefinition.initialize(ctx, target);
         }
         ctx.inject(target);
     }

@@ -5,21 +5,20 @@ plugins {
 dependencies {
     api project(':coherence')
     api project(':coherence-grpc-client')
-    api(libs.micronaut.inject)
-    api(libs.micronaut.runtime)
+    api(mn.micronaut.inject)
+    api(mn.micronaut.runtime)
     api(libs.managed.coherence.grpc.proxy) {
       exclude group: 'io.helidon.grpc', module: "io.grpc"
     }
     api(libs.managed.coherence.json)
 
-    testAnnotationProcessor(libs.micronaut.inject.java)
+    testAnnotationProcessor(mn.micronaut.inject.java)
 
     testImplementation(libs.mockito.core)
     testImplementation(libs.hamcrest)
-    testImplementation(libs.micronaut.test.junit5)
+    testImplementation(mnTest.micronaut.test.junit5)
 
     testImplementation(libs.bedrock.testing.support)
-    testRuntimeOnly(libs.junit.jupiter.engine)
 }
 
 tasks.withType(Test) {

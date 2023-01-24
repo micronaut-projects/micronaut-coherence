@@ -8,17 +8,28 @@ junit = "5.9.2"
 mockito = "5.0.0"
 
 # Micronaut
-micronaut = "3.8.1"
-micronaut-grpc = "3.5.0"
-micronaut-cache = "3.5.0"
-micronaut-data = "3.9.4"
-micronaut-discovery-client = "3.2.0"
+micronaut = "4.0.0-SNAPSHOT"
+micronaut-grpc = "4.0.0-SNAPSHOT"
+micronaut-cache = "4.0.0-SNAPSHOT"
+micronaut-data = "4.0.0-SNAPSHOT"
+micronaut-discovery-client = "4.0.0-SNAPSHOT"
 micronaut-docs-asciidoc-config-props = "2.0.0"
-micronaut-test = "3.8.0"
-micronaut-test-junit5 = "3.1.1"
+micronaut-reactor = "3.0.0-SNAPSHOT"
+micronaut-session = "1.0.0-SNAPSHOT"
+micronaut-test = "4.0.0-SNAPSHOT"
+micronaut-docs = "2.0.0"
+groovy = "4.0.8"
 
 
 [libraries]
+micronaut-cache = { module = "io.micronaut.cache:micronaut-cache-bom", version.ref = "micronaut-cache" }
+micronaut-data = { module = "io.micronaut.data:micronaut-data-bom", version.ref = "micronaut-data" }
+micronaut-grpc = { module = "io.micronaut.grpc:micronaut-grpc-bom", version.ref = "micronaut-grpc" }
+micronaut-reactor = { module = "io.micronaut.reactor:micronaut-reactor-bom", version.ref = "micronaut-reactor" }
+micronaut-session = { module = "io.micronaut.session:micronaut-session-bom", version.ref = "micronaut-session" }
+
+micronaut-discovery-client = { module = "io.micronaut.discovery:micronaut-discovery-client", version.ref = "micronaut-discovery-client" }
+
 managed-coherence = { module = "com.oracle.coherence.ce:coherence", version.ref = "managed-coherence" }
 managed-coherence-grpc-proxy = { module = "com.oracle.coherence.ce:coherence-grpc-proxy", version.ref = "managed-coherence" }
 managed-coherence-java-client = { module = "com.oracle.coherence.ce:coherence-java-client", version.ref = "managed-coherence" }
@@ -26,27 +37,6 @@ managed-coherence-json = { module = "com.oracle.coherence.ce:coherence-json", ve
 
 # BOMs
 boms-coherence = { module = "com.oracle.coherence.ce:coherence-bom", version.ref = "managed-coherence" }
-
-# Micronaut
-micronaut-cache-core = { module = "io.micronaut.cache:micronaut-cache-core" }
-micronaut-cache-tck = { module = "io.micronaut.cache:micronaut-cache-tck", version.ref = "micronaut-cache" }
-micronaut-data-model = { module = "io.micronaut.data:micronaut-data-model", version.ref = "micronaut-data" }
-micronaut-data-processor = { module = "io.micronaut.data:micronaut-data-processor", version.ref = "micronaut-data" }
-micronaut-data-runtime = { module = "io.micronaut.data:micronaut-data-runtime", version.ref = "micronaut-data" }
-micronaut-discovery-client = { module = "io.micronaut.discovery:micronaut-discovery-client", version.ref = "micronaut-discovery-client" }
-micronaut-docs-asciidoc-config-props = { module = "io.micronaut.docs:micronaut-docs-asciidoc-config-props", version.ref = "micronaut-docs-asciidoc-config-props" }
-micronaut-grpc-runtime = {module = "io.micronaut.grpc:micronaut-grpc-client-runtime", version.ref = "micronaut-grpc"}
-micronaut-http-client = { module = "io.micronaut:micronaut-http-client" }
-micronaut-http-server-netty = { module = "io.micronaut:micronaut-http-server-netty" }
-micronaut-inject = { module = "io.micronaut:micronaut-inject" }
-micronaut-inject-groovy = { module = "io.micronaut:micronaut-inject-groovy", version.ref = "micronaut" }
-micronaut-inject-java = { module = "io.micronaut:micronaut-inject-java", version.ref = "micronaut" }
-micronaut-messaging = { module = "io.micronaut:micronaut-messaging" }
-micronaut-reactor = { module = "io.micronaut.reactor:micronaut-reactor" }
-micronaut-runtime = { module = "io.micronaut:micronaut-runtime" }
-micronaut-session = { module = "io.micronaut:micronaut-session" }
-micronaut-test-junit5 = { module = "io.micronaut.test:micronaut-test-junit5", version.ref = "micronaut-test" }
-micronaut-test-spock = { module = "io.micronaut.test:micronaut-test-spock", version.ref = "micronaut-test" }
 
 bedrock-testing-support = { module = "com.oracle.bedrock:bedrock-testing-support", version.ref = "bedrock" }
 hamcrest = { module = "org.hamcrest:hamcrest", version.ref = "hamcrest" }

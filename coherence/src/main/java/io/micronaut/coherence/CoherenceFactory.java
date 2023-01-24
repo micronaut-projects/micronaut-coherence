@@ -17,11 +17,6 @@ package io.micronaut.coherence;
 
 import java.util.*;
 
-import javax.annotation.PreDestroy;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.inject.Singleton;
-
 import io.micronaut.coherence.annotation.Name;
 
 import com.tangosol.net.*;
@@ -36,6 +31,10 @@ import io.micronaut.core.util.StringUtils;
 import io.micronaut.inject.InjectionPoint;
 import io.micronaut.inject.qualifiers.Qualifiers;
 import io.micronaut.runtime.event.annotation.EventListener;
+import jakarta.annotation.PreDestroy;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

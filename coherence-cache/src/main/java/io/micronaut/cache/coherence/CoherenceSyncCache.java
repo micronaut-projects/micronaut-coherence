@@ -39,7 +39,7 @@ public class CoherenceSyncCache extends AbstractMapBasedSyncCache<NamedCache<Obj
      * @param nativeCache the native cache
      * @param executorService managers the pool of executors
      */
-    public CoherenceSyncCache(ConversionService<?> conversionService,
+    public CoherenceSyncCache(ConversionService conversionService,
                               NamedCache<Object, Object> nativeCache,
                               ExecutorService executorService) {
         super(conversionService, nativeCache);

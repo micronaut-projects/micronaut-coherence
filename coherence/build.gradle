@@ -3,30 +3,29 @@ plugins {
 }
 
 dependencies {
-    api(libs.micronaut.inject)
-    api(libs.micronaut.messaging)
-    api(libs.micronaut.runtime)
-    api(libs.javax.inject)
-    implementation(libs.micronaut.reactor)
-  implementation 'io.grpc:grpc-all:1.52.1'
+    api(mn.micronaut.inject)
+    api(mn.micronaut.messaging)
+    api(mn.micronaut.runtime)
+    implementation(mnReactor.micronaut.reactor)
 
-  compileOnly(libs.managed.coherence)
+    api(libs.javax.inject)
+    implementation 'io.grpc:grpc-all:1.52.1'
+
+    compileOnly(libs.managed.coherence)
     compileOnly(libs.managed.coherence.json)
     compileOnly(libs.managed.coherence.grpc.proxy) {
       exclude group: 'io.helidon.grpc', module: "io.grpc"
     }
 
-    testAnnotationProcessor(libs.micronaut.inject.java)
+    testAnnotationProcessor(mn.micronaut.inject.java)
 
     testImplementation(libs.managed.coherence)
-    testImplementation(libs.junit.jupiter.params)
 
     testImplementation(libs.mockito.core)
     testImplementation(libs.hamcrest)
-    testImplementation(libs.micronaut.test.junit5)
+    testImplementation(mnTest.micronaut.test.junit5)
 
     testImplementation(libs.bedrock.testing.support)
-    testRuntimeOnly(libs.junit.jupiter.engine)
 }
 
 tasks.withType(Test) {
@@ -36,8 +35,4 @@ tasks.withType(Test) {
 test {
     systemProperty("java.net.preferIPv4Stack", "true")
     forkEvery 1
-}
-
-repositories {
-  mavenCentral()
 }
