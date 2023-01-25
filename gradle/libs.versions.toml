@@ -18,6 +18,7 @@ micronaut-reactor = "3.0.0-SNAPSHOT"
 micronaut-session = "1.0.0-SNAPSHOT"
 micronaut-test = "4.0.0-SNAPSHOT"
 micronaut-docs = "2.0.0"
+
 groovy = "4.0.8"
 
 
