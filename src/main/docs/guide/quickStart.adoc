@@ -17,11 +17,9 @@ Commercial versions of Coherence need to be uploaded into your own Maven reposit
 
 There is no minimal configuration required to bootstrap Coherence.
 If no specific configuration is provided Coherence will run with default values.
-Some Coherence functionality can be configured using System properties. Add these properties to the `application.yaml`
-file, for example:
+Some Coherence functionality can be configured using System properties. Add these properties to the application configuration file, for example:
 
-.Configure Coherence
-[source,yaml]
+[configuration, title = 'Configure Coherence']
 ----
 coherence:
   cluster: test-cluster

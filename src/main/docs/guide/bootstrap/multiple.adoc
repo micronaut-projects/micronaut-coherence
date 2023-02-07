@@ -3,8 +3,7 @@ or more sessions. The format is a map using the session name as the map key. In 
 
 In the example below, there are two sessions configured, one named `catalog` and one named `customer`:
 
-[source,yaml]
-.application.yaml
+[configuration]
 ----
 coherence:
   sessions:
@@ -17,8 +16,7 @@ coherence:
 NOTE: The `default` session will only exist when zero sessions are specifically configured, or the `default` session is specifically configured.
 For example, in the configuration below there wil be no `default` session, only a single session named `catalog`.
 
-[source,yaml,indent=1]
-.application.yaml
+[configuration]
 ----
 coherence:
   sessions:
@@ -28,8 +26,7 @@ coherence:
 
 In this example, there will be two sessions, one named `catalog` and the `default` session.
 
-[source,yaml]
-.application.yaml
+[configuration]
 ----
 coherence:
   sessions:

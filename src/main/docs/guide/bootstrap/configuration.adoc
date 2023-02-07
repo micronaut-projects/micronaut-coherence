@@ -6,8 +6,7 @@ As already mentioned, the most common configuration to set will be the Coherence
 This is set using the `config` property.
 If not specified, the default value will be `coherence-cache-config.xml`.
 
-[source,yaml]
-.application.yaml
+[configuration]
 ----
 coherence:
   sessions:
@@ -24,8 +23,7 @@ On a Coherence cluster member each session should have a unique scope name.
 
 In a client application, for example, a gRPC client, the scope name is used to map a client session to a corresponding scoped server session.
 
-[source,yaml]
-.application.yaml
+[configuration]
 ----
 coherence:
   sessions:
@@ -45,8 +43,7 @@ In this case the scope name is used to identify the server side session.
 For example, assuming that the server is using the configuration above, with two sessions, `catalog` and `customer`.
 The client application only needs to connect to the `catalog` session, so it can be configured with a default session like this:
 
-[source,yaml]
-.application.yaml
+[configuration]
 ----
 coherence:
   sessions:
@@ -66,15 +63,14 @@ There are three different types of session that can be configured:
 The type of the session affects how the bootstrap API starts the session. The session type is configured with the `type`
 property:
 
-[source,yaml]
-.application.yaml
+[configuration]
 ----
 coherence:
   sessions:
     default:
-      type: client                 # <1>
+      type: client
       scope: Catalog
       config: client-config.xml
 ----
-<1> The default session above is a client session.
+- In this example the default session is a client session.
 
