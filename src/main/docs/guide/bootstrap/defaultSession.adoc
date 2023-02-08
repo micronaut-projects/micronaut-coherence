@@ -5,10 +5,9 @@ Coherence will use a default file name if none is configured).
 Alternatively, if the application is a Coherence gRPC client, the default Session can be configured as a gRPC Session
 (see the <<grpc,gRPC documentation>>).
 
-As already mentioned in the <<quickStart,Quick Start>> section, the name of the Coherence configuration file for the default session can be set in the Micronaut config, for example in the `application.yaml` file:
+As already mentioned in the <<quickStart,Quick Start>> section, the name of the Coherence configuration file for the default session can be set in the Micronaut config, for example in the application configuration file:
 
-[source,yaml]
-.application.yaml
+[configuration]
 ----
 coherence:
   sessions:
