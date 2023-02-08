@@ -347,15 +347,59 @@ Commercial versions of Coherence need to be uploaded into your own Maven reposit
 <div class="paragraph">
 <p>There is no minimal configuration required to bootstrap Coherence.
 If no specific configuration is provided Coherence will run with default values.
-Some Coherence functionality can be configured using System properties. Add these properties to the <code>application.yaml</code>
-file, for example:</p>
+Some Coherence functionality can be configured using System properties. Add these properties to the application configuration file, for example:</p>
 </div>
-<div class="listingblock">
+<div class="openblock">
 <div class="title">Configure Coherence</div>
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">coherence.cluster=test-cluster
+coherence.role=storage</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">coherence:
   cluster: test-cluster
   role: storage</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[coherence]
+  cluster="test-cluster"
+  role="storage"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">coherence {
+  cluster = "test-cluster"
+  role = "storage"
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  coherence {
+    cluster = "test-cluster"
+    role = "storage"
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "coherence": {
+    "cluster": "test-cluster",
+    "role": "storage"
+  }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="paragraph">
@@ -401,15 +445,68 @@ Alternatively, if the application is a Coherence gRPC client, the default Sessio
 (see the <a href="#grpc">gRPC documentation</a>).</p>
 </div>
 <div class="paragraph">
-<p>As already mentioned in the <a href="#quickStart">Quick Start</a> section, the name of the Coherence configuration file for the default session can be set in the Micronaut config, for example in the <code>application.yaml</code> file:</p>
+<p>As already mentioned in the <a href="#quickStart">Quick Start</a> section, the name of the Coherence configuration file for the default session can be set in the Micronaut config, for example in the application configuration file:</p>
 </div>
-<div class="listingblock">
-<div class="title">application.yaml</div>
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">coherence.sessions.default.config=coherence-config.xml</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">coherence:
   sessions:
     default:
       config: coherence-config.xml</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[coherence]
+  [coherence.sessions]
+    [coherence.sessions.default]
+      config="coherence-config.xml"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">coherence {
+  sessions {
+    'default' {
+      config = "coherence-config.xml"
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  coherence {
+    sessions {
+      default {
+        config = "coherence-config.xml"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "coherence": {
+    "sessions": {
+      "default": {
+        "config": "coherence-config.xml"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 
@@ -429,8 +526,15 @@ or more sessions. The format is a map using the session name as the map key. In 
 <div class="paragraph">
 <p>In the example below, there are two sessions configured, one named <code>catalog</code> and one named <code>customer</code>:</p>
 </div>
-<div class="listingblock">
-<div class="title">application.yaml</div>
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">coherence.sessions.catalog.config=catalog-config.xml
+coherence.sessions.customer.config=customer-config.xml</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">coherence:
   sessions:
@@ -438,6 +542,64 @@ or more sessions. The format is a map using the session name as the map key. In 
       config: catalog-config.xml
     customer:
       config: customer-config.xml</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[coherence]
+  [coherence.sessions]
+    [coherence.sessions.catalog]
+      config="catalog-config.xml"
+    [coherence.sessions.customer]
+      config="customer-config.xml"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">coherence {
+  sessions {
+    catalog {
+      config = "catalog-config.xml"
+    }
+    customer {
+      config = "customer-config.xml"
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  coherence {
+    sessions {
+      catalog {
+        config = "catalog-config.xml"
+      }
+      customer {
+        config = "customer-config.xml"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "coherence": {
+    "sessions": {
+      "catalog": {
+        "config": "catalog-config.xml"
+      },
+      "customer": {
+        "config": "customer-config.xml"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="admonitionblock note">
@@ -453,20 +615,80 @@ For example, in the configuration below there wil be no <code>default</code> ses
 </tr>
 </table>
 </div>
-<div class="listingblock">
-<div class="title">application.yaml</div>
+<div class="openblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml"> coherence:
-   sessions:
-     catalog:
-       config: catalog-config.xml</code></pre>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">coherence.sessions.catalog.config=catalog-config.xml</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">coherence:
+  sessions:
+    catalog:
+      config: catalog-config.xml</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[coherence]
+  [coherence.sessions]
+    [coherence.sessions.catalog]
+      config="catalog-config.xml"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">coherence {
+  sessions {
+    catalog {
+      config = "catalog-config.xml"
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  coherence {
+    sessions {
+      catalog {
+        config = "catalog-config.xml"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "coherence": {
+    "sessions": {
+      "catalog": {
+        "config": "catalog-config.xml"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="paragraph">
 <p>In this example, there will be two sessions, one named <code>catalog</code> and the <code>default</code> session.</p>
 </div>
-<div class="listingblock">
-<div class="title">application.yaml</div>
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">coherence.sessions.catalog.config=catalog-config.xml
+coherence.sessions.default.config=coherence-config.xml</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">coherence:
   sessions:
@@ -474,6 +696,64 @@ For example, in the configuration below there wil be no <code>default</code> ses
       config: catalog-config.xml
     default:
       config: coherence-config.xml</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[coherence]
+  [coherence.sessions]
+    [coherence.sessions.catalog]
+      config="catalog-config.xml"
+    [coherence.sessions.default]
+      config="coherence-config.xml"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">coherence {
+  sessions {
+    catalog {
+      config = "catalog-config.xml"
+    }
+    'default' {
+      config = "coherence-config.xml"
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  coherence {
+    sessions {
+      catalog {
+        config = "catalog-config.xml"
+      }
+      default {
+        config = "coherence-config.xml"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "coherence": {
+    "sessions": {
+      "catalog": {
+        "config": "catalog-config.xml"
+      },
+      "default": {
+        "config": "coherence-config.xml"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 
@@ -496,13 +776,66 @@ For example, in the configuration below there wil be no <code>default</code> ses
 This is set using the <code>config</code> property.
 If not specified, the default value will be <code>coherence-cache-config.xml</code>.</p>
 </div>
-<div class="listingblock">
-<div class="title">application.yaml</div>
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">coherence.sessions.default.config=coherence-config.xml</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">coherence:
   sessions:
     default:
       config: coherence-config.xml</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[coherence]
+  [coherence.sessions]
+    [coherence.sessions.default]
+      config="coherence-config.xml"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">coherence {
+  sessions {
+    'default' {
+      config = "coherence-config.xml"
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  coherence {
+    sessions {
+      default {
+        config = "coherence-config.xml"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "coherence": {
+    "sessions": {
+      "default": {
+        "config": "coherence-config.xml"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -517,8 +850,17 @@ On a Coherence cluster member each session should have a unique scope name.</p>
 <div class="paragraph">
 <p>In a client application, for example, a gRPC client, the scope name is used to map a client session to a corresponding scoped server session.</p>
 </div>
-<div class="listingblock">
-<div class="title">application.yaml</div>
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">coherence.sessions.catalog.scope=Catalog
+coherence.sessions.catalog.config=catalog-config.xml
+coherence.sessions.customer.scope=Customer
+coherence.sessions.customer.config=customer-config.xml</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">coherence:
   sessions:
@@ -528,6 +870,72 @@ On a Coherence cluster member each session should have a unique scope name.</p>
     customer:
       scope: Customer
       config: customer-config.xml</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[coherence]
+  [coherence.sessions]
+    [coherence.sessions.catalog]
+      scope="Catalog"
+      config="catalog-config.xml"
+    [coherence.sessions.customer]
+      scope="Customer"
+      config="customer-config.xml"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">coherence {
+  sessions {
+    catalog {
+      scope = "Catalog"
+      config = "catalog-config.xml"
+    }
+    customer {
+      scope = "Customer"
+      config = "customer-config.xml"
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  coherence {
+    sessions {
+      catalog {
+        scope = "Catalog"
+        config = "catalog-config.xml"
+      }
+      customer {
+        scope = "Customer"
+        config = "customer-config.xml"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "coherence": {
+    "sessions": {
+      "catalog": {
+        "scope": "Catalog",
+        "config": "catalog-config.xml"
+      },
+      "customer": {
+        "scope": "Customer",
+        "config": "customer-config.xml"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="paragraph">
@@ -541,14 +949,72 @@ In this case the scope name is used to identify the server side session.</p>
 <p>For example, assuming that the server is using the configuration above, with two sessions, <code>catalog</code> and <code>customer</code>.
 The client application only needs to connect to the <code>catalog</code> session, so it can be configured with a default session like this:</p>
 </div>
-<div class="listingblock">
-<div class="title">application.yaml</div>
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">coherence.sessions.default.scope=Catalog
+coherence.sessions.default.config=client-config.xml</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">coherence:
   sessions:
     default:
       scope: Catalog
       config: client-config.xml</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[coherence]
+  [coherence.sessions]
+    [coherence.sessions.default]
+      scope="Catalog"
+      config="client-config.xml"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">coherence {
+  sessions {
+    'default' {
+      scope = "Catalog"
+      config = "client-config.xml"
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  coherence {
+    sessions {
+      default {
+        scope = "Catalog"
+        config = "client-config.xml"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "coherence": {
+    "sessions": {
+      "default": {
+        "scope": "Catalog",
+        "config": "client-config.xml"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -574,24 +1040,86 @@ The client application only needs to connect to the <code>catalog</code> session
 <p>The type of the session affects how the bootstrap API starts the session. The session type is configured with the <code>type</code>
 property:</p>
 </div>
-<div class="listingblock">
-<div class="title">application.yaml</div>
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">coherence.sessions.default.type=client
+coherence.sessions.default.scope=Catalog
+coherence.sessions.default.config=client-config.xml</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">coherence:
   sessions:
     default:
-      type: client                 <i class="conum" data-value="1"></i><b>(1)</b>
+      type: client
       scope: Catalog
       config: client-config.xml</code></pre>
 </div>
 </div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>The default session above is a client session.</td>
-</tr>
-</table>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[coherence]
+  [coherence.sessions]
+    [coherence.sessions.default]
+      type="client"
+      scope="Catalog"
+      config="client-config.xml"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">coherence {
+  sessions {
+    'default' {
+      type = "client"
+      scope = "Catalog"
+      config = "client-config.xml"
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  coherence {
+    sessions {
+      default {
+        type = "client"
+        scope = "Catalog"
+        config = "client-config.xml"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "coherence": {
+    "sessions": {
+      "default": {
+        "type": "client",
+        "scope": "Catalog",
+        "config": "client-config.xml"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>In this example the default session is a client session.</p>
+</li>
+</ul>
 </div>
 </div>
 
@@ -758,12 +1286,66 @@ testAnnotationProcessor("io.micronaut.coherence.data:coherence-data:${version}")
 <div class="paragraph">
 <p>Add or update the Coherence configuration to enable Coherence repositories.</p>
 </div>
-<div class="listingblock">
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">coherence.data.&lt;repository-name&gt;[0].session=&lt;session-name&gt;</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">coherence:
   data:
     &lt;repository-name&gt;:
       [session: &lt;session-name&gt;]</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[coherence]
+  [coherence.data]
+    [[coherence.data.repository-name]]
+      session="&lt;session-name&gt;"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">coherence {
+  data {
+    &lt;repositoryName&gt; = [{
+        session = "&lt;session-name&gt;"
+      }]
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  coherence {
+    data {
+      &lt;repository-name&gt; = [{
+          session = "&lt;session-name&gt;"
+        }]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "coherence": {
+    "data": {
+      "&lt;repository-name&gt;": [{
+          "session": "&lt;session-name&gt;"
+        }]
+    }
+  }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="paragraph">
@@ -781,11 +1363,57 @@ identifier within the application configuration.</p>
 <p>For example, let&#8217;s assume we have a model class representing a Book identified by a UUID.  We can configure something
 like the following:</p>
 </div>
-<div class="listingblock">
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">coherence.data.book=null</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">coherence:
   data:
     book:</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[coherence]
+  [coherence.data]</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">coherence {
+  data {
+    book = null
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  coherence {
+    data {
+      book = null
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "coherence": {
+    "data": {
+      "book": null
+    }
+  }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="admonitionblock note">
@@ -4137,15 +4765,68 @@ The advantage of using a gRPC client rather than a traditional Coherence*Extend 
 When using Coherence Micronaut, these same properties can be configured in the Micronaut application configuration.</p>
 </div>
 <div class="paragraph">
-<p>For example, to simply change the gRPC port that the server binds to would require setting the <code>coherence.grpc.server.port</code> property. Using Micronaut, this can be added to the <code>coherence</code> section of the <code>application.yaml</code>. The configuration below sets the port to <code>9099</code>:</p>
+<p>For example, to simply change the gRPC port that the server binds to would require setting the <code>coherence.grpc.server.port</code> property. Using Micronaut, this can be added to the <code>coherence</code> section of the application configuration file. The configuration below sets the port to <code>9099</code>:</p>
 </div>
-<div class="listingblock">
-<div class="title">application.yaml</div>
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">coherence.grpc.server.port=9099</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">coherence:
   grpc:
     server:
       port: 9099</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[coherence]
+  [coherence.grpc]
+    [coherence.grpc.server]
+      port=9099</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">coherence {
+  grpc {
+    server {
+      port = 9099
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  coherence {
+    grpc {
+      server {
+        port = 9099
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "coherence": {
+    "grpc": {
+      "server": {
+        "port": 9099
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="paragraph">
@@ -4276,8 +4957,14 @@ public class ServerBuilderFactory {
 <div class="paragraph">
 <p>For example, to make the <code>default</code> session a gRPC client session, the property <code>coherence.sessions.default.type</code> must be set to <code>grpc</code>.</p>
 </div>
-<div class="listingblock">
-<div class="title">application.yaml</div>
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">coherence.sessions.default.type=grpc</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">coherence:
   sessions:
@@ -4285,11 +4972,65 @@ public class ServerBuilderFactory {
       type: grpc</code></pre>
 </div>
 </div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[coherence]
+  [coherence.sessions]
+    [coherence.sessions.default]
+      type="grpc"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">coherence {
+  sessions {
+    'default' {
+      type = "grpc"
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  coherence {
+    sessions {
+      default {
+        type = "grpc"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "coherence": {
+    "sessions": {
+      "default": {
+        "type": "grpc"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
 <div class="paragraph">
 <p>to make the <code>default</code> session a gRPC client session that connects to the server side session with the scope name <code>Products</code>, the property <code>coherence.sessions.default.scopeName</code> must be set to <code>Products</code>.</p>
 </div>
-<div class="listingblock">
-<div class="title">application.yaml</div>
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">coherence.sessions.default.type=grpc
+coherence.sessions.default.scopeName=Products</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">coherence:
   sessions:
@@ -4298,20 +5039,129 @@ public class ServerBuilderFactory {
       scopeName: Products</code></pre>
 </div>
 </div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[coherence]
+  [coherence.sessions]
+    [coherence.sessions.default]
+      type="grpc"
+      scopeName="Products"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">coherence {
+  sessions {
+    'default' {
+      type = "grpc"
+      scopeName = "Products"
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  coherence {
+    sessions {
+      default {
+        type = "grpc"
+        scopeName = "Products"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "coherence": {
+    "sessions": {
+      "default": {
+        "type": "grpc",
+        "scopeName": "Products"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
 <div class="paragraph">
 <p>A gRPC client <code>Session</code> requires a gRPC <code>io.grpc.Channel</code> to connect to the server. Channels in Coherence gRPC are named, there is a default channel, named <code>default</code> that is used by gRPC sessions that do not specify a different channel name. The name of the channel a session should use is set with the <code>coherence.sessions.&lt;name&gt;.channelName</code> property. In Micronaut configuration this could be:</p>
 </div>
 <div class="paragraph">
 <p>For example, if there is a session named <code>catalog</code> that will use a channel named <code>backend</code> the configuration might look like this:</p>
 </div>
-<div class="listingblock">
-<div class="title">application.yaml</div>
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">coherence.sessions.catalog.type=grpc
+coherence.sessions.catalog.channelName=backend</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">coherence:
   sessions:
     catalog:
       type: grpc
       channelName: backend</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[coherence]
+  [coherence.sessions]
+    [coherence.sessions.catalog]
+      type="grpc"
+      channelName="backend"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">coherence {
+  sessions {
+    catalog {
+      type = "grpc"
+      channelName = "backend"
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  coherence {
+    sessions {
+      catalog {
+        type = "grpc"
+        channelName = "backend"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "coherence": {
+    "sessions": {
+      "catalog": {
+        "type": "grpc",
+        "channelName": "backend"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="paragraph">
@@ -4329,8 +5179,22 @@ public class ServerBuilderFactory {
 <div class="paragraph">
 <p>For example, the most common properties to configure will be the host and port that the client should connect to. To configure these the application configuration might look like this:</p>
 </div>
-<div class="listingblock">
-<div class="title">application.yaml</div>
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">coherence.grpc.channels.default.host=data.coherence.acme.com
+coherence.grpc.channels.default.port=9099
+coherence.grpc.channels.catalog.host=catalog.coherence.acme.com
+coherence.grpc.channels.catalog.port=8000
+coherence.sessions.default.type=grpc
+coherence.sessions.default.channelName=default
+coherence.sessions.catalog.type=grpc
+coherence.sessions.catalog.channelName=catalog
+coherence.sessions.orders.type=grpc</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">coherence:
   grpc:
@@ -4353,6 +5217,127 @@ public class ServerBuilderFactory {
       type: grpc</code></pre>
 </div>
 </div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[coherence]
+  [coherence.grpc]
+    [coherence.grpc.channels]
+      [coherence.grpc.channels.default]
+        host="data.coherence.acme.com"
+        port=9099
+      [coherence.grpc.channels.catalog]
+        host="catalog.coherence.acme.com"
+        port=8000
+  [coherence.sessions]
+    [coherence.sessions.default]
+      type="grpc"
+      channelName="default"
+    [coherence.sessions.catalog]
+      type="grpc"
+      channelName="catalog"
+    [coherence.sessions.orders]
+      type="grpc"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">coherence {
+  grpc {
+    channels {
+      'default' {
+        host = "data.coherence.acme.com"
+        port = 9099
+      }
+      catalog {
+        host = "catalog.coherence.acme.com"
+        port = 8000
+      }
+    }
+  }
+  sessions {
+    'default' {
+      type = "grpc"
+      channelName = "default"
+    }
+    catalog {
+      type = "grpc"
+      channelName = "catalog"
+    }
+    orders {
+      type = "grpc"
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  coherence {
+    grpc {
+      channels {
+        default {
+          host = "data.coherence.acme.com"
+          port = 9099
+        }
+        catalog {
+          host = "catalog.coherence.acme.com"
+          port = 8000
+        }
+      }
+    }
+    sessions {
+      default {
+        type = "grpc"
+        channelName = "default"
+      }
+      catalog {
+        type = "grpc"
+        channelName = "catalog"
+      }
+      orders {
+        type = "grpc"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "coherence": {
+    "grpc": {
+      "channels": {
+        "default": {
+          "host": "data.coherence.acme.com",
+          "port": 9099
+        },
+        "catalog": {
+          "host": "catalog.coherence.acme.com",
+          "port": 8000
+        }
+      }
+    },
+    "sessions": {
+      "default": {
+        "type": "grpc",
+        "channelName": "default"
+      },
+      "catalog": {
+        "type": "grpc",
+        "channelName": "catalog"
+      },
+      "orders": {
+        "type": "grpc"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
 <div class="paragraph">
 <p>The configuration above configures two named channels, <code>default</code> and <code>catalog</code>.
 The <code>default</code> channel will connect to a server on <code>data.coherence.acme.com:9099</code>, and the <code>catalog</code> channel will connect to a server at <code>catalog.coherence.acme.com:8000</code>.</p>
@@ -4372,8 +5357,17 @@ The <code>default</code> channel will connect to a server on <code>data.coherenc
 <div class="paragraph">
 <p>The configuration might look like this:</p>
 </div>
-<div class="listingblock">
-<div class="title">application.yaml</div>
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">coherence.grpc.channels.customers.host=customers.coherence.acme.com
+coherence.grpc.channels.customers.port=1408
+coherence.sessions.customers.type=grpc
+coherence.sessions.customers.channelName=customers</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">coherence:
   grpc:
@@ -4386,6 +5380,86 @@ The <code>default</code> channel will connect to a server on <code>data.coherenc
     customers:
       type: grpc
       channelName: customers</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[coherence]
+  [coherence.grpc]
+    [coherence.grpc.channels]
+      [coherence.grpc.channels.customers]
+        host="customers.coherence.acme.com"
+        port=1408
+  [coherence.sessions]
+    [coherence.sessions.customers]
+      type="grpc"
+      channelName="customers"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">coherence {
+  grpc {
+    channels {
+      customers {
+        host = "customers.coherence.acme.com"
+        port = 1408
+      }
+    }
+  }
+  sessions {
+    customers {
+      type = "grpc"
+      channelName = "customers"
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  coherence {
+    grpc {
+      channels {
+        customers {
+          host = "customers.coherence.acme.com"
+          port = 1408
+        }
+      }
+    }
+    sessions {
+      customers {
+        type = "grpc"
+        channelName = "customers"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "coherence": {
+    "grpc": {
+      "channels": {
+        "customers": {
+          "host": "customers.coherence.acme.com",
+          "port": 1408
+        }
+      }
+    },
+    "sessions": {
+      "customers": {
+        "type": "grpc",
+        "channelName": "customers"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="paragraph">
@@ -4461,20 +5535,91 @@ public class CustomerController {
 </div></p>
 </div>
 <div class="paragraph">
-<p>Enable Coherence sessions via configuration in <code>application.yml</code>:</p>
+<p>Enable Coherence sessions via configuration in the application configuration file:</p>
 </div>
-<div class="listingblock">
+<div class="openblock">
 <div class="title">Enabling Coherence Sessions</div>
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">micronaut.session.http.coherence.enabled=true
+micronaut.session.http.coherence.cache-name=http-session-cache</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">micronaut:
   session:
     http:
       coherence:
         enabled: true
-        # Optional: name of the cache that will be used for sessions.
-        # By default 'http-sessions' cache will be used.
         cache-name: http-session-cache</code></pre>
 </div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[micronaut]
+  [micronaut.session]
+    [micronaut.session.http]
+      [micronaut.session.http.coherence]
+        enabled=true
+        cache-name="http-session-cache"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">micronaut {
+  session {
+    http {
+      coherence {
+        enabled = true
+        cacheName = "http-session-cache"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  micronaut {
+    session {
+      http {
+        coherence {
+          enabled = true
+          cache-name = "http-session-cache"
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "micronaut": {
+    "session": {
+      "http": {
+        "coherence": {
+          "enabled": true,
+          "cache-name": "http-session-cache"
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>cache-name</code> (optional) names the cache that will be used for sessions. By default <code>http-sessions</code> cache will be used.</p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
 <p>Coherence cache will be obtained using default Coherence session.</p>
@@ -4554,11 +5699,58 @@ public class CustomerController {
 <div class="paragraph">
 <p>To disable Coherence:</p>
 </div>
-<div class="listingblock">
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">coherence.cache.enabled=false</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">coherence:
   cache:
     enabled: false</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[coherence]
+  [coherence.cache]
+    enabled=false</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">coherence {
+  cache {
+    enabled = false
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  coherence {
+    cache {
+      enabled = false
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "coherence": {
+    "cache": {
+      "enabled": false
+    }
+  }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 
@@ -4631,10 +5823,21 @@ public class CustomerController {
 </div></p>
 </div>
 <div class="paragraph">
-<p>To enable support simply add the following configuration to your <code>bootstrap.yml</code> file:</p>
+<p>To enable support simply add the following configuration to your bootstrap configuration file:</p>
 </div>
-<div class="listingblock">
+<div class="openblock">
 <div class="title">Integrating with Oracle Coherence</div>
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">micronaut.application.name=hello-world
+micronaut.config-client.enabled=true
+coherence.client.enabled=true
+coherence.client.host=localhost
+coherence.client.port=1408</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">micronaut:
   application:
@@ -4645,10 +5848,93 @@ public class CustomerController {
 coherence:
   client:
     enabled: true
-    # gRPC config:
     host: localhost
     port: 1408</code></pre>
 </div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[micronaut]
+  [micronaut.application]
+    name="hello-world"
+  [micronaut.config-client]
+    enabled=true
+[coherence]
+  [coherence.client]
+    enabled=true
+    host="localhost"
+    port=1408</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">micronaut {
+  application {
+    name = "hello-world"
+  }
+  configClient {
+    enabled = true
+  }
+}
+coherence {
+  client {
+    enabled = true
+    host = "localhost"
+    port = 1408
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  micronaut {
+    application {
+      name = "hello-world"
+    }
+    config-client {
+      enabled = true
+    }
+  }
+  coherence {
+    client {
+      enabled = true
+      host = "localhost"
+      port = 1408
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "micronaut": {
+    "application": {
+      "name": "hello-world"
+    },
+    "config-client": {
+      "enabled": true
+    }
+  },
+  "coherence": {
+    "client": {
+      "enabled": true,
+      "host": "localhost",
+      "port": 1408
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>host</code> and <code>port</code> specify the gRPC configuration</p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
 <p>Micronaut will use the configured micronaut.application.name to lookup property sources for the application from Coherence.</p>
