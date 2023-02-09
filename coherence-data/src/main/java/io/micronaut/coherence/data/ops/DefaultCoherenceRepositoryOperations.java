@@ -143,6 +143,7 @@ public class DefaultCoherenceRepositoryOperations implements CoherenceRepository
      *
      * @param mapName the name of the {@link NamedMap} (from configuration)
      * @param applicationContext the {@link ApplicationContext}
+     * @param conversionService the {@link ConversionService}
      * @param beanContext the {@link BeanContext} used to look up a {@link Session} instance
      */
     public DefaultCoherenceRepositoryOperations(@Parameter String mapName,
