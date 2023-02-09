@@ -36,11 +36,11 @@ public enum CommitStrategy {
      */
     MANUAL,
     /**
-     * Synchronously commit using {@link com.tangosol.net.topic.Subscriber.Element#commit()} after each messages is processed.
+     * Synchronously commit using {@link com.tangosol.net.topic.Subscriber.Element#commit()} after each message is processed.
      */
     SYNC,
     /**
-     * Asynchronously commit using {@link com.tangosol.net.topic.Subscriber.Element#commitAsync()} after each messages is processed.
+     * Asynchronously commit using {@link com.tangosol.net.topic.Subscriber.Element#commitAsync()} after each message is processed.
      */
     ASYNC,
 }

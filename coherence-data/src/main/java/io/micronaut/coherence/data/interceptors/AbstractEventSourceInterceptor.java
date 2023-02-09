@@ -32,7 +32,7 @@ public abstract class AbstractEventSourceInterceptor implements MethodIntercepto
     /**
      * {@link RuntimeEntityRegistry} used for event notification.
      */
-    protected RuntimeEntityRegistry registry;
+    protected final RuntimeEntityRegistry registry;
 
     // ----- constructors ---------------------------------------------------
 
@@ -59,16 +59,16 @@ public abstract class AbstractEventSourceInterceptor implements MethodIntercepto
 
             if (!trigger(getHandledPreEventType(), eventFor)) {
                 switch (getEventGroup()) {
-                    case REMOVE:
+                    case REMOVE -> {
                         Object target = context.getTarget();
                         if (target instanceof RepositoryOperations) {
                             return 0;
                         }
                         return false;
-                    case UPDATE:
-                    case PERSIST:
-                    default:
+                    }
+                    case UPDATE, PERSIST -> {
                         return eventFor;
+                    }
                 }
             }
 

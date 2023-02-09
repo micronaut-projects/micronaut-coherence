@@ -218,8 +218,7 @@ public class DefaultCoherenceRepositoryOperations implements CoherenceRepository
     @Override
     public <T, R> R findOne(@NonNull final PreparedQuery<T, R> preparedQuery) {
         Object result = execute(preparedQuery);
-        if (result instanceof Map) {
-            Map m = (Map) result;
+        if (result instanceof Map m) {
             if (m.isEmpty()) {
                 return null;
             }
@@ -253,8 +252,7 @@ public class DefaultCoherenceRepositoryOperations implements CoherenceRepository
     @Override
     public <T, R> Iterable<R> findAll(@NonNull final PreparedQuery<T, R> preparedQuery) {
         Object result = execute(preparedQuery);
-        if (result instanceof Map) {
-            Map m = (Map) result;
+        if (result instanceof Map m) {
             return m.values();
         } else if (result instanceof Number) {
             return (Iterable<R>) Collections.singletonList(((Number) result).longValue());

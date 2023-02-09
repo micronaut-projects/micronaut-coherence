@@ -28,7 +28,7 @@ public abstract class AbstractArrayLiteral<T extends Annotation> extends Annotat
     /**
      * The values for this annotation.
      */
-    protected Object[] array;
+    protected final Object[] array;
 
     /**
      * Constructs a new array-based annotation literal.

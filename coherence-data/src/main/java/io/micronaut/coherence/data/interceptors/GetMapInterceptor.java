@@ -43,7 +43,7 @@ public final class GetMapInterceptor<ID, T, D>
      *
      * @param operations the {@link RepositoryOperations}
      */
-    protected GetMapInterceptor(@NonNull RepositoryOperations operations) {
+    private GetMapInterceptor(@NonNull RepositoryOperations operations) {
         super(operations);
     }
 

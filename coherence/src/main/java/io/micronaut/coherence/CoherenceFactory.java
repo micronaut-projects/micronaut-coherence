@@ -195,8 +195,7 @@ class CoherenceFactory {
 
         Arrays.stream(providers)
                 .filter(p -> {
-                    if (p instanceof AbstractSessionConfigurationBean) {
-                        AbstractSessionConfigurationBean b = (AbstractSessionConfigurationBean) p;
+                    if (p instanceof AbstractSessionConfigurationBean b) {
                         return !filterServerSessions || !b.getType().equals(SessionType.server);
                     }
                     return false;

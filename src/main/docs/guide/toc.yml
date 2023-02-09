@@ -4,7 +4,7 @@ releaseHistory: Release History
 quickStart:
   title: Coherence Quick Start
 bootstrap:
-  title: Bootstraping Coherence
+  title: Bootstrapping Coherence
   defaultSession: Using the Default Session
   multiple: Configure Multiple Sessions
   configuration: Session Configuration Properties

@@ -194,7 +194,7 @@ public final class EventObserverSupport {
         /**
          * Return {@code true} if the event should fire.
          * <p>
-         * This allows sub-classes to provide additional filtering logic and
+         * This allows subclasses to provide additional filtering logic and
          * prevent the observer method notification from happening even after
          * the Coherence server-side event is fired.
          *
@@ -394,9 +394,7 @@ public final class EventObserverSupport {
 
         @Override
         boolean isApplicable(EventDispatcher dispatcher, String scopeName) {
-            if (dispatcher instanceof CacheLifecycleEventDispatcher) {
-                CacheLifecycleEventDispatcher cacheDispatcher = (CacheLifecycleEventDispatcher) dispatcher;
-
+            if (dispatcher instanceof CacheLifecycleEventDispatcher cacheDispatcher) {
                 if (scopeName == null || scopeName.equals(cacheDispatcher.getScopeName())) {
                     return ((cacheName == null || cacheName.equals(cacheDispatcher.getCacheName())) &&
                             (serviceName == null || serviceName.equals(removeScope(cacheDispatcher.getServiceName()))));
@@ -519,8 +517,7 @@ public final class EventObserverSupport {
 
         @Override
         protected boolean isApplicable(EventDispatcher dispatcher, String scopeName) {
-            if (dispatcher instanceof PartitionedServiceDispatcher) {
-                PartitionedServiceDispatcher psd = (PartitionedServiceDispatcher) dispatcher;
+            if (dispatcher instanceof PartitionedServiceDispatcher psd) {
                 ConfigurableCacheFactory ccf = getConfigurableCacheFactory(psd.getService());
 
                 if (ccf == null || scopeName == null || scopeName.equals(ccf.getScopeName())) {
@@ -533,8 +530,7 @@ public final class EventObserverSupport {
 
         ConfigurableCacheFactory getConfigurableCacheFactory(PartitionedService service) {
             // a bit of a hack, but it should do the job
-            if (service instanceof CacheService) {
-                CacheService pc = (CacheService) service;
+            if (service instanceof CacheService pc) {
                 return pc.getBackingMapManager().getCacheFactory();
             }
             return null;
@@ -662,8 +658,7 @@ public final class EventObserverSupport {
                     addType(FederatedConnectionEvent.Type.CONNECTING);
                 } else if (a instanceof Disconnected) {
                     addType(FederatedConnectionEvent.Type.DISCONNECTED);
-                } else if (a instanceof Backlog) {
-                    Backlog backlog = (Backlog) a;
+                } else if (a instanceof Backlog backlog) {
                     if (backlog.value() == Backlog.Type.EXCESSIVE) {
                         addType(FederatedConnectionEvent.Type.BACKLOG_EXCESSIVE);
                     } else {

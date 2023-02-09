@@ -36,7 +36,7 @@ import java.util.Objects;
 @Repeatable(PropertyExtractor.Extractors.class)
 public @interface PropertyExtractor {
     /**
-     * Returns the a method or property name to use when creating a {@link
+     * Returns the method or property name to use when creating a {@link
      * com.tangosol.util.extractor.UniversalExtractor}.
      * <p>
      * If the value does not end in {@code "()"} the value is assumed to be a

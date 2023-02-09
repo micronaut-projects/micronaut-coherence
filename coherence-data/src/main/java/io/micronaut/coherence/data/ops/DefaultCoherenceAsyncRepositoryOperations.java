@@ -147,8 +147,7 @@ class DefaultCoherenceAsyncRepositoryOperations
             if (o == null) {
                 return null;
             }
-            if (o instanceof Map) {
-                Map m = (Map) o;
+            if (o instanceof Map m) {
                 if (m.isEmpty()) {
                     return null;
                 }
@@ -176,8 +175,7 @@ class DefaultCoherenceAsyncRepositoryOperations
     public <T, R> CompletionStage<Iterable<R>> findAll(@NonNull final PreparedQuery<T, R> preparedQuery) {
         CompletionStage stage = executeAsync(preparedQuery);
         return stage.thenApply(o -> {
-            if (o instanceof Map) {
-                Map m = (Map) o;
+            if (o instanceof Map m) {
                 return m.values();
             } else if (o instanceof Number) {
                 return Collections.singletonList(((Number) o).longValue());

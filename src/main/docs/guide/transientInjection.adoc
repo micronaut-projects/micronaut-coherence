@@ -13,7 +13,7 @@ classes for server-side processing, such as when executing entry processors and 
 can often also benefit from dependency injection (in order to support Domain-Driven Design (DDD), for example).
 
 While these transient objects are not managed by the Micronaut container, Coherence Micronaut does support their injection during
-deserialization, but for performance reasons requires that you explicitly opt-in by implementing
+deserialization, but for performance reasons requires that you explicitly opt in by implementing
 `com.oracle.coherence.inject.Injectable` interface.
 
 === Making transient classes Injectable

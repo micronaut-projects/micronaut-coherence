@@ -25,6 +25,8 @@ dependencies {
     testImplementation(mnTest.micronaut.test.junit5)
 
     testImplementation(libs.bedrock.testing.support)
+    testRuntimeOnly(libs.junit.jupiter.engine)
+    testRuntimeOnly(mn.snakeyaml)
 }
 
 tasks.withType(Test) {

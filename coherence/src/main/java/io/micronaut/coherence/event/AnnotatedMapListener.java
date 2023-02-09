@@ -202,18 +202,21 @@ class AnnotatedMapListener<K, V> implements MapListener<K, V>, Comparable<Annota
             return true;
         }
 
-        if (!(o instanceof AnnotatedMapListener)) {
+        if (!(o instanceof AnnotatedMapListener<?, ?> that)) {
             return false;
         }
 
-        final AnnotatedMapListener<?, ?> that = (AnnotatedMapListener<?, ?>) o;
-        return liteEvents == that.liteEvents && synchronousEvents == that.synchronousEvents &&
-                Objects.equals(observer, that.observer) && Objects.equals(getCacheName(), that.getCacheName()) &&
-                Objects.equals(getServiceName(), that.getServiceName()) && Objects.equals(getScopeName(), that.getScopeName()) &&
-                Objects.equals(eventTypes, that.eventTypes) && Objects.equals(filterAnnotations, that.filterAnnotations) &&
+    return liteEvents == that.liteEvents && synchronousEvents == that.synchronousEvents &&
+                Objects.equals(observer, that.observer) &&
+                Objects.equals(getCacheName(), that.getCacheName()) &&
+                Objects.equals(getServiceName(), that.getServiceName()) &&
+                Objects.equals(getScopeName(), that.getScopeName()) &&
+                Objects.equals(eventTypes, that.eventTypes) &&
+                Objects.equals(filterAnnotations, that.filterAnnotations) &&
                 Objects.equals(transformerAnnotations, that.transformerAnnotations) &&
                 Objects.equals(extractorAnnotations, that.extractorAnnotations) &&
-                Objects.equals(session, that.session) && Objects.equals(getFilter(), that.getFilter()) &&
+                Objects.equals(session, that.session) &&
+                Objects.equals(getFilter(), that.getFilter()) &&
                 Objects.equals(getTransformer(), that.getTransformer());
     }
 

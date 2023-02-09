@@ -26,7 +26,7 @@ import java.util.Objects;
  * This annotation can be used to define an extractor that extracts and attribute
  * from a POF stream based on an array of integer property indices, in which
  * case the type is optional, or a property path based on serialized field names
- * concatenated using period (ie. {@code address.city}, in which case {@link
+ * concatenated using period (e.g. {@code address.city}) in which case  the {@link
  * #type()} attribute must be set as well.
  * <p>
  * The latter approach can only be used if the specified type is annotated with a

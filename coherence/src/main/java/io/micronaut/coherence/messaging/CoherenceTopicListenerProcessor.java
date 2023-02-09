@@ -46,6 +46,7 @@ import io.micronaut.core.async.publisher.Publishers;
 import io.micronaut.core.bind.BoundExecutable;
 import io.micronaut.core.bind.DefaultExecutableBinder;
 import io.micronaut.core.bind.ExecutableBinder;
+import io.micronaut.core.convert.ConversionService;
 import io.micronaut.core.type.Argument;
 import io.micronaut.core.util.ArrayUtils;
 import io.micronaut.inject.BeanDefinition;
@@ -118,9 +119,14 @@ class CoherenceTopicListenerProcessor
     private final Scheduler scheduler;
 
     /**
-     * A flag indicating whether all of the discovered subscriber methods have been subscribed.
+     * A flag indicating whether all the discovered subscriber methods have been subscribed.
      */
     private volatile boolean subscribed;
+
+    /**
+     * The {@link ConversionService}.
+     */
+    private final ConversionService conversionService;
 
     /**
      * Create a {@link CoherenceTopicListenerProcessor}.
@@ -131,18 +137,21 @@ class CoherenceTopicListenerProcessor
      * @param filterFactories     the filter factory to use to produce {@link com.tangosol.util.Filter Filters}
      * @param extractorFactories  the extractor factory to use to produce
      *                            {@link com.tangosol.util.ValueExtractor ValueExtractors}
+     * @param conversionService   the {@link ConversionService}
      */
     @Inject
     public CoherenceTopicListenerProcessor(@Named(TaskExecutors.MESSAGE_CONSUMER) ExecutorService executorService,
                                            ElementArgumentBinderRegistry registry,
                                            ApplicationContext context,
                                            FilterFactories filterFactories,
-                                           ExtractorFactories extractorFactories) {
+                                           ExtractorFactories extractorFactories,
+                                           ConversionService conversionService) {
         this.scheduler = Schedulers.fromExecutor(executorService);
         this.context = context;
         this.filterFactories = filterFactories;
         this.extractorFactories = extractorFactories;
         this.registry = registry;
+        this.conversionService = conversionService;
     }
 
     @Override
@@ -245,7 +254,9 @@ class CoherenceTopicListenerProcessor
             NamedTopic<?> topic = session.getTopic(topicName);
 
             Subscriber<?> subscriber = topic.createSubscriber(options.toArray(options.toArray(new Subscriber.Option[0])));
-            TopicSubscriber<?, ?, ?> topicSubscriber = new TopicSubscriber(topicName, subscriber, sendToPublishers, bean, method, registry, scheduler);
+            TopicSubscriber<?, ?, ?> topicSubscriber =
+                new TopicSubscriber(topicName, subscriber, sendToPublishers, bean, method,
+                    registry, conversionService, scheduler);
             subscribers.add(topicSubscriber);
             topicSubscriber.nextMessage();
         }
@@ -328,19 +339,26 @@ class CoherenceTopicListenerProcessor
         private final CommitStrategy commitStrategy;
 
         /**
+         * The {@link ConversionService}.
+         */
+        private final ConversionService conversionService;
+
+        /**
          * Create a {@link TopicSubscriber}.
          *
-         * @param topicName        the name of the subscribed topic.
-         * @param subscriber       the actual topic {@link com.tangosol.net.topic.Subscriber}
-         * @param publishers       the optional {@link Publisher Publishers} to send any method return type to
-         * @param bean             the bean declaring the {@link ExecutableMethod}
-         * @param method           the {@link ExecutableMethod} to forward topic elements to
-         * @param registry         the {@link ElementArgumentBinderRegistry} to use to bind method arguments
-         * @param scheduler        the scheduler service
+         * @param topicName         the name of the subscribed topic.
+         * @param subscriber        the actual topic {@link com.tangosol.net.topic.Subscriber}
+         * @param publishers        the optional {@link Publisher Publishers} to send any method return type to
+         * @param bean              the bean declaring the {@link ExecutableMethod}
+         * @param method            the {@link ExecutableMethod} to forward topic elements to
+         * @param registry          the {@link ElementArgumentBinderRegistry} to use to bind method arguments
+         * @param scheduler         the scheduler service
+         * @param conversionService the {@link ConversionService}
          */
         @SuppressWarnings({"rawtypes"})
         TopicSubscriber(String topicName, Subscriber<E> subscriber, Publisher<?>[] publishers, T bean,
-                        ExecutableMethod<T, R> method, ElementArgumentBinderRegistry registry, Scheduler scheduler) {
+                        ExecutableMethod<T, R> method, ElementArgumentBinderRegistry registry,
+                        ConversionService conversionService, Scheduler scheduler) {
             this.topicName = topicName;
             this.subscriber = subscriber;
             this.publishers = publishers;
@@ -354,6 +372,7 @@ class CoherenceTopicListenerProcessor
                     .findFirst();
             this.commitStrategy = method.getValue(CoherenceTopicListener.class, "commitStrategy", CommitStrategy.class)
                                         .orElse(CommitStrategy.SYNC);
+            this.conversionService = conversionService;
         }
 
         @Override
@@ -451,23 +470,20 @@ class CoherenceTopicListenerProcessor
                     LOG.error("Error committing element channel={} position={}", element.getChannel(), element.getPosition(), thrown);
                 }
             } else if (error instanceof CancellationException) {
-                // cancellation probably due to subscriber closing so we ignore the error
+                // cancellation probably due to subscriber closing, so we ignore the error
                 action = SubscriberExceptionHandler.Action.Continue;
             } else {
                 // an error occurred
                 action = handleException(subscriber, method, element, error);
             }
 
-            switch (action) {
-                case Continue:
-                    nextMessage();
-                    break;
-                case Stop:
-                    subscriber.close();
-                    break;
-                default:
-                    LOG.error("Unknown SubscriberExceptionHandler.Action {} closing subscriber", action);
-                    subscriber.close();
+        switch (action) {
+            case Continue -> nextMessage();
+            case Stop -> subscriber.close();
+            default -> {
+                LOG.error("Unknown SubscriberExceptionHandler.Action {} closing subscriber", action);
+                subscriber.close();
+                }
             }
 
             return VOID;
@@ -504,7 +520,7 @@ class CoherenceTopicListenerProcessor
                 Flux<?> resultFlux;
                 boolean isBlocking;
                 if (Publishers.isConvertibleToPublisher(result)) {
-                    resultFlux = Publishers.convertPublisher(result, Flux.class);
+                    resultFlux = Publishers.convertPublisher(conversionService, result, Flux.class);
                     isBlocking = method.hasAnnotation(Blocking.class);
                 } else {
                     resultFlux = Flux.just(result);

@@ -18,7 +18,7 @@ package io.micronaut.coherence.messaging.binders;
 import java.lang.annotation.Annotation;
 
 /**
- * Interface for binders that bind method arguments from a {@link com.tangosol.net.topic.Subscriber.Element} via a annotation.
+ * Interface for binders that bind method arguments from an {@link com.tangosol.net.topic.Subscriber.Element} via an annotation.
  *
  * @param <T> The target type
  * @param <A> The annotation type

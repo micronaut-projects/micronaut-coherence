@@ -1,5 +1,5 @@
 There are three types of event that a `MapEvent` observer method can receive, `Insert`, `Update` and `Delete`.
-By default an observer method will receive all events for the map (or maps) it applies to.
+By default, an observer method will receive all events for the map (or maps) it applies to.
 This can be controlled using the following annotations:
 
 * link:{api}/io/micronaut/coherence/annotation/Inserted.html[@Inserted] - to receive `Insert` events.
