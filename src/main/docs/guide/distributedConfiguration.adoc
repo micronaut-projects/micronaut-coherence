@@ -11,10 +11,9 @@ and coherence java client:
 
 dependency:coherence-java-client[groupId="com.oracle.coherence.ce",version="22.06"]
 
-To enable support simply add the following configuration to your `bootstrap.yml` file:
+To enable support simply add the following configuration to your bootstrap configuration file:
 
-.Integrating with Oracle Coherence
-[source,yaml]
+[configuration, title = 'Integrating with Oracle Coherence']
 ----
 micronaut:
   application:
@@ -25,10 +24,11 @@ micronaut:
 coherence:
   client:
     enabled: true
-    # gRPC config:
     host: localhost
     port: 1408
 ----
+
+- `host` and `port` specify the gRPC configuration
 
 Micronaut will use the configured micronaut.application.name to lookup property sources for the application from Coherence.
 

@@ -4,7 +4,7 @@ managed-coherence = "22.09"
 bedrock = "7.0.1"
 hamcrest = "2.2"
 junit = "5.9.2"
-mockito = "5.0.0"
+mockito = "5.1.1"
 
 # Micronaut
 micronaut = "4.0.0-SNAPSHOT"
@@ -19,7 +19,6 @@ micronaut-test = "4.0.0-SNAPSHOT"
 micronaut-docs = "2.0.0"
 
 groovy = "4.0.8"
-
 
 [libraries]
 micronaut-cache = { module = "io.micronaut.cache:micronaut-cache-bom", version.ref = "micronaut-cache" }

@@ -16,10 +16,9 @@ By default, Coherence will run a simple gRPC server listening on `0.0.0.0:1407`,
 The Coherence gRPC Proxy module allows the gRPC server to be configured using system properties.
 When using Coherence Micronaut, these same properties can be configured in the Micronaut application configuration.
 
-For example, to simply change the gRPC port that the server binds to would require setting the `coherence.grpc.server.port` property. Using Micronaut, this can be added to the `coherence` section of the `application.yaml`. The configuration below sets the port to `9099`:
+For example, to simply change the gRPC port that the server binds to would require setting the `coherence.grpc.server.port` property. Using Micronaut, this can be added to the `coherence` section of the application configuration file. The configuration below sets the port to `9099`:
 
-[source,yaml]
-.application.yaml
+[configuration]
 ----
 coherence:
   grpc:

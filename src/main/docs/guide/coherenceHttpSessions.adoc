@@ -6,20 +6,19 @@ Also, add a Coherence dependency - either Coherence CE or commercial version:
 
 dependency:coherence[groupId="com.oracle.coherence.ce",version="22.06"]
 
-Enable Coherence sessions via configuration in `application.yml`:
+Enable Coherence sessions via configuration in the application configuration file:
 
-.Enabling Coherence Sessions
-[source,yaml]
+[configuration, title = 'Enabling Coherence Sessions']
 ----
 micronaut:
   session:
     http:
       coherence:
         enabled: true
-        # Optional: name of the cache that will be used for sessions.
-        # By default 'http-sessions' cache will be used.
         cache-name: http-session-cache
 ----
+
+- `cache-name` (optional) names the cache that will be used for sessions. By default `http-sessions` cache will be used.
 
 Coherence cache will be obtained using default Coherence session.
 

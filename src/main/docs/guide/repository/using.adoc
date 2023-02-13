@@ -2,7 +2,7 @@
 
 Add or update the Coherence configuration to enable Coherence repositories.
 
-[source, yaml]
+[configuration]
 ----
 coherence:
   data:
@@ -22,7 +22,7 @@ identifier within the application configuration.
 For example, let's assume we have a model class representing a Book identified by a UUID.  We can configure something
 like the following:
 
-[source, yaml]
+[configuration]
 ----
 coherence:
   data:
