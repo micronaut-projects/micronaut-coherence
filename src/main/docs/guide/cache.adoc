@@ -18,7 +18,7 @@ $ mn create-app hello-world -f cache-coherence
 
 To disable Coherence:
 
-[source,yaml]
+[configuration]
 ----
 coherence:
   cache:

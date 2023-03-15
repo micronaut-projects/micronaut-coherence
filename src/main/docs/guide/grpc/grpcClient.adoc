@@ -18,8 +18,7 @@ When building a gRPC client application, Coherence resources can be accessed via
 
 For example, to make the `default` session a gRPC client session, the property `coherence.sessions.default.type` must be set to `grpc`.
 
-[source,yaml]
-.application.yaml
+[configuration]
 ----
 coherence:
   sessions:
@@ -29,8 +28,7 @@ coherence:
 
 to make the `default` session a gRPC client session that connects to the server side session with the scope name `Products`, the property `coherence.sessions.default.scopeName` must be set to `Products`.
 
-[source,yaml]
-.application.yaml
+[configuration]
 ----
 coherence:
   sessions:
@@ -42,8 +40,8 @@ coherence:
 A gRPC client `Session` requires a gRPC `io.grpc.Channel` to connect to the server. Channels in Coherence gRPC are named, there is a default channel, named `default` that is used by gRPC sessions that do not specify a different channel name. The name of the channel a session should use is set with the `coherence.sessions.<name>.channelName` property. In Micronaut configuration this could be:
 
 For example, if there is a session named `catalog` that will use a channel named `backend` the configuration might look like this:
-[source,yaml]
-.application.yaml
+
+[configuration]
 ----
 coherence:
   sessions:
@@ -62,8 +60,7 @@ If no configuration is provided then by default all gRPC client sessions will us
 
 For example, the most common properties to configure will be the host and port that the client should connect to. To configure these the application configuration might look like this:
 
-[source,yaml]
-.application.yaml
+[configuration]
 ----
 coherence:
   grpc:
@@ -100,8 +97,7 @@ As a full gRPC client example, assume that there is a Coherence cluster running 
 
 The configuration might look like this:
 
-[source,yaml]
-.application.yaml
+[configuration]
 ----
 coherence:
   grpc:

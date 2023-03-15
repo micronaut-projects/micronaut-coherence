@@ -1,20 +1,20 @@
 [versions]
-managed-coherence = "22.09"
+managed-coherence = "23.03"
 
 bedrock = "7.0.1"
 hamcrest = "2.2"
 javax-inject = "1"
 junit = "5.9.2"
-mockito = "5.1.1"
+mockito = "5.2.0"
 
 # Micronaut
-micronaut = "3.8.3"
+micronaut = "3.8.7"
 micronaut-grpc = "3.5.0"
 micronaut-cache = "3.5.0"
-micronaut-data = "3.9.4"
-micronaut-discovery-client = "3.2.0"
+micronaut-data = "3.9.6"
+micronaut-discovery-client = "3.3.0"
 micronaut-docs-asciidoc-config-props = "2.0.0"
-micronaut-test = "3.8.0"
+micronaut-test = "3.9.2"
 micronaut-test-junit5 = "3.1.1"
 
 

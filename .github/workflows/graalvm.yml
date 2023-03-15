@@ -9,10 +9,6 @@ on:
     branches:
       - master
       - '[1-9]+.[0-9]+.x'
-  pull_request:
-    branches:
-      - master
-      - '[1-9]+.[0-9]+.x'
 jobs:
   build:
     if: github.repository != 'micronaut-projects/micronaut-project-template'
@@ -50,7 +46,7 @@ jobs:
           components: 'native-image'
           github-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Setup Gradle
-        uses: gradle/gradle-build-action@v2.3.3
+        uses: gradle/gradle-build-action@v2.4.0
       - name: Build with Gradle
         id: gradle
         run: |
@@ -69,7 +65,7 @@ jobs:
            GRADLE_ENTERPRISE_CACHE_PASSWORD: ${{ secrets.GRADLE_ENTERPRISE_CACHE_PASSWORD }}
            PREDICTIVE_TEST_SELECTION: "${{ github.event_name == 'pull_request' && 'true' || 'false' }}"
       - name: Add build scan URL as PR comment
-        uses: actions/github-script@v5
+        uses: actions/github-script@v6
         if: github.event_name == 'pull_request' && failure()
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
@@ -82,7 +78,7 @@ jobs:
             })
       - name: Publish Test Report
         if: always()
-        uses: mikepenz/action-junit-report@v3.7.1
+        uses: mikepenz/action-junit-report@v3.7.5
         with:
           check_name: GraalVM CE CI / Test Report (Java ${{ matrix.java }})
           report_paths: '**/build/test-results/test/TEST-*.xml'
