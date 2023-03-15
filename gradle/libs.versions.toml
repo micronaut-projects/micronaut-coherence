@@ -5,7 +5,7 @@ bedrock = "7.0.1"
 hamcrest = "2.2"
 javax-inject = "1"
 junit = "5.9.2"
-mockito = "5.1.1"
+mockito = "5.2.0"
 
 # Micronaut
 micronaut = "3.8.7"
