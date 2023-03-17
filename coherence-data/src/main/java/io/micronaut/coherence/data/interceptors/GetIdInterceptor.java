@@ -18,6 +18,7 @@ package io.micronaut.coherence.data.interceptors;
 import io.micronaut.aop.MethodInvocationContext;
 import io.micronaut.coherence.data.ops.CoherenceRepositoryOperations;
 import io.micronaut.core.annotation.NonNull;
+import io.micronaut.core.annotation.ReflectiveAccess;
 import io.micronaut.data.intercept.DataInterceptor;
 import io.micronaut.data.intercept.RepositoryMethodKey;
 import io.micronaut.data.operations.RepositoryOperations;
@@ -41,7 +42,7 @@ public final class GetIdInterceptor<T, ID>
      *
      * @param operations the {@link RepositoryOperations}
      */
-    private GetIdInterceptor(@NonNull RepositoryOperations operations) {
+    public GetIdInterceptor(@NonNull RepositoryOperations operations) {
         super(operations);
     }
 
