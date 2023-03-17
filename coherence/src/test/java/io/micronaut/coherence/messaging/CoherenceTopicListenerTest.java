@@ -30,7 +30,7 @@ import com.tangosol.internal.net.topic.impl.paged.PagedTopicCaches;
 import com.tangosol.internal.net.topic.impl.paged.PagedTopicSubscriber;
 import com.tangosol.internal.net.topic.impl.paged.model.SubscriberGroupId;
 import com.tangosol.io.Serializer;
-import com.tangosol.net.CacheService;
+import com.tangosol.net.PagedTopicService;
 import com.tangosol.net.topic.Position;
 import com.tangosol.util.Binary;
 import com.tangosol.util.ExternalizableHelper;
@@ -326,7 +326,7 @@ class CoherenceTopicListenerTest {
     @Test
     public void shouldCommitWithDefaultStrategy() throws Exception {
         NamedTopic<String> topic = coherence.getSession().getTopic("TwentyDefault");
-        PagedTopicCaches caches = new PagedTopicCaches(topic.getName(), (CacheService) topic.getService(), null);
+        PagedTopicCaches caches = new PagedTopicCaches(topic.getName(), (PagedTopicService) topic.getService());
         SubscriberGroupId groupId = SubscriberGroupId.withName(ListenerSix.GROUP_ID);
 
         try (Publisher<String> publisher = topic.createPublisher()) {
@@ -342,7 +342,7 @@ class CoherenceTopicListenerTest {
     @Test
     public void shouldCommitWithSyncStrategy() throws Exception {
         NamedTopic<String> topic = coherence.getSession().getTopic("TwentySync");
-        PagedTopicCaches caches = new PagedTopicCaches(topic.getName(), (CacheService) topic.getService(), null);
+        PagedTopicCaches caches = new PagedTopicCaches(topic.getName(), (PagedTopicService) topic.getService());
         SubscriberGroupId groupId = SubscriberGroupId.withName(ListenerSix.GROUP_ID);
 
         try (Publisher<String> publisher = topic.createPublisher()) {
@@ -358,7 +358,7 @@ class CoherenceTopicListenerTest {
     @Test
     public void shouldCommitWithAsyncStrategy() {
         NamedTopic<String> topic = coherence.getSession().getTopic("TwentyAsync");
-        PagedTopicCaches caches = new PagedTopicCaches(topic.getName(), (CacheService) topic.getService(), null);
+        PagedTopicCaches caches = new PagedTopicCaches(topic.getName(), (PagedTopicService) topic.getService());
         SubscriberGroupId groupId = SubscriberGroupId.withName(ListenerSix.GROUP_ID);
 
         try (Publisher<String> publisher = topic.createPublisher()) {
@@ -374,7 +374,7 @@ class CoherenceTopicListenerTest {
     @Test
     public void shouldCommitWithManualStrategy() throws Exception {
         NamedTopic<String> topic = coherence.getSession().getTopic("TwentyManual");
-        PagedTopicCaches caches = new PagedTopicCaches(topic.getName(), (CacheService) topic.getService(), null);
+        PagedTopicCaches caches = new PagedTopicCaches(topic.getName(), (PagedTopicService) topic.getService());
         SubscriberGroupId groupId = SubscriberGroupId.withName(ListenerSix.GROUP_ID);
 
         try (Publisher<String> publisher = topic.createPublisher()) {
