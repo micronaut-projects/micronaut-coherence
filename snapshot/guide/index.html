@@ -50,7 +50,7 @@
                                 
                                 <div class="toc-item" style="margin-left:0"><a href="#quickStart"><strong>3</strong><span>Coherence Quick Start</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#bootstrap"><strong>4</strong><span>Bootstraping Coherence</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#bootstrap"><strong>4</strong><span>Bootstrapping Coherence</span></a></div>
                                 
                                 <div class="toc-item" style="margin-left:0"><a href="#repository"><strong>5</strong><span>Micronaut Data with Coherence</span></a></div>
                                 
@@ -111,7 +111,7 @@
         
         <div class="toc-item" style="margin-left:0px" id="toc-item-quickStart"><a href="#quickStart"><strong>3</strong><span>Coherence Quick Start</span></a></div>
         
-        <div class="toc-item" style="margin-left:0px" id="toc-item-bootstrap"><a href="#bootstrap"><strong>4</strong><span>Bootstraping Coherence</span></a></div>
+        <div class="toc-item" style="margin-left:0px" id="toc-item-bootstrap"><a href="#bootstrap"><strong>4</strong><span>Bootstrapping Coherence</span></a></div>
         
         <div class="toc-item" style="margin-left:10px" id="toc-item-defaultSession"><a href="#defaultSession"><strong>4.1</strong><span>Using the Default Session</span></a></div>
         
@@ -408,7 +408,7 @@ Any Coherence system property (prefixed with <code>coherence.</code>) specified 
 will then be picked up by Coherence at runtime.</p>
 </div>
 
-<h1 id="bootstrap"><a class="anchor" href="#bootstrap"></a>4 Bootstraping Coherence</h1>
+<h1 id="bootstrap"><a class="anchor" href="#bootstrap"></a>4 Bootstrapping Coherence</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master/src/main/docs/guide/bootstrap.adoc"'>
@@ -422,7 +422,7 @@ will then be picked up by Coherence at runtime.</p>
 This means that Coherence resources in a Micronaut application are typically owned by a Coherence <code>Session</code>.</p>
 </div>
 <div class="paragraph">
-<p>By default Coherence will start a single Session configured to use the default Coherence configuration file.
+<p>By default, Coherence will start a single Session configured to use the default Coherence configuration file.
 This behaviour can easily be configured, either traditionally using Coherence system properties or using explicit Micronaut
 configuration.</p>
 </div>
@@ -1141,9 +1141,9 @@ coherence.sessions.default.config=client-config.xml</code></pre>
 <div class="ulist">
 <ul>
 <li>
-<p>No runtime model - Both GORM and Spring Data maintain a runtime meta-model that uses reflection to model relationships between entities.
+<p>No runtime model - Both GORM and Spring Data maintain a runtime metamodel that uses reflection to model relationships between entities.
 This model consumes significant memory and memory requirements grow as your application size grows.
-The problem is worse when combined with Hibernate which maintains its own meta-model as you end up with duplicate meta-models.</p>
+The problem is worse when combined with Hibernate which maintains its own metamodel as you end up with duplicate metamodels.</p>
 </li>
 <li>
 <p>No query translation - Both GORM and Spring Data use regular expressions and pattern matching in combination with runtime generated proxies to translate a method definition on a Java interface into a query at runtime.
@@ -1553,10 +1553,10 @@ This makes the applications easier to develop, test and reason about, and the co
 <div class="paragraph">
 <p>Coherence <a href="https://coherence.community/latest/21.12/api/java/index.html/com/tangosol/net/NamedMap.html">NamedMap</a> and <a href="https://coherence.community/latest/21.12/api/java/index.html/com/tangosol/net/NamedCache.html">NamedCache</a> instances can be injected as beans in Micronaut applications.
 The mechanics of injecting <code>NamedMap</code> or <code>NamedCache</code> beans is identical, so any use of <code>NamedMap</code> in the examples below can be replaced with <code>NamedCache</code>. Other more specialized forms of <code>NamedMap</code> and <code>NamedCache</code> can also be injected,
-for example the asynchronous forms of both classes, as well as views.</p>
+for example the asynchronous forms of both classes, and views.</p>
 </div>
 <div class="paragraph">
-<p>The simplest way to inject a <code>NamedMap</code> is to just annotate the injection point with <code>@javax.inject.Inject</code>.</p>
+<p>The simplest way to inject a <code>NamedMap</code> is to just annotate the injection point with <code>@jakarta.inject.Inject</code>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1826,7 +1826,7 @@ instances can be injected as beans in Micronaut applications.</p>
 <p>An alternative way to write message driven applications and <code>TransferEvent`microservices instead of directly injecting `NamedTopic</code>, <code>Publisher</code> or <code>Subscriber</code> beans is to use <a href="#messagingWithTopics">Micronaut Coherence Messaging</a>.</p>
 </div>
 <div class="paragraph">
-<p>The simplest way to inject a <code>NamedTopic</code> is to just annotate the injection point with <code>@javax.inject.Inject</code>.</p>
+<p>The simplest way to inject a <code>NamedTopic</code> is to just annotate the injection point with <code>@jakarta.inject.Inject</code>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2262,7 +2262,7 @@ The named <code>Session</code> must have previously been configured when <a href
 
 
 <div class="paragraph">
-<p>Event driven patterns are a common way to build scalable applications and micro services.
+<p>Event driven patterns are a common way to build scalable applications and microservices.
 Coherence produces a number of events that can be used by applications to respond to data changes and other actions in Coherence.</p>
 </div>
 <div class="paragraph">
@@ -2302,7 +2302,7 @@ void onEvent(CoherenceLifecycleEvent event) {
 
 <div class="paragraph">
 <p>Listening for changes to data in Coherence is a common use case in applications.
-Typically this involves creating an implementation of a <a href="https://coherence.community/latest/21.12/api/java/index.htmlcom/tangosol/util/MapListener.html">MapListener</a>
+Typically, this involves creating an implementation of a <a href="https://coherence.community/latest/21.12/api/java/index.htmlcom/tangosol/util/MapListener.html">MapListener</a>
  and adding that listener to a <code>NamedMap</code> or <code>NamedCache</code>. Using Coherence Micronaut makes this much simpler by just requiring Micronaut beans with suitably annotated observer methods that will receive events.</p>
 </div>
 <div class="sect2">
@@ -2582,7 +2582,7 @@ public void onCatalogOrders(@SessionName("Catalog")   <i class="conum" data-valu
 
 <div class="paragraph">
 <p>There are three types of event that a <code>MapEvent</code> observer method can receive, <code>Insert</code>, <code>Update</code> and <code>Delete</code>.
-By default an observer method will receive all events for the map (or maps) it applies to.
+By default, an observer method will receive all events for the map (or maps) it applies to.
 This can be controlled using the following annotations:</p>
 </div>
 <div class="ulist">
@@ -2719,7 +2719,7 @@ public void onAdult(MapEvent&lt;String, Person&gt; people) {
 The extractor binding annotation is a link to a corresponding <a href="../api/io/micronaut/coherence/ExtractorFactory.html">ExtractorFactory</a> that will build an instance of a <code>ValueExtractor</code>.</p>
 </div>
 <div class="paragraph">
-<p>For example, assuming that there is a <code>NamedMap</code> with the name <code>orders</code> that has keys of type <code>String</code> and values of type <code>Order</code>; the <code>Order</code> class has a <code>customerId</code> property of type <code>String</code>. A <code>MapEvent</code> observer method is only interested in the <code>customerId</code> for an order so the built in extractor binding annotation <a href="../api/io/micronaut/coherence/annotation/PropertyExtractor.html">@PropertyExtractor</a> can be used to just extract the <code>customerId</code> from the event:</p>
+<p>For example, assuming that there is a <code>NamedMap</code> with the name <code>orders</code> that has keys of type <code>String</code> and values of type <code>Order</code>; the <code>Order</code> class has a <code>customerId</code> property of type <code>String</code>. A <code>MapEvent</code> observer method is only interested in the <code>customerId</code> for an order so the built-in extractor binding annotation <a href="../api/io/micronaut/coherence/annotation/PropertyExtractor.html">@PropertyExtractor</a> can be used to just extract the <code>customerId</code> from the event:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -3591,7 +3591,7 @@ public void onEvent(@ServiceName("StorageService") TransactionEvent event) {
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-TransferEvents are dispatched to interceptors while holding a lock on the partition being transferred, blocking any operations for the partition. Event observer methods should therfore execute as quickly as possible of hand-off execution to another thread.
+TransferEvents are dispatched to interceptors while holding a lock on the partition being transferred, blocking any operations for the partition. Event observer methods should therefore execute as quickly as possible of hand-off execution to another thread.
 </td>
 </tr>
 </table>
@@ -3790,7 +3790,7 @@ public interface ProductClient {
 </tr>
 <tr>
 <td><i class="conum" data-value="3"></i><b>3</b></td>
-<td>The method defines a single parameter, which is the message value. In this case the values being published are String instances but they could be any type that can be serialized by Coherence.</td>
+<td>The method defines a single parameter, which is the message value. In this case the values being published are String instances, but they could be any type that can be serialized by Coherence.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="4"></i><b>4</b></td>
@@ -3972,7 +3972,7 @@ public void receive(Element&lt;Product&gt; product) {
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Some parameters in the table above have fixed parameter names, i.e., <code>channel</code>, <code>position</code> and <code>timestamp</code>. When using these parameters in annotated message handler methods both the parameter name and type must match those in the table above. This is to avoid confusion where the message value type is the same as one of the metadata types where the binding logic would not know what to bind to which parameter. For example, in the unlikely scenario where the message value was just an <code>int</code> and the annotated method was soemthing like <code>public void processMessage(int c, int v)</code> where <code>c</code> is supposed to represent the channel and <code>v</code> the value, the binder would not be able to work this out.
+Some parameters in the table above have fixed parameter names, i.e., <code>channel</code>, <code>position</code> and <code>timestamp</code>. When using these parameters in annotated message handler methods both the parameter name and type must match those in the table above. This is to avoid confusion where the message value type is the same as one of the metadata types where the binding logic would not know what to bind to which parameter. For example, in the unlikely scenario where the message value was just an <code>int</code> and the annotated method was something like <code>public void processMessage(int c, int v)</code> where <code>c</code> is supposed to represent the channel and <code>v</code> the value, the binder would not be able to work this out.
 </td>
 </tr>
 </table>
@@ -4493,7 +4493,7 @@ can often also benefit from dependency injection (in order to support Domain-Dri
 </div>
 <div class="paragraph">
 <p>While these transient objects are not managed by the Micronaut container, Coherence Micronaut does support their injection during
-deserialization, but for performance reasons requires that you explicitly opt-in by implementing
+deserialization, but for performance reasons requires that you explicitly opt in by implementing
 <code>com.oracle.coherence.inject.Injectable</code> interface.</p>
 </div>
 <div class="sect2">
@@ -4622,7 +4622,7 @@ when declaring interceptors, cache stores, listeners, etc.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import javax.inject.Singleton;
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import jakarta.inject.Singleton;
 
 import com.tangosol.net.events.EventInterceptor;
 import com.tangosol.net.events.annotation.EntryEvents;
@@ -4727,7 +4727,7 @@ The advantage of using a gRPC client rather than a traditional Coherence*Extend 
 
 
 <div class="paragraph">
-<p>A Coherence Micronaut application that runs as a cluster member with a gRPC proxy service has two choices when configuring the gRPC server. It can just use the out of the box Coherence gRPC proxy functionality. Or, it can make use of some additional configuration features provided by the Coherence Micronaut API.</p>
+<p>A Coherence Micronaut application that runs as a cluster member with a gRPC proxy service has two choices when configuring the gRPC server. It can just use the out-of-the-box Coherence gRPC proxy functionality. Or, it can make use of some additional configuration features provided by the Coherence Micronaut API.</p>
 </div>
 <div class="paragraph">
 <p>This documentation specifically covers the latter case of configuring the gRPC proxy using Micronaut.</p>

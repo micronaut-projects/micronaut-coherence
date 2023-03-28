@@ -46,7 +46,7 @@
         <div class="docs-content">
             <div class="project">
                 <h1>Configuration Reference</h1>
-                <p><strong>Version:</strong>3.8.0-SNAPSHOT</p>
+                <p><strong>Version:</strong>4.0.0-SNAPSHOT</p>
                 <p></p>
             </div>
 <div class="sect2">
@@ -70,29 +70,27 @@
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>coherence.sessions.*.name</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Set the name of this configuration.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Return the name of this configuration.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>coherence.sessions.*.scope-name</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Set the scope name for this configuration.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Return the scope name for this configuration.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>coherence.sessions.*.priority</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Set the priority for this configuration.
- &lt;p&gt;{@link com.tangosol.net.Session Sessions} are started lowest priority first
- and closed in reverse order.&lt;/p&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Returns the priority of this configuration.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>coherence.sessions.*.type</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Set the priority of this configuration.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="../api/io/micronaut/coherence/SessionType.html">SessionType</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Returns the type of this configuration.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>coherence.sessions.*.config</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Set the Coherence cache configuration URI.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get the Coherence cache configuration URI.</p></td>
 </tr>
 </tbody>
 </table>
@@ -119,7 +117,7 @@
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>coherence.data.*.session</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Configure the name of the {@link Session}.  This is called during configuration.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Configure the name of the .  This is called during configuration.</p></td>
 </tr>
 </tbody>
 </table>
@@ -146,22 +144,22 @@
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>coherence.client.host</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Sets host name of gRPC server.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Returns host name of gRPC server.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>coherence.client.port</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Sets gRPC server port.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gets gRPC server port.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>coherence.client.enable-tls</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Enables TLS support.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Returns true if TLS is enabled.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>coherence.client.enabled</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Enables distributed configuration.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Returns true if distributed configuration is enabled.</p></td>
 </tr>
 </tbody>
 </table>
@@ -202,18 +200,18 @@
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>coherence.sessions.*.type</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="../api/io/micronaut/coherence/SessionType.html">SessionType</a></p></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>coherence.sessions.*.channel-name</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Set the name of the gRPC {@link io.grpc.Channel} bean.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set the name of the gRPC  bean.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>coherence.sessions.*.serializer</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Set the name of the {@link com.tangosol.io.Serializer}.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set the name of the .</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>coherence.sessions.*.tracing</code></p></td>
@@ -245,7 +243,7 @@
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut.session.http.coherence.cache-name</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Set HTTP session cache name.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get HTTP session cache name.</p></td>
 </tr>
 </tbody>
 </table>
