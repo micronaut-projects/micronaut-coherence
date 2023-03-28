@@ -64,7 +64,7 @@ Alternatively, just select parts of the metadata can be passed as parameters.
 |The message value in serialized form. Message values are lazily deserialized in the received element, so if a handler method just needs the serialized form of the message it can be slightly more efficient to take a `Binary` parameter.
 |===
 
-NOTE: Some parameters in the table above have fixed parameter names, i.e., `channel`, `position` and `timestamp`. When using these parameters in annotated message handler methods both the parameter name and type must match those in the table above. This is to avoid confusion where the message value type is the same as one of the metadata types where the binding logic would not know what to bind to which parameter. For example, in the unlikely scenario where the message value was just an `int` and the annotated method was soemthing like `public void processMessage(int c, int v)` where `c` is supposed to represent the channel and `v` the value, the binder would not be able to work this out.
+NOTE: Some parameters in the table above have fixed parameter names, i.e., `channel`, `position` and `timestamp`. When using these parameters in annotated message handler methods both the parameter name and type must match those in the table above. This is to avoid confusion where the message value type is the same as one of the metadata types where the binding logic would not know what to bind to which parameter. For example, in the unlikely scenario where the message value was just an `int` and the annotated method was something like `public void processMessage(int c, int v)` where `c` is supposed to represent the channel and `v` the value, the binder would not be able to work this out.
 
 === Committing Messages
 

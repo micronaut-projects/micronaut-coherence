@@ -24,11 +24,10 @@ import io.micronaut.cache.SyncCache;
 import io.micronaut.core.annotation.NonNull;
 import io.micronaut.core.convert.ConversionService;
 import io.micronaut.scheduling.TaskExecutors;
+import jakarta.inject.Named;
+import jakarta.inject.Singleton;
 
 import java.util.concurrent.ExecutorService;
-
-import javax.inject.Named;
-import javax.inject.Singleton;
 
 /**
  * A {@link io.micronaut.cache.CacheManager} implementation for Coherence.
@@ -39,11 +38,11 @@ import javax.inject.Singleton;
 @Singleton
 public class CoherenceCacheManager implements DynamicCacheManager<NamedCache<Object, Object>> {
 
-    private final ConversionService<?> conversionService;
+    private final ConversionService conversionService;
     private final ExecutorService executorService;
     private final Session session;
 
-    public CoherenceCacheManager(ConversionService<?> conversionService,
+    public CoherenceCacheManager(ConversionService conversionService,
                                  @Named(TaskExecutors.IO) ExecutorService executorService,
                                  Coherence coherence) {
         this.conversionService = conversionService;

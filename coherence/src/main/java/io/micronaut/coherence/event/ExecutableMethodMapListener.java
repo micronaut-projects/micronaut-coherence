@@ -27,7 +27,7 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 /**
- * A {@link BaseExecutableMethodObserver} that wraps a map listener executabl emethod.
+ * A {@link BaseExecutableMethodObserver} that wraps a map listener executable method.
  *
  * @param <K> the map event key type
  * @param <V> the map event value type

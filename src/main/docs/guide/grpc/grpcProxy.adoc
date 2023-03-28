@@ -1,4 +1,4 @@
-A Coherence Micronaut application that runs as a cluster member with a gRPC proxy service has two choices when configuring the gRPC server. It can just use the out of the box Coherence gRPC proxy functionality. Or, it can make use of some additional configuration features provided by the Coherence Micronaut API.
+A Coherence Micronaut application that runs as a cluster member with a gRPC proxy service has two choices when configuring the gRPC server. It can just use the out-of-the-box Coherence gRPC proxy functionality. Or, it can make use of some additional configuration features provided by the Coherence Micronaut API.
 
 This documentation specifically covers the latter case of configuring the gRPC proxy using Micronaut.
 

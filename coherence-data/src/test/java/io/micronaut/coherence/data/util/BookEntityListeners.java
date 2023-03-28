@@ -23,9 +23,8 @@ import io.micronaut.data.annotation.event.PostUpdate;
 import io.micronaut.data.annotation.event.PrePersist;
 import io.micronaut.data.annotation.event.PreRemove;
 import io.micronaut.data.annotation.event.PreUpdate;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 
 @Singleton
 @Requires(notEnv = {"evict-persist", "evict-delete", "evict-update"})

@@ -18,9 +18,6 @@ package io.micronaut.coherence;
 import java.io.DataInput;
 import java.io.DataOutput;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import com.oracle.coherence.inject.Injectable;
 
 import com.tangosol.io.DefaultSerializer;
@@ -31,6 +28,8 @@ import com.tangosol.util.ExternalizableHelper;
 
 import io.micronaut.context.annotation.Prototype;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 

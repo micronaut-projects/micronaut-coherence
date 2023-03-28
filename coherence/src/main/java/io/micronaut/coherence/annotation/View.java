@@ -85,7 +85,7 @@ public @interface View {
          * values of the materialized view locally, or {@code false} to only
          * cache the keys (the default value is {@code true}).
          *
-         * @return {@code true} to indicate that values should be cache or
+         * @return {@code true} to indicate that values should be cached or
          * {@code false} to indicate that only keys should be cached.
          */
         @Override

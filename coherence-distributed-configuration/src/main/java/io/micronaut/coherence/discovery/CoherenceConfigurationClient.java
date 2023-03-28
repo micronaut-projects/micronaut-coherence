@@ -39,8 +39,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
-import javax.inject.Singleton;
-
+import jakarta.inject.Singleton;
 import org.reactivestreams.Publisher;
 
 import org.slf4j.Logger;

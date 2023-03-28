@@ -19,11 +19,10 @@ import com.tangosol.net.AsyncNamedMap;
 import io.micronaut.coherence.data.model.Book;
 import io.micronaut.coherence.data.repositories.CoherenceAsyncBookRepository;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
+import jakarta.inject.Inject;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-
-import javax.inject.Inject;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;

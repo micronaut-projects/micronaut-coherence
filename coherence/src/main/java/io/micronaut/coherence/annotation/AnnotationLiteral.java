@@ -15,6 +15,7 @@
  */
 package io.micronaut.coherence.annotation;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.lang.annotation.ElementType;
@@ -47,6 +48,7 @@ import java.util.Objects;
  */
 abstract class AnnotationLiteral<T extends Annotation> implements Annotation, Serializable {
 
+    @Serial
     private static final long serialVersionUID = -3645430766814376616L;
 
     private transient volatile boolean m_fAnnotationTypeChecked;
@@ -84,8 +86,7 @@ abstract class AnnotationLiteral<T extends Annotation> implements Annotation, Se
     @SuppressWarnings("unchecked")
     private static <T> Class<T> getTypeParameter(Class<?> annotationLiteralSuperclass) {
         Type type = annotationLiteralSuperclass.getGenericSuperclass();
-        if (type instanceof ParameterizedType) {
-            ParameterizedType parameterizedType = (ParameterizedType) type;
+        if (type instanceof ParameterizedType parameterizedType) {
             if (parameterizedType.getActualTypeArguments().length == 1) {
                 Object result = parameterizedType.getActualTypeArguments()[0];
                 if (Class.class.equals(result)) {
@@ -105,7 +106,7 @@ abstract class AnnotationLiteral<T extends Annotation> implements Annotation, Se
 
     private static Object invoke(Method method, Object instance) {
         try {
-            if (!method.isAccessible()) {
+            if (!method.canAccess(instance)) {
                 setAccessible(method);
             }
             return method.invoke(instance);
@@ -153,8 +154,7 @@ abstract class AnnotationLiteral<T extends Annotation> implements Annotation, Se
 
     @Override
     public boolean equals(Object other) {
-        if (other instanceof Annotation) {
-            Annotation that = (Annotation) other;
+        if (other instanceof Annotation that) {
             if (Objects.equals(this.annotationType(), that.annotationType())) {
                 for (Method member : getMembers()) {
                     Object thisValue = invoke(member, this);

@@ -20,8 +20,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import javax.inject.Inject;
-
 import io.micronaut.coherence.annotation.ExtractorBinding;
 import io.micronaut.coherence.annotation.MapEventTransformerBinding;
 
@@ -34,6 +32,7 @@ import io.micronaut.context.annotation.Factory;
 import io.micronaut.context.annotation.Prototype;
 import io.micronaut.core.annotation.AnnotationMetadata;
 import io.micronaut.inject.InjectionPoint;
+import jakarta.inject.Inject;
 
 /**
  * A Micronaut factory for producing {@link com.tangosol.util.MapEventTransformer} instances.

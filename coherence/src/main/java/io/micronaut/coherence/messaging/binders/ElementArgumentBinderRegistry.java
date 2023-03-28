@@ -21,15 +21,15 @@ import io.micronaut.core.bind.ArgumentBinderRegistry;
 import io.micronaut.core.bind.annotation.Bindable;
 import io.micronaut.core.type.Argument;
 import io.micronaut.core.util.ArrayUtils;
+import jakarta.inject.Singleton;
 
-import javax.inject.Singleton;
 import java.lang.annotation.Annotation;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
 /**
- * An registry of {@link ElementBinder} instances.
+ * A registry of {@link ElementBinder} instances.
  *
  * @author Jonathan Knight
  * @since 1.0
@@ -50,14 +50,12 @@ public class ElementArgumentBinderRegistry
     public ElementArgumentBinderRegistry(ElementBinder<?>... binders) {
         if (ArrayUtils.isNotEmpty(binders)) {
             for (ElementBinder<?> binder : binders) {
-                if (binder instanceof AnnotatedElementBinder) {
-                    AnnotatedElementBinder<?, ?> annotatedElementBinder = (AnnotatedElementBinder<?, ?>) binder;
+                if (binder instanceof AnnotatedElementBinder<?, ?> annotatedElementBinder) {
                     byAnnotation.put(
                             annotatedElementBinder.annotationType(),
                             annotatedElementBinder
                     );
-                } else if (binder instanceof TypedElementBinder) {
-                    TypedElementBinder typedElementBinder = (TypedElementBinder) binder;
+                } else if (binder instanceof TypedElementBinder typedElementBinder) {
                     byType.put(
                             typedElementBinder.argumentType().typeHashCode(),
                             typedElementBinder

@@ -1,4 +1,4 @@
-Event driven patterns are a common way to build scalable applications and micro services.
+Event driven patterns are a common way to build scalable applications and microservices.
 Coherence produces a number of events that can be used by applications to respond to data changes and other actions in Coherence.
 
 There are two types of events in Coherence. There are link:{coherenceApi}com/tangosol/util/MapEvent.html[MapEvents],

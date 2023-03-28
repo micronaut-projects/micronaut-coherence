@@ -17,8 +17,6 @@ package io.micronaut.coherence;
 
 import java.util.Optional;
 
-import javax.inject.Inject;
-
 import com.tangosol.io.DefaultSerializer;
 import com.tangosol.io.Serializer;
 import com.tangosol.io.pof.ConfigurablePofContext;
@@ -26,6 +24,7 @@ import com.tangosol.io.pof.ConfigurablePofContext;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.inject.qualifiers.Qualifiers;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
+import jakarta.inject.Inject;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 

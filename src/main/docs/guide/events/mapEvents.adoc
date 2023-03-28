@@ -1,5 +1,5 @@
 Listening for changes to data in Coherence is a common use case in applications.
-Typically this involves creating an implementation of a link:{coherenceApi}com/tangosol/util/MapListener.html[MapListener]
+Typically, this involves creating an implementation of a link:{coherenceApi}com/tangosol/util/MapListener.html[MapListener]
  and adding that listener to a `NamedMap` or `NamedCache`. Using Coherence Micronaut makes this much simpler by just requiring Micronaut beans with suitably annotated observer methods that will receive events.
 
 === MapEvent Observer Methods

@@ -15,10 +15,6 @@
  */
 package io.micronaut.coherence.namespace;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.inject.Singleton;
-
 import com.oracle.coherence.common.base.Classes;
 
 import com.tangosol.coherence.config.ParameterList;
@@ -30,6 +26,9 @@ import com.tangosol.config.expression.SystemPropertyParameterResolver;
 import com.tangosol.net.CacheFactory;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.inject.Singleton;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -43,7 +42,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class BeanBuilderTest {
 
-    @Inject ApplicationContext ctx;
+    @Inject
+    ApplicationContext ctx;
 
     @Inject FooBean fooBean;
 

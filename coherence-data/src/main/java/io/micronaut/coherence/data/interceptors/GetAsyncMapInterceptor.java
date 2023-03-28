@@ -45,7 +45,7 @@ public final class GetAsyncMapInterceptor<ID, T, D>
      *
      * @param operations the {@link RepositoryOperations}
      */
-    protected GetAsyncMapInterceptor(@NonNull RepositoryOperations operations) {
+    public GetAsyncMapInterceptor(@NonNull RepositoryOperations operations) {
         super(operations);
     }
 

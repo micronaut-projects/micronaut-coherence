@@ -1,6 +1,6 @@
 A link:{coherenceApi}com/tangosol/net/events/partition/TransferEvent.html[TransferEvent] captures information concerning the transfer of a partition for a storage enabled member. Transfer events are raised against the set of link:{coherenceApi}com/tangosol/util/BinaryEntry.html[BinaryEntry] instances that are being transferred.
 
-NOTE: TransferEvents are dispatched to interceptors while holding a lock on the partition being transferred, blocking any operations for the partition. Event observer methods should therfore execute as quickly as possible of hand-off execution to another thread.
+NOTE: TransferEvents are dispatched to interceptors while holding a lock on the partition being transferred, blocking any operations for the partition. Event observer methods should therefore execute as quickly as possible of hand-off execution to another thread.
 
 To subscribe to `TransferEvent` simply create a Micronaut bean with a listener method annotated with link:{api}/io/micronaut/coherence/annotation/CoherenceEventListener.html[@CoherenceEventListener].
 The method should have a single parameter of type `TransferEvent`.

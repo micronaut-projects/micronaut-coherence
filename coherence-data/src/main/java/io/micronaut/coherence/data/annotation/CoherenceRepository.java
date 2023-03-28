@@ -16,11 +16,9 @@
 package io.micronaut.coherence.data.annotation;
 
 import io.micronaut.aop.Introduction;
-import io.micronaut.coherence.data.interceptors.CoherenceDataIntroductionAdvice;
 import io.micronaut.coherence.data.ops.CoherenceRepositoryOperations;
 import io.micronaut.coherence.data.query.CohQLQueryBuilder;
 import io.micronaut.context.annotation.AliasFor;
-import io.micronaut.context.annotation.Type;
 import io.micronaut.data.annotation.Repository;
 import io.micronaut.data.annotation.RepositoryConfiguration;
 
@@ -42,7 +40,6 @@ import java.lang.annotation.Target;
 @Documented
 @Repository
 @Introduction
-@Type(CoherenceDataIntroductionAdvice.class)
 public @interface CoherenceRepository {
     @AliasFor(annotation = Repository.class, member = "value")
     String value();

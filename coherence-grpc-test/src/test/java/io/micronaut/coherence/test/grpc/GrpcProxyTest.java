@@ -15,8 +15,6 @@
  */
 package io.micronaut.coherence.test.grpc;
 
-import javax.inject.Inject;
-
 import com.oracle.coherence.client.GrpcRemoteSession;
 
 import com.tangosol.net.Coherence;
@@ -25,6 +23,7 @@ import com.tangosol.net.Session;
 
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
+import jakarta.inject.Inject;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 

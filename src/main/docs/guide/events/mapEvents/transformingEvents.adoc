@@ -5,7 +5,7 @@ In the Coherence Micronaut framework, event values are transformed using a link:
 The `ValueExtractor` to use for a `MapEvent` observer method is indicated by annotating the method with an <<valueExtractorBinding,extractor binding annotation>>. An extractor binding is an annotation that is itself annotated with the meta-annotation link:{api}/io/micronaut/coherence/annotation/ExtractorBinding.html[@ExtractorBinding].
 The extractor binding annotation is a link to a corresponding link:{api}/io/micronaut/coherence/ExtractorFactory.html[ExtractorFactory] that will build an instance of a `ValueExtractor`.
 
-For example, assuming that there is a `NamedMap` with the name `orders` that has keys of type `String` and values of type `Order`; the `Order` class has a `customerId` property of type `String`. A `MapEvent` observer method is only interested in the `customerId` for an order so the built in extractor binding annotation link:{api}/io/micronaut/coherence/annotation/PropertyExtractor.html[@PropertyExtractor] can be used to just extract the `customerId` from the event:
+For example, assuming that there is a `NamedMap` with the name `orders` that has keys of type `String` and values of type `Order`; the `Order` class has a `customerId` property of type `String`. A `MapEvent` observer method is only interested in the `customerId` for an order so the built-in extractor binding annotation link:{api}/io/micronaut/coherence/annotation/PropertyExtractor.html[@PropertyExtractor] can be used to just extract the `customerId` from the event:
 
 [source,java]
 ----

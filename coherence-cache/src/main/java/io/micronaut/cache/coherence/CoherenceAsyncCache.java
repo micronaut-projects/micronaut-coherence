@@ -38,7 +38,7 @@ import java.util.function.Supplier;
  */
 public class CoherenceAsyncCache implements AsyncCache<NamedCache<Object, Object>> {
 
-    private final ConversionService<?> conversionService;
+    private final ConversionService conversionService;
     private final AsyncNamedCache<Object, Object> asyncCache;
     private final ExecutorService executorService;
 
@@ -47,7 +47,7 @@ public class CoherenceAsyncCache implements AsyncCache<NamedCache<Object, Object
      * @param nativeCache       the native cache
      * @param executorService   manages the pool of executors
      */
-    public CoherenceAsyncCache(ConversionService<?> conversionService,
+    public CoherenceAsyncCache(ConversionService conversionService,
                                NamedCache<Object, Object> nativeCache,
                                ExecutorService executorService) {
         this.conversionService = conversionService;

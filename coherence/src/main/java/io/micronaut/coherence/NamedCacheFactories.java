@@ -20,8 +20,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
-import javax.inject.Inject;
-
 import com.tangosol.net.*;
 import io.micronaut.coherence.annotation.ExtractorBinding;
 import io.micronaut.coherence.annotation.Name;
@@ -37,6 +35,7 @@ import io.micronaut.context.annotation.*;
 import io.micronaut.core.annotation.AnnotationMetadata;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.inject.InjectionPoint;
+import jakarta.inject.Inject;
 
 /**
  * A Micronaut factory for producing Coherence maps and caches and views.

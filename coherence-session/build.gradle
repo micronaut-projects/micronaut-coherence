@@ -4,20 +4,18 @@ plugins {
 
 dependencies {
     api project(':coherence')
-    api(libs.micronaut.session)
+    api(mnSession.micronaut.session)
     compileOnly(libs.managed.coherence)
-    implementation(libs.micronaut.reactor)
+    implementation(mnReactor.micronaut.reactor)
 
-    testAnnotationProcessor(libs.micronaut.inject.java)
+    testAnnotationProcessor(mn.micronaut.inject.java)
 
     testImplementation(libs.managed.coherence)
-    testImplementation(libs.micronaut.http.client)
-    testRuntimeOnly(libs.micronaut.http.server.netty)
+    testImplementation(mn.micronaut.http.client)
+    testRuntimeOnly(mn.micronaut.http.server.netty)
 
     testImplementation(libs.hamcrest)
-    testImplementation(libs.micronaut.test.junit5)
-
-    testRuntimeOnly(libs.junit.jupiter.engine)
+    testImplementation(mnTest.micronaut.test.junit5)
 }
 
 tasks.withType(Test) {

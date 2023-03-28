@@ -21,9 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import io.micronaut.coherence.annotation.AlwaysFilter;
 import io.micronaut.coherence.annotation.FilterBinding;
 import io.micronaut.coherence.annotation.WhereFilter;
@@ -37,6 +34,8 @@ import io.micronaut.context.annotation.Factory;
 import io.micronaut.context.annotation.Prototype;
 import io.micronaut.core.annotation.AnnotationMetadata;
 import io.micronaut.inject.InjectionPoint;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 
 /**
  * A Micronaut factory for producing {@link com.tangosol.util.Filter} instances.

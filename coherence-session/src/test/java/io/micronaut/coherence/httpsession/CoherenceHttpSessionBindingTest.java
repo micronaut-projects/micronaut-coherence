@@ -28,10 +28,10 @@ import io.micronaut.session.Session;
 import io.micronaut.session.annotation.SessionValue;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 
+import jakarta.inject.Inject;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
-import javax.inject.Inject;
 import java.util.Optional;
 
 import reactor.core.publisher.Flux;

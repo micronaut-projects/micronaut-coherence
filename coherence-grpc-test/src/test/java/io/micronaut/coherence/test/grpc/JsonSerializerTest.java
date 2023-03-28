@@ -17,8 +17,6 @@ package io.micronaut.coherence.test.grpc;
 
 import java.util.Optional;
 
-import javax.inject.Inject;
-
 import com.oracle.coherence.io.json.JsonSerializer;
 
 import com.tangosol.io.Serializer;
@@ -26,6 +24,7 @@ import com.tangosol.io.Serializer;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.inject.qualifiers.Qualifiers;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
+import jakarta.inject.Inject;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.instanceOf;

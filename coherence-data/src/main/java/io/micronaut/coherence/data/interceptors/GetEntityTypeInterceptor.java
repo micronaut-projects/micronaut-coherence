@@ -40,7 +40,7 @@ public final class GetEntityTypeInterceptor<T, Class>
      *
      * @param operations the {@link RepositoryOperations}
      */
-    protected GetEntityTypeInterceptor(@NonNull RepositoryOperations operations) {
+    public GetEntityTypeInterceptor(@NonNull RepositoryOperations operations) {
         super(operations);
     }
 

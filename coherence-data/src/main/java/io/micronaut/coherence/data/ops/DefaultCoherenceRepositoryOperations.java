@@ -33,6 +33,7 @@ import io.micronaut.context.annotation.Parameter;
 import io.micronaut.core.annotation.NonNull;
 import io.micronaut.core.annotation.Nullable;
 import io.micronaut.core.beans.BeanProperty;
+import io.micronaut.core.convert.ConversionService;
 import io.micronaut.core.util.ArgumentUtils;
 import io.micronaut.data.model.Page;
 import io.micronaut.data.model.runtime.DeleteBatchOperation;
@@ -103,6 +104,7 @@ public class DefaultCoherenceRepositoryOperations implements CoherenceRepository
      * obtain a reference to the entity ID for a given entity type.
      */
     private final ConcurrentMap<Class<?>, RuntimePersistentEntity> entities = new ConcurrentHashMap<>(5);
+    private final ConversionService conversionService;
 
     /**
      * The name of the {@link Session}.  This is pulled from application configuration.
@@ -141,15 +143,18 @@ public class DefaultCoherenceRepositoryOperations implements CoherenceRepository
      *
      * @param mapName the name of the {@link NamedMap} (from configuration)
      * @param applicationContext the {@link ApplicationContext}
+     * @param conversionService the {@link ConversionService}
      * @param beanContext the {@link BeanContext} used to look up a {@link Session} instance
      */
     public DefaultCoherenceRepositoryOperations(@Parameter String mapName,
                                                 ApplicationContext applicationContext,
+                                                ConversionService conversionService,
                                                 BeanContext beanContext) {
         ArgumentUtils.requireNonNull("mapName", mapName);
         ArgumentUtils.requireNonNull("beanContext", beanContext);
         ArgumentUtils.requireNonNull("applicationContext", beanContext);
         this.mapName = mapName;
+        this.conversionService = conversionService;
         this.beanContext = beanContext;
         this.asyncOperations = beanContext.createBean(DefaultCoherenceAsyncRepositoryOperations.class, this);
         this.applicationContext = applicationContext;
@@ -213,8 +218,7 @@ public class DefaultCoherenceRepositoryOperations implements CoherenceRepository
     @Override
     public <T, R> R findOne(@NonNull final PreparedQuery<T, R> preparedQuery) {
         Object result = execute(preparedQuery);
-        if (result instanceof Map) {
-            Map m = (Map) result;
+        if (result instanceof Map m) {
             if (m.isEmpty()) {
                 return null;
             }
@@ -248,8 +252,7 @@ public class DefaultCoherenceRepositoryOperations implements CoherenceRepository
     @Override
     public <T, R> Iterable<R> findAll(@NonNull final PreparedQuery<T, R> preparedQuery) {
         Object result = execute(preparedQuery);
-        if (result instanceof Map) {
-            Map m = (Map) result;
+        if (result instanceof Map m) {
             return m.values();
         } else if (result instanceof Number) {
             return (Iterable<R>) Collections.singletonList(((Number) result).longValue());
@@ -487,5 +490,10 @@ public class DefaultCoherenceRepositoryOperations implements CoherenceRepository
             Statement trace = QueryHelper.createStatement("TRACE " + query, ctx, bindingParams);
             Logger.info(trace.execute(ctx).getResult().toString());
         }
+    }
+
+    @Override
+    public ConversionService getConversionService() {
+        return conversionService;
     }
 }

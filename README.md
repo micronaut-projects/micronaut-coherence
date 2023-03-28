@@ -15,11 +15,11 @@ See the [Snapshot Documentation](https://micronaut-projects.github.io/micronaut-
 
 ## Snapshots and Releases
 
-Snapshots are automatically published to [Sonatype OSS]("https://s01.oss.sonatype.org/content/repositories/snapshots/") using [Github Actions](https://github.com/micronaut-projects/micronaut-coherence/actions).
+Snapshots are automatically published to [Sonatype OSS]("https://s01.oss.sonatype.org/content/repositories/snapshots/") using [GitHub Actions](https://github.com/micronaut-projects/micronaut-coherence/actions).
 
 See the documentation in the [Micronaut Docs](https://docs.micronaut.io/latest/guide/#usingsnapshots) for how to configure your build to use snapshots.
 
-Releases are published to Maven Central via [Github Actions](https://github.com/micronaut-projects/micronaut-coherence/actions).
+Releases are published to Maven Central via [GitHub Actions](https://github.com/micronaut-projects/micronaut-coherence/actions).
 
 Releases are completely automated. To perform a release use the following steps:
 

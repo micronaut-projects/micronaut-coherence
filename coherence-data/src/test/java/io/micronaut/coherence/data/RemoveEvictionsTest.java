@@ -12,10 +12,9 @@ import io.micronaut.context.BeanContext;
 import io.micronaut.data.repository.CrudRepository;
 import io.micronaut.data.repository.async.AsyncCrudRepository;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
+import jakarta.inject.Inject;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-
-import javax.inject.Inject;
 
 import java.util.concurrent.CompletableFuture;
 

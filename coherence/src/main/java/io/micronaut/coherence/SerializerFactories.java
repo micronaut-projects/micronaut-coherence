@@ -15,10 +15,6 @@
  */
 package io.micronaut.coherence;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.inject.Singleton;
-
 import com.oracle.coherence.common.base.Classes;
 
 import com.tangosol.io.Serializer;
@@ -26,6 +22,9 @@ import com.tangosol.net.Cluster;
 import com.tangosol.net.OperationalContext;
 
 import io.micronaut.context.annotation.Factory;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.inject.Singleton;
 
 /**
  * A factory for Coherence {@link com.tangosol.io.Serializer} beans.

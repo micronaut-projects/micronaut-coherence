@@ -15,8 +15,6 @@
  */
 package io.micronaut.coherence;
 
-import javax.inject.Inject;
-
 import io.micronaut.coherence.annotation.Name;
 
 import com.tangosol.net.Cluster;
@@ -25,6 +23,7 @@ import com.tangosol.net.Session;
 
 import io.micronaut.context.BeanContext;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
+import jakarta.inject.Inject;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 

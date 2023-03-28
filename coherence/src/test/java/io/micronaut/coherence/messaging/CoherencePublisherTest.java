@@ -15,14 +15,13 @@
  */
 package io.micronaut.coherence.messaging;
 
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
 
 import com.tangosol.net.Coherence;
 import com.tangosol.net.topic.NamedTopic;

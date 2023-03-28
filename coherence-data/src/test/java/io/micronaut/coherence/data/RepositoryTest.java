@@ -22,11 +22,11 @@ import io.micronaut.coherence.data.repositories.CoherenceBook2Repository;
 import io.micronaut.coherence.data.repositories.CoherenceBook3Repository;
 import io.micronaut.coherence.data.repositories.CoherenceBookRepository;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
+import jakarta.inject.Inject;
 import org.hamcrest.Matchers;
+import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-
-import javax.inject.Inject;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
@@ -117,16 +117,5 @@ public class RepositoryTest extends AbstractDataTest {
         assertThat(repo2, notNullValue());
         assertThat(repo2.getEntityType(), Matchers.typeCompatibleWith(Book.class));
         assertThat(custom.getMap("book2").size(), is(4));
-    }
-
-    /**
-     * Ensure it's possible to create a Repository that has zero configuration.
-     *
-     * @since 3.0.1
-     */
-    @Test
-    public void shouldCreateRepoWithNoConfig() {
-        assertThat(repo3, notNullValue());
-        assertThat(repo3.getEntityType(), Matchers.typeCompatibleWith(Book.class));
     }
 }

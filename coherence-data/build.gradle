@@ -3,28 +3,28 @@ plugins {
 }
 
 dependencies {
-    annotationProcessor(libs.micronaut.inject.java)
-    annotationProcessor(libs.micronaut.docs.asciidoc.config.props)
+    annotationProcessor(mn.micronaut.inject.java)
 
     api project(":coherence")
-    api(libs.micronaut.data.model)
-    api(libs.micronaut.data.runtime)
-    api(libs.micronaut.data.processor)
+    api(mnData.micronaut.data.model)
+    api(mnData.micronaut.data.runtime)
+    api(mnData.micronaut.data.processor)
 
     compileOnly(libs.managed.coherence)
 
-    testAnnotationProcessor(libs.micronaut.inject.java)
+    testAnnotationProcessor(mn.micronaut.inject.java)
     testAnnotationProcessor project(":coherence-data")
 
     testImplementation(platform(libs.boms.coherence))
     testImplementation(libs.managed.coherence)
 
     testImplementation(libs.hamcrest)
-    testImplementation(libs.micronaut.test.junit5)
+    testImplementation(mnTest.micronaut.test.junit5)
     testImplementation(libs.bedrock.testing.support)
-    testImplementation(libs.micronaut.data.processor)
+    testImplementation(mnData.micronaut.data.processor)
 
     testRuntimeOnly(libs.junit.jupiter.engine)
+    testRuntimeOnly(mn.snakeyaml)
 }
 
 tasks.withType(Test) {

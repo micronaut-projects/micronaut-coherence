@@ -18,8 +18,7 @@ package io.micronaut.coherence.data.interceptors;
 import io.micronaut.aop.InterceptorBean;
 import io.micronaut.coherence.data.annotation.AsyncRemoveEventSource;
 import io.micronaut.data.model.runtime.RuntimeEntityRegistry;
-
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 /**
  * An {@link AbstractAsyncEventSourceInterceptor interceptor} for {@code remove} events.

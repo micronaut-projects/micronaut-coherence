@@ -3,7 +3,7 @@ instances can be injected as beans in Micronaut applications.
 
 An alternative way to write message driven applications and `TransferEvent`microservices instead of directly injecting `NamedTopic`, `Publisher` or `Subscriber` beans is to use <<messagingWithTopics,Micronaut Coherence Messaging>>.
 
-The simplest way to inject a `NamedTopic` is to just annotate the injection point with `@javax.inject.Inject`.
+The simplest way to inject a `NamedTopic` is to just annotate the injection point with `@jakarta.inject.Inject`.
 
 [source,java]
 ----

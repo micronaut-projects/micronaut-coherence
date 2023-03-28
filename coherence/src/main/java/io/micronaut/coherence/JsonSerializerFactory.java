@@ -15,15 +15,14 @@
  */
 package io.micronaut.coherence;
 
-import javax.inject.Named;
-import javax.inject.Singleton;
-
 import com.oracle.coherence.io.json.JsonSerializer;
 
 import com.tangosol.io.Serializer;
 
 import io.micronaut.context.annotation.Factory;
 import io.micronaut.context.annotation.Requires;
+import jakarta.inject.Named;
+import jakarta.inject.Singleton;
 
 /**
  * A factory that provides a {@link com.oracle.coherence.io.json.JsonSerializer} beans.

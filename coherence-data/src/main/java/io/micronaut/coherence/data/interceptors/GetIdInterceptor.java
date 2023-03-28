@@ -41,7 +41,7 @@ public final class GetIdInterceptor<T, ID>
      *
      * @param operations the {@link RepositoryOperations}
      */
-    protected GetIdInterceptor(@NonNull RepositoryOperations operations) {
+    public GetIdInterceptor(@NonNull RepositoryOperations operations) {
         super(operations);
     }
 

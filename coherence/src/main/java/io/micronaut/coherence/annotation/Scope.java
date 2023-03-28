@@ -62,7 +62,7 @@ public @interface Scope {
         private final String m_sValue;
 
         /**
-         * Construct {@code Literal} instacne.
+         * Construct {@code Literal} instance.
          *
          * @param sValue the scope name or URI used to identify a specific
          *               {@link com.tangosol.net.ConfigurableCacheFactory}

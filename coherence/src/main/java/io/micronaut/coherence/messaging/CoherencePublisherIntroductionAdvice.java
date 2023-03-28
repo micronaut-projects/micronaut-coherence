@@ -36,6 +36,7 @@ import io.micronaut.core.type.ReturnType;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.messaging.annotation.MessageBody;
 import io.micronaut.messaging.exceptions.MessagingClientException;
+import jakarta.inject.Singleton;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 import org.slf4j.Logger;
@@ -43,7 +44,6 @@ import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.FluxSink;
 
-import javax.inject.Singleton;
 import java.time.Duration;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -62,7 +62,7 @@ public class CoherencePublisherIntroductionAdvice implements MethodInterceptor<O
 
     private final BeanContext beanContext;
 
-    private final ConversionService<?> conversionService;
+    private final ConversionService conversionService;
 
     private final Map<TopicKey, Publisher<Object>> publisherMap = new ConcurrentHashMap<>();
 
@@ -72,7 +72,7 @@ public class CoherencePublisherIntroductionAdvice implements MethodInterceptor<O
      * @param beanContext       the Micronaut bean context
      * @param conversionService the conversion service
      */
-    CoherencePublisherIntroductionAdvice(BeanContext beanContext, ConversionService<?> conversionService) {
+    CoherencePublisherIntroductionAdvice(BeanContext beanContext, ConversionService conversionService) {
         this.beanContext = beanContext;
         this.conversionService = conversionService;
     }
@@ -136,11 +136,11 @@ public class CoherencePublisherIntroductionAdvice implements MethodInterceptor<O
             boolean isReactiveReturnType = Publishers.isConvertibleToPublisher(javaReturnType);
             boolean isReactiveValue = value != null && Publishers.isConvertibleToPublisher(value.getClass());
 
-            InterceptedMethod interceptedMethod = InterceptedMethod.of(context);
+            InterceptedMethod interceptedMethod = InterceptedMethod.of(context, conversionService);
             if (isReactiveReturnType) {
                 // return type is a reactive type
                 Flux<?> flux = buildSendFlux(context, publisher, Argument.OBJECT_ARGUMENT, maxBlock, value);
-                return Publishers.convertPublisher(flux, javaReturnType);
+                return Publishers.convertPublisher(conversionService, flux, javaReturnType);
             } else {
                 // return type is a future - must be future of Void
                 Argument<?> returnArg = returnType.getFirstTypeVariable().orElse(Argument.of(Void.class));
@@ -246,7 +246,7 @@ public class CoherencePublisherIntroductionAdvice implements MethodInterceptor<O
             Duration maxBlock,
             Object value) {
 
-        Flux<?> valueFlux = Publishers.convertPublisher(value, Flux.class);
+        Flux<?> valueFlux = Publishers.convertPublisher(conversionService, value, Flux.class);
         Class<?> javaReturnType = returnType.getType();
 
         if (Iterable.class.isAssignableFrom(javaReturnType)) {

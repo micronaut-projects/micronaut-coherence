@@ -35,5 +35,5 @@ public enum SessionType {
     /**
      * The session is a gRPC client session.
      */
-    grpc;
+    grpc
 }
