@@ -18,7 +18,7 @@ micronaut-session = "4.0.0-M1"
 micronaut-test = "4.0.0-M1"
 micronaut-docs = "2.0.0"
 
-groovy = "4.0.10"
+groovy = "4.0.11"
 
 [libraries]
 micronaut-cache = { module = "io.micronaut.cache:micronaut-cache-bom", version.ref = "micronaut-cache" }
