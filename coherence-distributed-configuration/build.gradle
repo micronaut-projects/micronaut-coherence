@@ -3,8 +3,8 @@ plugins {
 }
 
 dependencies {
-    api project(':coherence')
-    implementation project(':coherence-grpc-client')
+    api(project(":micronaut-coherence"))
+    implementation(project(":micronaut-coherence-grpc-client"))
     api(mn.micronaut.inject)
     api(mn.micronaut.runtime)
     implementation(libs.micronaut.discovery.client)
