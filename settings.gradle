@@ -9,6 +9,8 @@ plugins {
     id("io.micronaut.build.shared.settings") version "6.3.5"
 }
 
+rootProject.name = 'coherence-parent'
+
 include 'coherence'
 include 'coherence-bom'
 include 'coherence-grpc-client'
