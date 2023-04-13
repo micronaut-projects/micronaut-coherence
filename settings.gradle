@@ -19,6 +19,7 @@ include 'coherence-distributed-configuration'
 include 'coherence-data'
 
 micronautBuild {
+    useStandardizedProjectNames=true
     addSnapshotRepository()
     importMicronautCatalog()
     importMicronautCatalog("micronaut-cache")
