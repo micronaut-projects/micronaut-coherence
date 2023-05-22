@@ -66,11 +66,11 @@ public class ElementArgumentBinderRegistry
     }
 
     @Override
-    public <T> Optional<ArgumentBinder<T, Subscriber.Element<?>>> findArgumentBinder(Argument<T> argument, Subscriber.Element<?> source) {
+    public <T> Optional<ArgumentBinder<T, Subscriber.Element<?>>> findArgumentBinder(Argument<T> argument) {
         Optional<Class<? extends Annotation>> annotationType = argument.getAnnotationMetadata().getAnnotationTypeByStereotype(Bindable.class);
         if (annotationType.isPresent()) {
             @SuppressWarnings("unchecked") ElementBinder<T> elementBinder =
-                    (ElementBinder<T>) byAnnotation.get(annotationType.get());
+                (ElementBinder<T>) byAnnotation.get(annotationType.get());
 
             return Optional.ofNullable(elementBinder);
         } else {

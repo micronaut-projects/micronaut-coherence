@@ -30,8 +30,8 @@ import java.util.Optional;
  */
 class EventArgumentBinderRegistry<E> implements ArgumentBinderRegistry<E> {
     @Override
-    public <T> Optional<ArgumentBinder<T, E>> findArgumentBinder(Argument<T> argument, E source) {
-        if (argument.getType().isAssignableFrom(source.getClass())) {
+    public <T> Optional<ArgumentBinder<T, E>> findArgumentBinder(Argument<T> argument) {
+        if (argument.getType().isAssignableFrom(ArgumentBinder.class)) {
             return Optional.of(new EventArgumentBinder<>());
         } else {
             return Optional.empty();
