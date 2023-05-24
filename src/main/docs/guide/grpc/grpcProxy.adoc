@@ -6,7 +6,7 @@ This documentation specifically covers the latter case of configuring the gRPC p
 
 To run a gRPC proxy then Coherence gRPC Proxy module must be added to the project dependencies:
 
-dependency:coherence-grpc-proxy[groupId="com.oracle.coherence.ce",version="22.06"]
+dependency:coherence-grpc-proxy[groupId="com.oracle.coherence.ce",version="23.03"]
 
 By default, Coherence will run a simple gRPC server listening on `0.0.0.0:1407`, i.e. bound to port 1407 on all local addresses. If this is sufficient for your application then there is nothing more to configure.
 

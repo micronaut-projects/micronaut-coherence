@@ -6,7 +6,7 @@ If you are interested in contributing to Micronaut and are looking for issues to
 
 ## JDK Setup
 
-Micronaut Data currently requires JDK 8
+Micronaut Data currently requires JDK 17
 
 ## IDE Setup
 
