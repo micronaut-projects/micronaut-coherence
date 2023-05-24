@@ -15,6 +15,8 @@
  */
 package io.micronaut.coherence.event;
 
+import com.tangosol.net.events.Event;
+import com.tangosol.util.MapEvent;
 import io.micronaut.core.bind.ArgumentBinder;
 import io.micronaut.core.bind.ArgumentBinderRegistry;
 import io.micronaut.core.type.Argument;
@@ -30,8 +32,10 @@ import java.util.Optional;
  */
 class EventArgumentBinderRegistry<E> implements ArgumentBinderRegistry<E> {
     @Override
-    public <T> Optional<ArgumentBinder<T, E>> findArgumentBinder(Argument<T> argument, E source) {
-        if (argument.getType().isAssignableFrom(source.getClass())) {
+    public <T> Optional<ArgumentBinder<T, E>> findArgumentBinder(Argument<T> argument) {
+    Class<?> argumentType = argument.getType();
+        if (Event.class.isAssignableFrom(argumentType)
+            || MapEvent.class.isAssignableFrom(argumentType)) {
             return Optional.of(new EventArgumentBinder<>());
         } else {
             return Optional.empty();
