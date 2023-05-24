@@ -9,7 +9,7 @@ mockito = "5.3.1"
 # Micronaut
 micronaut = "4.0.0-M1"
 micronaut-grpc = "4.0.0-M1"
-micronaut-cache = "4.0.0-M1"
+micronaut-cache = "4.0.0-SNAPSHOT"
 micronaut-data = "4.0.0-M1"
 micronaut-discovery-client = "4.0.0-M1"
 micronaut-docs-asciidoc-config-props = "2.0.0"
