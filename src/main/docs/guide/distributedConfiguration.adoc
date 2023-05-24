@@ -5,11 +5,11 @@ dependency:coherence-distributed-configuration[groupId="io.micronaut.coherence"]
 
 Also, add Coherence dependency - either Coherence CE or commercial version:
 
-dependency:coherence[groupId="com.oracle.coherence.ce",version="22.06"]
+dependency:coherence[groupId="com.oracle.coherence.ce",version="23.03"]
 
 and coherence java client:
 
-dependency:coherence-java-client[groupId="com.oracle.coherence.ce",version="22.06"]
+dependency:coherence-java-client[groupId="com.oracle.coherence.ce",version="23.03"]
 
 To enable support simply add the following configuration to your bootstrap configuration file:
 

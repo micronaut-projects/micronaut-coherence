@@ -1,10 +1,10 @@
 [versions]
-managed-coherence = "22.09"
+managed-coherence = "23.03"
 
 bedrock = "7.0.2"
 hamcrest = "2.2"
 junit = "5.9.3"
-mockito = "5.2.0"
+mockito = "5.3.1"
 
 # Micronaut
 micronaut = "4.0.0-M4"
@@ -21,6 +21,9 @@ micronaut-docs = "2.0.0"
 groovy = "4.0.11"
 
 [libraries]
+# Core
+micronaut-core = { module = 'io.micronaut:micronaut-core-bom', version.ref = 'micronaut' }
+
 micronaut-cache = { module = "io.micronaut.cache:micronaut-cache-bom", version.ref = "micronaut-cache" }
 micronaut-data = { module = "io.micronaut.data:micronaut-data-bom", version.ref = "micronaut-data" }
 micronaut-grpc = { module = "io.micronaut.grpc:micronaut-grpc-bom", version.ref = "micronaut-grpc" }
@@ -42,4 +45,3 @@ hamcrest = { module = "org.hamcrest:hamcrest", version.ref = "hamcrest" }
 junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine" }
 junit-jupiter-params = { module = "org.junit.jupiter:junit-jupiter-params", version.ref = "junit" }
 mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito" }
-mockito-inline = { module = "org.mockito:mockito-inline", version.ref = "mockito" }
