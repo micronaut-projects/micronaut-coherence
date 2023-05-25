@@ -142,6 +142,10 @@ class AnnotatedMapListener<K, V> implements MapListener<K, V>, Comparable<Annota
                 addType(Type.DELETED);
             } else if (a instanceof SessionName) {
                 session = ((SessionName) a).value();
+            } else if (a instanceof Lite) {
+                liteEvents = true;
+            } else if (a instanceof Synchronous) {
+                synchronousEvents = true;
             }
         }
 
