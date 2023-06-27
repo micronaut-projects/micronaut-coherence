@@ -50,7 +50,6 @@ import io.micronaut.data.operations.async.AsyncRepositoryOperations;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.Serializable;
 import java.io.StringWriter;
 import java.util.Collections;
 import java.util.HashMap;
@@ -210,7 +209,7 @@ public class DefaultCoherenceRepositoryOperations implements CoherenceRepository
 
     @Nullable
     @Override
-    public <T> T findOne(@NonNull final Class<T> type, @NonNull final Serializable id) {
+    public <T> T findOne(@NonNull final Class<T> type, @NonNull final Object id) {
         return (T) getNamedMap().get(id);
     }
 

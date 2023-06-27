@@ -36,7 +36,6 @@ import io.micronaut.data.model.runtime.PagedQuery;
 import io.micronaut.data.model.runtime.PreparedQuery;
 import io.micronaut.data.model.runtime.UpdateOperation;
 
-import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -106,7 +105,7 @@ class DefaultCoherenceAsyncRepositoryOperations
 
     @NonNull
     @Override
-    public <T> CompletionStage<T> findOne(@NonNull final Class<T> type, @NonNull final Serializable id) {
+    public <T> CompletionStage<T> findOne(@NonNull final Class<T> type, @NonNull final Object id) {
         return findOptional(type, id).thenApply(t -> {
             if (t == null) {
                 throw new EmptyResultException();
@@ -134,7 +133,7 @@ class DefaultCoherenceAsyncRepositoryOperations
 
     @NonNull
     @Override
-    public <T> CompletionStage<T> findOptional(@NonNull final Class<T> type, @NonNull final Serializable id) {
+    public <T> CompletionStage<T> findOptional(@NonNull final Class<T> type, @NonNull final Object id) {
         return (CompletionStage<T>) getAsyncNamedMap().get(id);
     }
 
