@@ -8,7 +8,7 @@ mockito = "5.4.0"
 
 # Micronaut
 micronaut = "4.0.0"
-micronaut-grpc = "4.0.0-M6"
+micronaut-grpc = "4.0.0"
 micronaut-cache = "4.0.0"
 micronaut-data = "4.0.0"
 micronaut-discovery-client = "4.0.0"
