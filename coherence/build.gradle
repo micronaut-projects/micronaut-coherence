@@ -8,7 +8,7 @@ dependencies {
     api(mn.micronaut.runtime)
     implementation(mnReactor.micronaut.reactor)
 
-    implementation 'io.grpc:grpc-all:1.57.0'
+    implementation 'io.grpc:grpc-all:1.57.1'
 
     compileOnly(libs.managed.coherence)
     compileOnly(libs.managed.coherence.json)
