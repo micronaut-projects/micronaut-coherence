@@ -4,7 +4,7 @@ managed-coherence = "23.03"
 bedrock = "7.0.2"
 hamcrest = "2.2"
 junit = "5.10.0"
-mockito = "5.4.0"
+mockito = "5.5.0"
 
 # Micronaut
 micronaut = "4.1.1"
