@@ -2,17 +2,19 @@ For this project, you can find a list of releases (with release notes) here:
 
 https://github.com/{githubSlug}/releases[https://github.com/{githubSlug}/releases]
 
-=== Important Changes in Release 5.0.0
+Important Changes in Release 5.0.0
 
 The following outlines backwards-incompatible changes made in this release:
 
-==== `gRPC`
+`gRPC`
+
 * Removed the configuration of gRPC proxies within application configuration resources (such as application.yaml).
 Both gRPC clients and proxies are now configured in a similar fashion to extend client and proxies.  Please see
 the Coherence https://github.com/oracle/coherence/blob/main/prj/coherence-grpc/README.adoc[gRPC] for more details.
 * Removed the `coherence-grpc-client` module.
 
-==== `Coherence Configuration Client`
+`Coherence Configuration Client`
+
 * Reworked how the client connects by using sessions instead of hard coding an address and port and forcing the
 client to use gRPC.  By using a session, the client can be a storage-disabled cluster member, an extend client, or
 a gRPC client.  See the Coherence Distributed Configuration <<distributedConfiguration,documentation>> for details.
