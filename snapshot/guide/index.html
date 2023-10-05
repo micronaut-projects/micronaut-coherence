@@ -68,13 +68,11 @@
                                 
                                 <div class="toc-item" style="margin-left:0"><a href="#coherenceXmlInjection"><strong>12</strong><span>Injecting Beans into Coherence Configuration</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#grpc"><strong>13</strong><span>Using Coherence gRPC</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#coherenceHttpSessions"><strong>13</strong><span>Using Coherence to store HTTP sessions</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#coherenceHttpSessions"><strong>14</strong><span>Using Coherence to store HTTP sessions</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#cache"><strong>14</strong><span>Using Coherence as Micronaut Cache implementation</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#cache"><strong>15</strong><span>Using Coherence as Micronaut Cache implementation</span></a></div>
-                                
-                                <div class="toc-item" style="margin-left:0"><a href="#distributedConfiguration"><strong>16</strong><span>Using Coherence as a Distributed Configuration provider</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#distributedConfiguration"><strong>15</strong><span>Using Coherence as a Distributed Configuration provider</span></a></div>
                                 
                             </div>
                         </div>
@@ -193,17 +191,11 @@
         
         <div class="toc-item" style="margin-left:0px" id="toc-item-coherenceXmlInjection"><a href="#coherenceXmlInjection"><strong>12</strong><span>Injecting Beans into Coherence Configuration</span></a></div>
         
-        <div class="toc-item" style="margin-left:0px" id="toc-item-grpc"><a href="#grpc"><strong>13</strong><span>Using Coherence gRPC</span></a></div>
+        <div class="toc-item" style="margin-left:0px" id="toc-item-coherenceHttpSessions"><a href="#coherenceHttpSessions"><strong>13</strong><span>Using Coherence to store HTTP sessions</span></a></div>
         
-        <div class="toc-item" style="margin-left:10px" id="toc-item-grpcProxy"><a href="#grpcProxy"><strong>13.1</strong><span>Configure a gRPC Proxy Service</span></a></div>
+        <div class="toc-item" style="margin-left:0px" id="toc-item-cache"><a href="#cache"><strong>14</strong><span>Using Coherence as Micronaut Cache implementation</span></a></div>
         
-        <div class="toc-item" style="margin-left:10px" id="toc-item-grpcClient"><a href="#grpcClient"><strong>13.2</strong><span>Using a gRPC Client</span></a></div>
-        
-        <div class="toc-item" style="margin-left:0px" id="toc-item-coherenceHttpSessions"><a href="#coherenceHttpSessions"><strong>14</strong><span>Using Coherence to store HTTP sessions</span></a></div>
-        
-        <div class="toc-item" style="margin-left:0px" id="toc-item-cache"><a href="#cache"><strong>15</strong><span>Using Coherence as Micronaut Cache implementation</span></a></div>
-        
-        <div class="toc-item" style="margin-left:0px" id="toc-item-distributedConfiguration"><a href="#distributedConfiguration"><strong>16</strong><span>Using Coherence as a Distributed Configuration provider</span></a></div>
+        <div class="toc-item" style="margin-left:0px" id="toc-item-distributedConfiguration"><a href="#distributedConfiguration"><strong>15</strong><span>Using Coherence as a Distributed Configuration provider</span></a></div>
         
         </div>
     </div>
@@ -249,6 +241,39 @@
 </div>
 <div class="paragraph">
 <p><a href="https://github.com/micronaut-projects/micronaut-coherence/releases">https://github.com/micronaut-projects/micronaut-coherence/releases</a></p>
+</div>
+<div class="sect2">
+<h3 id="_important_changes_in_release_5_0_0">Important Changes in Release 5.0.0</h3>
+<div class="paragraph">
+<p>The following outlines backwards-incompatible changes made in this release:</p>
+</div>
+<div class="sect3">
+<h4 id="_grpc"><code>gRPC</code></h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Removed the configuration of gRPC proxies within application configuration resources (such as application.yaml).
+Both gRPC clients and proxies are now configured in a similar fashion to extend client and proxies.  Please see
+the Coherence <a href="https://github.com/oracle/coherence/blob/main/prj/coherence-grpc/README.adoc">gRPC</a> for more details.</p>
+</li>
+<li>
+<p>Removed the <code>coherence-grpc-client</code> module.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_coherence_configuration_client"><code>Coherence Configuration Client</code></h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Reworked how the client connects by using sessions instead of hard coding an address and port and forcing the
+client to use gRPC.  By using a session, the client can be a storage-disabled cluster member, an extend client, or
+a gRPC client.  See the Coherence Distributed Configuration <a href="#distributedConfiguration">documentation</a> for details.</p>
+</li>
+</ul>
+</div>
+</div>
 </div>
 
 <h1 id="quickStart"><a class="anchor" href="#quickStart"></a>3 Coherence Quick Start</h1>
@@ -442,7 +467,7 @@ to just configure and use the default <code>Session</code>. If the application i
 then all that needs to be specified is the Coherence configuration file name (although even this is optional as
 Coherence will use a default file name if none is configured).
 Alternatively, if the application is a Coherence gRPC client, the default Session can be configured as a gRPC Session
-(see the <a href="#grpc">gRPC documentation</a>).</p>
+(see the Coherence <a href="https://github.com/oracle/coherence/blob/main/prj/coherence-grpc/README.adoc">gRPC</a>).</p>
 </div>
 <div class="paragraph">
 <p>As already mentioned in the <a href="#quickStart">Quick Start</a> section, the name of the Coherence configuration file for the default session can be set in the Micronaut config, for example in the application configuration file:</p>
@@ -1032,7 +1057,7 @@ coherence.sessions.default.config=client-config.xml</code></pre>
 <p><code>client</code> represents a storage disabled cluster member or Coherence*Extend client session.</p>
 </li>
 <li>
-<p><code>grpc</code> is a gRPC client session (see the <a href="#grpc">gRPC documentation</a>).</p>
+<p><code>grpc</code> is a gRPC client session (see the Coherence <a href="https://github.com/oracle/coherence/blob/main/prj/coherence-grpc/README.adoc">gRPC</a> documentation).</p>
 </li>
 </ul>
 </div>
@@ -3897,7 +3922,7 @@ public class ProductListener {
 </tr>
 <tr>
 <td><i class="conum" data-value="3"></i><b>3</b></td>
-<td>The receive method defines single arguments that will receive the message value, in this case the message is of type <code>String</code>.</td>
+<td>The <code>receive</code> method defines single arguments that will receive the message value, in this case the message is of type <code>String</code>.</td>
 </tr>
 </table>
 </div>
@@ -4683,810 +4708,7 @@ public class MyInterceptor implements EventInterceptor&lt;EntryEvent&lt;?, ?&gt;
 </table>
 </div>
 
-<h1 id="grpc"><a class="anchor" href="#grpc"></a>13 Using Coherence gRPC</h1>
-
-<div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master/src/main/docs/guide/grpc.adoc"'>
-        <i class='fa fa-pencil-square-o'></i> Improve this doc
-    </button>
-</div>
-
-
-<div class="paragraph">
-<p>Coherence can be configured to run a gRPC proxy service that allows suitably configured gRPC clients to
-connect to a cluster and use clustered resources such as <code>NamedMap</code>, <code>NamedCache</code> etc.
-The advantage of using a gRPC client rather than a traditional Coherence*Extend client is that the gRPC client is lighter weight than an Extend client and can work better with modern cloud infrastructures, being http/2 as opposed to Coherence custom protocol.</p>
-</div>
-<div class="paragraph">
-<p>There are two parts required to use Coherence gRPC</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>A Coherence cluster running a gRPC proxy</p>
-</li>
-<li>
-<p>A client using the gRPC client library</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>One, or both of these could be using the Coherence Micronaut libraries, for example a Coherence Micronaut application that is a cluster member can be configured to run the gRPC proxy, which can be connected to by non-Micronaut Coherence gRPC clients (or even non-Java Coherence clients such as Coherence JS). And vice-versa, a Micronaut application can be a Coherence Micronaut gRPC client and connect to a non-Micronaut Coherence cluster running a gRPC proxy.</p>
-</div>
-<div class="paragraph">
-<p>The documentation below covers using gRPC in both cases, the Coherence product documentation covers how to run non-Micronaut gRPC proxies and clients.</p>
-</div>
-
-<h2 id="grpcProxy"><a class="anchor" href="#grpcProxy"></a>13.1 Configure a gRPC Proxy Service</h2>
-
-<div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master/src/main/docs/guide/grpc/grpcProxy.adoc"'>
-        <i class='fa fa-pencil-square-o'></i> Improve this doc
-    </button>
-</div>
-
-
-<div class="paragraph">
-<p>A Coherence Micronaut application that runs as a cluster member with a gRPC proxy service has two choices when configuring the gRPC server. It can just use the out-of-the-box Coherence gRPC proxy functionality. Or, it can make use of some additional configuration features provided by the Coherence Micronaut API.</p>
-</div>
-<div class="paragraph">
-<p>This documentation specifically covers the latter case of configuring the gRPC proxy using Micronaut.</p>
-</div>
-<div class="sect2">
-<h3 id="_add_the_coherence_grpc_proxy_dependency">Add the Coherence gRPC Proxy Dependency</h3>
-<div class="paragraph">
-<p>To run a gRPC proxy then Coherence gRPC Proxy module must be added to the project dependencies:</p>
-</div>
-<div class="paragraph">
-<p>        <div class="listingblock multi-language-sample">
-<div class="title"></div>
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"com.oracle.coherence.ce:coherence-grpc-proxy:23.03")</span></code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
-    &lt;groupId&gt;com.oracle.coherence.ce&lt;/groupId&gt;
-    &lt;artifactId&gt;coherence-grpc-proxy&lt;/artifactId&gt;
-    &lt;version&gt;23.03&lt;/version&gt;
-&lt;/dependency&gt;</code></pre>
-</div>
-</div></p>
-</div>
-<div class="paragraph">
-<p>By default, Coherence will run a simple gRPC server listening on <code>0.0.0.0:1407</code>, i.e. bound to port 1407 on all local addresses. If this is sufficient for your application then there is nothing more to configure.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_configure_the_grpc_server_via_application_config">Configure the gRPC Server via Application Config</h3>
-<div class="paragraph">
-<p>The Coherence gRPC Proxy module allows the gRPC server to be configured using system properties.
-When using Coherence Micronaut, these same properties can be configured in the Micronaut application configuration.</p>
-</div>
-<div class="paragraph">
-<p>For example, to simply change the gRPC port that the server binds to would require setting the <code>coherence.grpc.server.port</code> property. Using Micronaut, this can be added to the <code>coherence</code> section of the application configuration file. The configuration below sets the port to <code>9099</code>:</p>
-</div>
-<div class="openblock">
-<div class="content">
-<div class="listingblock multi-language-sample">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">coherence.grpc.server.port=9099</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">coherence:
-  grpc:
-    server:
-      port: 9099</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[coherence]
-  [coherence.grpc]
-    [coherence.grpc.server]
-      port=9099</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">coherence {
-  grpc {
-    server {
-      port = 9099
-    }
-  }
-}</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
-  coherence {
-    grpc {
-      server {
-        port = 9099
-      }
-    }
-  }
-}</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
-  "coherence": {
-    "grpc": {
-      "server": {
-        "port": 9099
-      }
-    }
-  }
-}</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="paragraph">
-<p>See the official Coherence gRPC documentation for more properties that can be set.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_custom_server_configuration">Custom Server Configuration</h3>
-<div class="paragraph">
-<p>If more control over the server configuration is required than that provided out of the box by Coherence, then a Micronaut bean can be created of type <a href="https://coherence.community/latest/21.12/api/java/index.html/com/oracle/coherence/grpc/proxy/GrpcServerConfiguration.html">GrpcServerConfiguration</a>.</p>
-</div>
-<div class="paragraph">
-<p>A Coherence gRPC proxy runs both a gRPC server listening for remote connections, and an in-process gRPC server to allow connections to services from within the same JVM.
-The <code>GrpcServerConfiguration</code> interface has a <code>configure</code> method that allows configuration of both of these servers.</p>
-</div>
-<div class="listingblock">
-<div class="title">ServerConfiguration.java</div>
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@Singleton
-public class ServerConfiguration implements GrpcServerConfiguration {
-
-    @Override
-    public void configure(ServerBuilder&lt;?&gt; serverBuilder,
-            InProcessServerBuilder inProcessServerBuilder) {
-
-        // ToDo: configure the servers...
-
-    }
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The example above shows a simple singleton bean named <code>ServerConfiguration</code> that implements <code>GrpcServerConfiguration</code>. The <code>configure</code> method is called with the <code>io.grpc.ServerBuilder</code> to allow full configuration of the gRPC server and also with the <code>io.grpc.inprocess.InProcessServerBuilder</code> to allow full control over the in-process server.</p>
-</div>
-<div class="paragraph">
-<p>Multiple <code>GrpcServerConfiguration</code> beans may be present, and if so, all will be called and given a chance to configure the servers.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_provide_a_serverbuilder">Provide a ServerBuilder</h3>
-<div class="paragraph">
-<p>Finally, if the above ways to configure the server still do not give enough flexibility then an application can provide a bean of type <code>io.grpc.ServerBuilder</code> which will be used by Coherence to build the gRPC server.</p>
-</div>
-<div class="paragraph">
-<p>For example, the <code>ServerBuilderFactory</code> class below is a simple Micronaut factory that provides a singleton <code>ServerBuilder</code> bean from the <code>createServerBuilder</code> method.</p>
-</div>
-<div class="listingblock">
-<div class="title">ServerBuilderFactory.java</div>
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import io.grpc.ServerBuilder;
-
-@Factory
-public class ServerBuilderFactory {
-
-    @Singleton
-    public ServerBuilder&lt;?&gt; createServerBuilder() {
-        ServerBuilder&lt;?&gt; builder = ServerBuilder.forPort(nPort);
-        // ToDo: add more configuration...
-        return builder;
-    }
-}</code></pre>
-</div>
-</div>
-</div>
-
-<h2 id="grpcClient"><a class="anchor" href="#grpcClient"></a>13.2 Using a gRPC Client</h2>
-
-<div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master/src/main/docs/guide/grpc/grpcClient.adoc"'>
-        <i class='fa fa-pencil-square-o'></i> Improve this doc
-    </button>
-</div>
-
-
-<div class="paragraph">
-<p>Once a Coherence cluster is running with a gRPC proxy, a client can be configured to connect to it.</p>
-</div>
-<div class="sect2">
-<h3 id="_add_the_grpc_client_dependencies">Add the gRPC Client Dependencies</h3>
-<div class="paragraph">
-<p>To create a gRPC client application the Coherence gRPC client module must be added to the project dependencies:</p>
-</div>
-<div class="paragraph">
-<p>Add the Coherence Micronaut gRPC client module:</p>
-</div>
-<div class="paragraph">
-<p>        <div class="listingblock multi-language-sample">
-<div class="title"></div>
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"io.micronaut.coherence:micronaut-coherence-grpc-client")</span></code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
-    &lt;groupId&gt;io.micronaut.coherence&lt;/groupId&gt;
-    &lt;artifactId&gt;micronaut-coherence-grpc-client&lt;/artifactId&gt;
-&lt;/dependency&gt;</code></pre>
-</div>
-</div></p>
-</div>
-<div class="paragraph">
-<p>Add the Coherence Java client module for the version of Coherence being used:</p>
-</div>
-<div class="paragraph">
-<p>        <div class="listingblock multi-language-sample">
-<div class="title"></div>
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"com.oracle.coherence.ce:coherence-java-client:23.03")</span></code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
-    &lt;groupId&gt;com.oracle.coherence.ce&lt;/groupId&gt;
-    &lt;artifactId&gt;coherence-java-client&lt;/artifactId&gt;
-    &lt;version&gt;23.03&lt;/version&gt;
-&lt;/dependency&gt;</code></pre>
-</div>
-</div></p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_configure_the_client_sessions">Configure the Client Sessions</h3>
-<div class="paragraph">
-<p>When building a gRPC client application, Coherence resources can be accessed via a <a href="https://coherence.community/latest/21.12/api/java/index.html/com/tangosol/net/Session.html">Session</a>, the same as any other Coherence application. The Coherence gRPC Java client allows gRPC client sessions to be configured via system properties. When building a Micronaut gRPC client application, those same configuration properties can be provided via Micronaut configuration. The properties names are in the format <code>coherence.sessions.&lt;name&gt;.*</code> where <code>&lt;name&gt;</code> is the name of the <code>Session</code>. The majority of applications would only require a single <code>Session</code> so would configure the default session, that has the name <code>default</code>. If an application needs to connect to multiple Coherence gRPC servers then multiple named sessions can be configured.</p>
-</div>
-<div class="paragraph">
-<p>For example, to make the <code>default</code> session a gRPC client session, the property <code>coherence.sessions.default.type</code> must be set to <code>grpc</code>.</p>
-</div>
-<div class="openblock">
-<div class="content">
-<div class="listingblock multi-language-sample">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">coherence.sessions.default.type=grpc</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">coherence:
-  sessions:
-    default:
-      type: grpc</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[coherence]
-  [coherence.sessions]
-    [coherence.sessions.default]
-      type="grpc"</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">coherence {
-  sessions {
-    'default' {
-      type = "grpc"
-    }
-  }
-}</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
-  coherence {
-    sessions {
-      default {
-        type = "grpc"
-      }
-    }
-  }
-}</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
-  "coherence": {
-    "sessions": {
-      "default": {
-        "type": "grpc"
-      }
-    }
-  }
-}</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="paragraph">
-<p>to make the <code>default</code> session a gRPC client session that connects to the server side session with the scope name <code>Products</code>, the property <code>coherence.sessions.default.scopeName</code> must be set to <code>Products</code>.</p>
-</div>
-<div class="openblock">
-<div class="content">
-<div class="listingblock multi-language-sample">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">coherence.sessions.default.type=grpc
-coherence.sessions.default.scopeName=Products</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">coherence:
-  sessions:
-    default:
-      type: grpc
-      scopeName: Products</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[coherence]
-  [coherence.sessions]
-    [coherence.sessions.default]
-      type="grpc"
-      scopeName="Products"</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">coherence {
-  sessions {
-    'default' {
-      type = "grpc"
-      scopeName = "Products"
-    }
-  }
-}</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
-  coherence {
-    sessions {
-      default {
-        type = "grpc"
-        scopeName = "Products"
-      }
-    }
-  }
-}</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
-  "coherence": {
-    "sessions": {
-      "default": {
-        "type": "grpc",
-        "scopeName": "Products"
-      }
-    }
-  }
-}</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="paragraph">
-<p>A gRPC client <code>Session</code> requires a gRPC <code>io.grpc.Channel</code> to connect to the server. Channels in Coherence gRPC are named, there is a default channel, named <code>default</code> that is used by gRPC sessions that do not specify a different channel name. The name of the channel a session should use is set with the <code>coherence.sessions.&lt;name&gt;.channelName</code> property. In Micronaut configuration this could be:</p>
-</div>
-<div class="paragraph">
-<p>For example, if there is a session named <code>catalog</code> that will use a channel named <code>backend</code> the configuration might look like this:</p>
-</div>
-<div class="openblock">
-<div class="content">
-<div class="listingblock multi-language-sample">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">coherence.sessions.catalog.type=grpc
-coherence.sessions.catalog.channelName=backend</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">coherence:
-  sessions:
-    catalog:
-      type: grpc
-      channelName: backend</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[coherence]
-  [coherence.sessions]
-    [coherence.sessions.catalog]
-      type="grpc"
-      channelName="backend"</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">coherence {
-  sessions {
-    catalog {
-      type = "grpc"
-      channelName = "backend"
-    }
-  }
-}</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
-  coherence {
-    sessions {
-      catalog {
-        type = "grpc"
-        channelName = "backend"
-      }
-    }
-  }
-}</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
-  "coherence": {
-    "sessions": {
-      "catalog": {
-        "type": "grpc",
-        "channelName": "backend"
-      }
-    }
-  }
-}</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="paragraph">
-<p>There would then be a corresponding channel configuration for the channel named <code>backend</code>, see below.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_configure_grpc_channels">Configure gRPC Channels</h3>
-<div class="paragraph">
-<p>In Coherence gRPC configuration gRPC channels are named, and each session configuration refers to the named channel that it will use. Channels can be configured via system properties and when using Micronaut these same properties can be configured via Micronaut configuration. The properties names are in the format <code>coherence.grpc.channels.&lt;name&gt;.*</code> where <code>&lt;name&gt;</code> is the name of the <code>Channel</code></p>
-</div>
-<div class="paragraph">
-<p>If no configuration is provided then by default all gRPC client sessions will use a channel named <code>default</code>. If a channel is not configured then it will connect to <code>localhost:1408</code> using plain text (i.e. non-TLS).</p>
-</div>
-<div class="paragraph">
-<p>For example, the most common properties to configure will be the host and port that the client should connect to. To configure these the application configuration might look like this:</p>
-</div>
-<div class="openblock">
-<div class="content">
-<div class="listingblock multi-language-sample">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">coherence.grpc.channels.default.host=data.coherence.acme.com
-coherence.grpc.channels.default.port=9099
-coherence.grpc.channels.catalog.host=catalog.coherence.acme.com
-coherence.grpc.channels.catalog.port=8000
-coherence.sessions.default.type=grpc
-coherence.sessions.default.channelName=default
-coherence.sessions.catalog.type=grpc
-coherence.sessions.catalog.channelName=catalog
-coherence.sessions.orders.type=grpc</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">coherence:
-  grpc:
-    channels:
-      default:
-        host: data.coherence.acme.com
-        port: 9099
-      catalog:
-        host: catalog.coherence.acme.com
-        port: 8000
-
-  sessions:
-    default:
-      type: grpc
-      channelName: default
-    catalog:
-      type: grpc
-      channelName: catalog
-    orders:
-      type: grpc</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[coherence]
-  [coherence.grpc]
-    [coherence.grpc.channels]
-      [coherence.grpc.channels.default]
-        host="data.coherence.acme.com"
-        port=9099
-      [coherence.grpc.channels.catalog]
-        host="catalog.coherence.acme.com"
-        port=8000
-  [coherence.sessions]
-    [coherence.sessions.default]
-      type="grpc"
-      channelName="default"
-    [coherence.sessions.catalog]
-      type="grpc"
-      channelName="catalog"
-    [coherence.sessions.orders]
-      type="grpc"</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">coherence {
-  grpc {
-    channels {
-      'default' {
-        host = "data.coherence.acme.com"
-        port = 9099
-      }
-      catalog {
-        host = "catalog.coherence.acme.com"
-        port = 8000
-      }
-    }
-  }
-  sessions {
-    'default' {
-      type = "grpc"
-      channelName = "default"
-    }
-    catalog {
-      type = "grpc"
-      channelName = "catalog"
-    }
-    orders {
-      type = "grpc"
-    }
-  }
-}</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
-  coherence {
-    grpc {
-      channels {
-        default {
-          host = "data.coherence.acme.com"
-          port = 9099
-        }
-        catalog {
-          host = "catalog.coherence.acme.com"
-          port = 8000
-        }
-      }
-    }
-    sessions {
-      default {
-        type = "grpc"
-        channelName = "default"
-      }
-      catalog {
-        type = "grpc"
-        channelName = "catalog"
-      }
-      orders {
-        type = "grpc"
-      }
-    }
-  }
-}</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
-  "coherence": {
-    "grpc": {
-      "channels": {
-        "default": {
-          "host": "data.coherence.acme.com",
-          "port": 9099
-        },
-        "catalog": {
-          "host": "catalog.coherence.acme.com",
-          "port": 8000
-        }
-      }
-    },
-    "sessions": {
-      "default": {
-        "type": "grpc",
-        "channelName": "default"
-      },
-      "catalog": {
-        "type": "grpc",
-        "channelName": "catalog"
-      },
-      "orders": {
-        "type": "grpc"
-      }
-    }
-  }
-}</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="paragraph">
-<p>The configuration above configures two named channels, <code>default</code> and <code>catalog</code>.
-The <code>default</code> channel will connect to a server on <code>data.coherence.acme.com:9099</code>, and the <code>catalog</code> channel will connect to a server at <code>catalog.coherence.acme.com:8000</code>.</p>
-</div>
-<div class="paragraph">
-<p>The configuration above then configures three sessions, all have a type of <code>grpc</code>. The <code>default</code> session is configured to use the <code>default</code> channel, and the <code>catalog</code> session is configured with a channel name of <code>catalog</code>. The <code>orders</code> session is configured with a type of <code>grpc</code> but has no <code>channelName</code> specified, so it will use the <code>default</code> channel.</p>
-</div>
-<div class="paragraph">
-<p>See the Coherence gRPC client documentation for details on other properties that can be set to configure channels.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_using_a_grpc_session">Using a gRPC Session</h3>
-<div class="paragraph">
-<p>As a full gRPC client example, assume that there is a Coherence cluster running a gRPC proxy on a host name of <code>customers.coherence.acme.com</code> port <code>1408</code>. The client application will use a gRPC session named <code>customers</code> to connect to this cluster.</p>
-</div>
-<div class="paragraph">
-<p>The configuration might look like this:</p>
-</div>
-<div class="openblock">
-<div class="content">
-<div class="listingblock multi-language-sample">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">coherence.grpc.channels.customers.host=customers.coherence.acme.com
-coherence.grpc.channels.customers.port=1408
-coherence.sessions.customers.type=grpc
-coherence.sessions.customers.channelName=customers</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">coherence:
-  grpc:
-    channels:
-      customers:
-        host: customers.coherence.acme.com
-        port: 1408
-
-  sessions:
-    customers:
-      type: grpc
-      channelName: customers</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[coherence]
-  [coherence.grpc]
-    [coherence.grpc.channels]
-      [coherence.grpc.channels.customers]
-        host="customers.coherence.acme.com"
-        port=1408
-  [coherence.sessions]
-    [coherence.sessions.customers]
-      type="grpc"
-      channelName="customers"</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">coherence {
-  grpc {
-    channels {
-      customers {
-        host = "customers.coherence.acme.com"
-        port = 1408
-      }
-    }
-  }
-  sessions {
-    customers {
-      type = "grpc"
-      channelName = "customers"
-    }
-  }
-}</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
-  coherence {
-    grpc {
-      channels {
-        customers {
-          host = "customers.coherence.acme.com"
-          port = 1408
-        }
-      }
-    }
-    sessions {
-      customers {
-        type = "grpc"
-        channelName = "customers"
-      }
-    }
-  }
-}</code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
-  "coherence": {
-    "grpc": {
-      "channels": {
-        "customers": {
-          "host": "customers.coherence.acme.com",
-          "port": 1408
-        }
-      }
-    },
-    "sessions": {
-      "customers": {
-        "type": "grpc",
-        "channelName": "customers"
-      }
-    }
-  }
-}</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="paragraph">
-<p>A snippet of application code that uses this configuration could then look like this:</p>
-</div>
-<div class="listingblock">
-<div class="title">CustomerController.java</div>
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@Controller
-public class CustomerController {
-    @Inject
-    public CustomerController(@SessionName("customers") @Name("accounts")
-                              NamedMap&lt;String, Product&gt; accounts) {
-        // ToDo: initialize the controller...
-    }
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The <code>CustomerController</code> bean above will have the <code>NamedMap</code> named <code>accounts</code> injected into its constructor. The <code>NamedMap</code> will be from the <code>customers</code> Session, which will be a gRPC client session connecting to <code>customers.coherence.acme.com:1408</code>.</p>
-</div>
-<div class="paragraph">
-<p>The application code above is no different to normal Coherence Micronaut code, the only thing that makes it a gRPC client is the configuration.</p>
-</div>
-</div>
-
-<h1 id="coherenceHttpSessions"><a class="anchor" href="#coherenceHttpSessions"></a>14 Using Coherence to store HTTP sessions</h1>
+<h1 id="coherenceHttpSessions"><a class="anchor" href="#coherenceHttpSessions"></a>13 Using Coherence to store HTTP sessions</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master/src/main/docs/guide/coherenceHttpSessions.adoc"'>
@@ -5636,7 +4858,7 @@ micronaut.session.http.coherence.cache-name=http-session-cache</code></pre>
 </div>
 </div>
 
-<h1 id="cache"><a class="anchor" href="#cache"></a>15 Using Coherence as Micronaut Cache implementation</h1>
+<h1 id="cache"><a class="anchor" href="#cache"></a>14 Using Coherence as Micronaut Cache implementation</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master/src/main/docs/guide/cache.adoc"'>
@@ -5754,7 +4976,7 @@ micronaut.session.http.coherence.cache-name=http-session-cache</code></pre>
 </div>
 </div>
 
-<h1 id="distributedConfiguration"><a class="anchor" href="#distributedConfiguration"></a>16 Using Coherence as a Distributed Configuration provider</h1>
+<h1 id="distributedConfiguration"><a class="anchor" href="#distributedConfiguration"></a>15 Using Coherence as a Distributed Configuration provider</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master/src/main/docs/guide/distributedConfiguration.adoc"'>
@@ -5764,7 +4986,7 @@ micronaut.session.http.coherence.cache-name=http-session-cache</code></pre>
 
 
 <div class="paragraph">
-<p>To use <a href="https://coherence.community/">Coherence</a> to store configuration values add following dependencies:</p>
+<p>To use <a href="https://coherence.community/">Coherence</a> to store configuration values, add following dependencies:</p>
 </div>
 <div class="paragraph">
 <p>        <div class="listingblock multi-language-sample">
@@ -5803,26 +5025,6 @@ micronaut.session.http.coherence.cache-name=http-session-cache</code></pre>
 </div></p>
 </div>
 <div class="paragraph">
-<p>and coherence java client:</p>
-</div>
-<div class="paragraph">
-<p>        <div class="listingblock multi-language-sample">
-<div class="title"></div>
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"com.oracle.coherence.ce:coherence-java-client:23.03")</span></code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
-    &lt;groupId&gt;com.oracle.coherence.ce&lt;/groupId&gt;
-    &lt;artifactId&gt;coherence-java-client&lt;/artifactId&gt;
-    &lt;version&gt;23.03&lt;/version&gt;
-&lt;/dependency&gt;</code></pre>
-</div>
-</div></p>
-</div>
-<div class="paragraph">
 <p>To enable support simply add the following configuration to your bootstrap configuration file:</p>
 </div>
 <div class="openblock">
@@ -5832,9 +5034,9 @@ micronaut.session.http.coherence.cache-name=http-session-cache</code></pre>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">micronaut.application.name=hello-world
 micronaut.config-client.enabled=true
-coherence.client.enabled=true
-coherence.client.host=localhost
-coherence.client.port=1408</code></pre>
+coherence.sessions.config.type=client
+coherence.configuration.client.enabled=true
+coherence.configuration.client.session=client</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -5846,10 +5048,13 @@ coherence.client.port=1408</code></pre>
     enabled: true
 
 coherence:
-  client:
-    enabled: true
-    host: localhost
-    port: 1408</code></pre>
+  sessions:
+    config:
+      type: client
+  configuration:
+    client:
+      enabled: true
+      session: client</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -5860,10 +5065,13 @@ coherence:
   [micronaut.config-client]
     enabled=true
 [coherence]
-  [coherence.client]
-    enabled=true
-    host="localhost"
-    port=1408</code></pre>
+  [coherence.sessions]
+    [coherence.sessions.config]
+      type="client"
+  [coherence.configuration]
+    [coherence.configuration.client]
+      enabled=true
+      session="client"</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -5877,10 +5085,16 @@ coherence:
   }
 }
 coherence {
-  client {
-    enabled = true
-    host = "localhost"
-    port = 1408
+  sessions {
+    config {
+      type = "client"
+    }
+  }
+  configuration {
+    client {
+      enabled = true
+      session = "client"
+    }
   }
 }</code></pre>
 </div>
@@ -5897,10 +5111,16 @@ coherence {
     }
   }
   coherence {
-    client {
-      enabled = true
-      host = "localhost"
-      port = 1408
+    sessions {
+      config {
+        type = "client"
+      }
+    }
+    configuration {
+      client {
+        enabled = true
+        session = "client"
+      }
     }
   }
 }</code></pre>
@@ -5918,10 +5138,16 @@ coherence {
     }
   },
   "coherence": {
-    "client": {
-      "enabled": true,
-      "host": "localhost",
-      "port": 1408
+    "sessions": {
+      "config": {
+        "type": "client"
+      }
+    },
+    "configuration": {
+      "client": {
+        "enabled": true,
+        "session": "client"
+      }
     }
   }
 }</code></pre>
@@ -5929,15 +5155,10 @@ coherence {
 </div>
 </div>
 </div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>host</code> and <code>port</code> specify the gRPC configuration</p>
-</li>
-</ul>
-</div>
 <div class="paragraph">
-<p>Micronaut will use the configured micronaut.application.name to lookup property sources for the application from Coherence.</p>
+<p>This will create a configuration client using the session named <code>client</code> to connect to
+a Coherence proxy server over extend and allow the application to lookup property sources for the application
+from Coherence.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 1. Configuration Resolution Precedence</caption>
