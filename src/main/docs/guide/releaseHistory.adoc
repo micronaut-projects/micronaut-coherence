@@ -10,7 +10,7 @@ The following outlines backwards-incompatible changes made in this release:
 
 * Removed the configuration of gRPC proxies within application configuration resources (such as application.yaml).
 Both gRPC clients and proxies are now configured in a similar fashion to extend client and proxies.  Please see
-the Coherence https://github.com/oracle/coherence/blob/main/prj/coherence-grpc/README.adoc[gRPC] for more details.
+the Coherence https://github.com/oracle/coherence/blob/main/prj/coherence-grpc/README.adoc[gRPC] docs for more details.
 * Removed the `coherence-grpc-client` module.
 
 `Coherence Configuration Client`
