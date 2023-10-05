@@ -63,7 +63,7 @@ class BeanBuilderTest {
     }
 
     @Test
-    void shouldNotRealizeUnknowBean() {
+    void shouldNotRealizeUnknownBean() {
         ParameterResolver resolver = new SystemPropertyParameterResolver();
         ClassLoader loader = Classes.getContextClassLoader();
 

@@ -34,6 +34,10 @@ public @interface Replicating {
      */
     @SuppressWarnings("ClassExplicitlyAnnotation")
     final class Literal extends AnnotationLiteral<Replicating> implements Replicating {
+
+        /**
+         * Annotation literal instance for {@link Replicating}.
+         */
         public static final Literal INSTANCE = new Literal();
     }
 }

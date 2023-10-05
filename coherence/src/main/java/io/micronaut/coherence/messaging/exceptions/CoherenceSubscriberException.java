@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 original authors
+ * Copyright 2017-2023 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,8 +26,19 @@ import java.util.Optional;
  */
 public class CoherenceSubscriberException extends MessageListenerException {
 
+    /**
+     * The listener.
+     */
     private final Object listener;
+
+    /**
+     * The {@code Kafka} subscriber.
+     */
     private final Subscriber<?> kafkaConsumer;
+
+    /**
+     * The consumer recorder.
+     */
     private final Subscriber.Element<?> element;
 
     /**
@@ -60,7 +71,7 @@ public class CoherenceSubscriberException extends MessageListenerException {
         this.kafkaConsumer = kafkaConsumer;
         this.element = element;
     }
-    
+
     /**
      * Creates a new exception.
      *

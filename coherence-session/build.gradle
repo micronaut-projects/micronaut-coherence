@@ -18,7 +18,7 @@ dependencies {
     testImplementation(mnTest.micronaut.test.junit5)
 }
 
-tasks.withType(Test) {
+tasks.withType(Test).configureEach {
     useJUnitPlatform()
 }
 

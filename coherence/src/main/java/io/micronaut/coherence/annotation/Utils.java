@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 original authors
+ * Copyright 2017-2023 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,16 +39,30 @@ public final class Utils {
     private Utils() {
     }
 
-    public static String getFirstTopicName(AnnotationMetadata metadata, String defaultName) {
-        String[] names = getTopicNames(metadata);
-        return names.length == 0 ? defaultName : names[0];
-    }
-
+    /**
+     * Return the first topic name from the provided {@link AnnotationMetadata annotation metadata}.
+     *
+     * @param metadata {@link AnnotationMetadata annotation metadata}
+     *
+     * @return the first topic name from the provided
+     *         {@link AnnotationMetadata annotation metadata},
+     *         if any.
+     */
     public static Optional<String> getFirstTopicName(AnnotationMetadata metadata) {
         String[] names = getTopicNames(metadata);
         return names.length == 0 ? Optional.empty() : Optional.of(names[0]);
     }
 
+    /**
+     * Return an array of topic names from the provided
+     * {@link AnnotationMetadata annotation metadata}.
+     *
+     * @param metadata {@link AnnotationMetadata annotation metadata}
+     *
+     * @return an array of topic names from the provided
+     *         {@link AnnotationMetadata annotation metadata}.  A zero-length
+     *         array will be returned if no topic names are present
+     */
     public static String[] getTopicNames(AnnotationMetadata metadata) {
         Optional<AnnotationValue<Topics>> optional = metadata.findAnnotation(Topics.class);
         if (optional.isPresent()) {
@@ -73,15 +87,19 @@ public final class Utils {
         }
     }
 
+    /**
+     * Return an array of send-to topic names from the provided
+     * {@link AnnotationMetadata annotation metadata}.
+     *
+     * @param metadata {@link AnnotationMetadata annotation metadata}
+     *
+     * @return an array of send-to topic names from the provided
+     *         {@link AnnotationMetadata annotation metadata}.  A zero-length
+     *         array will be returned if no topic names are present
+     */
     public static String[] getSendToTopicNames(AnnotationMetadata metadata) {
         return Arrays.stream(metadata.stringValues(SendTo.class))
                 .filter(StringUtils::isNotEmpty)
                 .toArray(String[]::new);
-    }
-
-    public static Optional<String> getSendToTopicName(AnnotationMetadata metadata) {
-        return Arrays.stream(metadata.stringValues(SendTo.class))
-                .filter(StringUtils::isNotEmpty)
-                .findFirst();
     }
 }

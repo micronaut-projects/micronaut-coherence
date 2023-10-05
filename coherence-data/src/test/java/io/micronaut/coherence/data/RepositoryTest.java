@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 original authors
+ * Copyright 2017-2023 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,6 @@ import io.micronaut.coherence.data.repositories.CoherenceBookRepository;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import jakarta.inject.Inject;
 import org.hamcrest.Matchers;
-import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 

@@ -15,4 +15,3 @@ coherence:
       config: test-coherence-config.xml
     client:
       type: grpc
-      channel: foo

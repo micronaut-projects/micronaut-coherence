@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2022 original authors
+ * Copyright 2017-2023 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -147,10 +147,10 @@ class InterceptorsTest {
         Eventually.assertDeferred(() -> observers.events, hasEntry(CoherenceLifecycleEvent.Type.STOPPING, 2));
         Eventually.assertDeferred(() -> observers.events, hasEntry(CoherenceLifecycleEvent.Type.STOPPED, 2));
 
-        Eventually.assertDeferred(() -> observers.events, hasEntry(SessionLifecycleEvent.Type.STARTING, 6));
-        Eventually.assertDeferred(() -> observers.events, hasEntry(SessionLifecycleEvent.Type.STARTED, 6));
-        Eventually.assertDeferred(() -> observers.events, hasEntry(SessionLifecycleEvent.Type.STOPPING, 6));
-        Eventually.assertDeferred(() -> observers.events, hasEntry(SessionLifecycleEvent.Type.STOPPED, 6));
+        Eventually.assertDeferred(() -> observers.events, hasEntry(SessionLifecycleEvent.Type.STARTING, 8));
+        Eventually.assertDeferred(() -> observers.events, hasEntry(SessionLifecycleEvent.Type.STARTED, 8));
+        Eventually.assertDeferred(() -> observers.events, hasEntry(SessionLifecycleEvent.Type.STOPPING, 8));
+        Eventually.assertDeferred(() -> observers.events, hasEntry(SessionLifecycleEvent.Type.STOPPED, 8));
     }
 
     /**

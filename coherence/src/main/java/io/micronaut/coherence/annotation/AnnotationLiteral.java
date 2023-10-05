@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 original authors
+ * Copyright 2017-2023 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,9 +22,11 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import java.lang.reflect.*;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import java.lang.reflect.AccessibleObject;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -98,10 +100,7 @@ abstract class AnnotationLiteral<T extends Annotation> implements Annotation, Se
     }
 
     private static void setAccessible(final AccessibleObject ao) {
-        AccessController.doPrivileged((PrivilegedAction<Object>) () -> {
-            ao.setAccessible(true);
-            return null;
-        });
+        ao.setAccessible(true);
     }
 
     private static Object invoke(Method method, Object instance) {
@@ -121,7 +120,7 @@ abstract class AnnotationLiteral<T extends Annotation> implements Annotation, Se
         if (m_aMembers == null) {
             Class<T> annotationType = (Class<T>) annotationType();
             if (annotationType != null) {
-                m_aMembers = AccessController.doPrivileged((PrivilegedAction<Method[]>) annotationType()::getDeclaredMethods);
+                m_aMembers = annotationType().getDeclaredMethods();
 
                 if (m_aMembers.length > 0 && !annotationType().isAssignableFrom(this.getClass())) {
                     throw new RuntimeException(

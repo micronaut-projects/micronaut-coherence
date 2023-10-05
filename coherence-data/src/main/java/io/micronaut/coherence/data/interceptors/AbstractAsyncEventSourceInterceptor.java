@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2022 original authors
+ * Copyright 2017-2023 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -49,17 +49,15 @@ public abstract class AbstractAsyncEventSourceInterceptor extends AbstractEventS
 
             final Object eventLocal = eventFor;
             if (!trigger(getHandledPreEventType(), eventFor)) {
-                switch (getEventGroup()) {
-                    case REMOVE:
+                return switch (getEventGroup()) {
+                    case REMOVE -> {
                         if (context.getTarget() instanceof AsyncRepositoryOperations) {
-                            return CompletableFuture.completedFuture(0);
+                            yield CompletableFuture.completedFuture(0);
                         }
-                        return CompletableFuture.<Void>completedFuture(null);
-                    case UPDATE:
-                    case PERSIST:
-                    default:
-                        return CompletableFuture.supplyAsync(() -> eventLocal);
-                }
+                        yield CompletableFuture.<Void>completedFuture(null);
+                    }
+                    default -> CompletableFuture.supplyAsync(() -> eventLocal);
+                };
             }
 
             Object contextResult = context.proceed();

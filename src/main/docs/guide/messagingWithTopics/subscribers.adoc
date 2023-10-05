@@ -20,7 +20,7 @@ public class ProductListener {
 
 <1> The link:{api}/io/micronaut/coherence/annotation/CoherenceTopicListener.html[@CoherenceTopicListener] annotation to indicate that this bean is a Coherence topic listener.
 <2> The link:{api}/io/micronaut/coherence/annotation/Topic.html[@Topic] annotation is again used to indicate which topic to subscribe to.
-<3> The receive method defines single arguments that will receive the message value, in this case the message is of type `String`.
+<3> The `receive` method defines single arguments that will receive the message value, in this case the message is of type `String`.
 
 === Method Parameter Bindings
 

@@ -34,6 +34,10 @@ public @interface CommittingRemote {
      */
     @SuppressWarnings("ClassExplicitlyAnnotation")
     final class Literal extends AnnotationLiteral<CommittingRemote> implements CommittingRemote {
+
+        /**
+         * Annotation literal instance for {@link CommittingRemote}.
+         */
         public static final Literal INSTANCE = new Literal();
     }
 }

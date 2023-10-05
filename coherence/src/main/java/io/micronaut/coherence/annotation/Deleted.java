@@ -36,6 +36,10 @@ public @interface Deleted {
      */
     @SuppressWarnings("ClassExplicitlyAnnotation")
     final class Literal extends AnnotationLiteral<Deleted> implements Deleted {
+
+        /**
+         * Annotation literal instance for {@link Deleted}.
+         */
         public static final Literal INSTANCE = new Literal();
     }
 }

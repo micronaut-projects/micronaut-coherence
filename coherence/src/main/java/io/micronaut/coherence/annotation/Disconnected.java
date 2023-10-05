@@ -34,6 +34,10 @@ public @interface Disconnected {
      */
     @SuppressWarnings("ClassExplicitlyAnnotation")
     final class Literal extends AnnotationLiteral<Disconnected> implements Disconnected {
+
+        /**
+         * Annotation literal instance for {@link Disconnected}.
+         */
         public static final Literal INSTANCE = new Literal();
     }
 }

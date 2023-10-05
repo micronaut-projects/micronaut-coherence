@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 original authors
+ * Copyright 2017-2023 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,6 +42,13 @@ public class CoherenceCacheManager implements DynamicCacheManager<NamedCache<Obj
     private final ExecutorService executorService;
     private final Session session;
 
+    /**
+     * Construct a new {@code CoherenceCacheManager}.
+     *
+     * @param conversionService the {@link ConversionService conversion service}
+     * @param executorService the {@link ExecutorService executor service}
+     * @param coherence the {@link Coherence} instance being managed
+     */
     public CoherenceCacheManager(ConversionService conversionService,
                                  @Named(TaskExecutors.IO) ExecutorService executorService,
                                  Coherence coherence) {

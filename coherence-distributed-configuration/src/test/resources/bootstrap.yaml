@@ -2,7 +2,7 @@ micronaut:
   application:
     name: hello-world
   config-client:
-    enabled: true
+    enabled: false
 
 coherence:
   cluster: test-cluster
@@ -11,11 +11,12 @@ coherence:
   distributed:
     localstorage: true
   sessions:
-    config:
+    default:
       type: server
       config: coherence-cache-config.xml
-  client:
-    enabled: false
-    # gRPC config:
-    host: localhost
-    port: 0
+    config:
+      type: client
+  configuration:
+    client:
+      enabled: true
+      session: config

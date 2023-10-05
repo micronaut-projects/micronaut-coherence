@@ -36,6 +36,10 @@ public @interface Disposing {
      */
     @SuppressWarnings("ClassExplicitlyAnnotation")
     final class Literal extends AnnotationLiteral<Disposing> implements Disposing {
+
+        /**
+         * Annotation literal instance for {@link Disposing}.
+         */
         public static final Literal INSTANCE = new Literal();
     }
 }

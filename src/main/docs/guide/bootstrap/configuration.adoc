@@ -58,7 +58,7 @@ There are three different types of session that can be configured:
 
 * `server` represents storage enabled cluster member session.
 * `client` represents a storage disabled cluster member or Coherence*Extend client session.
-* `grpc` is a gRPC client session (see the <<grpc,gRPC documentation>>).
+* `grpc` is a gRPC client session (see the Coherence https://github.com/oracle/coherence/blob/main/prj/coherence-grpc/README.adoc[gRPC] documentation).
 
 The type of the session affects how the bootstrap API starts the session. The session type is configured with the `type`
 property:

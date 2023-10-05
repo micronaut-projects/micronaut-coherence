@@ -38,6 +38,10 @@ public @interface Starting {
      */
     @SuppressWarnings("ClassExplicitlyAnnotation")
     final class Literal extends AnnotationLiteral<Starting> implements Starting {
+
+        /**
+         * Annotation literal instance for {@link Starting}.
+         */
         public static final Literal INSTANCE = new Literal();
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 original authors
+ * Copyright 2017-2023 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -57,11 +57,34 @@ import java.util.concurrent.ConcurrentHashMap;
 @Requires(property = CoherenceSessionStore.COHERENCE_SESSION_ENABLED, value = StringUtils.TRUE)
 @Replaces(InMemorySessionStore.class)
 public class CoherenceSessionStore implements SessionStore<CoherenceSessionStore.CoherenceHttpSession>, Serializable {
+
+    /**
+     * System property to enable {@code Coherence} as an HTTP session store.
+     */
     public static final String COHERENCE_SESSION_ENABLED = SessionSettings.HTTP + ".coherence.enabled";
+
+    /**
+     * The {@link SessionIdGenerator session ID generator}.
+     */
     private final SessionIdGenerator sessionIdGenerator;
+
+    /**
+     * The {@link NamedCache} storing the sessions.
+     */
     private final NamedCache<String, CoherenceHttpSession> cache;
+
+    /**
+     * The {@link CoherenceHttpSessionConfiguration http session configuration}.
+     */
     private final CoherenceHttpSessionConfiguration sessionConfiguration;
 
+    /**
+     * Constructs a new {@code CoherenceSessionStore}.
+     *
+     * @param sessionIdGenerator the {@link SessionIdGenerator session id generator}.
+     * @param sessionConfiguration the {@link CoherenceHttpSessionConfiguration session configuration}
+     * @param cache The {@link NamedCache} storing the sessions
+     */
     public CoherenceSessionStore(SessionIdGenerator sessionIdGenerator,
                                  CoherenceHttpSessionConfiguration sessionConfiguration,
                                  @Name("${micronaut.session.http.coherence.cache-name:http-sessions}")
@@ -117,22 +140,58 @@ public class CoherenceSessionStore implements SessionStore<CoherenceSessionStore
      * A representation of a http session.
      */
     public static class CoherenceHttpSession implements Session, PortableObject, Serializable {
+        /**
+         * The session id.
+         */
         private String id;
+
+        /**
+         * The time the session was created.
+         */
         private Instant creationTime;
+
+        /**
+         * The maximum time a session may be idle before being expired.
+         */
         private Duration maxInactiveInterval;
+
+        /**
+         * The time the session was last accessed.
+         */
         private Instant lastAccessedTime;
+
+        /**
+         * Flag indicating if the session is newly created and hasn't been saved.
+         */
         private boolean isNew;
+
+        /**
+         * Flag indicating if the session has been modified.
+         */
         private boolean isModified;
+
+        /**
+         * The session's attributes.
+         */
         private Map<String, Object> attributes;
 
+        /**
+         * Default constructor necessary for serialization.
+         */
         public CoherenceHttpSession() {
         }
 
-        public CoherenceHttpSession(String id, Duration maxActiveInterval) {
+        /**
+         * Constructs a new {@code CoherenceHttpSession}.
+         *
+         * @param id the ID of this session
+         * @param maxInactiveInterval the maximum time a session may be idle before being expired
+         */
+        public CoherenceHttpSession(String id, Duration maxInactiveInterval) {
             this.id = id;
             this.lastAccessedTime = Instant.now();
             this.creationTime = lastAccessedTime;
-            this.maxInactiveInterval = maxActiveInterval;
+            this.maxInactiveInterval = maxInactiveInterval;
             this.attributes = new HashMap<>();
             this.isNew = true;
         }

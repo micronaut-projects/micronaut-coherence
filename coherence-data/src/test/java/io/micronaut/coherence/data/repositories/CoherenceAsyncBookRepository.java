@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 original authors
+ * Copyright 2017-2023 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,6 @@ package io.micronaut.coherence.data.repositories;
 
 import com.tangosol.util.UUID;
 import io.micronaut.coherence.data.AbstractCoherenceAsyncRepository;
-import io.micronaut.coherence.data.AbstractCoherenceRepository;
 import io.micronaut.coherence.data.annotation.CoherenceRepository;
 import io.micronaut.coherence.data.model.Book;
 

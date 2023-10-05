@@ -36,6 +36,10 @@ public @interface Inserting {
      */
     @SuppressWarnings("ClassExplicitlyAnnotation")
     final class Literal extends AnnotationLiteral<Inserting> implements Inserting {
+
+        /**
+         * Annotation literal instance for {@link Inserted}.
+         */
         public static final Literal INSTANCE = new Literal();
     }
 }

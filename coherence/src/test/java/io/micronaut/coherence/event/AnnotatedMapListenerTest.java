@@ -182,5 +182,5 @@ public class AnnotatedMapListenerTest {
     @Truncated
     @ScopeName("test2")
     @SessionName("test2")
-    final class c2 { }
+    static final class c2 { }
 }
