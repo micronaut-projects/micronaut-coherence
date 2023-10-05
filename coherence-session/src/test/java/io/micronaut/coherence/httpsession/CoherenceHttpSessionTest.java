@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 original authors
+ * Copyright 2017-2023 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -71,13 +71,13 @@ public class CoherenceHttpSessionTest {
         assertNotNull(saved.getMaxInactiveInterval());
         assertNotNull(saved.getCreationTime());
         assertNotNull(saved.getId());
-        assertEquals("fred", saved.get("username").get());
-        assertThat(saved.get("foo").get(), instanceOf(Foo.class));
-        assertEquals("Fred", ((Foo) saved.get("foo").get()).getName());
-        assertEquals(10, ((Foo) saved.get("foo").get()).getAge());
+        assertEquals("fred", saved.get("username").orElseThrow());
+        assertThat(saved.get("foo").orElseThrow(), instanceOf(Foo.class));
+        assertEquals("Fred", ((Foo) saved.get("foo").orElseThrow()).getName());
+        assertEquals(10, ((Foo) saved.get("foo").orElseThrow()).getAge());
 
         // locate session
-        CoherenceSessionStore.CoherenceHttpSession retrieved = sessionStore.findSession(saved.getId()).get().get();
+        CoherenceSessionStore.CoherenceHttpSession retrieved = sessionStore.findSession(saved.getId()).get().orElseThrow();
 
         // is session valid
         assertNotNull(retrieved);
@@ -85,10 +85,10 @@ public class CoherenceHttpSessionTest {
         assertNotNull(retrieved.getMaxInactiveInterval());
         assertNotNull(retrieved.getCreationTime());
         assertNotNull(retrieved.getId());
-        assertThat(retrieved.get("foo", Foo.class).get(), instanceOf(Foo.class));
-        assertEquals("fred", retrieved.get("username", String.class).get());
-        assertEquals("Fred", retrieved.get("foo", Foo.class).get().getName());
-        assertEquals(10, retrieved.get("foo", Foo.class).get().getAge());
+        assertThat(retrieved.get("foo", Foo.class).orElseThrow(), instanceOf(Foo.class));
+        assertEquals("fred", retrieved.get("username", String.class).orElseThrow());
+        assertEquals("Fred", retrieved.get("foo", Foo.class).orElseThrow().getName());
+        assertEquals(10, retrieved.get("foo", Foo.class).orElseThrow().getAge());
 
         // modify session
         retrieved.remove("username");
@@ -98,7 +98,7 @@ public class CoherenceHttpSessionTest {
         retrieved.setMaxInactiveInterval(Duration.of(10, ChronoUnit.MINUTES));
         sessionStore.save(retrieved).get();
 
-        retrieved = sessionStore.findSession(retrieved.getId()).get().get();
+        retrieved = sessionStore.findSession(retrieved.getId()).get().orElseThrow();
 
         // is session valid
         assertNotNull(retrieved);
@@ -108,9 +108,9 @@ public class CoherenceHttpSessionTest {
         assertTrue(retrieved.getLastAccessedTime().isAfter(now));
         assertNotNull(retrieved.getId());
         assertFalse(retrieved.contains("username"));
-        assertEquals("stuff", retrieved.get("more", String.class).get());
-        assertEquals("Fred", retrieved.get("foo", Foo.class).get().getName());
-        assertEquals(10, retrieved.get("foo", Foo.class).get().getAge());
+        assertEquals("stuff", retrieved.get("more", String.class).orElseThrow());
+        assertEquals("Fred", retrieved.get("foo", Foo.class).orElseThrow().getName());
+        assertEquals(10, retrieved.get("foo", Foo.class).orElseThrow().getAge());
 
         // delete session
         assertTrue(sessionStore.deleteSession(saved.getId()).get());

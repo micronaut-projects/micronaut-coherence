@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 original authors
+ * Copyright 2017-2023 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -56,7 +56,7 @@ public final class EventObserverSupport {
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
-    public static <E extends Event<T>, T extends Enum<T>>
+    static <E extends Event<T>, T extends Enum<T>>
     EventHandler<E, T> createObserver(Class<E> type, ExecutableMethodEventObserver<E, ?, ?> observer) {
         if (CacheLifecycleEvent.class.equals(type)) {
             return (EventHandler<E, T>) new CacheLifecycleEventHandler(((ExecutableMethodEventObserver<CacheLifecycleEvent, ?, ?>) observer));
@@ -499,6 +499,9 @@ public final class EventObserverSupport {
     abstract static class ServiceEventHandler<E extends Event<T>, T extends Enum<T>>
             extends EventHandler<E, T> {
 
+        /**
+         * The service name.
+         */
         protected final String serviceName;
 
         ServiceEventHandler(ExecutableMethodEventObserver<E, ?, ?> observer, Class<T> classType) {
@@ -588,7 +591,7 @@ public final class EventObserverSupport {
     /**
      * Handler for {@link UnsolicitedCommitEvent}s.
      */
-    public static class UnsolicitedCommitEventHandler
+    static class UnsolicitedCommitEventHandler
             extends ServiceEventHandler<UnsolicitedCommitEvent, UnsolicitedCommitEvent.Type> {
         public UnsolicitedCommitEventHandler(ExecutableMethodEventObserver<UnsolicitedCommitEvent, ?, ?> observer) {
             super(observer, UnsolicitedCommitEvent.Type.class);

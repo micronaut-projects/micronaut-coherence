@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2020 original authors
+ * Copyright 2017-2023 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,7 +40,7 @@ public abstract class AbstractSessionConfigurationBean implements SessionConfigu
     /**
      * The type of this configuration.
      */
-    private SessionType type;
+    private SessionType type = SessionType.server;
 
     /**
      * The priority order to use when starting the {@link com.tangosol.net.Session}.

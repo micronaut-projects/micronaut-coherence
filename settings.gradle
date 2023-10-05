@@ -13,8 +13,6 @@ rootProject.name = 'coherence-parent'
 
 include 'coherence'
 include 'coherence-bom'
-include 'coherence-grpc-client'
-include 'coherence-grpc-test'
 include 'coherence-session'
 include 'coherence-cache'
 include 'coherence-distributed-configuration'
@@ -26,7 +24,6 @@ micronautBuild {
     importMicronautCatalog()
     importMicronautCatalog("micronaut-cache")
     importMicronautCatalog("micronaut-data")
-    importMicronautCatalog("micronaut-grpc")
     importMicronautCatalog("micronaut-reactor")
     importMicronautCatalog("micronaut-session")
 }

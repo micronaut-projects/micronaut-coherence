@@ -36,6 +36,10 @@ public @interface Created {
      */
     @SuppressWarnings("ClassExplicitlyAnnotation")
     final class Literal extends AnnotationLiteral<Created> implements Created {
+
+        /**
+         * Annotation literal instance for {@link Created}.
+         */
         public static final Literal INSTANCE = new Literal();
     }
 }

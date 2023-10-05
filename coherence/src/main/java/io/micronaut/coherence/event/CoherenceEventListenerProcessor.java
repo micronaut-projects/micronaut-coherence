@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 original authors
+ * Copyright 2017-2023 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -240,7 +240,7 @@ public class CoherenceEventListenerProcessor
      *
      * @param listener the listener to add
      */
-    public void addMapListener(AnnotatedMapListener<?, ?> listener) {
+    void addMapListener(AnnotatedMapListener<?, ?> listener) {
         String svc = listener.getServiceName();
         String cache = listener.getCacheName();
 
@@ -257,7 +257,7 @@ public class CoherenceEventListenerProcessor
      * @param cacheName   the name of the cache
      * @return a set of all listeners that should be registered
      */
-    public Set<AnnotatedMapListener<?, ?>> getMapListeners(String serviceName, String cacheName) {
+    Set<AnnotatedMapListener<?, ?>> getMapListeners(String serviceName, String cacheName) {
         HashSet<AnnotatedMapListener<?, ?>> setResults = new HashSet<>();
         collectMapListeners(setResults, "*", "*");
         collectMapListeners(setResults, "*", cacheName);
@@ -274,7 +274,7 @@ public class CoherenceEventListenerProcessor
      * @return all map listeners that should be registered against a
      * specific cache or map in a specific session
      */
-    public Collection<AnnotatedMapListener<?, ?>> getNonWildcardMapListeners() {
+    Collection<AnnotatedMapListener<?, ?>> getNonWildcardMapListeners() {
         return mapListeners.values()
                 .stream()
                 .flatMap(map -> map.values().stream())

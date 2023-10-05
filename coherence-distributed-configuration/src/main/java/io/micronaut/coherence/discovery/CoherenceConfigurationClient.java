@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 original authors
+ * Copyright 2017-2023 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,15 +15,9 @@
  */
 package io.micronaut.coherence.discovery;
 
-
-import com.oracle.coherence.client.GrpcSessionConfiguration;
-
 import com.tangosol.net.NamedMap;
 import com.tangosol.net.Session;
-
-import io.grpc.Channel;
-import io.grpc.ManagedChannelBuilder;
-
+import io.micronaut.context.BeanContext;
 import io.micronaut.context.annotation.BootstrapContextCompatible;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.env.Environment;
@@ -31,21 +25,13 @@ import io.micronaut.context.env.EnvironmentPropertySource;
 import io.micronaut.context.env.PropertySource;
 import io.micronaut.discovery.config.ConfigurationClient;
 import io.micronaut.runtime.ApplicationConfiguration;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
-
 import jakarta.inject.Singleton;
 import org.reactivestreams.Publisher;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import reactor.core.publisher.Flux;
+
+import java.util.*;
 
 /**
  * A {@link ConfigurationClient} that works with Coherence as a config source.
@@ -61,11 +47,22 @@ public class CoherenceConfigurationClient implements ConfigurationClient {
     private final ApplicationConfiguration applicationConfiguration;
     private final List<Flux<PropertySource>> propertySources = new ArrayList<>();
     private final CoherenceClientConfiguration coherenceClientConfiguration;
+    private final BeanContext beanContext;
 
+    /**
+     * Construct a new {@code CoherenceConfigurationClient}.
+     *
+     * @param applicationConfiguration the {@link ApplicationConfiguration application configuration}
+     * @param coherenceClientConfiguration the {@link CoherenceClientConfiguration client configuration}
+     * @param beanContext the {@link BeanContext bean context}
+     */
+    @SuppressWarnings("MnInjectionPoints")
     public CoherenceConfigurationClient(ApplicationConfiguration applicationConfiguration,
-                                        CoherenceClientConfiguration coherenceClientConfiguration) {
+                                        CoherenceClientConfiguration coherenceClientConfiguration,
+                                        BeanContext beanContext) {
         this.applicationConfiguration = applicationConfiguration;
         this.coherenceClientConfiguration = coherenceClientConfiguration;
+        this.beanContext = beanContext;
         if (LOG.isDebugEnabled()) {
             LOG.debug("Coherence Client configuration: {}" , coherenceClientConfiguration);
         }
@@ -76,7 +73,7 @@ public class CoherenceConfigurationClient implements ConfigurationClient {
         if (!coherenceClientConfiguration.isEnabled()) {
             return Flux.empty();
         }
-        Session session = buildSession(coherenceClientConfiguration);
+        Session session = beanContext.createBean(Session.class, coherenceClientConfiguration.getSession());
 
         Map<Integer, String> keys = buildSourceNames(applicationConfiguration, environment);
         for (Map.Entry<Integer, String> entry : keys.entrySet()) {
@@ -117,39 +114,6 @@ public class CoherenceConfigurationClient implements ConfigurationClient {
             }
         }
         return configKeys;
-    }
-
-    /**
-     * Builds Coherence session.
-     *
-     * @param coherenceClientConfiguration configuration
-     * @return Coherence session
-     */
-    protected Session buildSession(CoherenceClientConfiguration coherenceClientConfiguration) {
-        Channel channel = buildChannel(coherenceClientConfiguration);
-
-        GrpcSessionConfiguration.Builder builder = GrpcSessionConfiguration.builder(channel);
-        GrpcSessionConfiguration grpcSessionConfiguration = builder.build();
-
-        Optional<Session> optional = Session.create(grpcSessionConfiguration);
-        return optional.orElseThrow(() -> new IllegalStateException("Unable to create session"));
-    }
-
-    /**
-     * Builds gRPC channel.
-     *
-     * @param coherenceClientConfiguration configuration
-     * @return gRPC channel
-     */
-    protected Channel buildChannel(CoherenceClientConfiguration coherenceClientConfiguration) {
-        String host = coherenceClientConfiguration.getHost();
-        int port = coherenceClientConfiguration.getPort();
-
-        ManagedChannelBuilder<?> channelBuilder = ManagedChannelBuilder.forAddress(host, port);
-        if (!coherenceClientConfiguration.isEnableTls()) {
-            channelBuilder.usePlaintext();
-        }
-        return channelBuilder.build();
     }
 
     @Override

@@ -60,6 +60,11 @@ public @interface PropertyExtractor {
     @Retention(RetentionPolicy.RUNTIME)
     @interface Extractors {
 
+        /**
+         * Return the {@link PropertyExtractor property extractors}.
+         *
+         * @return the {@link PropertyExtractor property extractors}
+         */
         PropertyExtractor[] value();
 
         /**

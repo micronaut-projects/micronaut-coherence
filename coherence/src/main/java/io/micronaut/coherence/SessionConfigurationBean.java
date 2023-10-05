@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2020 original authors
+ * Copyright 2017-2023 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@ package io.micronaut.coherence;
 
 import java.util.Optional;
 
+import com.tangosol.net.Coherence;
 import com.tangosol.net.SessionConfiguration;
 
 import io.micronaut.context.annotation.EachProperty;
@@ -53,23 +54,27 @@ public class SessionConfigurationBean extends AbstractSessionConfigurationBean {
 
     @Override
     public Optional<SessionConfiguration> getConfiguration() {
-        SessionType type = getType();
-        if (type == SessionType.grpc) {
-            return Optional.empty();
-        }
-
         SessionConfiguration.Builder builder = SessionConfiguration
                 .builder()
                 .named(getName())
                 .withPriority(getPriority());
 
+        SessionType type = getType();
+        switch (type) {
+            case client -> builder.withMode(Coherence.Mode.Client);
+            case grpc   -> builder.withMode(Coherence.Mode.Grpc);
+            default     -> builder.withMode(Coherence.Mode.ClusterMember);
+        }
+
         String scopeName = getScopeName();
         if (scopeName != null) {
             builder = builder.withScopeName(scopeName);
         }
+
         if (configUri != null) {
             builder = builder.withConfigUri(configUri);
         }
+
         return Optional.of(builder.build());
     }
 

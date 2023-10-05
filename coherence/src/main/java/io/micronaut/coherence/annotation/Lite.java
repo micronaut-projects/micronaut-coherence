@@ -35,6 +35,10 @@ public @interface Lite {
      */
     @SuppressWarnings("ClassExplicitlyAnnotation")
     final class Literal extends AnnotationLiteral<Lite> implements Lite {
+
+        /**
+         * Annotation literal instance for {@link Lite}.
+         */
         public static final Literal INSTANCE = new Literal();
     }
 }

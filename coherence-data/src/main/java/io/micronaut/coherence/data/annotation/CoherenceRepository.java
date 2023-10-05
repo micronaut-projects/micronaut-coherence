@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 original authors
+ * Copyright 2017-2023 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,6 +41,13 @@ import java.lang.annotation.Target;
 @Repository
 @Introduction
 public @interface CoherenceRepository {
+
+    /**
+     * The {@code CoherenceRepository}'s backing {@link com.tangosol.net.NamedCache cache} name.
+     *
+     * @return the {@code CoherenceRepository}'s backing
+     *         {@link com.tangosol.net.NamedCache cache} name
+     */
     @AliasFor(annotation = Repository.class, member = "value")
     String value();
 }

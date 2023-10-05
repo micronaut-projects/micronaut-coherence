@@ -36,6 +36,10 @@ public @interface Recovered {
      */
     @SuppressWarnings("ClassExplicitlyAnnotation")
     final class Literal extends AnnotationLiteral<Recovered> implements Recovered {
+
+        /**
+         * Annotation literal instance for {@link Recovered}.
+         */
         public static final Literal INSTANCE = new Literal();
     }
 }

@@ -62,10 +62,6 @@ transientInjection:
   title: Injection into Deserialized Objects
 coherenceXmlInjection:
   title: Injecting Beans into Coherence Configuration
-grpc:
-  title: Using Coherence gRPC
-  grpcProxy: Configure a gRPC Proxy Service
-  grpcClient: Using a gRPC Client
 coherenceHttpSessions: Using Coherence to store HTTP sessions
 cache: Using Coherence as Micronaut Cache implementation
 distributedConfiguration: Using Coherence as a Distributed Configuration provider

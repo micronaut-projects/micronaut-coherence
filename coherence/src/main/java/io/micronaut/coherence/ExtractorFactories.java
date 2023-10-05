@@ -242,17 +242,17 @@ public class ExtractorFactories {
             String sPath = annotation.path();
             int[] anIndex = annotation.index();
 
-            if (sPath.length() == 0 && anIndex.length == 0) {
+            if (sPath.isEmpty() && anIndex.length == 0) {
                 throw new IllegalArgumentException("Neither 'index' nor 'path' are defined within @PofExtractor annotation. One is required.");
             }
-            if (sPath.length() > 0 && anIndex.length > 0) {
+            if (!sPath.isEmpty() && anIndex.length > 0) {
                 throw new IllegalArgumentException("Both 'index' and 'path' are defined within @PofExtractor annotation. Only one is allowed.");
             }
-            if (sPath.length() > 0 && clazz == null) {
+            if (!sPath.isEmpty() && clazz == null) {
                 throw new IllegalArgumentException("'type' must be specified within @PofExtractor annotation when property path is used.");
             }
 
-            return sPath.length() > 0
+            return !sPath.isEmpty()
                     ? Extractors.fromPof(clazz, sPath)
                     : Extractors.fromPof(clazz, anIndex);
         };

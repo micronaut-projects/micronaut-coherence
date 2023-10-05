@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 original authors
+ * Copyright 2017-2023 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,6 @@
  */
 package io.micronaut.coherence.discovery;
 
-
 import io.micronaut.context.annotation.BootstrapContextCompatible;
 import io.micronaut.context.annotation.ConfigurationProperties;
 import io.micronaut.context.annotation.Requires;
@@ -27,73 +26,48 @@ import io.micronaut.core.util.Toggleable;
  */
 @ConfigurationProperties(CoherenceClientConfiguration.PREFIX)
 @BootstrapContextCompatible
-@Requires(property = "coherence.client.enabled", value = StringUtils.TRUE, defaultValue = StringUtils.FALSE)
+@Requires(property = "coherence.configuration.client.enabled", value = StringUtils.TRUE, defaultValue = StringUtils.FALSE)
 public class CoherenceClientConfiguration implements Toggleable {
-    public static final String PREFIX = "coherence.client";
 
-    private String host = "localhost";
-    private int port = 1408;
-    private boolean enableTls;
+    /**
+     * The Coherence configuration client property prefix.
+     */
+    public static final String PREFIX = "coherence.configuration.client";
+
+    /**
+     * Flag indicating whether this configuration client is enabled.
+     */
     private boolean enabled;
 
     /**
-     * Returns host name of gRPC server.
-     *
-     * @return host name
+     * The name of the {@link com.tangosol.net.Session session} this configuration client will use.
      */
-    public String getHost() {
-        return host;
+    private String session;
+
+    /**
+     * Return the name of the {@link com.tangosol.net.Session session}
+     * used by this configuration client.
+     *
+     * @return the name of the {@link com.tangosol.net.Session session}
+     *         used by this configuration client
+     */
+    public String getSession() {
+        return session;
     }
 
     /**
-     * Sets host name of gRPC server.
+     * Set the name of the {@link com.tangosol.net.Session session} used by this configuration client.
      *
-     * @param host host name
+     * @param session the name of the {@link com.tangosol.net.Session session}
      */
-    public void setHost(String host) {
-        this.host = host;
+    public void setSession(String session) {
+        this.session = session;
     }
 
     /**
-     * Gets gRPC server port.
+     * Returns {@code true} if distributed configuration is enabled.
      *
-     * @return port
-     */
-    public int getPort() {
-        return port;
-    }
-
-    /**
-     * Sets gRPC server port.
-     *
-     * @param port port
-     */
-    public void setPort(int port) {
-        this.port = port;
-    }
-
-    /**
-     * Returns true if TLS is enabled.
-     *
-     * @return true if TLS is enabled
-     */
-    public boolean isEnableTls() {
-        return enableTls;
-    }
-
-    /**
-     * Enables TLS support.
-     *
-     * @param enableTls  {@code true} to enable TLS
-     */
-    public void setEnableTls(boolean enableTls) {
-        this.enableTls = enableTls;
-    }
-
-    /**
-     * Returns true if distributed configuration is enabled.
-     *
-     * @return Is distributed configuration enabled. True if it is.
+     * @return Returns {@code true} if distributed configuration is enabled
      */
     @Override
     public boolean isEnabled() {
@@ -113,9 +87,7 @@ public class CoherenceClientConfiguration implements Toggleable {
     public String toString() {
         return "CoherenceClientConfiguration{" +
                 "enabled=" + enabled +
-                ", host='" + host + '\'' +
-                ", port=" + port +
-                ", enableTls=" + enableTls +
+                ", session='" + session + '\'' +
                 '}';
     }
 }

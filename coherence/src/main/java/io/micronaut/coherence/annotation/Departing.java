@@ -36,6 +36,10 @@ public @interface Departing {
      */
     @SuppressWarnings("ClassExplicitlyAnnotation")
     final class Literal extends AnnotationLiteral<Departing> implements Departing {
+
+        /**
+         * Annotation literal instance for {@link Departing}.
+         */
         public static final Literal INSTANCE = new Literal();
     }
 }

@@ -36,6 +36,10 @@ public @interface Rollback {
      */
     @SuppressWarnings("ClassExplicitlyAnnotation")
     final class Literal extends AnnotationLiteral<Rollback> implements Rollback {
+
+        /**
+         * Annotation literal instance for {@link Rollback}.
+         */
         public static final Literal INSTANCE = new Literal();
     }
 }

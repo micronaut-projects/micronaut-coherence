@@ -36,6 +36,10 @@ public @interface Committing {
      */
     @SuppressWarnings("ClassExplicitlyAnnotation")
     final class Literal extends AnnotationLiteral<Committing> implements Committing {
+
+        /**
+         * Annotation literal instance for {@link Committing}.
+         */
         public static final Literal INSTANCE = new Literal();
     }
 }

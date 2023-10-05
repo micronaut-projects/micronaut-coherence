@@ -37,6 +37,10 @@ public @interface Syncing {
      */
     @SuppressWarnings("ClassExplicitlyAnnotation")
     final class Literal extends AnnotationLiteral<Syncing> implements Syncing {
+
+        /**
+         * Annotation literal instance for {@link Syncing}.
+         */
         public static final Literal INSTANCE = new Literal();
     }
 }

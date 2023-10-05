@@ -35,6 +35,10 @@ public @interface Synchronous {
      */
     @SuppressWarnings("ClassExplicitlyAnnotation")
     final class Literal extends AnnotationLiteral<Synchronous> implements Synchronous {
+
+        /**
+         * Annotation literal instance for {@link Synchronous}.
+         */
         public static final Literal INSTANCE = new Literal();
     }
 }

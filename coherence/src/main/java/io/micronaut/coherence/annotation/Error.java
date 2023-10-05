@@ -34,6 +34,10 @@ public @interface Error {
      */
     @SuppressWarnings("ClassExplicitlyAnnotation")
     final class Literal extends AnnotationLiteral<Error> implements Error {
+
+        /**
+         * Annotation literal instance for {@link Error}.
+         */
         public static final Literal INSTANCE = new Literal();
     }
 }

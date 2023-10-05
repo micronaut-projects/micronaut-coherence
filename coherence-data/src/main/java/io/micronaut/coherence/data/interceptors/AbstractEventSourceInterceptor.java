@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2022 original authors
+ * Copyright 2017-2023 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -59,16 +59,14 @@ public abstract class AbstractEventSourceInterceptor implements MethodIntercepto
 
             if (!trigger(getHandledPreEventType(), eventFor)) {
                 switch (getEventGroup()) {
-                    case REMOVE -> {
+                    case PERSIST, UPDATE:
+                        return eventFor;
+                    default:
                         Object target = context.getTarget();
                         if (target instanceof RepositoryOperations) {
                             return 0;
                         }
                         return false;
-                    }
-                    case UPDATE, PERSIST -> {
-                        return eventFor;
-                    }
                 }
             }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 original authors
+ * Copyright 2017-2023 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -64,7 +64,7 @@ class ExtractorFactoriesTest {
 
     @Inject
     ApplicationContext context; //refers to the current application context within the scope of the test
-    private ConfigurablePofContext pofContext = new ConfigurablePofContext("pof-config.xml");
+    private final ConfigurablePofContext pofContext = new ConfigurablePofContext("pof-config.xml");
     private Person person;
     private PhoneNumber phoneNumber;
     private Binary binaryKey;

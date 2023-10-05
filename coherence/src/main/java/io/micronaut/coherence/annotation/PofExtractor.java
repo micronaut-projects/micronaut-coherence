@@ -80,6 +80,12 @@ public @interface PofExtractor {
     @Documented
     @Retention(RetentionPolicy.RUNTIME)
     @interface Extractors {
+
+        /**
+         * Return {@link PofExtractor POF extractors}.
+         *
+         * @return the {@link PofExtractor POF extractors}
+         */
         PofExtractor[] value();
 
         /**

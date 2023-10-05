@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 original authors
+ * Copyright 2017-2023 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,6 +32,7 @@ import jakarta.inject.Inject;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import reactor.core.publisher.Flux;
@@ -54,7 +55,7 @@ public class CoherenceHttpSessionBindingTest {
             Flux<HttpResponse<String>> flux = Flux.from(client.exchange(HttpRequest.GET("/sessiontest/simple"), String.class));
             HttpResponse<String> response = flux.blockFirst();
 
-            assertEquals("not in session", response.getBody().get());
+            assertEquals("not in session", Objects.requireNonNull(response).getBody().orElseThrow());
             assertNotNull(response.header(HttpHeaders.AUTHORIZATION_INFO));
 
             String sessionId = response.header(HttpHeaders.AUTHORIZATION_INFO);
@@ -63,7 +64,7 @@ public class CoherenceHttpSessionBindingTest {
                     String.class));
             response = flux.blockFirst();
 
-            assertEquals("value in session", response.getBody().get());
+            assertEquals("value in session", Objects.requireNonNull(response).getBody().orElseThrow());
             assertNotNull(response.header(HttpHeaders.AUTHORIZATION_INFO));
 
 
@@ -71,7 +72,7 @@ public class CoherenceHttpSessionBindingTest {
                     HttpRequest.GET("/sessiontest/value").header(HttpHeaders.AUTHORIZATION_INFO, sessionId),
                     String.class));
             response = flux.blockFirst();
-            assertEquals("value in session", response.getBody().get());
+            assertEquals("value in session", Objects.requireNonNull(response).getBody().orElseThrow());
             assertNotNull(response.header(HttpHeaders.AUTHORIZATION_INFO));
 
 
@@ -79,7 +80,7 @@ public class CoherenceHttpSessionBindingTest {
                     HttpRequest.GET("/sessiontest/optional").header(HttpHeaders.AUTHORIZATION_INFO, sessionId),
                     String.class));
             response = flux.blockFirst();
-            assertEquals("value in session", response.getBody().get());
+            assertEquals("value in session", Objects.requireNonNull(response).getBody().orElseThrow());
             assertNotNull(response.header(HttpHeaders.AUTHORIZATION_INFO));
         } finally {
             embeddedServer.stop();

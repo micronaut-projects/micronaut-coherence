@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 original authors
+ * Copyright 2017-2023 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -284,7 +284,7 @@ class CoherenceTopicListenerTest {
             String message = "ABC";
             Publisher.Status status = publisher.publish(message).get(1, TimeUnit.MINUTES);
 
-            listenerFour.latch.await(1, TimeUnit.MINUTES);
+            assertThat(listenerFour.latch.await(1, TimeUnit.MINUTES), is(true));
             assertThat(listenerFour.lastElementOne, is(notNullValue()));
             assertThat(listenerFour.lastElementOne.getChannel(), is(status.getChannel()));
             assertThat(listenerFour.lastElementOne.getPosition(), is(status.getPosition()));
@@ -541,7 +541,7 @@ class CoherenceTopicListenerTest {
     @Requires(env = "CoherenceTopicListenerTest")
     static class ListenerFour {
 
-        CountDownLatch latch = new CountDownLatch(6);
+        final CountDownLatch latch = new CountDownLatch(6);
         Subscriber.Element<String> lastElementOne;
         Subscriber.Element<String> lastElementTwo;
         Subscriber<String> lastSubscriberTwo;

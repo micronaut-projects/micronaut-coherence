@@ -36,6 +36,10 @@ public @interface Updating {
      */
     @SuppressWarnings("ClassExplicitlyAnnotation")
     final class Literal extends AnnotationLiteral<Updating> implements Updating {
+
+        /**
+         * Annotation literal instance for {@link Updating}.
+         */
         public static final Literal INSTANCE = new Literal();
     }
 }

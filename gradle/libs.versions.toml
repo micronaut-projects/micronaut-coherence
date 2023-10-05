@@ -8,7 +8,6 @@ mockito = "5.5.0"
 
 # Micronaut
 micronaut = "4.1.8"
-micronaut-grpc = "4.0.1"
 micronaut-cache = "4.0.2"
 micronaut-data = "4.1.3"
 micronaut-discovery-client = "4.0.1"
@@ -26,22 +25,18 @@ micronaut-core = { module = 'io.micronaut:micronaut-core-bom', version.ref = 'mi
 
 micronaut-cache = { module = "io.micronaut.cache:micronaut-cache-bom", version.ref = "micronaut-cache" }
 micronaut-data = { module = "io.micronaut.data:micronaut-data-bom", version.ref = "micronaut-data" }
-micronaut-grpc = { module = "io.micronaut.grpc:micronaut-grpc-bom", version.ref = "micronaut-grpc" }
 micronaut-reactor = { module = "io.micronaut.reactor:micronaut-reactor-bom", version.ref = "micronaut-reactor" }
 micronaut-session = { module = "io.micronaut.session:micronaut-session-bom", version.ref = "micronaut-session" }
 
 micronaut-discovery-client = { module = "io.micronaut.discovery:micronaut-discovery-client", version.ref = "micronaut-discovery-client" }
 
 managed-coherence = { module = "com.oracle.coherence.ce:coherence", version.ref = "managed-coherence" }
-managed-coherence-grpc-proxy = { module = "com.oracle.coherence.ce:coherence-grpc-proxy", version.ref = "managed-coherence" }
-managed-coherence-java-client = { module = "com.oracle.coherence.ce:coherence-java-client", version.ref = "managed-coherence" }
 managed-coherence-json = { module = "com.oracle.coherence.ce:coherence-json", version.ref = "managed-coherence" }
-
 # BOMs
 boms-coherence = { module = "com.oracle.coherence.ce:coherence-bom", version.ref = "managed-coherence" }
 
+slf4j-simple = { module = "org.slf4j:slf4j-simple", version = "2.0.7" }
 bedrock-testing-support = { module = "com.oracle.bedrock:bedrock-testing-support", version.ref = "bedrock" }
 hamcrest = { module = "org.hamcrest:hamcrest", version.ref = "hamcrest" }
 junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine" }
-junit-jupiter-params = { module = "org.junit.jupiter:junit-jupiter-params", version.ref = "junit" }
 mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito" }

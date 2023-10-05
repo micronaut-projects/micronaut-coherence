@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<cache-config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xmlns="http://xmlns.oracle.com/coherence/coherence-cache-config"
+              xsi:schemaLocation="http://xmlns.oracle.com/coherence/coherence-cache-config coherence-cache-config.xsd"
+              xml-override="{coherence.cacheconfig.override}">
+
+    <caching-scheme-mapping>
+        <cache-mapping>
+            <cache-name>*</cache-name>
+            <scheme-name>remote-name-service</scheme-name>
+        </cache-mapping>
+    </caching-scheme-mapping>
+
+    <caching-schemes>
+        <remote-cache-scheme>
+            <scheme-name>remote-name-service</scheme-name>
+            <service-name>RemoteCache</service-name>
+            <proxy-service-name>Proxy</proxy-service-name>
+            <initiator-config>
+                <tcp-initiator>
+                    <name-service-addresses>
+                        <socket-address>
+                            <address>127.0.0.1</address>
+                            <port>7574</port>
+                        </socket-address>
+                    </name-service-addresses>
+                </tcp-initiator>
+            </initiator-config>
+        </remote-cache-scheme>
+    </caching-schemes>
+</cache-config>

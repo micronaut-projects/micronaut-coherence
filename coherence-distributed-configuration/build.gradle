@@ -4,22 +4,36 @@ plugins {
 
 dependencies {
     api(project(":micronaut-coherence"))
-    implementation(project(":micronaut-coherence-grpc-client"))
     api(mn.micronaut.inject)
     api(mn.micronaut.runtime)
+
     implementation(libs.micronaut.discovery.client)
     implementation(mnReactor.micronaut.reactor)
+
     compileOnly(libs.managed.coherence)
 
     testAnnotationProcessor(mn.micronaut.inject.java)
 
+    testImplementation(platform(libs.boms.coherence))
+    testImplementation(libs.managed.coherence)
     testImplementation(libs.mockito.core)
     testImplementation(libs.hamcrest)
     testImplementation(mnTest.micronaut.test.junit5)
+
+    testRuntimeOnly(libs.slf4j.simple)
+    testRuntimeOnly(libs.junit.jupiter.engine)
+    testRuntimeOnly(mn.snakeyaml)
 }
 
-tasks.withType(Test) {
+tasks.withType(Test).configureEach {
     useJUnitPlatform()
+    testLogging.showStandardStreams = true
+}
+
+micronautBuild {
+    binaryCompatibility {
+        enabled = false
+    }
 }
 
 test {

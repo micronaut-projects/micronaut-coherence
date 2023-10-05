@@ -36,6 +36,10 @@ public @interface Truncated {
      */
     @SuppressWarnings("ClassExplicitlyAnnotation")
     final class Literal extends AnnotationLiteral<Truncated> implements Truncated {
+
+        /**
+         * Annotation literal instance for {@link Truncated}.
+         */
         public static final Literal INSTANCE = new Literal();
     }
 }

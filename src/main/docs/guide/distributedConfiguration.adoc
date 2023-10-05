@@ -1,4 +1,4 @@
-To use link:{coherenceHome}[Coherence] to store configuration values add following dependencies:
+To use link:{coherenceHome}[Coherence] to store configuration values, add following dependencies:
 
 dependency:coherence-distributed-configuration[groupId="io.micronaut.coherence"]
 
@@ -6,10 +6,6 @@ dependency:coherence-distributed-configuration[groupId="io.micronaut.coherence"]
 Also, add Coherence dependency - either Coherence CE or commercial version:
 
 dependency:coherence[groupId="com.oracle.coherence.ce",version="23.03"]
-
-and coherence java client:
-
-dependency:coherence-java-client[groupId="com.oracle.coherence.ce",version="23.03"]
 
 To enable support simply add the following configuration to your bootstrap configuration file:
 
@@ -22,15 +18,18 @@ micronaut:
     enabled: true
 
 coherence:
-  client:
-    enabled: true
-    host: localhost
-    port: 1408
+  sessions:
+    config:
+      type: client
+  configuration:
+    client:
+      enabled: true
+      session: client
 ----
 
-- `host` and `port` specify the gRPC configuration
-
-Micronaut will use the configured micronaut.application.name to lookup property sources for the application from Coherence.
+This will create a configuration client using the session named `client` to connect to
+a Coherence proxy server over extend and allow the application to lookup property sources for the application
+from Coherence.
 
 .Configuration Resolution Precedence
 |===

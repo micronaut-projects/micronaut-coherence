@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2020 original authors
+ * Copyright 2017-2023 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,7 +36,7 @@ import java.util.Map;
 class CoherenceDefaultProperties {
 
     /**
-     * Default service name prefix. Defaults recursively to ${code coherence.role}.
+     * Default service name prefix. Defaults recursively to {@code coherence.role}.
      */
     private static final String SERVICE_NAME_PREFIX = "coherence.service.prefix";
 

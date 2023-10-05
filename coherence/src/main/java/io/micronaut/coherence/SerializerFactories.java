@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2020 original authors
+ * Copyright 2017-2023 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,6 +37,12 @@ public class SerializerFactories {
 
     private final OperationalContext context;
 
+    /**
+     * Creates a new {@code SerializerFactories} based on the provided
+     * {@link Cluster}.
+     *
+     * @param cluster the {@code Coherence} {@link Cluster}
+     */
     @Inject
     public SerializerFactories(Cluster cluster) {
         context = (OperationalContext) cluster;
