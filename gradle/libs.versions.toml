@@ -1,5 +1,5 @@
 [versions]
-managed-coherence = "23.09"
+managed-coherence = "23.09.1"
 
 bedrock = "7.0.2"
 hamcrest = "2.2"
