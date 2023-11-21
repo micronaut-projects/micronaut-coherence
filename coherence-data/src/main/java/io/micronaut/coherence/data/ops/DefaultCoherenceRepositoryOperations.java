@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2022 original authors
+ * Copyright 2017-2023 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -216,7 +216,7 @@ public class DefaultCoherenceRepositoryOperations implements CoherenceRepository
     @Nullable
     @Override
     public <T, R> R findOne(@NonNull final PreparedQuery<T, R> preparedQuery) {
-        Object result = execute(preparedQuery);
+        Object result = executeInternal(preparedQuery);
         if (result instanceof Map m) {
             if (m.isEmpty()) {
                 return null;
@@ -231,7 +231,7 @@ public class DefaultCoherenceRepositoryOperations implements CoherenceRepository
 
     @Override
     public <T> boolean exists(@NonNull final PreparedQuery<T, Boolean> preparedQuery) {
-        Map m = (Map) execute(preparedQuery);
+        Map m = (Map) executeInternal(preparedQuery);
         return !m.isEmpty();
     }
 
@@ -250,7 +250,7 @@ public class DefaultCoherenceRepositoryOperations implements CoherenceRepository
     @NonNull
     @Override
     public <T, R> Iterable<R> findAll(@NonNull final PreparedQuery<T, R> preparedQuery) {
-        Object result = execute(preparedQuery);
+        Object result = executeInternal(preparedQuery);
         if (result instanceof Map m) {
             return m.values();
         } else if (result instanceof Number) {
@@ -264,7 +264,7 @@ public class DefaultCoherenceRepositoryOperations implements CoherenceRepository
     @NonNull
     @Override
     public <T, R> Stream<R> findStream(@NonNull final PreparedQuery<T, R> preparedQuery) {
-        Map m = (Map) execute(preparedQuery);
+        Map m = (Map) executeInternal(preparedQuery);
         return m.values().stream();
     }
 
@@ -300,7 +300,7 @@ public class DefaultCoherenceRepositoryOperations implements CoherenceRepository
     @NonNull
     @Override
     public Optional<Number> executeUpdate(@NonNull final PreparedQuery<?, Number> preparedQuery) {
-        Object result = execute(preparedQuery);
+        Object result = executeInternal(preparedQuery);
         if (result instanceof Map) {
             return Optional.of(((Map) result).size());
         } else if (result instanceof Set) {
@@ -363,7 +363,7 @@ public class DefaultCoherenceRepositoryOperations implements CoherenceRepository
      *
      * @return the result of query execution
      */
-    private Object execute(PreparedQuery preparedQuery) {
+    private Object executeInternal(PreparedQuery preparedQuery) {
         ExecutionContext ctx = ensureExecutionContext();
         Statement statement = createStatement(ctx, preparedQuery);
         return statement.execute(ctx).getResult();
