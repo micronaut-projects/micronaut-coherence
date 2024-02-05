@@ -3,6 +3,13 @@ group projectGroup
 
 repositories {
     mavenCentral()
+    maven {
+        url "https://oss.sonatype.org/content/repositories/snapshots"
+        mavenContent {
+            snapshotsOnly()
+        }
+    }
+    maven { url "https://oss.sonatype.org/content/groups/staging" }
 }
 
 micronautBuild {
