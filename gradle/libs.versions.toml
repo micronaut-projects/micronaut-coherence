@@ -7,7 +7,7 @@ junit = "5.10.0"
 mockito = "5.10.0"
 
 # Micronaut
-micronaut = "4.3.5"
+micronaut = "4.3.7"
 micronaut-cache = "4.2.2"
 micronaut-data = "4.6.1"
 micronaut-discovery-client = "4.2.0"
