@@ -4,16 +4,18 @@ dependency:coherence[groupId="io.micronaut.coherence"]
 
 Next, you also need to add the version of Coherence that your application will be using. For example, to use Coherence CE:
 
-dependency:coherence[groupId="com.oracle.coherence.ce",version="22.06"]
+dependency:coherence[groupId="com.oracle.coherence.ce",version="22.06.7"]
 
 NOTE: Coherence CE 22.06 and newer require JDK 11 as a minimum!
 
 or to use a commercial version Coherence:
 
-dependency:coherence[groupId="com.oracle.coherence",version="14.1.1-0-1"]
+dependency:coherence[groupId="com.oracle.coherence",version="14.1.1-2206-7"]
 
 NOTE: Coherence CE versions are available from Maven Central.
 Commercial versions of Coherence need to be uploaded into your own Maven repository.
+Additionally, this release of `micronaut-coherence` is only compatible with
+Coherence CE 22.06.6 or later and commercial Coherence 14.1.1-2206-6 or later.
 
 There is no minimal configuration required to bootstrap Coherence.
 If no specific configuration is provided Coherence will run with default values.
