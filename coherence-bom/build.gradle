@@ -2,3 +2,21 @@ plugins {
     id "io.micronaut.build.internal.coherence-base"
     id 'io.micronaut.build.internal.bom'
 }
+
+javaPlatform {
+    allowDependencies()
+}
+
+micronautBom {
+    suppressions {
+        dependencies.addAll([
+                "io.micronaut.coherence:micronaut-coherence-data:${projectVersion}",
+                "io.micronaut.coherence:micronaut-coherence-grpc-test:${projectVersion}",
+                "io.micronaut.coherence:micronaut-coherence-cache:${projectVersion}",
+                "io.micronaut.coherence:micronaut-coherence-grpc-client:${projectVersion}",
+                "io.micronaut.coherence:micronaut-coherence-distributed-configuration:${projectVersion}",
+                "io.micronaut.coherence:micronaut-coherence:${projectVersion}",
+                "io.micronaut.coherence:micronaut-coherence-session:${projectVersion}"
+        ])
+    }
+}

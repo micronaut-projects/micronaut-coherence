@@ -1,5 +1,5 @@
 [versions]
-managed-coherence = "22.06.2"
+managed-coherence = "22.06.7"
 
 bedrock = "7.0.0"
 hamcrest = "2.2"
@@ -8,13 +8,13 @@ junit = "5.9.1"
 mockito = "4.8.1"
 
 # Micronaut
-micronaut = "3.7.3"
-micronaut-grpc = "3.3.1"
+micronaut = "3.10.4"
+micronaut-grpc = "3.6.0"
 micronaut-cache = "3.5.0"
-micronaut-data = "3.8.1"
-micronaut-discovery-client = "3.2.0"
+micronaut-data = "3.9.7"
+micronaut-discovery-client = "3.3.1"
 micronaut-docs-asciidoc-config-props = "2.0.0"
-micronaut-test = "3.7.0"
+micronaut-test = "3.9.2"
 micronaut-test-junit5 = "3.1.1"
 
 
