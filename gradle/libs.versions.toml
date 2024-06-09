@@ -1,7 +1,7 @@
 [versions]
 managed-coherence = "24.03"
 
-bedrock = "7.0.3"
+bedrock = "7.0.4"
 hamcrest = "2.2"
 junit = "5.10.0"
 mockito = "5.12.0"
