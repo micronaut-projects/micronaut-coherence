@@ -35,7 +35,7 @@ managed-coherence-json = { module = "com.oracle.coherence.ce:coherence-json", ve
 # BOMs
 boms-coherence = { module = "com.oracle.coherence.ce:coherence-bom", version.ref = "managed-coherence" }
 
-slf4j-simple = { module = "org.slf4j:slf4j-simple", version = "2.0.13" }
+slf4j-simple = { module = "org.slf4j:slf4j-simple", version = "2.0.15" }
 bedrock-testing-support = { module = "com.oracle.bedrock:bedrock-testing-support", version.ref = "bedrock" }
 hamcrest = { module = "org.hamcrest:hamcrest", version.ref = "hamcrest" }
 junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine" }
