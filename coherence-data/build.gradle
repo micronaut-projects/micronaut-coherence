@@ -31,3 +31,9 @@ dependencies {
 tasks.withType(Test).configureEach {
     useJUnitPlatform()
 }
+
+micronautBuild {
+    binaryCompatibility {
+        enabled = false
+    }
+}
