@@ -3,6 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
     <title>Micronaut Coherence</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8" />
     <link rel="stylesheet" href="../css/custom.css" type="text/css" media="screen, print" title="Style" charset="utf-8" />
@@ -49,7 +50,7 @@
                                 
                                 <div class="toc-item" style="margin-left:0"><a href="#quickStart"><strong>3</strong><span>Coherence Quick Start</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#bootstrap"><strong>4</strong><span>Bootstraping Coherence</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#bootstrap"><strong>4</strong><span>Bootstrapping Coherence</span></a></div>
                                 
                                 <div class="toc-item" style="margin-left:0"><a href="#repository"><strong>5</strong><span>Micronaut Data with Coherence</span></a></div>
                                 
@@ -67,13 +68,11 @@
                                 
                                 <div class="toc-item" style="margin-left:0"><a href="#coherenceXmlInjection"><strong>12</strong><span>Injecting Beans into Coherence Configuration</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#grpc"><strong>13</strong><span>Using Coherence gRPC</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#coherenceHttpSessions"><strong>13</strong><span>Using Coherence to store HTTP sessions</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#coherenceHttpSessions"><strong>14</strong><span>Using Coherence to store HTTP sessions</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#cache"><strong>14</strong><span>Using Coherence as Micronaut Cache implementation</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#cache"><strong>15</strong><span>Using Coherence as Micronaut Cache implementation</span></a></div>
-                                
-                                <div class="toc-item" style="margin-left:0"><a href="#distributedConfiguration"><strong>16</strong><span>Using Coherence as a Distributed Configuration provider</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#distributedConfiguration"><strong>15</strong><span>Using Coherence as a Distributed Configuration provider</span></a></div>
                                 
                             </div>
                         </div>
@@ -110,7 +109,7 @@
         
         <div class="toc-item" style="margin-left:0px" id="toc-item-quickStart"><a href="#quickStart"><strong>3</strong><span>Coherence Quick Start</span></a></div>
         
-        <div class="toc-item" style="margin-left:0px" id="toc-item-bootstrap"><a href="#bootstrap"><strong>4</strong><span>Bootstraping Coherence</span></a></div>
+        <div class="toc-item" style="margin-left:0px" id="toc-item-bootstrap"><a href="#bootstrap"><strong>4</strong><span>Bootstrapping Coherence</span></a></div>
         
         <div class="toc-item" style="margin-left:10px" id="toc-item-defaultSession"><a href="#defaultSession"><strong>4.1</strong><span>Using the Default Session</span></a></div>
         
@@ -192,17 +191,11 @@
         
         <div class="toc-item" style="margin-left:0px" id="toc-item-coherenceXmlInjection"><a href="#coherenceXmlInjection"><strong>12</strong><span>Injecting Beans into Coherence Configuration</span></a></div>
         
-        <div class="toc-item" style="margin-left:0px" id="toc-item-grpc"><a href="#grpc"><strong>13</strong><span>Using Coherence gRPC</span></a></div>
+        <div class="toc-item" style="margin-left:0px" id="toc-item-coherenceHttpSessions"><a href="#coherenceHttpSessions"><strong>13</strong><span>Using Coherence to store HTTP sessions</span></a></div>
         
-        <div class="toc-item" style="margin-left:10px" id="toc-item-grpcProxy"><a href="#grpcProxy"><strong>13.1</strong><span>Configure a gRPC Proxy Service</span></a></div>
+        <div class="toc-item" style="margin-left:0px" id="toc-item-cache"><a href="#cache"><strong>14</strong><span>Using Coherence as Micronaut Cache implementation</span></a></div>
         
-        <div class="toc-item" style="margin-left:10px" id="toc-item-grpcClient"><a href="#grpcClient"><strong>13.2</strong><span>Using a gRPC Client</span></a></div>
-        
-        <div class="toc-item" style="margin-left:0px" id="toc-item-coherenceHttpSessions"><a href="#coherenceHttpSessions"><strong>14</strong><span>Using Coherence to store HTTP sessions</span></a></div>
-        
-        <div class="toc-item" style="margin-left:0px" id="toc-item-cache"><a href="#cache"><strong>15</strong><span>Using Coherence as Micronaut Cache implementation</span></a></div>
-        
-        <div class="toc-item" style="margin-left:0px" id="toc-item-distributedConfiguration"><a href="#distributedConfiguration"><strong>16</strong><span>Using Coherence as a Distributed Configuration provider</span></a></div>
+        <div class="toc-item" style="margin-left:0px" id="toc-item-distributedConfiguration"><a href="#distributedConfiguration"><strong>15</strong><span>Using Coherence as a Distributed Configuration provider</span></a></div>
         
         </div>
     </div>
@@ -212,13 +205,13 @@
         <h1>Micronaut Coherence</h1>
         <p></p>
         <p>Integration between Micronaut and Oracle Coherence</p>
-        <p><strong>Version:</strong> <select style='max-width: 200px' onChange='window.document.location.href=this.options[this.selectedIndex].value;'><option value='https://micronaut-projects.github.io/micronaut-coherence/snapshot/guide/index.html'>SNAPSHOT</option><option value='https://micronaut-projects.github.io/micronaut-coherence/latest/guide/index.html'>LATEST</option><option value='https://micronaut-projects.github.io/micronaut-coherence/5.0.2/guide/index.html'>5.0.2</option><option value='https://micronaut-projects.github.io/micronaut-coherence/5.0.1/guide/index.html'>5.0.1</option><option value='https://micronaut-projects.github.io/micronaut-coherence/5.0.0/guide/index.html'>5.0.0</option><option value='https://micronaut-projects.github.io/micronaut-coherence/4.0.0/guide/index.html'>4.0.0</option><option value='https://micronaut-projects.github.io/micronaut-coherence/4.0.0-M2/guide/index.html'>4.0.0-M2</option><option value='https://micronaut-projects.github.io/micronaut-coherence/4.0.0-M1/guide/index.html'>4.0.0-M1</option><option selected='selected' value='https://micronaut-projects.github.io/micronaut-coherence/3.10.0/guide/index.html'>3.10.0</option><option value='https://micronaut-projects.github.io/micronaut-coherence/3.7.2/guide/index.html'>3.7.2</option><option value='https://micronaut-projects.github.io/micronaut-coherence/3.7.1/guide/index.html'>3.7.1</option><option value='https://micronaut-projects.github.io/micronaut-coherence/3.7.0/guide/index.html'>3.7.0</option><option value='https://micronaut-projects.github.io/micronaut-coherence/3.5.1/guide/index.html'>3.5.1</option><option value='https://micronaut-projects.github.io/micronaut-coherence/3.5.0/guide/index.html'>3.5.0</option><option value='https://micronaut-projects.github.io/micronaut-coherence/3.4.1/guide/index.html'>3.4.1</option><option value='https://micronaut-projects.github.io/micronaut-coherence/3.4.0/guide/index.html'>3.4.0</option><option value='https://micronaut-projects.github.io/micronaut-coherence/3.0.1/guide/index.html'>3.0.1</option><option value='https://micronaut-projects.github.io/micronaut-coherence/3.0.0/guide/index.html'>3.0.0</option><option value='https://micronaut-projects.github.io/micronaut-coherence/1.0.0/guide/index.html'>1.0.0</option><option value='https://micronaut-projects.github.io/micronaut-coherence/1.0.0.M2/guide/index.html'>1.0.0.M2</option><option value='https://micronaut-projects.github.io/micronaut-coherence/1.0.0.M1/guide/index.html'>1.0.0.M1</option></select> </p>
+        <p><strong>Version:</strong> 5.0.3 </p>
     </div>
     
 <h1 id="introduction"><a class="anchor" href="#introduction"></a>1 Introduction</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/3.x/src/main/docs/guide/introduction.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master/src/main/docs/guide/introduction.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -237,7 +230,7 @@
 <h1 id="releaseHistory"><a class="anchor" href="#releaseHistory"></a>2 Release History</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/3.x/src/main/docs/guide/releaseHistory.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master/src/main/docs/guide/releaseHistory.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -249,11 +242,44 @@
 <div class="paragraph">
 <p><a href="https://github.com/micronaut-projects/micronaut-coherence/releases">https://github.com/micronaut-projects/micronaut-coherence/releases</a></p>
 </div>
+<div class="paragraph">
+<p>Important Changes in Release 5.0.0</p>
+</div>
+<div class="paragraph">
+<p>The following outlines backwards-incompatible changes made in this release:</p>
+</div>
+<div class="paragraph">
+<p><code>gRPC</code></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Removed the configuration of gRPC proxies within application configuration resources (such as application.yaml).
+Both gRPC clients and proxies are now configured in a similar fashion to extend client and proxies.  Please see
+the Coherence <a href="https://github.com/oracle/coherence/blob/main/prj/coherence-grpc/README.adoc">gRPC</a> docs for more details.</p>
+</li>
+<li>
+<p>Removed the <code>coherence-grpc-client</code> module.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><code>Coherence Configuration Client</code></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Reworked how the client connects by using sessions instead of hard coding an address and port and forcing the
+client to use gRPC.  By using a session, the client can be a storage-disabled cluster member, an extend client, or
+a gRPC client.  See the Coherence Distributed Configuration <a href="#distributedConfiguration">documentation</a> for details.</p>
+</li>
+</ul>
+</div>
 
 <h1 id="quickStart"><a class="anchor" href="#quickStart"></a>3 Coherence Quick Start</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/3.x/src/main/docs/guide/quickStart.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master/src/main/docs/guide/quickStart.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -285,7 +311,7 @@
 <p>        <div class="listingblock multi-language-sample">
 <div class="title"></div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"com.oracle.coherence.ce:coherence:22.06.7")</span></code></pre>
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"com.oracle.coherence.ce:coherence:24.03")</span></code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -293,7 +319,7 @@
 <pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
     &lt;groupId&gt;com.oracle.coherence.ce&lt;/groupId&gt;
     &lt;artifactId&gt;coherence&lt;/artifactId&gt;
-    &lt;version&gt;22.06.7&lt;/version&gt;
+    &lt;version&gt;24.03&lt;/version&gt;
 &lt;/dependency&gt;</code></pre>
 </div>
 </div></p>
@@ -305,42 +331,7 @@
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Coherence CE 22.06 and newer require JDK 11 as a minimum!
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>or to use a commercial version Coherence:</p>
-</div>
-<div class="paragraph">
-<p>        <div class="listingblock multi-language-sample">
-<div class="title"></div>
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"com.oracle.coherence:coherence:14.1.1-2206-7")</span></code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
-    &lt;groupId&gt;com.oracle.coherence&lt;/groupId&gt;
-    &lt;artifactId&gt;coherence&lt;/artifactId&gt;
-    &lt;version&gt;14.1.1-2206-7&lt;/version&gt;
-&lt;/dependency&gt;</code></pre>
-</div>
-</div></p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-Coherence CE versions are available from Maven Central.
-Commercial versions of Coherence need to be uploaded into your own Maven repository.
-Additionally, this release of `micronaut-coherence` is only compatible with
-Coherence CE 22.06.6 or later and commercial Coherence 14.1.1-2206-6 or later.
+Coherence CE 24.03 and newer require JDK 17 as a minimum!
 </td>
 </tr>
 </table>
@@ -348,15 +339,59 @@ Coherence CE 22.06.6 or later and commercial Coherence 14.1.1-2206-6 or later.
 <div class="paragraph">
 <p>There is no minimal configuration required to bootstrap Coherence.
 If no specific configuration is provided Coherence will run with default values.
-Some Coherence functionality can be configured using System properties. Add these properties to the <code>application.yaml</code>
-file, for example:</p>
+Some Coherence functionality can be configured using System properties. Add these properties to the application configuration file, for example:</p>
 </div>
-<div class="listingblock">
+<div class="openblock">
 <div class="title">Configure Coherence</div>
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">coherence.cluster=test-cluster
+coherence.role=storage</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">coherence:
   cluster: test-cluster
   role: storage</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[coherence]
+  cluster="test-cluster"
+  role="storage"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">coherence {
+  cluster = "test-cluster"
+  role = "storage"
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  coherence {
+    cluster = "test-cluster"
+    role = "storage"
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "coherence": {
+    "cluster": "test-cluster",
+    "role": "storage"
+  }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="paragraph">
@@ -365,29 +400,46 @@ Any Coherence system property (prefixed with <code>coherence.</code>) specified 
 will then be picked up by Coherence at runtime.</p>
 </div>
 
-<h1 id="bootstrap"><a class="anchor" href="#bootstrap"></a>4 Bootstraping Coherence</h1>
+<h1 id="bootstrap"><a class="anchor" href="#bootstrap"></a>4 Bootstrapping Coherence</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/3.x/src/main/docs/guide/bootstrap.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master/src/main/docs/guide/bootstrap.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
 
 
 <div class="paragraph">
-<p>The default behavior of the Coherence Micronaut framework is to use the Coherence bootstrap API introduced in Coherence CE <code>22.06</code> to configure and create Coherence instances.
+<p>The default behavior of the Coherence Micronaut framework is to use the Coherence bootstrap API introduced in Coherence CE <code>20.12</code> to configure and create Coherence instances.
 This means that Coherence resources in a Micronaut application are typically owned by a Coherence <code>Session</code>.</p>
 </div>
 <div class="paragraph">
-<p>By default Coherence will start a single Session configured to use the default Coherence configuration file.
+<p>By default, Coherence will start a single Session configured to use the default Coherence configuration file.
 This behaviour can easily be configured, either traditionally using Coherence system properties or using explicit Micronaut
 configuration.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+When using Micronaut, all Coherence resources used by application code should be injected.
+Applications should avoid calling Coherence APIs that create or initialise Coherence resources directly,
+especially static CacheFactory methods. If application code calls these Coherence APIs it may cause Coherence to
+be initialised too early in the start-up process before the Micronaut framework has initialised the Coherence
+extensions. A typical symptom of this would be that Coherence starts without picking up the correct configuration
+from the Micronaut framework.
+</td>
+</tr>
+</table>
 </div>
 
 <h2 id="defaultSession"><a class="anchor" href="#defaultSession"></a>4.1 Using the Default Session</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/3.x/src/main/docs/guide/bootstrap/defaultSession.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master/src/main/docs/guide/bootstrap/defaultSession.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -399,13 +451,19 @@ to just configure and use the default <code>Session</code>. If the application i
 then all that needs to be specified is the Coherence configuration file name (although even this is optional as
 Coherence will use a default file name if none is configured).
 Alternatively, if the application is a Coherence gRPC client, the default Session can be configured as a gRPC Session
-(see the <a href="#grpc">gRPC documentation</a>).</p>
+(see the Coherence <a href="https://github.com/oracle/coherence/blob/main/prj/coherence-grpc/README.adoc">gRPC</a>).</p>
 </div>
 <div class="paragraph">
-<p>As already mentioned in the <a href="#quickStart">Quick Start</a> section, the name of the Coherence configuration file for the default session can be set in the Micronaut config, for example in the <code>application.yaml</code> file:</p>
+<p>As already mentioned in the <a href="#quickStart">Quick Start</a> section, the name of the Coherence configuration file for the default session can be set in the Micronaut config, for example in the application configuration file:</p>
 </div>
-<div class="listingblock">
-<div class="title">application.yaml</div>
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">coherence.sessions.default.config=coherence-config.xml</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">coherence:
   sessions:
@@ -413,11 +471,58 @@ Alternatively, if the application is a Coherence gRPC client, the default Sessio
       config: coherence-config.xml</code></pre>
 </div>
 </div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[coherence]
+  [coherence.sessions]
+    [coherence.sessions.default]
+      config="coherence-config.xml"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">coherence {
+  sessions {
+    'default' {
+      config = "coherence-config.xml"
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  coherence {
+    sessions {
+      default {
+        config = "coherence-config.xml"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "coherence": {
+    "sessions": {
+      "default": {
+        "config": "coherence-config.xml"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
 
 <h2 id="multiple"><a class="anchor" href="#multiple"></a>4.2 Configure Multiple Sessions</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/3.x/src/main/docs/guide/bootstrap/multiple.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master/src/main/docs/guide/bootstrap/multiple.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -430,8 +535,15 @@ or more sessions. The format is a map using the session name as the map key. In 
 <div class="paragraph">
 <p>In the example below, there are two sessions configured, one named <code>catalog</code> and one named <code>customer</code>:</p>
 </div>
-<div class="listingblock">
-<div class="title">application.yaml</div>
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">coherence.sessions.catalog.config=catalog-config.xml
+coherence.sessions.customer.config=customer-config.xml</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">coherence:
   sessions:
@@ -439,6 +551,64 @@ or more sessions. The format is a map using the session name as the map key. In 
       config: catalog-config.xml
     customer:
       config: customer-config.xml</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[coherence]
+  [coherence.sessions]
+    [coherence.sessions.catalog]
+      config="catalog-config.xml"
+    [coherence.sessions.customer]
+      config="customer-config.xml"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">coherence {
+  sessions {
+    catalog {
+      config = "catalog-config.xml"
+    }
+    customer {
+      config = "customer-config.xml"
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  coherence {
+    sessions {
+      catalog {
+        config = "catalog-config.xml"
+      }
+      customer {
+        config = "customer-config.xml"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "coherence": {
+    "sessions": {
+      "catalog": {
+        "config": "catalog-config.xml"
+      },
+      "customer": {
+        "config": "customer-config.xml"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="admonitionblock note">
@@ -454,20 +624,80 @@ For example, in the configuration below there wil be no <code>default</code> ses
 </tr>
 </table>
 </div>
-<div class="listingblock">
-<div class="title">application.yaml</div>
+<div class="openblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml"> coherence:
-   sessions:
-     catalog:
-       config: catalog-config.xml</code></pre>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">coherence.sessions.catalog.config=catalog-config.xml</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">coherence:
+  sessions:
+    catalog:
+      config: catalog-config.xml</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[coherence]
+  [coherence.sessions]
+    [coherence.sessions.catalog]
+      config="catalog-config.xml"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">coherence {
+  sessions {
+    catalog {
+      config = "catalog-config.xml"
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  coherence {
+    sessions {
+      catalog {
+        config = "catalog-config.xml"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "coherence": {
+    "sessions": {
+      "catalog": {
+        "config": "catalog-config.xml"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="paragraph">
 <p>In this example, there will be two sessions, one named <code>catalog</code> and the <code>default</code> session.</p>
 </div>
-<div class="listingblock">
-<div class="title">application.yaml</div>
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">coherence.sessions.catalog.config=catalog-config.xml
+coherence.sessions.default.config=coherence-config.xml</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">coherence:
   sessions:
@@ -477,11 +707,69 @@ For example, in the configuration below there wil be no <code>default</code> ses
       config: coherence-config.xml</code></pre>
 </div>
 </div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[coherence]
+  [coherence.sessions]
+    [coherence.sessions.catalog]
+      config="catalog-config.xml"
+    [coherence.sessions.default]
+      config="coherence-config.xml"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">coherence {
+  sessions {
+    catalog {
+      config = "catalog-config.xml"
+    }
+    'default' {
+      config = "coherence-config.xml"
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  coherence {
+    sessions {
+      catalog {
+        config = "catalog-config.xml"
+      }
+      default {
+        config = "coherence-config.xml"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "coherence": {
+    "sessions": {
+      "catalog": {
+        "config": "catalog-config.xml"
+      },
+      "default": {
+        "config": "coherence-config.xml"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
 
 <h2 id="configuration"><a class="anchor" href="#configuration"></a>4.3 Session Configuration Properties</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/3.x/src/main/docs/guide/bootstrap/configuration.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master/src/main/docs/guide/bootstrap/configuration.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -497,13 +785,66 @@ For example, in the configuration below there wil be no <code>default</code> ses
 This is set using the <code>config</code> property.
 If not specified, the default value will be <code>coherence-cache-config.xml</code>.</p>
 </div>
-<div class="listingblock">
-<div class="title">application.yaml</div>
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">coherence.sessions.default.config=coherence-config.xml</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">coherence:
   sessions:
     default:
       config: coherence-config.xml</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[coherence]
+  [coherence.sessions]
+    [coherence.sessions.default]
+      config="coherence-config.xml"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">coherence {
+  sessions {
+    'default' {
+      config = "coherence-config.xml"
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  coherence {
+    sessions {
+      default {
+        config = "coherence-config.xml"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "coherence": {
+    "sessions": {
+      "default": {
+        "config": "coherence-config.xml"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -518,8 +859,17 @@ On a Coherence cluster member each session should have a unique scope name.</p>
 <div class="paragraph">
 <p>In a client application, for example, a gRPC client, the scope name is used to map a client session to a corresponding scoped server session.</p>
 </div>
-<div class="listingblock">
-<div class="title">application.yaml</div>
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">coherence.sessions.catalog.scope=Catalog
+coherence.sessions.catalog.config=catalog-config.xml
+coherence.sessions.customer.scope=Customer
+coherence.sessions.customer.config=customer-config.xml</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">coherence:
   sessions:
@@ -529,6 +879,72 @@ On a Coherence cluster member each session should have a unique scope name.</p>
     customer:
       scope: Customer
       config: customer-config.xml</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[coherence]
+  [coherence.sessions]
+    [coherence.sessions.catalog]
+      scope="Catalog"
+      config="catalog-config.xml"
+    [coherence.sessions.customer]
+      scope="Customer"
+      config="customer-config.xml"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">coherence {
+  sessions {
+    catalog {
+      scope = "Catalog"
+      config = "catalog-config.xml"
+    }
+    customer {
+      scope = "Customer"
+      config = "customer-config.xml"
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  coherence {
+    sessions {
+      catalog {
+        scope = "Catalog"
+        config = "catalog-config.xml"
+      }
+      customer {
+        scope = "Customer"
+        config = "customer-config.xml"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "coherence": {
+    "sessions": {
+      "catalog": {
+        "scope": "Catalog",
+        "config": "catalog-config.xml"
+      },
+      "customer": {
+        "scope": "Customer",
+        "config": "customer-config.xml"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="paragraph">
@@ -542,14 +958,72 @@ In this case the scope name is used to identify the server side session.</p>
 <p>For example, assuming that the server is using the configuration above, with two sessions, <code>catalog</code> and <code>customer</code>.
 The client application only needs to connect to the <code>catalog</code> session, so it can be configured with a default session like this:</p>
 </div>
-<div class="listingblock">
-<div class="title">application.yaml</div>
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">coherence.sessions.default.scope=Catalog
+coherence.sessions.default.config=client-config.xml</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">coherence:
   sessions:
     default:
       scope: Catalog
       config: client-config.xml</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[coherence]
+  [coherence.sessions]
+    [coherence.sessions.default]
+      scope="Catalog"
+      config="client-config.xml"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">coherence {
+  sessions {
+    'default' {
+      scope = "Catalog"
+      config = "client-config.xml"
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  coherence {
+    sessions {
+      default {
+        scope = "Catalog"
+        config = "client-config.xml"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "coherence": {
+    "sessions": {
+      "default": {
+        "scope": "Catalog",
+        "config": "client-config.xml"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -567,7 +1041,7 @@ The client application only needs to connect to the <code>catalog</code> session
 <p><code>client</code> represents a storage disabled cluster member or Coherence*Extend client session.</p>
 </li>
 <li>
-<p><code>grpc</code> is a gRPC client session (see the <a href="#grpc">gRPC documentation</a>).</p>
+<p><code>grpc</code> is a gRPC client session (see the Coherence <a href="https://github.com/oracle/coherence/blob/main/prj/coherence-grpc/README.adoc">gRPC</a> documentation).</p>
 </li>
 </ul>
 </div>
@@ -575,31 +1049,93 @@ The client application only needs to connect to the <code>catalog</code> session
 <p>The type of the session affects how the bootstrap API starts the session. The session type is configured with the <code>type</code>
 property:</p>
 </div>
-<div class="listingblock">
-<div class="title">application.yaml</div>
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">coherence.sessions.default.type=client
+coherence.sessions.default.scope=Catalog
+coherence.sessions.default.config=client-config.xml</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">coherence:
   sessions:
     default:
-      type: client                 <i class="conum" data-value="1"></i><b>(1)</b>
+      type: client
       scope: Catalog
       config: client-config.xml</code></pre>
 </div>
 </div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>The default session above is a client session.</td>
-</tr>
-</table>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[coherence]
+  [coherence.sessions]
+    [coherence.sessions.default]
+      type="client"
+      scope="Catalog"
+      config="client-config.xml"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">coherence {
+  sessions {
+    'default' {
+      type = "client"
+      scope = "Catalog"
+      config = "client-config.xml"
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  coherence {
+    sessions {
+      default {
+        type = "client"
+        scope = "Catalog"
+        config = "client-config.xml"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "coherence": {
+    "sessions": {
+      "default": {
+        "type": "client",
+        "scope": "Catalog",
+        "config": "client-config.xml"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>In this example the default session is a client session.</p>
+</li>
+</ul>
 </div>
 </div>
 
 <h1 id="repository"><a class="anchor" href="#repository"></a>5 Micronaut Data with Coherence</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/3.x/src/main/docs/guide/repository.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master/src/main/docs/guide/repository.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -614,9 +1150,9 @@ property:</p>
 <div class="ulist">
 <ul>
 <li>
-<p>No runtime model - Both GORM and Spring Data maintain a runtime meta-model that uses reflection to model relationships between entities.
+<p>No runtime model - Both GORM and Spring Data maintain a runtime metamodel that uses reflection to model relationships between entities.
 This model consumes significant memory and memory requirements grow as your application size grows.
-The problem is worse when combined with Hibernate which maintains its own meta-model as you end up with duplicate meta-models.</p>
+The problem is worse when combined with Hibernate which maintains its own metamodel as you end up with duplicate metamodels.</p>
 </li>
 <li>
 <p>No query translation - Both GORM and Spring Data use regular expressions and pattern matching in combination with runtime generated proxies to translate a method definition on a Java interface into a query at runtime.
@@ -646,7 +1182,7 @@ that expose the power of Coherence when not using generated queries.</p>
 <h2 id="limitations"><a class="anchor" href="#limitations"></a>5.1 Limitations</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/3.x/src/main/docs/guide/repository/limitations.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master/src/main/docs/guide/repository/limitations.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -681,7 +1217,7 @@ implement any other Micronaut Data interfaces (e.g., <code>CrudRepository</code>
 <h2 id="started"><a class="anchor" href="#started"></a>5.2 Build</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/3.x/src/main/docs/guide/repository/started.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master/src/main/docs/guide/repository/started.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -748,7 +1284,7 @@ testAnnotationProcessor("io.micronaut.coherence.data:coherence-data:${version}")
 <h2 id="using"><a class="anchor" href="#using"></a>5.3 Using Micronaut Data</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/3.x/src/main/docs/guide/repository/using.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master/src/main/docs/guide/repository/using.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -759,12 +1295,66 @@ testAnnotationProcessor("io.micronaut.coherence.data:coherence-data:${version}")
 <div class="paragraph">
 <p>Add or update the Coherence configuration to enable Coherence repositories.</p>
 </div>
-<div class="listingblock">
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">coherence.data.&lt;repository-name&gt;[0].session=&lt;session-name&gt;</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">coherence:
   data:
     &lt;repository-name&gt;:
       [session: &lt;session-name&gt;]</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[coherence]
+  [coherence.data]
+    [[coherence.data.repository-name]]
+      session="&lt;session-name&gt;"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">coherence {
+  data {
+    &lt;repositoryName&gt; = [{
+        session = "&lt;session-name&gt;"
+      }]
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  coherence {
+    data {
+      &lt;repository-name&gt; = [{
+          session = "&lt;session-name&gt;"
+        }]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "coherence": {
+    "data": {
+      "&lt;repository-name&gt;": [{
+          "session": "&lt;session-name&gt;"
+        }]
+    }
+  }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="paragraph">
@@ -782,11 +1372,57 @@ identifier within the application configuration.</p>
 <p>For example, let&#8217;s assume we have a model class representing a Book identified by a UUID.  We can configure something
 like the following:</p>
 </div>
-<div class="listingblock">
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">coherence.data.book=null</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">coherence:
   data:
     book:</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[coherence]
+  [coherence.data]</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">coherence {
+  data {
+    book = null
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  coherence {
+    data {
+      book = null
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "coherence": {
+    "data": {
+      "book": null
+    }
+  }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="admonitionblock note">
@@ -894,7 +1530,7 @@ off a few features being offered by the API.</p>
 <h1 id="injection"><a class="anchor" href="#injection"></a>6 Inject Coherence Resources into Beans</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/3.x/src/main/docs/guide/injection.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master/src/main/docs/guide/injection.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -917,7 +1553,7 @@ This makes the applications easier to develop, test and reason about, and the co
 <h2 id="injectNamedMap"><a class="anchor" href="#injectNamedMap"></a>6.1 Injecting NamedMap & NamedCache</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/3.x/src/main/docs/guide/injection/injectNamedMap.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master/src/main/docs/guide/injection/injectNamedMap.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -926,10 +1562,10 @@ This makes the applications easier to develop, test and reason about, and the co
 <div class="paragraph">
 <p>Coherence <a href="https://coherence.community/latest/21.12/api/java/index.html/com/tangosol/net/NamedMap.html">NamedMap</a> and <a href="https://coherence.community/latest/21.12/api/java/index.html/com/tangosol/net/NamedCache.html">NamedCache</a> instances can be injected as beans in Micronaut applications.
 The mechanics of injecting <code>NamedMap</code> or <code>NamedCache</code> beans is identical, so any use of <code>NamedMap</code> in the examples below can be replaced with <code>NamedCache</code>. Other more specialized forms of <code>NamedMap</code> and <code>NamedCache</code> can also be injected,
-for example the asynchronous forms of both classes, as well as views.</p>
+for example the asynchronous forms of both classes, and views.</p>
 </div>
 <div class="paragraph">
-<p>The simplest way to inject a <code>NamedMap</code> is to just annotate the injection point with <code>@javax.inject.Inject</code>.</p>
+<p>The simplest way to inject a <code>NamedMap</code> is to just annotate the injection point with <code>@jakarta.inject.Inject</code>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1019,7 +1655,7 @@ public class CatalogController {
 <h2 id="injectAsyncNamedMap"><a class="anchor" href="#injectAsyncNamedMap"></a>6.1.1 Injecting AsyncNamedMap & AsyncNamedCache</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/3.x/src/main/docs/guide/injection/injectNamedMap/injectAsyncNamedMap.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master/src/main/docs/guide/injection/injectNamedMap/injectAsyncNamedMap.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -1039,7 +1675,7 @@ private AsyncNamedMap&lt;String, Person&gt; map;</code></pre>
 <h2 id="injectViews"><a class="anchor" href="#injectViews"></a>6.1.2 Injecting Views (CQC)</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/3.x/src/main/docs/guide/injection/injectNamedMap/injectViews.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master/src/main/docs/guide/injection/injectNamedMap/injectViews.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -1185,7 +1821,7 @@ private NamedMap&lt;String, Integer&gt; ages;     <i class="conum" data-value="4
 <h2 id="injectNamedTopic"><a class="anchor" href="#injectNamedTopic"></a>6.2 Injecting NamedTopic</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/3.x/src/main/docs/guide/injection/injectNamedTopic.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master/src/main/docs/guide/injection/injectNamedTopic.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -1199,7 +1835,7 @@ instances can be injected as beans in Micronaut applications.</p>
 <p>An alternative way to write message driven applications and <code>TransferEvent`microservices instead of directly injecting `NamedTopic</code>, <code>Publisher</code> or <code>Subscriber</code> beans is to use <a href="#messagingWithTopics">Micronaut Coherence Messaging</a>.</p>
 </div>
 <div class="paragraph">
-<p>The simplest way to inject a <code>NamedTopic</code> is to just annotate the injection point with <code>@javax.inject.Inject</code>.</p>
+<p>The simplest way to inject a <code>NamedTopic</code> is to just annotate the injection point with <code>@jakarta.inject.Inject</code>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1293,7 +1929,7 @@ public class OrderProcessor {
 <h2 id="injectTopicPublisher"><a class="anchor" href="#injectTopicPublisher"></a>6.2.1 Injecting a NamedTopic Publisher</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/3.x/src/main/docs/guide/injection/injectNamedTopic/injectTopicPublisher.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master/src/main/docs/guide/injection/injectNamedTopic/injectTopicPublisher.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -1368,7 +2004,7 @@ private Publisher&lt;Order&gt; orders;</code></pre>
 <h2 id="injectTopicSubscriber"><a class="anchor" href="#injectTopicSubscriber"></a>6.2.2 Injecting a NamedTopic Subscriber</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/3.x/src/main/docs/guide/injection/injectNamedTopic/injectTopicSubscriber.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master/src/main/docs/guide/injection/injectNamedTopic/injectTopicSubscriber.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -1443,7 +2079,7 @@ private Subscriber&lt;Order&gt; orders;</code></pre>
 <h2 id="injectTopicSubscriberFiltered"><a class="anchor" href="#injectTopicSubscriberFiltered"></a>6.2.2.1 Filtering Topic Messages</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/3.x/src/main/docs/guide/injection/injectNamedTopic/injectTopicSubscriber/injectTopicSubscriberFiltered.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master/src/main/docs/guide/injection/injectNamedTopic/injectTopicSubscriber/injectTopicSubscriberFiltered.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -1493,7 +2129,7 @@ public class OrderController {
 <h2 id="injectTopicSubscriberTransformed"><a class="anchor" href="#injectTopicSubscriberTransformed"></a>6.2.2.2 Transforming Topic Messages</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/3.x/src/main/docs/guide/injection/injectNamedTopic/injectTopicSubscriber/injectTopicSubscriberTransformed.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master/src/main/docs/guide/injection/injectNamedTopic/injectTopicSubscriber/injectTopicSubscriberTransformed.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -1547,7 +2183,7 @@ public class OrderController {
 <h2 id="injectSession"><a class="anchor" href="#injectSession"></a>6.3 Injecting a Session</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/3.x/src/main/docs/guide/injection/injectSession.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master/src/main/docs/guide/injection/injectSession.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -1628,14 +2264,14 @@ The named <code>Session</code> must have previously been configured when <a href
 <h1 id="events"><a class="anchor" href="#events"></a>7 Events</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/3.x/src/main/docs/guide/events.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master/src/main/docs/guide/events.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
 
 
 <div class="paragraph">
-<p>Event driven patterns are a common way to build scalable applications and micro services.
+<p>Event driven patterns are a common way to build scalable applications and microservices.
 Coherence produces a number of events that can be used by applications to respond to data changes and other actions in Coherence.</p>
 </div>
 <div class="paragraph">
@@ -1667,7 +2303,7 @@ void onEvent(CoherenceLifecycleEvent event) {
 <h2 id="mapEvents"><a class="anchor" href="#mapEvents"></a>7.1 MapEvent Listeners</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/3.x/src/main/docs/guide/events/mapEvents.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master/src/main/docs/guide/events/mapEvents.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -1675,7 +2311,7 @@ void onEvent(CoherenceLifecycleEvent event) {
 
 <div class="paragraph">
 <p>Listening for changes to data in Coherence is a common use case in applications.
-Typically this involves creating an implementation of a <a href="https://coherence.community/latest/21.12/api/java/index.htmlcom/tangosol/util/MapListener.html">MapListener</a>
+Typically, this involves creating an implementation of a <a href="https://coherence.community/latest/21.12/api/java/index.htmlcom/tangosol/util/MapListener.html">MapListener</a>
  and adding that listener to a <code>NamedMap</code> or <code>NamedCache</code>. Using Coherence Micronaut makes this much simpler by just requiring Micronaut beans with suitably annotated observer methods that will receive events.</p>
 </div>
 <div class="sect2">
@@ -1947,7 +2583,7 @@ public void onCatalogOrders(@SessionName("Catalog")   <i class="conum" data-valu
 <h2 id="eventTypes"><a class="anchor" href="#eventTypes"></a>7.1.1 Receive Specific Event Types</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/3.x/src/main/docs/guide/events/mapEvents/eventTypes.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master/src/main/docs/guide/events/mapEvents/eventTypes.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -1955,7 +2591,7 @@ public void onCatalogOrders(@SessionName("Catalog")   <i class="conum" data-valu
 
 <div class="paragraph">
 <p>There are three types of event that a <code>MapEvent</code> observer method can receive, <code>Insert</code>, <code>Update</code> and <code>Delete</code>.
-By default an observer method will receive all events for the map (or maps) it applies to.
+By default, an observer method will receive all events for the map (or maps) it applies to.
 This can be controlled using the following annotations:</p>
 </div>
 <div class="ulist">
@@ -2028,7 +2664,7 @@ public void onEvent(@MapName("test") MapEvent&lt;String, String&gt; event) {
 <h2 id="filteringEvents"><a class="anchor" href="#filteringEvents"></a>7.1.2 Filtering Events</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/3.x/src/main/docs/guide/events/mapEvents/filteringEvents.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master/src/main/docs/guide/events/mapEvents/filteringEvents.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -2075,7 +2711,7 @@ public void onAdult(MapEvent&lt;String, Person&gt; people) {
 <h2 id="transformingEvents"><a class="anchor" href="#transformingEvents"></a>7.1.3 Transforming Events</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/3.x/src/main/docs/guide/events/mapEvents/transformingEvents.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master/src/main/docs/guide/events/mapEvents/transformingEvents.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -2092,7 +2728,7 @@ public void onAdult(MapEvent&lt;String, Person&gt; people) {
 The extractor binding annotation is a link to a corresponding <a href="../api/io/micronaut/coherence/ExtractorFactory.html">ExtractorFactory</a> that will build an instance of a <code>ValueExtractor</code>.</p>
 </div>
 <div class="paragraph">
-<p>For example, assuming that there is a <code>NamedMap</code> with the name <code>orders</code> that has keys of type <code>String</code> and values of type <code>Order</code>; the <code>Order</code> class has a <code>customerId</code> property of type <code>String</code>. A <code>MapEvent</code> observer method is only interested in the <code>customerId</code> for an order so the built in extractor binding annotation <a href="../api/io/micronaut/coherence/annotation/PropertyExtractor.html">@PropertyExtractor</a> can be used to just extract the <code>customerId</code> from the event:</p>
+<p>For example, assuming that there is a <code>NamedMap</code> with the name <code>orders</code> that has keys of type <code>String</code> and values of type <code>Order</code>; the <code>Order</code> class has a <code>customerId</code> property of type <code>String</code>. A <code>MapEvent</code> observer method is only interested in the <code>customerId</code> for an order so the built-in extractor binding annotation <a href="../api/io/micronaut/coherence/annotation/PropertyExtractor.html">@PropertyExtractor</a> can be used to just extract the <code>customerId</code> from the event:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2165,7 +2801,7 @@ public void onOrder(@Inserted                        <i class="conum" data-value
 <h2 id="coherenceEvents"><a class="anchor" href="#coherenceEvents"></a>7.2 Coherence Event Interceptors</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/3.x/src/main/docs/guide/events/coherenceEvents.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master/src/main/docs/guide/events/coherenceEvents.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -2228,7 +2864,7 @@ The annotations applied will vary depending on the type of the event.</p>
 <h2 id="coherenceLifecycleEvent"><a class="anchor" href="#coherenceLifecycleEvent"></a>7.2.1 Coherence Lifecycle Events</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/3.x/src/main/docs/guide/events/coherenceEvents/coherenceLifecycleEvent.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master/src/main/docs/guide/events/coherenceEvents/coherenceLifecycleEvent.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -2321,7 +2957,7 @@ public void onEvent(@Name(Coherence.DEFAULT_NAME) CoherenceLifecycleEvent event)
 <h2 id="sessionLifecycleEvent"><a class="anchor" href="#sessionLifecycleEvent"></a>7.2.2 Session Lifecycle Events</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/3.x/src/main/docs/guide/events/coherenceEvents/sessionLifecycleEvent.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master/src/main/docs/guide/events/coherenceEvents/sessionLifecycleEvent.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -2414,7 +3050,7 @@ public void onEvent(@Name(Coherence.DEFAULT_NAME) SessionLifecycleEvent event) {
 <h2 id="lifecycleEvent"><a class="anchor" href="#lifecycleEvent"></a>7.2.3 ConfigurableCacheFactory Lifecycle Events</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/3.x/src/main/docs/guide/events/coherenceEvents/lifecycleEvent.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master/src/main/docs/guide/events/coherenceEvents/lifecycleEvent.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -2476,7 +3112,7 @@ public void onEvent(@Activated @Disposing LifecycleEvent event) {
 <h2 id="cacheLifecycleEvent"><a class="anchor" href="#cacheLifecycleEvent"></a>7.2.4 Cache Lifecycle Events</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/3.x/src/main/docs/guide/events/coherenceEvents/cacheLifecycleEvent.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master/src/main/docs/guide/events/coherenceEvents/cacheLifecycleEvent.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -2593,7 +3229,7 @@ public void onEvent(@SessionName("BackEnd") CacheLifecycleEvent event) {
 <h2 id="entryEvent"><a class="anchor" href="#entryEvent"></a>7.2.5 Entry Events</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/3.x/src/main/docs/guide/events/coherenceEvents/entryEvent.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master/src/main/docs/guide/events/coherenceEvents/entryEvent.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -2736,7 +3372,7 @@ public void onEvent(@SessionName("BackEnd") EntryEvents event) {
 <h2 id="entryProcessorEvent"><a class="anchor" href="#entryProcessorEvent"></a>7.2.6 EntryProcessor Events</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/3.x/src/main/docs/guide/events/coherenceEvents/entryProcessorEvent.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master/src/main/docs/guide/events/coherenceEvents/entryProcessorEvent.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -2867,7 +3503,7 @@ public void onEvent(@SessionName("BackEnd") EntryProcessorEvents event) {
 <h2 id="transactionEvent"><a class="anchor" href="#transactionEvent"></a>7.2.7 Partition Level Transaction Events</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/3.x/src/main/docs/guide/events/coherenceEvents/transactionEvent.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master/src/main/docs/guide/events/coherenceEvents/transactionEvent.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -2948,7 +3584,7 @@ public void onEvent(@ServiceName("StorageService") TransactionEvent event) {
 <h2 id="transferEvent"><a class="anchor" href="#transferEvent"></a>7.2.8 Partition Transfer Events</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/3.x/src/main/docs/guide/events/coherenceEvents/transferEvent.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master/src/main/docs/guide/events/coherenceEvents/transferEvent.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -2964,7 +3600,7 @@ public void onEvent(@ServiceName("StorageService") TransactionEvent event) {
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-TransferEvents are dispatched to interceptors while holding a lock on the partition being transferred, blocking any operations for the partition. Event observer methods should therfore execute as quickly as possible of hand-off execution to another thread.
+TransferEvents are dispatched to interceptors while holding a lock on the partition being transferred, blocking any operations for the partition. Event observer methods should therefore execute as quickly as possible of hand-off execution to another thread.
 </td>
 </tr>
 </table>
@@ -3070,7 +3706,7 @@ public void onEvent(@ServiceName("StorageService") TransferEvent event) {
 <h2 id="unsolicitedCommitEvent"><a class="anchor" href="#unsolicitedCommitEvent"></a>7.2.9 Unsolicited Commit Events</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/3.x/src/main/docs/guide/events/coherenceEvents/unsolicitedCommitEvent.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master/src/main/docs/guide/events/coherenceEvents/unsolicitedCommitEvent.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -3101,7 +3737,7 @@ public void onEvent(UnsolicitedCommitEvent event) {
 <h1 id="messagingWithTopics"><a class="anchor" href="#messagingWithTopics"></a>8 Messaging with Coherence Topics</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/3.x/src/main/docs/guide/messagingWithTopics.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master/src/main/docs/guide/messagingWithTopics.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -3123,7 +3759,7 @@ public void onEvent(UnsolicitedCommitEvent event) {
 <h2 id="publishers"><a class="anchor" href="#publishers"></a>8.1 Define Publishers - @CoherencePublisher</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/3.x/src/main/docs/guide/messagingWithTopics/publishers.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master/src/main/docs/guide/messagingWithTopics/publishers.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -3163,7 +3799,7 @@ public interface ProductClient {
 </tr>
 <tr>
 <td><i class="conum" data-value="3"></i><b>3</b></td>
-<td>The method defines a single parameter, which is the message value. In this case the values being published are String instances but they could be any type that can be serialized by Coherence.</td>
+<td>The method defines a single parameter, which is the message value. In this case the values being published are String instances, but they could be any type that can be serialized by Coherence.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="4"></i><b>4</b></td>
@@ -3230,7 +3866,7 @@ client.sendProduct("Blue Trainers");</code></pre>
 <h2 id="subscribers"><a class="anchor" href="#subscribers"></a>8.2 Define Subscribers - @CoherenceTopicListener</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/3.x/src/main/docs/guide/messagingWithTopics/subscribers.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master/src/main/docs/guide/messagingWithTopics/subscribers.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -3270,7 +3906,7 @@ public class ProductListener {
 </tr>
 <tr>
 <td><i class="conum" data-value="3"></i><b>3</b></td>
-<td>The receive method defines single arguments that will receive the message value, in this case the message is of type <code>String</code>.</td>
+<td>The <code>receive</code> method defines single arguments that will receive the message value, in this case the message is of type <code>String</code>.</td>
 </tr>
 </table>
 </div>
@@ -3345,7 +3981,7 @@ public void receive(Element&lt;Product&gt; product) {
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Some parameters in the table above have fixed parameter names, i.e., <code>channel</code>, <code>position</code> and <code>timestamp</code>. When using these parameters in annotated message handler methods both the parameter name and type must match those in the table above. This is to avoid confusion where the message value type is the same as one of the metadata types where the binding logic would not know what to bind to which parameter. For example, in the unlikely scenario where the message value was just an <code>int</code> and the annotated method was soemthing like <code>public void processMessage(int c, int v)</code> where <code>c</code> is supposed to represent the channel and <code>v</code> the value, the binder would not be able to work this out.
+Some parameters in the table above have fixed parameter names, i.e., <code>channel</code>, <code>position</code> and <code>timestamp</code>. When using these parameters in annotated message handler methods both the parameter name and type must match those in the table above. This is to avoid confusion where the message value type is the same as one of the metadata types where the binding logic would not know what to bind to which parameter. For example, in the unlikely scenario where the message value was just an <code>int</code> and the annotated method was something like <code>public void processMessage(int c, int v)</code> where <code>c</code> is supposed to represent the channel and <code>v</code> the value, the binder would not be able to work this out.
 </td>
 </tr>
 </table>
@@ -3439,7 +4075,7 @@ public void receive(Element&lt;Product&gt; product) {
 <h2 id="forwarding"><a class="anchor" href="#forwarding"></a>8.2.1 Forwarding Messages with @SendTo</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/3.x/src/main/docs/guide/messagingWithTopics/subscribers/forwarding.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master/src/main/docs/guide/messagingWithTopics/subscribers/forwarding.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -3530,7 +4166,7 @@ public class ProductListener {
 <h1 id="filterBinding"><a class="anchor" href="#filterBinding"></a>9 Filter Binding Annotations</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/3.x/src/main/docs/guide/filterBinding.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master/src/main/docs/guide/filterBinding.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -3699,7 +4335,7 @@ private NamedMap&lt;String, Person&gt; adultMales;</code></pre>
 <h1 id="valueExtractorBinding"><a class="anchor" href="#valueExtractorBinding"></a>10 Extractor Binding Annotations</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/3.x/src/main/docs/guide/valueExtractorBinding.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master/src/main/docs/guide/valueExtractorBinding.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -3840,7 +4476,7 @@ private NamedMap&lt;String, Integer&gt; ages;   <i class="conum" data-value="4">
 <h1 id="transientInjection"><a class="anchor" href="#transientInjection"></a>11 Injection into Deserialized Objects</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/3.x/src/main/docs/guide/transientInjection.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master/src/main/docs/guide/transientInjection.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -3866,7 +4502,7 @@ can often also benefit from dependency injection (in order to support Domain-Dri
 </div>
 <div class="paragraph">
 <p>While these transient objects are not managed by the Micronaut container, Coherence Micronaut does support their injection during
-deserialization, but for performance reasons requires that you explicitly opt-in by implementing
+deserialization, but for performance reasons requires that you explicitly opt in by implementing
 <code>com.oracle.coherence.inject.Injectable</code> interface.</p>
 </div>
 <div class="sect2">
@@ -3945,7 +4581,7 @@ application components.</p>
 <h1 id="coherenceXmlInjection"><a class="anchor" href="#coherenceXmlInjection"></a>12 Injecting Beans into Coherence Configuration</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/3.x/src/main/docs/guide/coherenceXmlInjection.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master/src/main/docs/guide/coherenceXmlInjection.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -3995,7 +4631,7 @@ when declaring interceptors, cache stores, listeners, etc.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import javax.inject.Singleton;
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import jakarta.inject.Singleton;
 
 import com.tangosol.net.events.EventInterceptor;
 import com.tangosol.net.events.annotation.EntryEvents;
@@ -4056,367 +4692,10 @@ public class MyInterceptor implements EventInterceptor&lt;EntryEvent&lt;?, ?&gt;
 </table>
 </div>
 
-<h1 id="grpc"><a class="anchor" href="#grpc"></a>13 Using Coherence gRPC</h1>
+<h1 id="coherenceHttpSessions"><a class="anchor" href="#coherenceHttpSessions"></a>13 Using Coherence to store HTTP sessions</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/3.x/src/main/docs/guide/grpc.adoc"'>
-        <i class='fa fa-pencil-square-o'></i> Improve this doc
-    </button>
-</div>
-
-
-<div class="paragraph">
-<p>Coherence can be configured to run a gRPC proxy service that allows suitably configured gRPC clients to
-connect to a cluster and use clustered resources such as <code>NamedMap</code>, <code>NamedCache</code> etc.
-The advantage of using a gRPC client rather than a traditional Coherence*Extend client is that the gRPC client is lighter weight than an Extend client and can work better with modern cloud infrastructures, being http/2 as opposed to Coherence custom protocol.</p>
-</div>
-<div class="paragraph">
-<p>There are two parts required to use Coherence gRPC</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>A Coherence cluster running a gRPC proxy</p>
-</li>
-<li>
-<p>A client using the gRPC client library</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>One, or both of these could be using the Coherence Micronaut libraries, for example a Coherence Micronaut application that is a cluster member can be configured to run the gRPC proxy, which can be connected to by non-Micronaut Coherence gRPC clients (or even non-Java Coherence clients such as Coherence JS). And vice-versa, a Micronaut application can be a Coherence Micronaut gRPC client and connect to a non-Micronaut Coherence cluster running a gRPC proxy.</p>
-</div>
-<div class="paragraph">
-<p>The documentation below covers using gRPC in both cases, the Coherence product documentation covers how to run non-Micronaut gRPC proxies and clients.</p>
-</div>
-
-<h2 id="grpcProxy"><a class="anchor" href="#grpcProxy"></a>13.1 Configure a gRPC Proxy Service</h2>
-
-<div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/3.x/src/main/docs/guide/grpc/grpcProxy.adoc"'>
-        <i class='fa fa-pencil-square-o'></i> Improve this doc
-    </button>
-</div>
-
-
-<div class="paragraph">
-<p>A Coherence Micronaut application that runs as a cluster member with a gRPC proxy service has two choices when configuring the gRPC server. It can just use the out of the box Coherence gRPC proxy functionality. Or, it can make use of some additional configuration features provided by the Coherence Micronaut API.</p>
-</div>
-<div class="paragraph">
-<p>This documentation specifically covers the latter case of configuring the gRPC proxy using Micronaut.</p>
-</div>
-<div class="sect2">
-<h3 id="_add_the_coherence_grpc_proxy_dependency">Add the Coherence gRPC Proxy Dependency</h3>
-<div class="paragraph">
-<p>To run a gRPC proxy then Coherence gRPC Proxy module must be added to the project dependencies:</p>
-</div>
-<div class="paragraph">
-<p>        <div class="listingblock multi-language-sample">
-<div class="title"></div>
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"com.oracle.coherence.ce:coherence-grpc-proxy:22.06")</span></code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
-    &lt;groupId&gt;com.oracle.coherence.ce&lt;/groupId&gt;
-    &lt;artifactId&gt;coherence-grpc-proxy&lt;/artifactId&gt;
-    &lt;version&gt;22.06&lt;/version&gt;
-&lt;/dependency&gt;</code></pre>
-</div>
-</div></p>
-</div>
-<div class="paragraph">
-<p>By default, Coherence will run a simple gRPC server listening on <code>0.0.0.0:1407</code>, i.e. bound to port 1407 on all local addresses. If this is sufficient for your application then there is nothing more to configure.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_configure_the_grpc_server_via_application_config">Configure the gRPC Server via Application Config</h3>
-<div class="paragraph">
-<p>The Coherence gRPC Proxy module allows the gRPC server to be configured using system properties.
-When using Coherence Micronaut, these same properties can be configured in the Micronaut application configuration.</p>
-</div>
-<div class="paragraph">
-<p>For example, to simply change the gRPC port that the server binds to would require setting the <code>coherence.grpc.server.port</code> property. Using Micronaut, this can be added to the <code>coherence</code> section of the <code>application.yaml</code>. The configuration below sets the port to <code>9099</code>:</p>
-</div>
-<div class="listingblock">
-<div class="title">application.yaml</div>
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">coherence:
-  grpc:
-    server:
-      port: 9099</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>See the official Coherence gRPC documentation for more properties that can be set.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_custom_server_configuration">Custom Server Configuration</h3>
-<div class="paragraph">
-<p>If more control over the server configuration is required than that provided out of the box by Coherence, then a Micronaut bean can be created of type <a href="https://coherence.community/latest/21.12/api/java/index.html/com/oracle/coherence/grpc/proxy/GrpcServerConfiguration.html">GrpcServerConfiguration</a>.</p>
-</div>
-<div class="paragraph">
-<p>A Coherence gRPC proxy runs both a gRPC server listening for remote connections, and an in-process gRPC server to allow connections to services from within the same JVM.
-The <code>GrpcServerConfiguration</code> interface has a <code>configure</code> method that allows configuration of both of these servers.</p>
-</div>
-<div class="listingblock">
-<div class="title">ServerConfiguration.java</div>
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@Singleton
-public class ServerConfiguration implements GrpcServerConfiguration {
-
-    @Override
-    public void configure(ServerBuilder&lt;?&gt; serverBuilder,
-            InProcessServerBuilder inProcessServerBuilder) {
-
-        // ToDo: configure the servers...
-
-    }
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The example above shows a simple singleton bean named <code>ServerConfiguration</code> that implements <code>GrpcServerConfiguration</code>. The <code>configure</code> method is called with the <code>io.grpc.ServerBuilder</code> to allow full configuration of the gRPC server and also with the <code>io.grpc.inprocess.InProcessServerBuilder</code> to allow full control over the in-process server.</p>
-</div>
-<div class="paragraph">
-<p>Multiple <code>GrpcServerConfiguration</code> beans may be present, and if so, all will be called and given a chance to configure the servers.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_provide_a_serverbuilder">Provide a ServerBuilder</h3>
-<div class="paragraph">
-<p>Finally, if the above ways to configure the server still do not give enough flexibility then an application can provide a bean of type <code>io.grpc.ServerBuilder</code> which will be used by Coherence to build the gRPC server.</p>
-</div>
-<div class="paragraph">
-<p>For example, the <code>ServerBuilderFactory</code> class below is a simple Micronaut factory that provides a singleton <code>ServerBuilder</code> bean from the <code>createServerBuilder</code> method.</p>
-</div>
-<div class="listingblock">
-<div class="title">ServerBuilderFactory.java</div>
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import io.grpc.ServerBuilder;
-
-@Factory
-public class ServerBuilderFactory {
-
-    @Singleton
-    public ServerBuilder&lt;?&gt; createServerBuilder() {
-        ServerBuilder&lt;?&gt; builder = ServerBuilder.forPort(nPort);
-        // ToDo: add more configuration...
-        return builder;
-    }
-}</code></pre>
-</div>
-</div>
-</div>
-
-<h2 id="grpcClient"><a class="anchor" href="#grpcClient"></a>13.2 Using a gRPC Client</h2>
-
-<div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/3.x/src/main/docs/guide/grpc/grpcClient.adoc"'>
-        <i class='fa fa-pencil-square-o'></i> Improve this doc
-    </button>
-</div>
-
-
-<div class="paragraph">
-<p>Once a Coherence cluster is running with a gRPC proxy, a client can be configured to connect to it.</p>
-</div>
-<div class="sect2">
-<h3 id="_add_the_grpc_client_dependencies">Add the gRPC Client Dependencies</h3>
-<div class="paragraph">
-<p>To create a gRPC client application the Coherence gRPC client module must be added to the project dependencies:</p>
-</div>
-<div class="paragraph">
-<p>Add the Coherence Micronaut gRPC client module:</p>
-</div>
-<div class="paragraph">
-<p>        <div class="listingblock multi-language-sample">
-<div class="title"></div>
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"io.micronaut.coherence:micronaut-coherence-grpc-client")</span></code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
-    &lt;groupId&gt;io.micronaut.coherence&lt;/groupId&gt;
-    &lt;artifactId&gt;micronaut-coherence-grpc-client&lt;/artifactId&gt;
-&lt;/dependency&gt;</code></pre>
-</div>
-</div></p>
-</div>
-<div class="paragraph">
-<p>Add the Coherence Java client module for the version of Coherence being used:</p>
-</div>
-<div class="paragraph">
-<p>        <div class="listingblock multi-language-sample">
-<div class="title"></div>
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"com.oracle.coherence.ce:coherence-java-client:22.06")</span></code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
-    &lt;groupId&gt;com.oracle.coherence.ce&lt;/groupId&gt;
-    &lt;artifactId&gt;coherence-java-client&lt;/artifactId&gt;
-    &lt;version&gt;22.06&lt;/version&gt;
-&lt;/dependency&gt;</code></pre>
-</div>
-</div></p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_configure_the_client_sessions">Configure the Client Sessions</h3>
-<div class="paragraph">
-<p>When building a gRPC client application, Coherence resources can be accessed via a <a href="https://coherence.community/latest/21.12/api/java/index.html/com/tangosol/net/Session.html">Session</a>, the same as any other Coherence application. The Coherence gRPC Java client allows gRPC client sessions to be configured via system properties. When building a Micronaut gRPC client application, those same configuration properties can be provided via Micronaut configuration. The properties names are in the format <code>coherence.sessions.&lt;name&gt;.*</code> where <code>&lt;name&gt;</code> is the name of the <code>Session</code>. The majority of applications would only require a single <code>Session</code> so would configure the default session, that has the name <code>default</code>. If an application needs to connect to multiple Coherence gRPC servers then multiple named sessions can be configured.</p>
-</div>
-<div class="paragraph">
-<p>For example, to make the <code>default</code> session a gRPC client session, the property <code>coherence.sessions.default.type</code> must be set to <code>grpc</code>.</p>
-</div>
-<div class="listingblock">
-<div class="title">application.yaml</div>
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">coherence:
-  sessions:
-    default:
-      type: grpc</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>to make the <code>default</code> session a gRPC client session that connects to the server side session with the scope name <code>Products</code>, the property <code>coherence.sessions.default.scopeName</code> must be set to <code>Products</code>.</p>
-</div>
-<div class="listingblock">
-<div class="title">application.yaml</div>
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">coherence:
-  sessions:
-    default:
-      type: grpc
-      scopeName: Products</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>A gRPC client <code>Session</code> requires a gRPC <code>io.grpc.Channel</code> to connect to the server. Channels in Coherence gRPC are named, there is a default channel, named <code>default</code> that is used by gRPC sessions that do not specify a different channel name. The name of the channel a session should use is set with the <code>coherence.sessions.&lt;name&gt;.channelName</code> property. In Micronaut configuration this could be:</p>
-</div>
-<div class="paragraph">
-<p>For example, if there is a session named <code>catalog</code> that will use a channel named <code>backend</code> the configuration might look like this:</p>
-</div>
-<div class="listingblock">
-<div class="title">application.yaml</div>
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">coherence:
-  sessions:
-    catalog:
-      type: grpc
-      channelName: backend</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>There would then be a corresponding channel configuration for the channel named <code>backend</code>, see below.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_configure_grpc_channels">Configure gRPC Channels</h3>
-<div class="paragraph">
-<p>In Coherence gRPC configuration gRPC channels are named, and each session configuration refers to the named channel that it will use. Channels can be configured via system properties and when using Micronaut these same properties can be configured via Micronaut configuration. The properties names are in the format <code>coherence.grpc.channels.&lt;name&gt;.*</code> where <code>&lt;name&gt;</code> is the name of the <code>Channel</code></p>
-</div>
-<div class="paragraph">
-<p>If no configuration is provided then by default all gRPC client sessions will use a channel named <code>default</code>. If a channel is not configured then it will connect to <code>localhost:1408</code> using plain text (i.e. non-TLS).</p>
-</div>
-<div class="paragraph">
-<p>For example, the most common properties to configure will be the host and port that the client should connect to. To configure these the application configuration might look like this:</p>
-</div>
-<div class="listingblock">
-<div class="title">application.yaml</div>
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">coherence:
-  grpc:
-    channels:
-      default:
-        host: data.coherence.acme.com
-        port: 9099
-      catalog:
-        host: catalog.coherence.acme.com
-        port: 8000
-
-  sessions:
-    default:
-      type: grpc
-      channelName: default
-    catalog:
-      type: grpc
-      channelName: catalog
-    orders:
-      type: grpc</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The configuration above configures two named channels, <code>default</code> and <code>catalog</code>.
-The <code>default</code> channel will connect to a server on <code>data.coherence.acme.com:9099</code>, and the <code>catalog</code> channel will connect to a server at <code>catalog.coherence.acme.com:8000</code>.</p>
-</div>
-<div class="paragraph">
-<p>The configuration above then configures three sessions, all have a type of <code>grpc</code>. The <code>default</code> session is configured to use the <code>default</code> channel, and the <code>catalog</code> session is configured with a channel name of <code>catalog</code>. The <code>orders</code> session is configured with a type of <code>grpc</code> but has no <code>channelName</code> specified, so it will use the <code>default</code> channel.</p>
-</div>
-<div class="paragraph">
-<p>See the Coherence gRPC client documentation for details on other properties that can be set to configure channels.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_using_a_grpc_session">Using a gRPC Session</h3>
-<div class="paragraph">
-<p>As a full gRPC client example, assume that there is a Coherence cluster running a gRPC proxy on a host name of <code>customers.coherence.acme.com</code> port <code>1408</code>. The client application will use a gRPC session named <code>customers</code> to connect to this cluster.</p>
-</div>
-<div class="paragraph">
-<p>The configuration might look like this:</p>
-</div>
-<div class="listingblock">
-<div class="title">application.yaml</div>
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">coherence:
-  grpc:
-    channels:
-      customers:
-        host: customers.coherence.acme.com
-        port: 1408
-
-  sessions:
-    customers:
-      type: grpc
-      channelName: customers</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>A snippet of application code that uses this configuration could then look like this:</p>
-</div>
-<div class="listingblock">
-<div class="title">CustomerController.java</div>
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@Controller
-public class CustomerController {
-    @Inject
-    public CustomerController(@SessionName("customers") @Name("accounts")
-                              NamedMap&lt;String, Product&gt; accounts) {
-        // ToDo: initialize the controller...
-    }
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The <code>CustomerController</code> bean above will have the <code>NamedMap</code> named <code>accounts</code> injected into its constructor. The <code>NamedMap</code> will be from the <code>customers</code> Session, which will be a gRPC client session connecting to <code>customers.coherence.acme.com:1408</code>.</p>
-</div>
-<div class="paragraph">
-<p>The application code above is no different to normal Coherence Micronaut code, the only thing that makes it a gRPC client is the configuration.</p>
-</div>
-</div>
-
-<h1 id="coherenceHttpSessions"><a class="anchor" href="#coherenceHttpSessions"></a>14 Using Coherence to store HTTP sessions</h1>
-
-<div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/3.x/src/main/docs/guide/coherenceHttpSessions.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master/src/main/docs/guide/coherenceHttpSessions.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -4448,7 +4727,7 @@ public class CustomerController {
 <p>        <div class="listingblock multi-language-sample">
 <div class="title"></div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"com.oracle.coherence.ce:coherence:22.06")</span></code></pre>
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"com.oracle.coherence.ce:coherence:23.03")</span></code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -4456,26 +4735,97 @@ public class CustomerController {
 <pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
     &lt;groupId&gt;com.oracle.coherence.ce&lt;/groupId&gt;
     &lt;artifactId&gt;coherence&lt;/artifactId&gt;
-    &lt;version&gt;22.06&lt;/version&gt;
+    &lt;version&gt;23.03&lt;/version&gt;
 &lt;/dependency&gt;</code></pre>
 </div>
 </div></p>
 </div>
 <div class="paragraph">
-<p>Enable Coherence sessions via configuration in <code>application.yml</code>:</p>
+<p>Enable Coherence sessions via configuration in the application configuration file:</p>
 </div>
-<div class="listingblock">
+<div class="openblock">
 <div class="title">Enabling Coherence Sessions</div>
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">micronaut.session.http.coherence.enabled=true
+micronaut.session.http.coherence.cache-name=http-session-cache</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">micronaut:
   session:
     http:
       coherence:
         enabled: true
-        # Optional: name of the cache that will be used for sessions.
-        # By default 'http-sessions' cache will be used.
         cache-name: http-session-cache</code></pre>
 </div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[micronaut]
+  [micronaut.session]
+    [micronaut.session.http]
+      [micronaut.session.http.coherence]
+        enabled=true
+        cache-name="http-session-cache"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">micronaut {
+  session {
+    http {
+      coherence {
+        enabled = true
+        cacheName = "http-session-cache"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  micronaut {
+    session {
+      http {
+        coherence {
+          enabled = true
+          cache-name = "http-session-cache"
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "micronaut": {
+    "session": {
+      "http": {
+        "coherence": {
+          "enabled": true,
+          "cache-name": "http-session-cache"
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>cache-name</code> (optional) names the cache that will be used for sessions. By default <code>http-sessions</code> cache will be used.</p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
 <p>Coherence cache will be obtained using default Coherence session.</p>
@@ -4492,10 +4842,10 @@ public class CustomerController {
 </div>
 </div>
 
-<h1 id="cache"><a class="anchor" href="#cache"></a>15 Using Coherence as Micronaut Cache implementation</h1>
+<h1 id="cache"><a class="anchor" href="#cache"></a>14 Using Coherence as Micronaut Cache implementation</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/3.x/src/main/docs/guide/cache.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master/src/main/docs/guide/cache.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -4527,7 +4877,7 @@ public class CustomerController {
 <p>        <div class="listingblock multi-language-sample">
 <div class="title"></div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"com.oracle.coherence.ce:coherence:22.06")</span></code></pre>
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"com.oracle.coherence.ce:coherence:23.03")</span></code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -4535,7 +4885,7 @@ public class CustomerController {
 <pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
     &lt;groupId&gt;com.oracle.coherence.ce&lt;/groupId&gt;
     &lt;artifactId&gt;coherence&lt;/artifactId&gt;
-    &lt;version&gt;22.06&lt;/version&gt;
+    &lt;version&gt;23.03&lt;/version&gt;
 &lt;/dependency&gt;</code></pre>
 </div>
 </div></p>
@@ -4555,25 +4905,72 @@ public class CustomerController {
 <div class="paragraph">
 <p>To disable Coherence:</p>
 </div>
-<div class="listingblock">
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">coherence.cache.enabled=false</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">coherence:
   cache:
     enabled: false</code></pre>
 </div>
 </div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[coherence]
+  [coherence.cache]
+    enabled=false</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">coherence {
+  cache {
+    enabled = false
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  coherence {
+    cache {
+      enabled = false
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "coherence": {
+    "cache": {
+      "enabled": false
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
 
-<h1 id="distributedConfiguration"><a class="anchor" href="#distributedConfiguration"></a>16 Using Coherence as a Distributed Configuration provider</h1>
+<h1 id="distributedConfiguration"><a class="anchor" href="#distributedConfiguration"></a>15 Using Coherence as a Distributed Configuration provider</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/3.x/src/main/docs/guide/distributedConfiguration.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/master/src/main/docs/guide/distributedConfiguration.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
 
 
 <div class="paragraph">
-<p>To use <a href="https://coherence.community/">Coherence</a> to store configuration values add following dependencies:</p>
+<p>To use <a href="https://coherence.community/">Coherence</a> to store configuration values, add following dependencies:</p>
 </div>
 <div class="paragraph">
 <p>        <div class="listingblock multi-language-sample">
@@ -4598,7 +4995,7 @@ public class CustomerController {
 <p>        <div class="listingblock multi-language-sample">
 <div class="title"></div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"com.oracle.coherence.ce:coherence:22.06")</span></code></pre>
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"com.oracle.coherence.ce:coherence:23.03")</span></code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -4606,36 +5003,27 @@ public class CustomerController {
 <pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
     &lt;groupId&gt;com.oracle.coherence.ce&lt;/groupId&gt;
     &lt;artifactId&gt;coherence&lt;/artifactId&gt;
-    &lt;version&gt;22.06&lt;/version&gt;
+    &lt;version&gt;23.03&lt;/version&gt;
 &lt;/dependency&gt;</code></pre>
 </div>
 </div></p>
 </div>
 <div class="paragraph">
-<p>and coherence java client:</p>
+<p>To enable support simply add the following configuration to your bootstrap configuration file:</p>
 </div>
-<div class="paragraph">
-<p>        <div class="listingblock multi-language-sample">
-<div class="title"></div>
+<div class="openblock">
+<div class="title">Integrating with Oracle Coherence</div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"com.oracle.coherence.ce:coherence-java-client:22.06")</span></code></pre>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">micronaut.application.name=hello-world
+micronaut.config-client.enabled=true
+coherence.sessions.config.type=client
+coherence.configuration.client.enabled=true
+coherence.configuration.client.session=client</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
-    &lt;groupId&gt;com.oracle.coherence.ce&lt;/groupId&gt;
-    &lt;artifactId&gt;coherence-java-client&lt;/artifactId&gt;
-    &lt;version&gt;22.06&lt;/version&gt;
-&lt;/dependency&gt;</code></pre>
-</div>
-</div></p>
-</div>
-<div class="paragraph">
-<p>To enable support simply add the following configuration to your <code>bootstrap.yml</code> file:</p>
-</div>
-<div class="listingblock">
-<div class="title">Integrating with Oracle Coherence</div>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">micronaut:
   application:
@@ -4644,15 +5032,117 @@ public class CustomerController {
     enabled: true
 
 coherence:
-  client:
-    enabled: true
-    # gRPC config:
-    host: localhost
-    port: 1408</code></pre>
+  sessions:
+    config:
+      type: client
+  configuration:
+    client:
+      enabled: true
+      session: client</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[micronaut]
+  [micronaut.application]
+    name="hello-world"
+  [micronaut.config-client]
+    enabled=true
+[coherence]
+  [coherence.sessions]
+    [coherence.sessions.config]
+      type="client"
+  [coherence.configuration]
+    [coherence.configuration.client]
+      enabled=true
+      session="client"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">micronaut {
+  application {
+    name = "hello-world"
+  }
+  configClient {
+    enabled = true
+  }
+}
+coherence {
+  sessions {
+    config {
+      type = "client"
+    }
+  }
+  configuration {
+    client {
+      enabled = true
+      session = "client"
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  micronaut {
+    application {
+      name = "hello-world"
+    }
+    config-client {
+      enabled = true
+    }
+  }
+  coherence {
+    sessions {
+      config {
+        type = "client"
+      }
+    }
+    configuration {
+      client {
+        enabled = true
+        session = "client"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "micronaut": {
+    "application": {
+      "name": "hello-world"
+    },
+    "config-client": {
+      "enabled": true
+    }
+  },
+  "coherence": {
+    "sessions": {
+      "config": {
+        "type": "client"
+      }
+    },
+    "configuration": {
+      "client": {
+        "enabled": true,
+        "session": "client"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="paragraph">
-<p>Micronaut will use the configured micronaut.application.name to lookup property sources for the application from Coherence.</p>
+<p>This will create a configuration client using the session named <code>client</code> to connect to
+a Coherence proxy server over extend and allow the application to lookup property sources for the application
+from Coherence.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 1. Configuration Resolution Precedence</caption>
