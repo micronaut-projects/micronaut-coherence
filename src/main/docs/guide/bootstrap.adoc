@@ -5,5 +5,12 @@ By default, Coherence will start a single Session configured to use the default 
 This behaviour can easily be configured, either traditionally using Coherence system properties or using explicit Micronaut
 configuration.
 
+IMPORTANT: When using Micronaut, all Coherence resources used by application code should be injected.
+Applications should avoid calling Coherence APIs that create or initialise Coherence resources directly,
+especially static CacheFactory methods. If application code calls these Coherence APIs it may cause Coherence to
+be initialised too early in the start-up process before the Micronaut framework has initialised the Coherence
+extensions. A typical symptom of this would be that Coherence starts without picking up the correct configuration
+from the Micronaut framework.
+
 
 
