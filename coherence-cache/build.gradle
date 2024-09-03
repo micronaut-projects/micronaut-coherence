@@ -19,3 +19,9 @@ dependencies {
 
     testRuntimeOnly(libs.slf4j.simple)
 }
+
+micronautBuild {
+    binaryCompatibility {
+        enabled = false
+    }
+}
