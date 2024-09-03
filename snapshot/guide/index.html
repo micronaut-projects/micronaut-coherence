@@ -418,6 +418,23 @@ This means that Coherence resources in a Micronaut application are typically own
 This behaviour can easily be configured, either traditionally using Coherence system properties or using explicit Micronaut
 configuration.</p>
 </div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+When using Micronaut, all Coherence resources used by application code should be injected.
+Applications should avoid calling Coherence APIs that create or initialise Coherence resources directly,
+especially static CacheFactory methods. If application code calls these Coherence APIs it may cause Coherence to
+be initialised too early in the start-up process before the Micronaut framework has initialised the Coherence
+extensions. A typical symptom of this would be that Coherence starts without picking up the correct configuration
+from the Micronaut framework.
+</td>
+</tr>
+</table>
+</div>
 
 <h2 id="defaultSession"><a class="anchor" href="#defaultSession"></a>4.1 Using the Default Session</h2>
 
