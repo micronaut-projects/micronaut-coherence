@@ -25,7 +25,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import com.oracle.bedrock.testsupport.deferred.Eventually;
 import com.tangosol.internal.net.topic.impl.paged.PagedTopicCaches;
-import com.tangosol.internal.net.topic.impl.paged.PagedTopicSubscriber;
 import com.tangosol.internal.net.topic.impl.paged.model.SubscriberGroupId;
 import com.tangosol.io.Serializer;
 import com.tangosol.net.topic.Position;
@@ -563,7 +562,7 @@ class CoherenceTopicListenerTest {
         @Topic("Eighteen")
         @SubscriberGroup("Two")
         @CoherenceTopicListener
-        void subscriberAndElement(PagedTopicSubscriber<String> subscriber, Subscriber.Element<String> element) {
+        void subscriberAndElement(Subscriber<String> subscriber, Subscriber.Element<String> element) {
             lastElementTwo = element;
             lastSubscriberTwo = subscriber;
             latch.countDown();
