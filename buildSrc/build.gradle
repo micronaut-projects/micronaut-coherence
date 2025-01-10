@@ -17,3 +17,11 @@
 plugins {
     id 'groovy-gradle-plugin'
 }
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation(libs.sonatype.scan)
+}
