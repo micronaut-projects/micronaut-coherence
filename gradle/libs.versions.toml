@@ -1,5 +1,5 @@
 [versions]
-managed-coherence = "15.1.1-0-0-SNAPSHOT"
+managed-coherence = "25.03"
 
 bedrock = "7.0.6"
 hamcrest = "3.0"
@@ -30,10 +30,10 @@ micronaut-session = { module = "io.micronaut.session:micronaut-session-bom", ver
 
 micronaut-discovery-client = { module = "io.micronaut.discovery:micronaut-discovery-client", version.ref = "micronaut-discovery-client" }
 
-managed-coherence = { module = "com.oracle.coherence:coherence", version.ref = "managed-coherence" }
-managed-coherence-json = { module = "com.oracle.coherence:coherence-json", version.ref = "managed-coherence" }
+managed-coherence = { module = "com.oracle.coherence.ce:coherence", version.ref = "managed-coherence" }
+managed-coherence-json = { module = "com.oracle.coherence.ce:coherence-json", version.ref = "managed-coherence" }
 # BOMs
-boms-coherence = { module = "com.oracle.coherence:coherence-bom", version.ref = "managed-coherence" }
+boms-coherence = { module = "com.oracle.coherence.ce:coherence-bom", version.ref = "managed-coherence" }
 
 slf4j-simple = { module = "org.slf4j:slf4j-simple", version = "2.0.17" }
 bedrock-testing-support = { module = "com.oracle.bedrock:bedrock-testing-support", version.ref = "bedrock" }
