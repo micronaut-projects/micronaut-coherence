@@ -41,11 +41,13 @@ public class PropertySource implements com.tangosol.internal.tracing.PropertySou
         ));
 
         // we use NameUtils.hyphenate() to be consistent with how
-        // Micronaut populates the application name in {@code ApplicationConfiguration}
+        // Micronaut populates the application name in the {@code ApplicationConfiguration}
         // used by micronaut-tracing
-        otelProps.put("otel.service.name", NameUtils.hyphenate(
-            applicationContext.getProperty("micronaut.application.name", String.class)
-                .orElse("micronaut.coherence")));
+        if (!otelProps.containsKey("otel.service.name")) {
+            otelProps.put("otel.service.name", NameUtils.hyphenate(
+                applicationContext.getProperty("micronaut.application.name", String.class)
+                    .orElse("micronaut.coherence")));
+        }
 
         return otelProps;
     }
