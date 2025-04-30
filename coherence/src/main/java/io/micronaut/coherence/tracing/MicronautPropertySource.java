@@ -33,8 +33,8 @@ import java.util.Map;
  * the {@code Coherence} {@code OpenTelemetry} integration.
  */
 public class MicronautPropertySource
-    implements PropertySource
-    {
+    implements PropertySource {
+    @Override
     public Map<String, String> getProperties() {
         ApplicationContext  applicationContext = CoherenceContext.getApplicationContext();
         Map<String, Object> micronautProps     = applicationContext.getProperties("otel", StringConvention.RAW);
