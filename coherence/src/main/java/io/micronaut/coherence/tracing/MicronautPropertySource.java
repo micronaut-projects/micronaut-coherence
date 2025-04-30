@@ -15,6 +15,7 @@
  */
 package io.micronaut.coherence.tracing;
 
+import com.tangosol.internal.tracing.PropertySource;
 import io.micronaut.coherence.CoherenceContext;
 
 import io.micronaut.context.ApplicationContext;
@@ -28,10 +29,12 @@ import java.util.stream.Collectors;
 import java.util.Map;
 
 /**
- * A {@link PropertySource} implementation that exposes Micronaut's configuration to
+ * A {@link MicronautPropertySource} implementation that exposes Micronaut's configuration to
  * the {@code Coherence} {@code OpenTelemetry} integration.
  */
-public class PropertySource implements com.tangosol.internal.tracing.PropertySource {
+public class MicronautPropertySource
+    implements PropertySource
+    {
     public Map<String, String> getProperties() {
         ApplicationContext  applicationContext = CoherenceContext.getApplicationContext();
         Map<String, Object> micronautProps     = applicationContext.getProperties("otel", StringConvention.RAW);

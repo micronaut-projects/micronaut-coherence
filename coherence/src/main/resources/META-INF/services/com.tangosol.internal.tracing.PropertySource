@@ -14,4 +14,4 @@
 # limitations under the License.
 #
 
-io.micronaut.coherence.tracing.PropertySource
+io.micronaut.coherence.tracing.MicronautPropertySource
