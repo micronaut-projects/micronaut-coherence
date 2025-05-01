@@ -14,3 +14,4 @@ io.micronaut.coherence.messaging
 io.micronaut.coherence.messaging.binders
 io.micronaut.coherence.messaging.exceptions
 io.micronaut.coherence.namespace
+io.micronaut.coherence.tracing
