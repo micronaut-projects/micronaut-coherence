@@ -7,6 +7,13 @@
 
 This project provides integrations between [Micronaut](http://micronaut.io) and [Oracle Coherence](https://coherence.community).
 
+## Supported Versions
+
+| Micronaut Coherence | Micronaut | Java       | Community Edition                  | Commercial Edition            |
+|---------------------|-----------|------------|------------------------------------|-------------------------------|
+| `v5.0.x`            | 4.x       | `17`, `21` | `22.06.x`, `25.03.x`, `14.1.2-0-x` | `14.1.1.2206.x`, `14.1.2-0.x` |
+| `v3.10.x`           | 3.x       | `17`       | `22.06.x`                          | `14.1.1.2206.x`               |
+
 ## Documentation
 
 See the [Documentation](https://micronaut-projects.github.io/micronaut-coherence/latest/guide/) for more information.
