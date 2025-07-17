@@ -9,7 +9,7 @@ repositories {
             snapshotsOnly()
         }
     }
-    maven { url "https://oss.sonatype.org/content/groups/staging" }
+    maven { url "https://central.sonatype.com" }
 }
 
 micronautBuild {
