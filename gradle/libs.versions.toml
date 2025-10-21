@@ -9,14 +9,13 @@ mockito = "5.18.0"
 # Micronaut
 micronaut = "4.9.11"
 micronaut-cache = "5.3.0"
-micronaut-data = "4.13.5"
+micronaut-data = "4.13.8"
 micronaut-discovery-client = "4.7.1"
 micronaut-docs-asciidoc-config-props = "2.0.0"
 micronaut-reactor = "3.8.0"
 micronaut-session = "4.7.0"
 micronaut-test = "4.7.0"
 micronaut-docs = "3.0.0"
-sonatype-scan = "3.1.4"
 groovy = "4.0.11"
 
 [libraries]
@@ -40,4 +39,3 @@ bedrock-testing-support = { module = "com.oracle.bedrock:bedrock-testing-support
 hamcrest = { module = "org.hamcrest:hamcrest", version.ref = "hamcrest" }
 junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine" }
 mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito" }
-sonatype-scan = { module = "org.sonatype.gradle.plugins:scan-gradle-plugin", version.ref = "sonatype-scan" }
