@@ -24,7 +24,7 @@ dependencies {
     testImplementation(mnData.micronaut.data.processor)
 
     testRuntimeOnly(libs.slf4j.simple)
-    testRuntimeOnly(libs.junit.jupiter.engine)
+    testRuntimeOnly(mnTest.junit.jupiter.engine)
     testRuntimeOnly(mn.snakeyaml)
 }
 
