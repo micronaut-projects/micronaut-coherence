@@ -11,8 +11,3 @@ repositories {
     }
     maven { url "https://central.sonatype.com" }
 }
-
-micronautBuild {
-    sourceCompatibility = '17'
-    targetCompatibility = '17'
-}
