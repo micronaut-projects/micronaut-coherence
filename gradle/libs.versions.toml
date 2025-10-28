@@ -3,7 +3,6 @@ managed-coherence = "25.03.2"
 
 bedrock = "7.0.9"
 hamcrest = "3.0"
-junit = "5.12.2"
 mockito = "5.18.0"
 
 # Micronaut
@@ -37,5 +36,4 @@ boms-coherence = { module = "com.oracle.coherence.ce:coherence-bom", version.ref
 slf4j-simple = { module = "org.slf4j:slf4j-simple", version = "2.0.17" }
 bedrock-testing-support = { module = "com.oracle.bedrock:bedrock-testing-support", version.ref = "bedrock" }
 hamcrest = { module = "org.hamcrest:hamcrest", version.ref = "hamcrest" }
-junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine" }
 mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito" }
