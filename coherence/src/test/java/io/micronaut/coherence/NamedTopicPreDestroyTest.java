@@ -27,8 +27,8 @@ import io.micronaut.context.annotation.Requires;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -42,7 +42,7 @@ class NamedTopicPreDestroyTest {
     ApplicationContext ctx;
 
     @Test
-    @Ignore
+    @Disabled
     public void shouldClosePublisherOnScopeDeactivation() {
         Publishers publishers = ctx.getBean(Publishers.class);
         Publisher<String> publisher = publishers.getPublisher();
