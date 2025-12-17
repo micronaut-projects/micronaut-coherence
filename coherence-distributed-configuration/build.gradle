@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-    api(project(":micronaut-coherence"))
+    api(projects.micronautCoherence)
     api(mn.micronaut.inject)
     api(mn.micronaut.runtime)
 
