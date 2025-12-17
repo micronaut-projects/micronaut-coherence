@@ -33,3 +33,15 @@ Releases are completely automated. To perform a release use the following steps:
 * [Publish the draft release](https://github.com/micronaut-projects/micronaut-coherence/releases). There should be already a draft release created, edit and publish it. The Git Tag should start with `v`. For example `v1.0.0`.
 * [Monitor the Workflow](https://github.com/micronaut-projects/micronaut-coherence/actions?query=workflow%3ARelease) to check it passed successfully.
 * Celebrate!
+
+
+## Local Development
+
+In MacOS, you may need to export the following environment variable to run tests:
+
+```
+export COHERENCE_WKA=127.0.0.1
+./gradlew test
+```
+
+https://github.com/oracle/coherence/wiki/Coherence-FAQ
