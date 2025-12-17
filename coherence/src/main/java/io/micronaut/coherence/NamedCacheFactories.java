@@ -85,7 +85,6 @@ class NamedCacheFactories {
      */
     @Bean(preDestroy = "release", typed = NamedCache.class)
     @Prototype
-    @Type({NamedCache.class})
     @Primary
     <K, V> NamedCache<K, V> getCache(InjectionPoint<?> injectionPoint) {
         return getCacheInternal(injectionPoint, false);
