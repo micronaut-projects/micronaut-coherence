@@ -14,7 +14,6 @@ micronaut-discovery-client = "4.7.1"
 micronaut-docs-asciidoc-config-props = "2.0.0"
 micronaut-reactor = "4.0.0-M1"
 micronaut-session = "4.8.0"
-micronaut-docs = "3.0.0"
 
 [libraries]
 # Core
