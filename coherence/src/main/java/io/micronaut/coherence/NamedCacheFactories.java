@@ -21,6 +21,11 @@ import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.tangosol.net.*;
+import com.tangosol.net.cache.CacheMap;
+import com.tangosol.util.ConcurrentMap;
+import com.tangosol.util.InvocableMap;
+import com.tangosol.util.ObservableMap;
+import com.tangosol.util.QueryMap;
 import io.micronaut.coherence.annotation.ExtractorBinding;
 import io.micronaut.coherence.annotation.Name;
 import io.micronaut.coherence.annotation.SessionName;
@@ -83,7 +88,7 @@ class NamedCacheFactories {
      *
      * @return  the required {@link NamedCache}
      */
-    @Bean(preDestroy = "release", typed = NamedCache.class)
+    @Bean(preDestroy = "release", typed = {NamedCache.class, NamedMap.class, ObservableMap.class, CacheMap.class, InvocableMap.class, QueryMap.class, ConcurrentMap.class})
     @Prototype
     @Primary
     <K, V> NamedCache<K, V> getCache(InjectionPoint<?> injectionPoint) {
@@ -100,7 +105,7 @@ class NamedCacheFactories {
      *
      * @return  the required {@link ContinuousQueryCache}
      */
-    @Bean(preDestroy = "release", typed = ContinuousQueryCache.class)
+    @Bean(preDestroy = "release", typed = {ContinuousQueryCache.class, NamedCache.class, NamedMap.class, ObservableMap.class, CacheMap.class, InvocableMap.class, QueryMap.class, ConcurrentMap.class})
     @Prototype
     @Secondary
     <K, V_BACK, V_FRONT> ContinuousQueryCache<K, V_BACK, V_FRONT> getNamedView(InjectionPoint<?> injectionPoint) {
