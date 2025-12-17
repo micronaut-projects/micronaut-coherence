@@ -30,12 +30,6 @@ tasks.withType(Test).configureEach {
     testLogging.showStandardStreams = true
 }
 
-micronautBuild {
-    binaryCompatibility {
-        enabled = false
-    }
-}
-
 test {
     systemProperty("java.net.preferIPv4Stack", "true")
 }
