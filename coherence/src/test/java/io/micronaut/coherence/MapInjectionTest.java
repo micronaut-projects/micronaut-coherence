@@ -10,9 +10,9 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class MapInjectionTest {
+class MapInjectionTest {
     @Test
-    public void test() {
+    void test() {
         try (ApplicationContext ctx = ApplicationContext.run(Map.of("spec.name", "MapInjectionTest"))) {
             MapConsumer consumer = ctx.getBean(MapConsumer.class);
             assertEquals(1, consumer.map.size());
