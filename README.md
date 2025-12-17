@@ -41,5 +41,7 @@ In MacOS, you may need to export the following environment variable to run tests
 
 ```
 export COHERENCE_WKA=127.0.0.1
-./g./gradlew test
+./gradlew test
 ```
+
+https://github.com/oracle/coherence/wiki/Coherence-FAQ
