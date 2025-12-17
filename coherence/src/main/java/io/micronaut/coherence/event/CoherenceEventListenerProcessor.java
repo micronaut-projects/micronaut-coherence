@@ -128,9 +128,9 @@ public class CoherenceEventListenerProcessor
      * @param beanDefinition The bean definition to process
      * @param method         The executable method
      */
-    @Override
     @SuppressWarnings({"rawtypes", "unchecked"})
-    public void process(BeanDefinition<?> beanDefinition, ExecutableMethod<?, ?> method) {
+    @Override
+    public <B> void process(BeanDefinition<B> beanDefinition, ExecutableMethod<B, ?> method) {
         // must have a single parameter that is a Coherence event
         Argument<?>[] arguments = method.getArguments();
         Class<?> type = arguments.length == 1 ? arguments[0].getType() : null;
