@@ -3,20 +3,13 @@ plugins {
 }
 
 dependencies {
-    annotationProcessor(mn.micronaut.inject.groovy)
-
     implementation(project(":micronaut-coherence"))
     api(mn.micronaut.inject)
     api(mnCache.micronaut.cache.core)
     compileOnly(libs.managed.coherence)
-
-    testAnnotationProcessor(mn.micronaut.inject.java)
-
     testImplementation(libs.managed.coherence)
-    testImplementation(mn.micronaut.inject.groovy)
     testImplementation(mnTest.micronaut.test.spock)
     testImplementation(mnCache.micronaut.cache.tck)
-
     testRuntimeOnly(libs.slf4j.simple)
 }
 
