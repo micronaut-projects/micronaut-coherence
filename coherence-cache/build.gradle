@@ -8,7 +8,6 @@ dependencies {
     api(mnCache.micronaut.cache.core)
     compileOnly(libs.managed.coherence)
     testImplementation(libs.managed.coherence)
-    testImplementation(mnTest.micronaut.test.spock)
     testImplementation(mnCache.micronaut.cache.tck)
     testRuntimeOnly(libs.slf4j.simple)
 }
