@@ -16,7 +16,6 @@ micronaut-reactor = "4.0.0-M1"
 micronaut-session = "4.8.0"
 micronaut-test = "4.7.0"
 micronaut-docs = "3.0.0"
-groovy = "4.0.11"
 
 [libraries]
 # Core
