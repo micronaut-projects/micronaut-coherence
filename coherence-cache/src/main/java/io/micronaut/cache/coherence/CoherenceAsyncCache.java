@@ -19,7 +19,7 @@ import com.tangosol.net.AsyncNamedCache;
 import com.tangosol.net.NamedCache;
 
 import io.micronaut.cache.AsyncCache;
-import io.micronaut.core.annotation.NonNull;
+import org.jspecify.annotations.NonNull;
 import io.micronaut.core.convert.ConversionContext;
 import io.micronaut.core.convert.ConversionService;
 import io.micronaut.core.type.Argument;

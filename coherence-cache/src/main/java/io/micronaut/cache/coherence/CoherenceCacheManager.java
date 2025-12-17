@@ -21,7 +21,7 @@ import com.tangosol.net.Session;
 
 import io.micronaut.cache.DynamicCacheManager;
 import io.micronaut.cache.SyncCache;
-import io.micronaut.core.annotation.NonNull;
+import org.jspecify.annotations.NonNull;
 import io.micronaut.core.convert.ConversionService;
 import io.micronaut.scheduling.TaskExecutors;
 import jakarta.inject.Named;
