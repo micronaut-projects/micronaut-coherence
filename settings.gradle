@@ -17,6 +17,7 @@ include 'coherence-session'
 include 'coherence-cache'
 include 'coherence-distributed-configuration'
 include 'coherence-data'
+enableFeaturePreview 'TYPESAFE_PROJECT_ACCESSORS'
 
 micronautBuild {
     useStandardizedProjectNames=true

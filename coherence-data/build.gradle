@@ -5,7 +5,7 @@ plugins {
 dependencies {
     annotationProcessor(mn.micronaut.inject.java)
 
-    api(project(":micronaut-coherence"))
+    api(projects.micronautCoherence)
     api(mnData.micronaut.data.model)
     api(mnData.micronaut.data.runtime)
     api(mnData.micronaut.data.processor)
@@ -13,7 +13,7 @@ dependencies {
     compileOnly(libs.managed.coherence)
 
     testAnnotationProcessor(mn.micronaut.inject.java)
-    testAnnotationProcessor(project(":micronaut-coherence-data"))
+    testAnnotationProcessor(projects.micronautCoherenceData)
 
     testImplementation(platform(libs.boms.coherence))
     testImplementation(libs.managed.coherence)

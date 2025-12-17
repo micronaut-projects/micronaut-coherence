@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-    api(project(":micronaut-coherence"))
+    api(projects.micronautCoherence)
     api(mnSession.micronaut.session)
     compileOnly(libs.managed.coherence)
     implementation(mnReactor.micronaut.reactor)
