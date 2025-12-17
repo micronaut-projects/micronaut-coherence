@@ -11,7 +11,6 @@ micronaut = "5.0.0-M2"
 micronaut-cache = "5.3.0"
 micronaut-data = "4.14.2"
 micronaut-discovery-client = "4.7.1"
-micronaut-docs-asciidoc-config-props = "2.0.0"
 micronaut-reactor = "4.0.0-M1"
 micronaut-session = "4.8.0"
 
