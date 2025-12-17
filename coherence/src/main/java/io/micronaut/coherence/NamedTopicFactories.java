@@ -72,16 +72,14 @@ class NamedTopicFactories {
         this.extractorFactory = extractorFactory;
     }
 
-    @Bean(preDestroy = "release")
+    @Bean(preDestroy = "release", typed = NamedTopic.class)
     @Prototype
-    @Type(NamedTopic.class)
     <V> NamedTopic<V> getTopic(InjectionPoint<?> injectionPoint) {
         return getTopicInternal(injectionPoint);
     }
 
     @Bean(preDestroy = "close")
     @Prototype
-    @Type(Publisher.class)
     <V> Publisher<V> getPublisher(InjectionPoint<?> injectionPoint) {
         NamedTopic<V> topic = getTopicInternal(injectionPoint);
         return topic.createPublisher();
@@ -89,7 +87,6 @@ class NamedTopicFactories {
 
     @Bean(preDestroy = "close")
     @Prototype
-    @Type(Subscriber.class)
     @SuppressWarnings({"unchecked", "rawtypes"})
     <V> Subscriber<V> getSubscriber(InjectionPoint<?> injectionPoint) {
         AnnotationMetadata metadata = injectionPoint.getAnnotationMetadata();
