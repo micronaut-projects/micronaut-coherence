@@ -15,7 +15,6 @@
  */
 package io.micronaut.coherence.httpsession;
 
-
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.http.HttpHeaders;
 import io.micronaut.http.HttpRequest;
