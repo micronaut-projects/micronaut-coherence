@@ -16,7 +16,7 @@ dependencies {
 
     testImplementation(platform(libs.boms.coherence))
     testImplementation(libs.managed.coherence)
-    testImplementation(libs.mockito.core)
+    testImplementation(mnTest.mockito.core)
     testImplementation(libs.hamcrest)
     testImplementation(mnTest.micronaut.test.junit5)
 
