@@ -15,7 +15,6 @@
  */
 package io.micronaut.cache.coherence
 
-
 import io.micronaut.cache.tck.AbstractAsyncCacheSpec
 import io.micronaut.context.ApplicationContext
 import spock.lang.Retry
