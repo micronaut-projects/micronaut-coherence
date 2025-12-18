@@ -26,4 +26,5 @@ micronautBuild {
     importMicronautCatalog("micronaut-data")
     importMicronautCatalog("micronaut-reactor")
     importMicronautCatalog("micronaut-session")
+    importMicronautCatalog("micronaut-serde")
 }
