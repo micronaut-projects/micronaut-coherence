@@ -21,7 +21,7 @@ dependencies {
     testImplementation(libs.bedrock.testing.support)
 
     testRuntimeOnly(libs.slf4j.simple)
-    testRuntimeOnly(libs.junit.jupiter.engine)
+    testRuntimeOnly(mnTest.junit.jupiter.engine)
     testRuntimeOnly(mn.snakeyaml)
 }
 
