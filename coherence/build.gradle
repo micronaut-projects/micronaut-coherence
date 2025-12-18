@@ -25,11 +25,8 @@ dependencies {
     testRuntimeOnly(mn.snakeyaml)
 }
 
-tasks.withType(Test).configureEach {
-    useJUnitPlatform()
-}
-
 test {
+    useJUnitPlatform()
     systemProperty("java.net.preferIPv4Stack", "true")
     forkEvery 1
 }

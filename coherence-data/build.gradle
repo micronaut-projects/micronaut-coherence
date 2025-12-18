@@ -28,6 +28,6 @@ dependencies {
     testRuntimeOnly(mn.snakeyaml)
 }
 
-tasks.withType(Test).configureEach {
+test {
     useJUnitPlatform()
 }
