@@ -1,0 +1,42 @@
+= Breaking Changes
+
+== 5.2.0
+
+=== Micronaut Data annotation processor is no longer a transitive dependency
+
+Previously, `micronaut-coherence-data` exposed `micronaut-data-processor` as an `api` dependency.
+This could make some builds appear to work without explicitly configuring Micronaut Data's annotation
+processor.
+
+Starting with 5.2.0, `micronaut-data-processor` is no longer exposed transitively and must be
+configured explicitly as an annotation processor.
+
+Gradle::
+Add the Micronaut Data processor to the annotation processor path:
+
+[source,groovy]
+----
+dependencies {
+  annotationProcessor("io.micronaut.coherence.data:coherence-data:${version}")
+  annotationProcessor("io.micronaut.data:micronaut-data-processor:${micronautDataVersion}")
+}
+----
+
+Maven::
+Add the processor to `maven-compiler-plugin` `annotationProcessorPaths`:
+
+[source,xml]
+----
+<annotationProcessorPaths combine.children="append">
+  <annotationProcessorPath>
+    <groupId>io.micronaut.coherence</groupId>
+    <artifactId>micronaut-coherence-data</artifactId>
+    <version>${version}</version>
+  </annotationProcessorPath>
+  <annotationProcessorPath>
+    <groupId>io.micronaut.data</groupId>
+    <artifactId>micronaut-data-processor</artifactId>
+    <version>${micronaut.data.version}</version>
+  </annotationProcessorPath>
+</annotationProcessorPaths>
+----

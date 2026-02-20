@@ -8,11 +8,14 @@ dependencies {
     api(projects.micronautCoherence)
     api(mnData.micronaut.data.model)
     api(mnData.micronaut.data.runtime)
-    api(mnData.micronaut.data.processor)
+
+    // Used by CohQLQueryBuilder (extends JpaQueryBuilder) but must not leak to consumers at runtime.
+    compileOnly(mnData.micronaut.data.processor)
 
     compileOnly(libs.managed.coherence)
 
     testAnnotationProcessor(mn.micronaut.inject.java)
+    testAnnotationProcessor(mnData.micronaut.data.processor)
     testAnnotationProcessor(projects.micronautCoherenceData)
 
     testImplementation(platform(libs.boms.coherence))
@@ -21,7 +24,6 @@ dependencies {
     testImplementation(libs.hamcrest)
     testImplementation(mnTest.micronaut.test.junit5)
     testImplementation(libs.bedrock.testing.support)
-    testImplementation(mnData.micronaut.data.processor)
 
     testRuntimeOnly(libs.slf4j.simple)
     testRuntimeOnly(mnTest.junit.jupiter.engine)
