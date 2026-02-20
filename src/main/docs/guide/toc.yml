@@ -3,6 +3,7 @@ introduction:
 releaseHistory: Release History
 quickStart:
   title: Coherence Quick Start
+breaks: Breaking Changes
 bootstrap:
   title: Bootstrapping Coherence
   defaultSession: Using the Default Session

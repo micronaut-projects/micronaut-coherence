@@ -1,15 +1,20 @@
 === Gradle
 
-If you're using Gradle for your build, add the following dependencies (in addition to existing micronaut configuration):
+If you're using Gradle for your build, add the following dependencies (in addition to existing micronaut configuration).
+
+NOTE: `coherence-data` is included on the annotation processor path because it contributes repository configuration
+metadata consumed by `micronaut-data-processor`.
 
 [source]
 .build.gradle
 ----
 annotationProcessor("io.micronaut.coherence.data:coherence-data:${version}")
+annotationProcessor("io.micronaut.data:micronaut-data-processor:${micronautDataVersion}")
 ...
 implementation("io.micronaut.coherence.data:coherence-data:${version}");
 ...
 testAnnotationProcessor("io.micronaut.coherence.data:coherence-data:${version}")
+testAnnotationProcessor("io.micronaut.data:micronaut-data-processor:${micronautDataVersion}")
 ----
 
 === Maven
@@ -35,8 +40,13 @@ testAnnotationProcessor("io.micronaut.coherence.data:coherence-data:${version}")
       <annotationProcessorPaths combine.children="append">
         <annotationProcessorPath>
           <groupId>io.micronaut.coherence</groupId>
-          <artifactId>micronaut-coherence-processor</artifactId>
+          <artifactId>micronaut-coherence-data</artifactId>
           <version>${version}</version>
+        </annotationProcessorPath>
+        <annotationProcessorPath>
+          <groupId>io.micronaut.data</groupId>
+          <artifactId>micronaut-data-processor</artifactId>
+          <version>${micronaut.data.version}</version>
         </annotationProcessorPath>
       </annotationProcessorPaths>
       <compilerArgs>
