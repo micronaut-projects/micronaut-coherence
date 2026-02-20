@@ -17,10 +17,7 @@ package io.micronaut.coherence.data.query;
 
 import io.micronaut.core.annotation.NonNull;
 import io.micronaut.data.annotation.Join;
-import io.micronaut.data.model.query.JoinPath;
 import io.micronaut.data.model.query.builder.jpa.JpaQueryBuilder;
-
-import java.util.Map;
 
 /**
  * A {@link JpaQueryBuilder} specialized for use with {@code CohQL}.
