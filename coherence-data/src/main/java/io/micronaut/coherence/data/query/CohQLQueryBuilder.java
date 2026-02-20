@@ -27,10 +27,7 @@ import java.util.Map;
  */
 public class CohQLQueryBuilder extends JpaQueryBuilder {
 
-    @Override
-    protected String[] buildJoin(String alias, JoinPath joinPath, String joinType, StringBuilder target, Map<String, String> appliedJoinPaths, QueryState queryState) {
-        throw new UnsupportedOperationException("Coherence Query Language does not support joins");
-    }
+    private static final String DELETE_CLAUSE = "DELETE ";
 
     @Override
     public String resolveJoinType(Join.Type jt) {

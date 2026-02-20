@@ -39,11 +39,6 @@ class CohQLQueryTest {
     }
 
     @Test
-    void shouldThrowIfBuildingJoin() {
-        assertThrows(UnsupportedOperationException.class, () -> builder.buildJoin(null, null, null, null, null, null));
-    }
-
-    @Test
     void shouldThrowIfResolvingJoin() {
         assertThrows(UnsupportedOperationException.class, () -> builder.resolveJoinType(null));
     }
