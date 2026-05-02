@@ -15,16 +15,32 @@
  */
 package io.micronaut.coherence;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 import io.micronaut.coherence.annotation.Name;
 
-import com.tangosol.net.*;
+import com.tangosol.net.CacheFactory;
+import com.tangosol.net.Cluster;
+import com.tangosol.net.Coherence;
+import com.tangosol.net.CoherenceConfiguration;
+import com.tangosol.net.Session;
+import com.tangosol.net.SessionConfiguration;
 
 import io.micronaut.coherence.event.CoherenceEventListenerProcessor;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.BeanContext;
-import io.micronaut.context.annotation.*;
+import io.micronaut.context.annotation.Bean;
+import io.micronaut.context.annotation.Factory;
+import io.micronaut.context.annotation.Parameter;
+import io.micronaut.context.annotation.Property;
+import io.micronaut.context.annotation.Prototype;
 import io.micronaut.context.event.StartupEvent;
 import io.micronaut.core.annotation.Nullable;
 import io.micronaut.core.util.StringUtils;

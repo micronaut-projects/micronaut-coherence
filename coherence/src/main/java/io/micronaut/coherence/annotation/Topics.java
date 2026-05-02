@@ -15,7 +15,11 @@
  */
 package io.micronaut.coherence.annotation;
 
-import java.lang.annotation.*;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  * Repeatable annotation for one or many {@link io.micronaut.coherence.annotation.Topic} annotations.

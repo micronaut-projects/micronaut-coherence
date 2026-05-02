@@ -15,7 +15,11 @@
  */
 package io.micronaut.coherence;
 
-import io.micronaut.coherence.annotation.*;
+import io.micronaut.coherence.annotation.ExtractorBinding;
+import io.micronaut.coherence.annotation.FilterBinding;
+import io.micronaut.coherence.annotation.Name;
+import io.micronaut.coherence.annotation.SessionName;
+import io.micronaut.coherence.annotation.SubscriberGroup;
 
 import com.tangosol.net.Coherence;
 import com.tangosol.net.Session;
