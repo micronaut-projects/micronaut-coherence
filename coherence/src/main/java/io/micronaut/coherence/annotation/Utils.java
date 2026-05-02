@@ -21,7 +21,12 @@ import io.micronaut.core.util.StringUtils;
 import io.micronaut.messaging.annotation.SendTo;
 
 import java.lang.annotation.Annotation;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 /**
  * Annotation utilities.

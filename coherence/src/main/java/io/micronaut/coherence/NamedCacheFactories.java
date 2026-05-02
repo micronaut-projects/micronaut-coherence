@@ -20,7 +20,11 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.tangosol.net.*;
+import com.tangosol.net.AsyncNamedCache;
+import com.tangosol.net.Coherence;
+import com.tangosol.net.NamedCache;
+import com.tangosol.net.NamedMap;
+import com.tangosol.net.Session;
 import com.tangosol.net.cache.CacheMap;
 import com.tangosol.util.ConcurrentMap;
 import com.tangosol.util.InvocableMap;
@@ -36,7 +40,11 @@ import com.tangosol.util.Filter;
 import com.tangosol.util.ValueExtractor;
 
 import io.micronaut.context.BeanContext;
-import io.micronaut.context.annotation.*;
+import io.micronaut.context.annotation.Bean;
+import io.micronaut.context.annotation.Factory;
+import io.micronaut.context.annotation.Primary;
+import io.micronaut.context.annotation.Prototype;
+import io.micronaut.context.annotation.Secondary;
 import io.micronaut.core.annotation.AnnotationMetadata;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.inject.InjectionPoint;

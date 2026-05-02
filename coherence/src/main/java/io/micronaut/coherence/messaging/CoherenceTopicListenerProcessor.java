@@ -16,7 +16,14 @@
 package io.micronaut.coherence.messaging;
 
 import java.lang.annotation.Annotation;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
@@ -24,7 +31,13 @@ import java.util.concurrent.ExecutorService;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import io.micronaut.coherence.annotation.*;
+import io.micronaut.coherence.annotation.CommitStrategy;
+import io.micronaut.coherence.annotation.CoherenceTopicListener;
+import io.micronaut.coherence.annotation.ExtractorBinding;
+import io.micronaut.coherence.annotation.FilterBinding;
+import io.micronaut.coherence.annotation.SessionName;
+import io.micronaut.coherence.annotation.SubscriberGroup;
+import io.micronaut.coherence.annotation.Utils;
 
 import com.tangosol.net.Coherence;
 import com.tangosol.net.Session;
