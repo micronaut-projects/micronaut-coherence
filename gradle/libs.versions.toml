@@ -5,14 +5,14 @@ bedrock = "7.0.9"
 hamcrest = "3.0"
 
 # Micronaut
-micronaut = "5.0.0-M26"
+micronaut = "5.0.0-RC2"
 micronaut-cache = "6.0.0-M3"
-micronaut-data = "5.0.0-M6"
+micronaut-data = "5.0.0-M7"
 micronaut-discovery-client = "5.0.0-M1"
-micronaut-reactor = "4.0.0-M2"
-micronaut-session = "5.0.0-M2"
-micronaut-serde = "3.0.0-M8"
-micronaut-test = "5.0.0-M6"
+micronaut-reactor = "4.0.0-RC1"
+micronaut-session = "5.0.0-RC1"
+micronaut-serde = "3.0.0-RC2"
+micronaut-test = "5.0.0-M8"
 
 [libraries]
 # Core
