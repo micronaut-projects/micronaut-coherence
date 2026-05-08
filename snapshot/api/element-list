@@ -10,7 +10,6 @@ io.micronaut.coherence.data.query
 io.micronaut.coherence.discovery
 io.micronaut.coherence.event
 io.micronaut.coherence.httpsession
-io.micronaut.coherence.info
 io.micronaut.coherence.messaging
 io.micronaut.coherence.messaging.binders
 io.micronaut.coherence.messaging.exceptions
