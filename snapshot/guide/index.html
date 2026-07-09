@@ -211,13 +211,13 @@
         <h1>Micronaut Coherence</h1>
         <p></p>
         <p>Integration between Micronaut and Oracle Coherence</p>
-        <p><strong>Version:</strong> 6.0.1-SNAPSHOT </p>
+        <p><strong>Version:</strong> 6.1.0-SNAPSHOT </p>
     </div>
     
 <h1 id="introduction"><a class="anchor" href="#introduction"></a>1 Introduction</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.0.x/src/main/docs/guide/introduction.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.1.x/src/main/docs/guide/introduction.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -236,7 +236,7 @@
 <h1 id="releaseHistory"><a class="anchor" href="#releaseHistory"></a>2 Release History</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.0.x/src/main/docs/guide/releaseHistory.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.1.x/src/main/docs/guide/releaseHistory.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -285,7 +285,7 @@ a gRPC client.  See the Coherence Distributed Configuration <a href="#distribute
 <h1 id="quickStart"><a class="anchor" href="#quickStart"></a>3 Coherence Quick Start</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.0.x/src/main/docs/guide/quickStart.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.1.x/src/main/docs/guide/quickStart.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -367,9 +367,7 @@ coherence.role=storage</code></pre>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[coherence]
-  cluster="test-cluster"
-  role="storage"</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">coherence = {cluster = "test-cluster", role = "storage"}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -411,7 +409,7 @@ will then be picked up by Coherence at runtime.</p>
 <h1 id="breaks"><a class="anchor" href="#breaks"></a>4 Breaking Changes</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.0.x/src/main/docs/guide/breaks.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.1.x/src/main/docs/guide/breaks.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -478,7 +476,7 @@ configured explicitly as an annotation processor.</p>
 <h1 id="bootstrap"><a class="anchor" href="#bootstrap"></a>5 Bootstrapping Coherence</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.0.x/src/main/docs/guide/bootstrap.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.1.x/src/main/docs/guide/bootstrap.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -514,7 +512,7 @@ from the Micronaut framework.
 <h2 id="defaultSession"><a class="anchor" href="#defaultSession"></a>5.1 Using the Default Session</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.0.x/src/main/docs/guide/bootstrap/defaultSession.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.1.x/src/main/docs/guide/bootstrap/defaultSession.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -548,10 +546,7 @@ Alternatively, if the application is a Coherence gRPC client, the default Sessio
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[coherence]
-  [coherence.sessions]
-    [coherence.sessions.default]
-      config="coherence-config.xml"</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">coherence = {sessions = {default = {config = "coherence-config.xml"}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -597,7 +592,7 @@ Alternatively, if the application is a Coherence gRPC client, the default Sessio
 <h2 id="multiple"><a class="anchor" href="#multiple"></a>5.2 Configure Multiple Sessions</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.0.x/src/main/docs/guide/bootstrap/multiple.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.1.x/src/main/docs/guide/bootstrap/multiple.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -630,12 +625,7 @@ coherence.sessions.customer.config=customer-config.xml</code></pre>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[coherence]
-  [coherence.sessions]
-    [coherence.sessions.catalog]
-      config="catalog-config.xml"
-    [coherence.sessions.customer]
-      config="customer-config.xml"</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">coherence = {sessions = {catalog = {config = "catalog-config.xml"}, customer = {config = "customer-config.xml"}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -716,10 +706,7 @@ For example, in the configuration below there wil be no <code>default</code> ses
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[coherence]
-  [coherence.sessions]
-    [coherence.sessions.catalog]
-      config="catalog-config.xml"</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">coherence = {sessions = {catalog = {config = "catalog-config.xml"}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -784,12 +771,7 @@ coherence.sessions.default.config=coherence-config.xml</code></pre>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[coherence]
-  [coherence.sessions]
-    [coherence.sessions.catalog]
-      config="catalog-config.xml"
-    [coherence.sessions.default]
-      config="coherence-config.xml"</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">coherence = {sessions = {catalog = {config = "catalog-config.xml"}, default = {config = "coherence-config.xml"}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -844,7 +826,7 @@ coherence.sessions.default.config=coherence-config.xml</code></pre>
 <h2 id="configuration"><a class="anchor" href="#configuration"></a>5.3 Session Configuration Properties</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.0.x/src/main/docs/guide/bootstrap/configuration.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.1.x/src/main/docs/guide/bootstrap/configuration.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -877,10 +859,7 @@ If not specified, the default value will be <code>coherence-cache-config.xml</co
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[coherence]
-  [coherence.sessions]
-    [coherence.sessions.default]
-      config="coherence-config.xml"</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">coherence = {sessions = {default = {config = "coherence-config.xml"}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -958,14 +937,7 @@ coherence.sessions.customer.config=customer-config.xml</code></pre>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[coherence]
-  [coherence.sessions]
-    [coherence.sessions.catalog]
-      scope="Catalog"
-      config="catalog-config.xml"
-    [coherence.sessions.customer]
-      scope="Customer"
-      config="customer-config.xml"</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">coherence = {sessions = {catalog = {scope = "Catalog", config = "catalog-config.xml"}, customer = {scope = "Customer", config = "customer-config.xml"}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -1052,11 +1024,7 @@ coherence.sessions.default.config=client-config.xml</code></pre>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[coherence]
-  [coherence.sessions]
-    [coherence.sessions.default]
-      scope="Catalog"
-      config="client-config.xml"</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">coherence = {sessions = {default = {scope = "Catalog", config = "client-config.xml"}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -1145,12 +1113,7 @@ coherence.sessions.default.config=client-config.xml</code></pre>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[coherence]
-  [coherence.sessions]
-    [coherence.sessions.default]
-      type="client"
-      scope="Catalog"
-      config="client-config.xml"</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">coherence = {sessions = {default = {type = "client", scope = "Catalog", config = "client-config.xml"}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -1210,7 +1173,7 @@ coherence.sessions.default.config=client-config.xml</code></pre>
 <h1 id="repository"><a class="anchor" href="#repository"></a>6 Micronaut Data with Coherence</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.0.x/src/main/docs/guide/repository.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.1.x/src/main/docs/guide/repository.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -1257,7 +1220,7 @@ that expose the power of Coherence when not using generated queries.</p>
 <h2 id="limitations"><a class="anchor" href="#limitations"></a>6.1 Limitations</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.0.x/src/main/docs/guide/repository/limitations.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.1.x/src/main/docs/guide/repository/limitations.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -1292,7 +1255,7 @@ implement any other Micronaut Data interfaces (e.g., <code>CrudRepository</code>
 <h2 id="started"><a class="anchor" href="#started"></a>6.2 Build</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.0.x/src/main/docs/guide/repository/started.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.1.x/src/main/docs/guide/repository/started.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -1379,7 +1342,7 @@ testAnnotationProcessor("io.micronaut.data:micronaut-data-processor:${micronautD
 <h2 id="using"><a class="anchor" href="#using"></a>6.3 Using Micronaut Data</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.0.x/src/main/docs/guide/repository/using.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.1.x/src/main/docs/guide/repository/using.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -1407,10 +1370,7 @@ testAnnotationProcessor("io.micronaut.data:micronaut-data-processor:${micronautD
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[coherence]
-  [coherence.data]
-    [[coherence.data.repository-name]]
-      session="&lt;session-name&gt;"</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">coherence = {data = {&lt;repository-name&gt; = [{session = "&lt;session-name&gt;"}]}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -1483,8 +1443,7 @@ like the following:</p>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[coherence]
-  [coherence.data]</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">coherence = {data = {book = null}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -1625,7 +1584,7 @@ off a few features being offered by the API.</p>
 <h1 id="injection"><a class="anchor" href="#injection"></a>7 Inject Coherence Resources into Beans</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.0.x/src/main/docs/guide/injection.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.1.x/src/main/docs/guide/injection.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -1648,7 +1607,7 @@ This makes the applications easier to develop, test and reason about, and the co
 <h2 id="injectNamedMap"><a class="anchor" href="#injectNamedMap"></a>7.1 Injecting NamedMap & NamedCache</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.0.x/src/main/docs/guide/injection/injectNamedMap.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.1.x/src/main/docs/guide/injection/injectNamedMap.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -1750,7 +1709,7 @@ public class CatalogController {
 <h2 id="injectAsyncNamedMap"><a class="anchor" href="#injectAsyncNamedMap"></a>7.1.1 Injecting AsyncNamedMap & AsyncNamedCache</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.0.x/src/main/docs/guide/injection/injectNamedMap/injectAsyncNamedMap.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.1.x/src/main/docs/guide/injection/injectNamedMap/injectAsyncNamedMap.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -1770,7 +1729,7 @@ private AsyncNamedMap&lt;String, Person&gt; map;</code></pre>
 <h2 id="injectViews"><a class="anchor" href="#injectViews"></a>7.1.2 Injecting Views (CQC)</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.0.x/src/main/docs/guide/injection/injectNamedMap/injectViews.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.1.x/src/main/docs/guide/injection/injectNamedMap/injectViews.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -1916,7 +1875,7 @@ private NamedMap&lt;String, Integer&gt; ages;     <i class="conum" data-value="4
 <h2 id="injectNamedTopic"><a class="anchor" href="#injectNamedTopic"></a>7.2 Injecting NamedTopic</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.0.x/src/main/docs/guide/injection/injectNamedTopic.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.1.x/src/main/docs/guide/injection/injectNamedTopic.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -2024,7 +1983,7 @@ public class OrderProcessor {
 <h2 id="injectTopicPublisher"><a class="anchor" href="#injectTopicPublisher"></a>7.2.1 Injecting a NamedTopic Publisher</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.0.x/src/main/docs/guide/injection/injectNamedTopic/injectTopicPublisher.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.1.x/src/main/docs/guide/injection/injectNamedTopic/injectTopicPublisher.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -2099,7 +2058,7 @@ private Publisher&lt;Order&gt; orders;</code></pre>
 <h2 id="injectTopicSubscriber"><a class="anchor" href="#injectTopicSubscriber"></a>7.2.2 Injecting a NamedTopic Subscriber</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.0.x/src/main/docs/guide/injection/injectNamedTopic/injectTopicSubscriber.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.1.x/src/main/docs/guide/injection/injectNamedTopic/injectTopicSubscriber.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -2174,7 +2133,7 @@ private Subscriber&lt;Order&gt; orders;</code></pre>
 <h2 id="injectTopicSubscriberFiltered"><a class="anchor" href="#injectTopicSubscriberFiltered"></a>7.2.2.1 Filtering Topic Messages</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.0.x/src/main/docs/guide/injection/injectNamedTopic/injectTopicSubscriber/injectTopicSubscriberFiltered.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.1.x/src/main/docs/guide/injection/injectNamedTopic/injectTopicSubscriber/injectTopicSubscriberFiltered.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -2224,7 +2183,7 @@ public class OrderController {
 <h2 id="injectTopicSubscriberTransformed"><a class="anchor" href="#injectTopicSubscriberTransformed"></a>7.2.2.2 Transforming Topic Messages</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.0.x/src/main/docs/guide/injection/injectNamedTopic/injectTopicSubscriber/injectTopicSubscriberTransformed.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.1.x/src/main/docs/guide/injection/injectNamedTopic/injectTopicSubscriber/injectTopicSubscriberTransformed.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -2278,7 +2237,7 @@ public class OrderController {
 <h2 id="injectSession"><a class="anchor" href="#injectSession"></a>7.3 Injecting a Session</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.0.x/src/main/docs/guide/injection/injectSession.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.1.x/src/main/docs/guide/injection/injectSession.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -2359,7 +2318,7 @@ The named <code>Session</code> must have previously been configured when <a href
 <h1 id="events"><a class="anchor" href="#events"></a>8 Events</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.0.x/src/main/docs/guide/events.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.1.x/src/main/docs/guide/events.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -2398,7 +2357,7 @@ void onEvent(CoherenceLifecycleEvent event) {
 <h2 id="mapEvents"><a class="anchor" href="#mapEvents"></a>8.1 MapEvent Listeners</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.0.x/src/main/docs/guide/events/mapEvents.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.1.x/src/main/docs/guide/events/mapEvents.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -2678,7 +2637,7 @@ public void onCatalogOrders(@SessionName("Catalog")   <i class="conum" data-valu
 <h2 id="eventTypes"><a class="anchor" href="#eventTypes"></a>8.1.1 Receive Specific Event Types</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.0.x/src/main/docs/guide/events/mapEvents/eventTypes.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.1.x/src/main/docs/guide/events/mapEvents/eventTypes.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -2759,7 +2718,7 @@ public void onEvent(@MapName("test") MapEvent&lt;String, String&gt; event) {
 <h2 id="filteringEvents"><a class="anchor" href="#filteringEvents"></a>8.1.2 Filtering Events</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.0.x/src/main/docs/guide/events/mapEvents/filteringEvents.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.1.x/src/main/docs/guide/events/mapEvents/filteringEvents.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -2806,7 +2765,7 @@ public void onAdult(MapEvent&lt;String, Person&gt; people) {
 <h2 id="transformingEvents"><a class="anchor" href="#transformingEvents"></a>8.1.3 Transforming Events</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.0.x/src/main/docs/guide/events/mapEvents/transformingEvents.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.1.x/src/main/docs/guide/events/mapEvents/transformingEvents.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -2896,7 +2855,7 @@ public void onOrder(@Inserted                        <i class="conum" data-value
 <h2 id="coherenceEvents"><a class="anchor" href="#coherenceEvents"></a>8.2 Coherence Event Interceptors</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.0.x/src/main/docs/guide/events/coherenceEvents.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.1.x/src/main/docs/guide/events/coherenceEvents.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -2959,7 +2918,7 @@ The annotations applied will vary depending on the type of the event.</p>
 <h2 id="coherenceLifecycleEvent"><a class="anchor" href="#coherenceLifecycleEvent"></a>8.2.1 Coherence Lifecycle Events</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.0.x/src/main/docs/guide/events/coherenceEvents/coherenceLifecycleEvent.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.1.x/src/main/docs/guide/events/coherenceEvents/coherenceLifecycleEvent.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -3052,7 +3011,7 @@ public void onEvent(@Name(Coherence.DEFAULT_NAME) CoherenceLifecycleEvent event)
 <h2 id="sessionLifecycleEvent"><a class="anchor" href="#sessionLifecycleEvent"></a>8.2.2 Session Lifecycle Events</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.0.x/src/main/docs/guide/events/coherenceEvents/sessionLifecycleEvent.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.1.x/src/main/docs/guide/events/coherenceEvents/sessionLifecycleEvent.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -3145,7 +3104,7 @@ public void onEvent(@Name(Coherence.DEFAULT_NAME) SessionLifecycleEvent event) {
 <h2 id="lifecycleEvent"><a class="anchor" href="#lifecycleEvent"></a>8.2.3 ConfigurableCacheFactory Lifecycle Events</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.0.x/src/main/docs/guide/events/coherenceEvents/lifecycleEvent.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.1.x/src/main/docs/guide/events/coherenceEvents/lifecycleEvent.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -3207,7 +3166,7 @@ public void onEvent(@Activated @Disposing LifecycleEvent event) {
 <h2 id="cacheLifecycleEvent"><a class="anchor" href="#cacheLifecycleEvent"></a>8.2.4 Cache Lifecycle Events</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.0.x/src/main/docs/guide/events/coherenceEvents/cacheLifecycleEvent.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.1.x/src/main/docs/guide/events/coherenceEvents/cacheLifecycleEvent.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -3324,7 +3283,7 @@ public void onEvent(@SessionName("BackEnd") CacheLifecycleEvent event) {
 <h2 id="entryEvent"><a class="anchor" href="#entryEvent"></a>8.2.5 Entry Events</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.0.x/src/main/docs/guide/events/coherenceEvents/entryEvent.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.1.x/src/main/docs/guide/events/coherenceEvents/entryEvent.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -3467,7 +3426,7 @@ public void onEvent(@SessionName("BackEnd") EntryEvents event) {
 <h2 id="entryProcessorEvent"><a class="anchor" href="#entryProcessorEvent"></a>8.2.6 EntryProcessor Events</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.0.x/src/main/docs/guide/events/coherenceEvents/entryProcessorEvent.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.1.x/src/main/docs/guide/events/coherenceEvents/entryProcessorEvent.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -3598,7 +3557,7 @@ public void onEvent(@SessionName("BackEnd") EntryProcessorEvents event) {
 <h2 id="transactionEvent"><a class="anchor" href="#transactionEvent"></a>8.2.7 Partition Level Transaction Events</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.0.x/src/main/docs/guide/events/coherenceEvents/transactionEvent.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.1.x/src/main/docs/guide/events/coherenceEvents/transactionEvent.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -3679,7 +3638,7 @@ public void onEvent(@ServiceName("StorageService") TransactionEvent event) {
 <h2 id="transferEvent"><a class="anchor" href="#transferEvent"></a>8.2.8 Partition Transfer Events</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.0.x/src/main/docs/guide/events/coherenceEvents/transferEvent.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.1.x/src/main/docs/guide/events/coherenceEvents/transferEvent.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -3801,7 +3760,7 @@ public void onEvent(@ServiceName("StorageService") TransferEvent event) {
 <h2 id="unsolicitedCommitEvent"><a class="anchor" href="#unsolicitedCommitEvent"></a>8.2.9 Unsolicited Commit Events</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.0.x/src/main/docs/guide/events/coherenceEvents/unsolicitedCommitEvent.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.1.x/src/main/docs/guide/events/coherenceEvents/unsolicitedCommitEvent.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -3832,7 +3791,7 @@ public void onEvent(UnsolicitedCommitEvent event) {
 <h1 id="messagingWithTopics"><a class="anchor" href="#messagingWithTopics"></a>9 Messaging with Coherence Topics</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.0.x/src/main/docs/guide/messagingWithTopics.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.1.x/src/main/docs/guide/messagingWithTopics.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -3854,7 +3813,7 @@ public void onEvent(UnsolicitedCommitEvent event) {
 <h2 id="publishers"><a class="anchor" href="#publishers"></a>9.1 Define Publishers - @CoherencePublisher</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.0.x/src/main/docs/guide/messagingWithTopics/publishers.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.1.x/src/main/docs/guide/messagingWithTopics/publishers.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -3961,7 +3920,7 @@ client.sendProduct("Blue Trainers");</code></pre>
 <h2 id="subscribers"><a class="anchor" href="#subscribers"></a>9.2 Define Subscribers - @CoherenceTopicListener</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.0.x/src/main/docs/guide/messagingWithTopics/subscribers.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.1.x/src/main/docs/guide/messagingWithTopics/subscribers.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -4170,7 +4129,7 @@ public void receive(Element&lt;Product&gt; product) {
 <h2 id="forwarding"><a class="anchor" href="#forwarding"></a>9.2.1 Forwarding Messages with @SendTo</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.0.x/src/main/docs/guide/messagingWithTopics/subscribers/forwarding.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.1.x/src/main/docs/guide/messagingWithTopics/subscribers/forwarding.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -4261,7 +4220,7 @@ public class ProductListener {
 <h1 id="filterBinding"><a class="anchor" href="#filterBinding"></a>10 Filter Binding Annotations</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.0.x/src/main/docs/guide/filterBinding.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.1.x/src/main/docs/guide/filterBinding.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -4430,7 +4389,7 @@ private NamedMap&lt;String, Person&gt; adultMales;</code></pre>
 <h1 id="valueExtractorBinding"><a class="anchor" href="#valueExtractorBinding"></a>11 Extractor Binding Annotations</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.0.x/src/main/docs/guide/valueExtractorBinding.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.1.x/src/main/docs/guide/valueExtractorBinding.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -4571,7 +4530,7 @@ private NamedMap&lt;String, Integer&gt; ages;   <i class="conum" data-value="4">
 <h1 id="transientInjection"><a class="anchor" href="#transientInjection"></a>12 Injection into Deserialized Objects</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.0.x/src/main/docs/guide/transientInjection.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.1.x/src/main/docs/guide/transientInjection.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -4676,7 +4635,7 @@ application components.</p>
 <h1 id="coherenceXmlInjection"><a class="anchor" href="#coherenceXmlInjection"></a>13 Injecting Beans into Coherence Configuration</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.0.x/src/main/docs/guide/coherenceXmlInjection.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.1.x/src/main/docs/guide/coherenceXmlInjection.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -4790,7 +4749,7 @@ public class MyInterceptor implements EventInterceptor&lt;EntryEvent&lt;?, ?&gt;
 <h1 id="coherenceHttpSessions"><a class="anchor" href="#coherenceHttpSessions"></a>14 Using Coherence to store HTTP sessions</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.0.x/src/main/docs/guide/coherenceHttpSessions.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.1.x/src/main/docs/guide/coherenceHttpSessions.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -4861,12 +4820,7 @@ micronaut.session.http.coherence.cache-name=http-session-cache</code></pre>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[micronaut]
-  [micronaut.session]
-    [micronaut.session.http]
-      [micronaut.session.http.coherence]
-        enabled=true
-        cache-name="http-session-cache"</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">micronaut = {session = {http = {coherence = {enabled = true, cache-name = "http-session-cache"}}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -4942,7 +4896,7 @@ micronaut.session.http.coherence.cache-name=http-session-cache</code></pre>
 <h1 id="cache"><a class="anchor" href="#cache"></a>15 Using Coherence as Micronaut Cache implementation</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.0.x/src/main/docs/guide/cache.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.1.x/src/main/docs/guide/cache.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -5020,9 +4974,7 @@ micronaut.session.http.coherence.cache-name=http-session-cache</code></pre>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[coherence]
-  [coherence.cache]
-    enabled=false</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">coherence = {cache = {enabled = false}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -5062,7 +5014,7 @@ micronaut.session.http.coherence.cache-name=http-session-cache</code></pre>
 <h1 id="distributedConfiguration"><a class="anchor" href="#distributedConfiguration"></a>16 Using Coherence as a Distributed Configuration provider</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.0.x/src/main/docs/guide/distributedConfiguration.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-coherence/edit/6.1.x/src/main/docs/guide/distributedConfiguration.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -5144,19 +5096,8 @@ coherence:
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[micronaut]
-  [micronaut.application]
-    name="hello-world"
-  [micronaut.config-client]
-    enabled=true
-[coherence]
-  [coherence.sessions]
-    [coherence.sessions.config]
-      type="client"
-  [coherence.configuration]
-    [coherence.configuration.client]
-      enabled=true
-      session="client"</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">micronaut = {application = {name = "hello-world"}, config-client = {enabled = true}}
+coherence = {sessions = {config = {type = "client"}}, configuration = {client = {enabled = true, session = "client"}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
