@@ -4,8 +4,3 @@ group projectGroup
 repositories {
     mavenCentral()
 }
-
-micronautBuild {
-    sourceCompatibility = '21'
-    targetCompatibility = '21'
-}
