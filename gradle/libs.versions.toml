@@ -5,7 +5,7 @@ bedrock = "7.0.9"
 hamcrest = "3.0"
 
 # Micronaut
-micronaut = "5.2.1"
+micronaut = "5.2.2"
 micronaut-cache = "6.1.1"
 micronaut-data = "5.1.4"
 micronaut-discovery-client = "5.1.0"
