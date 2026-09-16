@@ -48,6 +48,7 @@ import io.micronaut.context.annotation.Secondary;
 import io.micronaut.core.annotation.AnnotationMetadata;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.core.naming.NameUtils;
+import io.micronaut.inject.ArgumentInjectionPoint;
 import io.micronaut.inject.InjectionPoint;
 import io.micronaut.inject.MethodInjectionPoint;
 import jakarta.inject.Inject;
@@ -192,13 +193,15 @@ class NamedCacheFactories {
      * @return the name of an injection point
      */
     private String getName(InjectionPoint<?> injectionPoint) {
+        if (injectionPoint instanceof ArgumentInjectionPoint<?, ?> argumentInjectionPoint
+                && argumentInjectionPoint.getOuterInjectionPoint() instanceof MethodInjectionPoint<?, ?> method
+                && method.getArguments().length == 1
+                && NameUtils.isSetterName(method.getName())) {
+            // a property injected via its setter (for example a Kotlin lateinit property or a Python attribute)
+            return NameUtils.getPropertyNameForSetter(method.getName());
+        }
         if (injectionPoint instanceof io.micronaut.core.naming.Named named) {
-            String name = named.getName();
-            if (injectionPoint instanceof MethodInjectionPoint<?, ?> && NameUtils.isSetterName(name)) {
-                // a property injected via its setter (for example a Kotlin lateinit property)
-                return NameUtils.getPropertyNameForSetter(name);
-            }
-            return name;
+            return named.getName();
         }
         return null;
     }

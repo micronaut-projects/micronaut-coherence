@@ -60,8 +60,11 @@ abstract class BaseExecutableMethodObserver<E, T, R> {
     }
 
     public Set<Annotation> getObservedQualifiers() {
-        return Stream.concat(Arrays.stream(method.getTargetMethod().getParameterAnnotations()[0]),
-                Arrays.stream(method.getTargetMethod().getAnnotations()))
+        // the qualifiers are read from the Micronaut annotation metadata rather than by reflection on the
+        // target method, so that beans whose annotations only exist in the metadata (for example Python beans)
+        // are observed like Java beans
+        return Stream.concat(Arrays.stream(method.getArguments()[0].getAnnotationMetadata().synthesizeAll()),
+                Arrays.stream(method.getAnnotationMetadata().synthesizeAll()))
                 .collect(Collectors.toSet());
     }
 
