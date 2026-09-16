@@ -1,7 +1,6 @@
 from time import sleep
 from typing import Annotated
 
-import java
 from com.tangosol.net import Session
 from jakarta.inject import Inject
 from java.util.concurrent import TimeUnit
@@ -17,12 +16,9 @@ from .AsyncCommitListener import AsyncCommitListener
 from .BookClient import BookClient
 from .ManualCommitListener import ManualCommitListener
 from .ProductElementListener import ProductElementListener
+from .ProductClient import ProductClient
 from .ProductListener import ProductListener
 from .SyncCommitListener import SyncCommitListener
-
-# TODO(python): the bean lookup by type needs a java.type() alias, an imported Python class is not usable as a
-# runtime type argument of ApplicationContext.getBean()
-ProductClient = java.type("micronaut.coherence.docs.messaging.ProductClient")
 
 
 def await_value(actual, expected) -> None:
@@ -56,7 +52,7 @@ class MessagingTest:
     @Test
     def test_publisher_and_listener(self):
         # tag::usage[]
-        client = self.application_context.getBean(ProductClient).asPolyglotValue()
+        client = self.application_context.getBean(ProductClient)
         client.send_product("Blue Trainers")
         # end::usage[]
         client.send_product_to("my-products", "Red Trainers")

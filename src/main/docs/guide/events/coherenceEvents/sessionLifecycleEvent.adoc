@@ -32,4 +32,5 @@ For example, the method below will only receive events for the `Session` instanc
 snippet::io.micronaut.coherence.docs.events.coherenceevents.SessionLifecycleListener[tags="name"]
 
 The method in this example will receive events for the default `Session`:
+
 snippet::io.micronaut.coherence.docs.events.coherenceevents.SessionLifecycleListener[tags="defaultName"]

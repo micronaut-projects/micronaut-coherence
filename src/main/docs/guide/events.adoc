@@ -8,6 +8,7 @@ Micronaut makes subscribing to both of these event types much simpler, using obs
 link:{api}/io/micronaut/coherence/annotation/CoherenceEventListener.html[@CoherenceEventListener].
 
 For example,
+
 snippet::io.micronaut.coherence.docs.events.coherenceevents.CoherenceLifecycleListener[tags="all"]
 
 The method above receives all events of type `CoherenceLifecycleEvent` emitted during the lifetime of the application.

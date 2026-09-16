@@ -7,6 +7,7 @@ The simplest way to inject a `Session` is just to annotate a field, method param
 snippet::io.micronaut.coherence.docs.injection.session.SessionBean[tags="imports,clazz"]
 
 or into a constructor:
+
 snippet::io.micronaut.coherence.docs.injection.session.SessionConstructorBean[tags="imports,clazz"]
 
 Both examples above will inject the default `Session` instance into the injection point.
@@ -21,6 +22,7 @@ This can be done by adding the link:{api}/io/micronaut/coherence/annotation/Name
 snippet::io.micronaut.coherence.docs.injection.session.NamedSessionBean[tags="imports,clazz"]
 
 or into a constructor:
+
 snippet::io.micronaut.coherence.docs.injection.session.NamedSessionConstructorBean[tags="imports,clazz"]
 
 In both examples above the `Session` injected will be the `Catalog` session.

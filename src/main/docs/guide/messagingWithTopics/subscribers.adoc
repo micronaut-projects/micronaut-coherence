@@ -13,6 +13,7 @@ snippet::io.micronaut.coherence.docs.messaging.ProductListener[tags="imports,cla
 When using a Coherence topic link:{coherenceApi}/com/tangosol/net/topic/Subscriber.html[Subscriber] directly in application code, the `receive` method returns an link:{coherenceApi}/com/tangosol/net/topic/Subscriber.Element.html[Element], which contains the message value and metadata. The annotated subscriber method can take various parameter types that will bind to the element itself, the message, or the metadata fields of the element.
 
 For example
+
 snippet::io.micronaut.coherence.docs.messaging.ProductElementListener[tags="element"]
 
 [.lang-python]

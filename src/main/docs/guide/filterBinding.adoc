@@ -38,9 +38,11 @@ The parameter to the `create` method is the annotation used on the injection poi
 In this case the annotation has no values, but if it did we could access those values to customize how the filter is created.
 
 For example, we could have just called the annotation `@Adults` and made the gender a parameter like this:
+
 snippet::io.micronaut.coherence.docs.filterbinding.Adults[tags="imports,clazz"]
 
 And changed the filter factory, which is annotated with the binding annotation with an empty value and uses the value of the annotation at the injection point:
+
 snippet::io.micronaut.coherence.docs.filterbinding.AdultsFilterFactory[tags="clazz"]
 
 === Annotate the Injection Point

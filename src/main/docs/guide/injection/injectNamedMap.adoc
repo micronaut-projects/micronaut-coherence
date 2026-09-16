@@ -22,6 +22,7 @@ The example below will inject a `NamedMap` that uses an underlying cache named `
 snippet::io.micronaut.coherence.docs.injection.maps.PeopleService[tags="name"]
 
 The same applies when injecting a constructor or method parameter:
+
 snippet::io.micronaut.coherence.docs.injection.maps.SomeBean[tags="imports,clazz"]
 
 == Specify the Owning Session Name
@@ -38,4 +39,5 @@ injects a `NamedMap` from an underlying cache named `products` in the `Catalog` 
 snippet::io.micronaut.coherence.docs.injection.maps.CatalogService[tags="session"]
 
 Again, the same annotation can be used on method parameter injection points.
+
 snippet::io.micronaut.coherence.docs.injection.maps.CatalogController[tags="imports,clazz"]

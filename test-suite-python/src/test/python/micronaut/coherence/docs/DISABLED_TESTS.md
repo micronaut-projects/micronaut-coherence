@@ -33,8 +33,9 @@ list for the final migration wave.
   (`src/test/java/io/micronaut/coherence/examples/model`), see below.
 - Tests are `@MicronautTest` classes with `@Property(name="spec.name", ...)` and injected beans; Java classes are
   imported normally (`from com.tangosol.net import Session`, `from reactor.core.publisher import Mono`, the Java test
-  helpers of this project as `from micronaut.coherence.examples import EventsHelper`). The only `java.type(...)`
-  alias left is documented in the "Workarounds" table below.
+  helpers of this project as `from micronaut.coherence.examples import EventsHelper`). Python classes are imported
+  as Python modules (`from .ProductClient import ProductClient`) and are usable as runtime type arguments
+  (`ApplicationContext.getBean(ProductClient)`); no `java.type(...)` alias is used.
 
 ## Active `@Disabled` Tests
 
@@ -54,9 +55,8 @@ None.
 | Target | Reason |
 | --- | --- |
 | `io.micronaut.coherence.examples.model.*` (Java, `src/test/java`) | Coherence serializes the values stored in its caches and published to its topics. The Java classes generated for Python classes hold a reference to the GraalPy object and are not `java.io.Serializable` (nor POF serializable), so a Python `Person`/`Order`/`Product`/`Book` cannot be stored in a Coherence cache or topic: the model classes are Java. The package is deliberately not a sub-package of the `micronaut.coherence.docs` Python package, otherwise the Python import `micronaut.coherence.docs.model` is resolved against the Python package (`ModuleNotFoundError`) instead of the Java one. |
-| `messaging/MessagingTest.py`: `ProductClient = java.type("micronaut.coherence.docs.messaging.ProductClient")` | The `usage` snippet looks the publisher bean up by type with `ApplicationContext.getBean(...)`; an imported Python class is not usable as a runtime type argument (`UnsupportedOperationException: 'typeHashCode'`), only a `java.type(...)` alias is. |
 | `messaging/*CommitListener.py`, `messaging/ProductElementListener.py` | `@CoherenceTopicListener` is applied to the class instead of the `@Topic` method as in the Java examples: a decorated Python method is treated as a `@Bean` factory method ("Factory methods declared with @Bean must specify a return type"). Documented with a `[.lang-python]` note. |
-| `io.micronaut.coherence.docs.PythonRuntimeInitializer` (Java, `src/test/java`) | The Coherence event listener and topic listener processors are `ExecutableMethodProcessor`s created by `DefaultBeanContext.processExecutableMethodsProcessAtStartup()` before the `@Context` beans (among them the GraalPy runtime) are initialized; a no-op Java `TypeConverter<Object, Object>` injecting the `@Named("python") Context` forces the runtime first. |
+| `io.micronaut.coherence.docs.PythonRuntimeInitializer` (Java, `src/test/java`) | The Coherence event listener and topic listener processors are `ExecutableMethodProcessor`s created by `DefaultBeanContext.processExecutableMethodsProcessAtStartup()` before the `@Context` beans (among them the GraalPy runtime) are initialized; a no-op Java `TypeConverter<Object, Object>` injecting the `@Named("python") Context` forces the runtime first. The same class also resolves a `micronaut_runtime` helper eagerly (`PythonContextRuntime.helper(context, "__micronaut_import_module")`): the Coherence lifecycle events are dispatched on several `ForkJoinPool` threads at once, each instantiating a Python listener bean, and the concurrent first load of the `micronaut_runtime` module leaves it partially initialized (`The micronaut_runtime module does not define [__micronaut_import_module]` in `CoherenceEventsTest`). |
 
 ## Not Ported (documented with `languages="java,kotlin,groovy"` and a `[.lang-python]` note)
 

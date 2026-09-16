@@ -71,6 +71,7 @@ snippet::io.micronaut.coherence.docs.events.mapevents.MapEventListeners[tags="se
 <1> The above method receives events for the _all_ caches owned by the `Session` named `Customer` as there is no `@MapName` or `@CacheName` annotation.
 
 In an application with multiple sessions, events can be routed by session, for example:
+
 snippet::io.micronaut.coherence.docs.events.mapevents.MapEventListeners[tags="routing"]
 <1> The `onCustomerOrders` will receive events for the `orders` map owned by the `Session` named `Customer`.
 <2> The `onCatalogOrders` will receive events for the `orders` map owned by the `Session` named `Catalog`.
