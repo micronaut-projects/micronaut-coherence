@@ -27,26 +27,7 @@ when declaring interceptors, cache stores, listeners, etc.
 
 For examples, with the following entry event interceptor:
 
-[source,java]
-----
-import jakarta.inject.Singleton;
-
-import com.tangosol.net.events.EventInterceptor;
-import com.tangosol.net.events.annotation.EntryEvents;
-import com.tangosol.net.events.annotation.Interceptor;
-import com.tangosol.net.events.partition.cache.EntryEvent;
-
-@Singleton
-@Named("Foo")   // <1>
-@Interceptor
-@EntryEvents({EntryEvent.Type.INSERTED, EntryEvent.Type.UPDATED, EntryEvent.Type.REMOVED})
-public class MyInterceptor implements EventInterceptor<EntryEvent<?, ?>> {
-    @Override
-    public void onEvent(EntryEvent<?, ?> event) {
-        // process the event.
-    }
-}
-----
+snippet::io.micronaut.coherence.docs.xmlinjection.MyInterceptor[tags="imports,clazz"]
 
 <1> The interceptor is a `@Singleton` bean `@Named` with the name `Foo`
 

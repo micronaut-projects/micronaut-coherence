@@ -9,33 +9,21 @@ The method should have a single parameter of type `TransactionEvent`.
 
 For example, the `onEvent` method below will receive all transaction events emitted by storage enabled cache services in the same JVM.
 
-[source,java]
-----
-@CoherenceEventListener
-public void onEvent(TransactionEvent event) {
-    // ToDo: process the event
-}
-----
+snippet::io.micronaut.coherence.docs.events.coherenceevents.TransactionListener[tags="all"]
 
 === Receive Specific TransactionEvent Types
 
 There are a number of different `TransactionEvent` types.
 
 * Committing - A COMMITTING event is raised prior to any updates to the underlying backing map.
-This event will contain all modified entries which may span multiple backing maps. Use the link:{api}/io/micronaut/coherence/annotation/Inserting.html[@Committing] annotation
+This event will contain all modified entries which may span multiple backing maps. Use the link:{api}/io/micronaut/coherence/annotation/Committing.html[@Committing] annotation
 * Committed - A COMMITTED event is raised after any mutations have been committed to the underlying backing maps.
 This event will contain all modified entries which may span multiple backing maps.
-Use the link:{api}/io/micronaut/coherence/annotation/Inserted.html[@Committed] annotation
+Use the link:{api}/io/micronaut/coherence/annotation/Committed.html[@Committed] annotation
 
 To restrict the `TransactionEvent` types received by a method apply one or more of the annotations above to the method parameter. For example, the method below will receive `Committed` events.
 
-[source,java]
-----
-@CoherenceEventListener
-public void onEvent(@Committed TransactionEvent event) {
-    // ToDo: process the event
-}
-----
+snippet::io.micronaut.coherence.docs.events.coherenceevents.TransactionListener[tags="types"]
 
 === Receive TransactionEvent from a Specific Cache Service
 
@@ -44,10 +32,4 @@ link:{api}/io/micronaut/coherence/annotation/ServiceName.html[@ServiceName] anno
 
 The method below will only receive events for the caches owned by the service named `StorageService`:
 
-[source,java]
-----
-@CoherenceEventListener
-public void onEvent(@ServiceName("StorageService") TransactionEvent event) {
-    // ToDo: process the event
-}
-----
+snippet::io.micronaut.coherence.docs.events.coherenceevents.TransactionListener[tags="serviceName"]

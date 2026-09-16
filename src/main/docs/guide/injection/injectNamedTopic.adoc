@@ -5,11 +5,7 @@ An alternative way to write message driven applications and `TransferEvent`micro
 
 The simplest way to inject a `NamedTopic` is to just annotate the injection point with `@jakarta.inject.Inject`.
 
-[source,java]
-----
-@Inject
-private NamedTopic<Person> people;
-----
+snippet::io.micronaut.coherence.docs.injection.topics.TopicsBean[tags="inject"]
 
 In this example the injection point field name is used to determine the topic name to inject,
 so a `NamedTopic` bean with an underlying topic name of `people` will be injected.
@@ -24,25 +20,11 @@ annotation to specify the underlying cache name.
 
 The example below will inject a `NamedTopic` that uses an underlying topic named `orders`.
 
-[source,java]
-----
-@Inject
-@Name("people")
-private NamedTopic<Order> orders;
-----
+snippet::io.micronaut.coherence.docs.injection.topics.TopicsBean[tags="name"]
 
 The same applies when injecting a constructor or method parameter:
 
-[source,java]
-----
-@Singleton
-public class SomeBean {
-    @Inject
-    public SomeBean(@Name("orders") NamedTopic<Order> topic) {
-        // ToDo:
-    }
-}
-----
+snippet::io.micronaut.coherence.docs.injection.topics.SomeBean[tags="imports,clazz"]
 
 == Specify the Session Name
 
@@ -52,28 +34,11 @@ by annotating the injection point with link:{api}/io/micronaut/coherence/annotat
 
 In the previous examples where no `@SessionName` was specified Coherence will use the default session to obtain the caches.
 
-For example, assume the application has multiple sessions configured, one of which is named `Customers`
-For example, assume the application has multiple sessions configured, one of which is named `Customers`
+For example, assume the application has multiple sessions configured, one of which is named `Customers`,
 the following code snippet injects a `NamedTopic` using an underlying topic named `orders` in the `Customers` session.
 
-[source,java]
-----
-@Inject
-@SessionName("Customers")
-@Name("orders")
-private NamedTopic<Order> topic;
-----
+snippet::io.micronaut.coherence.docs.injection.topics.TopicsBean[tags="session"]
 
 Again, the same annotation can be used on method parameter injection points.
 
-[source,java]
-----
-@Controller
-public class OrderProcessor {
-    @Inject
-    public OrderProcessor(@SessionName("Customers") @Name("orders")
-                          NamedTopic<Order> orders) {
-        // ToDo:
-    }
-}
-----
+snippet::io.micronaut.coherence.docs.injection.topics.OrderProcessor[tags="imports,clazz"]

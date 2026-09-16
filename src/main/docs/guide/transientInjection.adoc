@@ -23,44 +23,16 @@ all intents and purposes.
 All you need to do is add it to the `implements` clause of your class in order for injection on deserialization to
 kick in:
 
-[source,java]
-----
-public class InjectableBean
-        implements Injectable, Serializable {
+[.lang-python]
+NOTE: Transient objects deserialized by Coherence must be Java classes: a Python class cannot be serialized by Coherence, so the `InjectableBean` example below is not available in Python. The services injected into them, like the `ToUpperConverter` below, can be Python beans.
 
-    @Inject
-    private Converter<String, String> converter;
-
-    private String text;
-
-    InjectableBean() {
-    }
-
-    InjectableBean(String text) {
-        this.text = text;
-    }
-
-    String getConvertedText() {
-        return converter.convert(text);
-    }
-}
-----
+snippet::io.micronaut.coherence.docs.transientinjection.InjectableBean[tags="imports,clazz", languages="java,kotlin,groovy"]
 
 Assuming that you have the following `Converter` service implementation in your application, it will be injected
 into `InjectableBean` during deserialization, and the `getConvertedText` method will return the value of the `text`
 field converted to upper case:
 
-[source,java]
-----
-@ApplicationScoped
-public class ToUpperConverter
-        implements Converter<String, String> {
-    @Override
-    public String convert(String s) {
-        return s.toUpperCase();
-    }
-}
-----
+snippet::io.micronaut.coherence.docs.transientinjection.ToUpperConverter[tags="imports,clazz"]
 
 NOTE: If your `Injectable` class has `@PostConstruct` callback method, it will be called after the injection.
 However, because we have no control over object's lifecycle after that point, `@PreDestroy` callback will *never* be called).

@@ -1,0 +1,22 @@
+plugins {
+    id 'io.micronaut.build.internal.coherence-test-suite'
+    id 'io.micronaut.build.internal.python'
+}
+
+dependencies {
+    // The Java helpers in src/test/java (the Coherence-serializable model classes and the GraalPy runtime
+    // initializer) are processed by javac
+    testAnnotationProcessor mn.micronaut.inject.java
+    testAnnotationProcessor mnData.micronaut.data.processor
+    testAnnotationProcessor projects.micronautCoherenceData
+    // Annotation processors of the Python sources MUST be testImplementation (not testAnnotationProcessor):
+    // the Python compiler takes the compile classpath as its annotation processor path.
+    testImplementation mn.micronaut.inject.python.test
+    testImplementation mn.micronaut.context.python
+    testImplementation mnData.micronaut.data.processor
+}
+
+tasks.withType(Test).configureEach {
+    systemProperty "micronaut.python.pool.enabled", "false"
+    enableAssertions = false // a Truffle host-interop assertion trips on varargs overloads
+}

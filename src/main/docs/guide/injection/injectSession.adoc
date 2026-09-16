@@ -4,25 +4,10 @@ the name of the resource to be injected is not known until runtime. In this case
 
 The simplest way to inject a `Session` is just to annotate a field, method parameter, or other injection point.
 
-[source,java]
-----
-@Controller
-public class MyBean {
-    @Inject
-    private Session session;
-----
+snippet::io.micronaut.coherence.docs.injection.session.SessionBean[tags="imports,clazz"]
 
 or into a constructor:
-[source,java]
-----
-@Controller
-public class MyBean {
-    @Inject
-    public MyBean(Session session) {
-        // ToDo...
-    }
-}
-----
+snippet::io.micronaut.coherence.docs.injection.session.SessionConstructorBean[tags="imports,clazz"]
 
 Both examples above will inject the default `Session` instance into the injection point.
 
@@ -33,26 +18,10 @@ Some applications though may use multiple named `Session` instances, in which ca
 be specified.
 This can be done by adding the link:{api}/io/micronaut/coherence/annotation/Name.html[@Name] annotation to the injection point.
 
-[source,java]
-----
-@Controller
-public class MyBean {
-    @Inject
-    @Name("Catalog")
-    private Session session;
-----
+snippet::io.micronaut.coherence.docs.injection.session.NamedSessionBean[tags="imports,clazz"]
 
 or into a constructor:
-[source,java]
-----
-@Controller
-public class MyBean {
-    @Inject
-    public MyBean(@Name("Catalog") Session session) {
-        // ToDo...
-    }
-}
-----
+snippet::io.micronaut.coherence.docs.injection.session.NamedSessionConstructorBean[tags="imports,clazz"]
 
 In both examples above the `Session` injected will be the `Catalog` session.
 The named `Session` must have previously been configured when <<bootstrap,bootstrapping Coherence>>.

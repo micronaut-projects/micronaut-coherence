@@ -7,53 +7,29 @@ The method should have a single parameter of type `SessionLifecycleEvent`.
 
 For example, the `onEvent` method below will receive lifecycle events for all `Session` instances in the current application:
 
-[source,java]
-----
-@CoherenceEventListener
-public void onEvent(SessionLifecycleEvent event) {
-    // ToDo: process the event
-}
-----
+snippet::io.micronaut.coherence.docs.events.coherenceevents.SessionLifecycleListener[tags="all"]
 
 === Receive Specific SessionLifecycleEvent Types
 
 There are four different types of `SessionLifecycleEvent`.
 By adding the corresponding annotation to the method parameter the method will only receive the specified events.
 
-* Starting - a `Coherence` instance is about to start, use the link:{api}/io/micronaut/coherence/annotation/Starting.html[@Starting] annotation
-* Started - a `Coherence` instance has started, use the link:{api}/io/micronaut/coherence/annotation/Started.html[@Started] annotation
-* Stopping - a `Coherence` instance is about to stop, use the link:{api}/io/micronaut/coherence/annotation/Stopping.html[@Stopping] annotation
-* Stopped - a `Coherence` instance has stopped, use the link:{api}/io/micronaut/coherence/annotation/Stopped.html[@Stopped] annotation
+* Starting - a `Session` instance is about to start, use the link:{api}/io/micronaut/coherence/annotation/Starting.html[@Starting] annotation
+* Started - a `Session` instance has started, use the link:{api}/io/micronaut/coherence/annotation/Started.html[@Started] annotation
+* Stopping - a `Session` instance is about to stop, use the link:{api}/io/micronaut/coherence/annotation/Stopping.html[@Stopping] annotation
+* Stopped - a `Session` instance has stopped, use the link:{api}/io/micronaut/coherence/annotation/Stopped.html[@Stopped] annotation
 
 For example, the method below will only receive `Started` and `Stopped` events.
 
-[source,java]
-----
-@CoherenceEventListener
-public void onEvent(@Started @Stopped SessionLifecycleEvent event) {
-    // ToDo: process the event
-}
-----
+snippet::io.micronaut.coherence.docs.events.coherenceevents.SessionLifecycleListener[tags="types"]
 
 === Receive SessionLifecycleEvents for a Specific Session Instance
 
 Each `Session` instance in an application has a name. The observer method can be annotated to only receive events associated with a specific `Session` instance by using the link:{api}/io/micronaut/coherence/annotation/Name.html[@Name] annotation.
 
-For example, the method below will only receive events for the `Session` instance named `customers`:
+For example, the method below will only receive events for the `Session` instance named `Customers`:
 
-[source,java]
-----
-@CoherenceEventListener
-public void onEvent(@Name("customers") SessionLifecycleEvent event) {
-    // ToDo: process the event
-}
-----
+snippet::io.micronaut.coherence.docs.events.coherenceevents.SessionLifecycleListener[tags="name"]
 
-The method in this example will receive events for the default `Coherence` instance:
-[source,java]
-----
-@CoherenceEventListener
-public void onEvent(@Name(Coherence.DEFAULT_NAME) SessionLifecycleEvent event) {
-    // ToDo: process the event
-}
-----
+The method in this example will receive events for the default `Session`:
+snippet::io.micronaut.coherence.docs.events.coherenceevents.SessionLifecycleListener[tags="defaultName"]

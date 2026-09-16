@@ -7,13 +7,7 @@ The method should have a single parameter of type `CoherenceLifecycleEvent`.
 
 For example, the `onEvent` method below will receive lifecycle events for all `Coherence` instances in the current application:
 
-[source,java]
-----
-@CoherenceEventListener
-public void onEvent(CoherenceLifecycleEvent event) {
-    // ToDo: process the event
-}
-----
+snippet::io.micronaut.coherence.docs.events.coherenceevents.CoherenceLifecycleListener[tags="all"]
 
 === Receive Specific CoherenceLifecycleEvent Types
 
@@ -27,13 +21,7 @@ By adding the corresponding annotation to the method parameter the method will o
 
 For example, the method below will only receive `Started` and `Stopped` events.
 
-[source,java]
-----
-@CoherenceEventListener
-public void onEvent(@Started @Stopped CoherenceLifecycleEvent event) {
-    // ToDo: process the event
-}
-----
+snippet::io.micronaut.coherence.docs.events.coherenceevents.CoherenceLifecycleListener[tags="types"]
 
 === Receive CoherenceLifecycleEvents for a Specific Coherence Instance
 
@@ -41,19 +29,7 @@ Each `Coherence` instance in an application has a unique name. The observer meth
 
 For example, the method below will only receive events for the `Coherence` instance named `customers`:
 
-[source,java]
-----
-@CoherenceEventListener
-public void onEvent(@Name("customers") CoherenceLifecycleEvent event) {
-    // ToDo: process the event
-}
-----
+snippet::io.micronaut.coherence.docs.events.coherenceevents.CoherenceLifecycleListener[tags="name"]
 
 The method in this example will receive events for the default `Coherence` instance:
-[source,java]
-----
-@CoherenceEventListener
-public void onEvent(@Name(Coherence.DEFAULT_NAME) CoherenceLifecycleEvent event) {
-    // ToDo: process the event
-}
-----
+snippet::io.micronaut.coherence.docs.events.coherenceevents.CoherenceLifecycleListener[tags="defaultName"]

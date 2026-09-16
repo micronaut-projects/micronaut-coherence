@@ -1,0 +1,9 @@
+plugins {
+    id 'io.micronaut.build.internal.coherence-test-suite'
+}
+
+dependencies {
+    testAnnotationProcessor mn.micronaut.inject.java
+    testAnnotationProcessor mnData.micronaut.data.processor
+    testAnnotationProcessor projects.micronautCoherenceData
+}

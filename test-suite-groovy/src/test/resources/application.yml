@@ -1,0 +1,26 @@
+coherence:
+  cluster: docs-cluster
+  ttl: 0
+  distributed:
+    localstorage: true
+  sessions:
+    default:
+      config: docs-cache-config.xml
+    catalog:
+      name: Catalog
+      scope-name: Catalog
+      config: docs-cache-config.xml
+    customers:
+      name: Customers
+      scope-name: Customers
+      config: docs-cache-config.xml
+    customer:
+      name: Customer
+      scope-name: Customer
+      config: docs-cache-config.xml
+    back-end:
+      name: BackEnd
+      scope-name: BackEnd
+      config: docs-cache-config.xml
+  data:
+    book:

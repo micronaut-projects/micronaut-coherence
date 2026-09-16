@@ -7,25 +7,15 @@ The method should have a single parameter of type `TransferEvent`.
 
 For example, the `onEvent` method below will receive all transaction events emitted by storage enabled cache services in the same JVM.
 
-[source,java]
-----
-@CoherenceEventListener
-public void onEvent(TransferEvent event) {
-    // ToDo: process the event
-}
-----
+snippet::io.micronaut.coherence.docs.events.coherenceevents.TransferListener[tags="all"]
 
 === Receive Specific TransferEvent Types
 
 There are a number of different `TransferEvent` types.
 
-* Arrived - This `TransferEvent` is dispatched when a set of `BinaryEntry` instances have been transferred to the link:{coherenceApi}com/tangosol/net/events/partition/TransferEvent.html#getLocalMember()[local member] or restored from backup.The reason for the event (primary transfer from another member or restore from backup) can be derived as follows:
+* Arrived - This `TransferEvent` is dispatched when a set of `BinaryEntry` instances have been transferred to the link:{coherenceApi}com/tangosol/net/events/partition/TransferEvent.html#getLocalMember()[local member] or restored from backup.The reason for the event (primary transfer from another member or restore from backup) can be derived as follows, comparing the remote and local members of the event:
 
-[source,java]
-----
-TransferEvent event;
-boolean restored = event.getRemoteMember() == event.getLocalMember();
-----
+snippet::io.micronaut.coherence.docs.events.coherenceevents.TransferListener[tags="arrived"]
 
 Use the link:{api}/io/micronaut/coherence/annotation/Arrived.html[@Arrived] annotation to restrict the received events to arrived type.
 
@@ -49,13 +39,7 @@ Use the link:{api}/io/micronaut/coherence/annotation/Rollback.html[@Rollback] an
 
 To restrict the `TransferEvent` types received by a method apply one or more of the annotations above to the method parameter. For example, the method below will receive `Lost` events.
 
-[source,java]
-----
-@CoherenceEventListener
-public void onEvent(@Lost TransferEvent event) {
-    // ToDo: process the event
-}
-----
+snippet::io.micronaut.coherence.docs.events.coherenceevents.TransferListener[tags="types"]
 
 Multiple type annotations may be used to receive multiple types of `TransferEvent`.
 
@@ -67,10 +51,4 @@ link:{api}/io/micronaut/coherence/annotation/ServiceName.html[@ServiceName] anno
 
 The method below will only receive events for the caches owned by the service named `StorageService`:
 
-[source,java]
-----
-@CoherenceEventListener
-public void onEvent(@ServiceName("StorageService") TransferEvent event) {
-    // ToDo: process the event
-}
-----
+snippet::io.micronaut.coherence.docs.events.coherenceevents.TransferListener[tags="serviceName"]

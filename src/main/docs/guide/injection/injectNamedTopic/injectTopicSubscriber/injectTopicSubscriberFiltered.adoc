@@ -16,21 +16,6 @@ but only receives `Order` messages where the `productId` attribute is `AB1234`.
 the `@WhereFilter` filter binding annotation is used to specify the `Filter`, as `@WhereFilter` takes a Coherence
 CohQL where clause and converts it to a `Filter`.
 
-[source,java]
-----
-@Inject
-@Name("orders")
-@WhereFilter("productId = 'AB1234'")
-private Subscriber<Order> orders;
-----
+snippet::io.micronaut.coherence.docs.injection.subscriber.OrderSubscribers[tags="filtered"]
 
-[source,java]
-----
-@Controller
-public class OrderController {
-    @Inject
-    public OrderController(@Name("orders") @WhereFilter("productId = 'AB1234'") Subscriber<Order> topic) {
-        // ToDo:
-    }
-}
-----
+snippet::io.micronaut.coherence.docs.injection.subscriber.FilteredOrderController[tags="imports,clazz"]
