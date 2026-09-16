@@ -4,7 +4,7 @@
 #
 # and edit them there. Note that it will be sync'ed to all the Micronaut repos
 name: Python CI
-# Runs the Python (Pyronaut) test suites of the module on GraalVM. Python tests are skipped by
+# Runs the Python test suites of the module on GraalVM. Python tests are skipped by
 # the regular Java CI: the `io.micronaut.build.internal.python` build plugin only runs them when
 # the `python-ci` Gradle property is set, and registers the root `pythonCheck` task run here.
 # Does nothing for modules without a project applying that plugin.

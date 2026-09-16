@@ -41,6 +41,6 @@ class TransactionListener {
     // end::serviceName[]
 
     private void record(String listener, TransactionEvent event) {
-        events.add("$listener:${event.type}")
+        events.add("$listener:${event.type}".toString())
     }
 }

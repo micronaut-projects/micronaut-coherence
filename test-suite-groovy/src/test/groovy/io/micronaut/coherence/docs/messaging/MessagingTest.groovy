@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit
 
 @Property(name = "spec.name", value = "MessagingTest")
 @MicronautTest
-class MessagingSpec extends Specification {
+class MessagingTest extends Specification {
 
     @Inject
     ApplicationContext applicationContext

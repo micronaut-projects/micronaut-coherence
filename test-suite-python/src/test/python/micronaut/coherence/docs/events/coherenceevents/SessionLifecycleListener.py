@@ -1,15 +1,13 @@
 # tag::imports[]
 from typing import Annotated
 
-import java
+from com.tangosol.net import Coherence
 from com.tangosol.net.events import SessionLifecycleEvent
 from jakarta.inject import Singleton
 from micronaut.coherence.annotation import CoherenceEventListener, Name, Started, Stopped
 # end::imports[]
 
 from micronaut.context.annotation import Requires
-
-Coherence = java.type("com.tangosol.net.Coherence")
 
 
 @Requires(property="spec.name", value="CoherenceEventsTest")

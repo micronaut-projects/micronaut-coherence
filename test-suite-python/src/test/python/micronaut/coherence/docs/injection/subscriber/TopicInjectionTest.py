@@ -1,7 +1,7 @@
 from typing import Annotated
 
-import java
 from jakarta.inject import Inject
+from java.util.concurrent import CompletableFuture, TimeUnit
 from micronaut.coherence.examples.model import Order
 from micronaut.context.annotation import Property
 from micronaut.test.extensions.junit5.annotation import MicronautTest
@@ -17,9 +17,6 @@ from .GroupOrderController import GroupOrderController
 from .OrderController import OrderController
 from .OrderSubscribers import OrderSubscribers
 from .TransformedOrderController import TransformedOrderController
-
-CompletableFuture = java.type("java.util.concurrent.CompletableFuture")
-TimeUnit = java.type("java.util.concurrent.TimeUnit")
 
 
 def receive(subscriber):

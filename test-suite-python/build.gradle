@@ -20,3 +20,10 @@ tasks.withType(Test).configureEach {
     systemProperty "micronaut.python.pool.enabled", "false"
     enableAssertions = false // a Truffle host-interop assertion trips on varargs overloads
 }
+
+// The Python sources reference the Java model classes of this project (src/test/java): the Python compiler
+// only sees the (jar) compile classpath by default, so add the Java classes of the test source set.
+tasks.named("compileTestPython") {
+    dependsOn(tasks.named("compileTestJava"))
+    classpath.from(sourceSets.test.java.classesDirectory)
+}

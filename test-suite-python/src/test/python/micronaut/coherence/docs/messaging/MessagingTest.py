@@ -4,11 +4,14 @@ from typing import Annotated
 import java
 from com.tangosol.net import Session
 from jakarta.inject import Inject
+from java.util.concurrent import TimeUnit
+from micronaut.coherence.examples import MessagingHelper
 from micronaut.coherence.examples.model import Book, Product
 from micronaut.context import ApplicationContext
 from micronaut.context.annotation import Property
 from micronaut.test.extensions.junit5.annotation import MicronautTest
 from org.junit.jupiter.api import BeforeEach, Test
+from reactor.core.publisher import Flux, Mono
 
 from .AsyncCommitListener import AsyncCommitListener
 from .BookClient import BookClient
@@ -17,11 +20,9 @@ from .ProductElementListener import ProductElementListener
 from .ProductListener import ProductListener
 from .SyncCommitListener import SyncCommitListener
 
+# TODO(python): the bean lookup by type needs a java.type() alias, an imported Python class is not usable as a
+# runtime type argument of ApplicationContext.getBean()
 ProductClient = java.type("micronaut.coherence.docs.messaging.ProductClient")
-Flux = java.type("reactor.core.publisher.Flux")
-Mono = java.type("reactor.core.publisher.Mono")
-TimeUnit = java.type("java.util.concurrent.TimeUnit")
-MessagingHelper = java.type("io.micronaut.coherence.examples.MessagingHelper")
 
 
 def await_value(actual, expected) -> None:

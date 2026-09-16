@@ -1,10 +1,10 @@
 from time import sleep
 from typing import Annotated
 
-import java
 from com.tangosol.net import Session
 from jakarta.inject import Inject
 from micronaut.coherence.annotation import Name
+from micronaut.coherence.examples import EventsHelper
 from micronaut.coherence.examples.model import Order, Person
 from micronaut.context.annotation import Property
 from micronaut.test.extensions.junit5.annotation import MicronautTest
@@ -15,8 +15,6 @@ from .FilteredListener import FilteredListener
 from .MapEventListeners import MapEventListeners
 from .PersonController import PersonController
 from .TransformedListener import TransformedListener
-
-EventsHelper = java.type("io.micronaut.coherence.examples.EventsHelper")
 
 
 def await_count(actual, expected: int) -> None:

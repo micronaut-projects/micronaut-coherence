@@ -1,11 +1,9 @@
 # tag::imports[]
-import java
 from micronaut.coherence.annotation import CoherenceTopicListener, Topic
 from micronaut.coherence.examples.model import Product
 from micronaut.messaging.annotation import SendTo
 from org.reactivestreams import Publisher
-
-Mono = java.type("reactor.core.publisher.Mono")
+from reactor.core.publisher import Mono
 # end::imports[]
 
 from micronaut.context.annotation import Requires

@@ -12,7 +12,7 @@ from micronaut.context.annotation import Requires
 
 @Requires(property="spec.name", pattern="NamedMapInjectionTest|FilterBindingTest")
 # tag::clazz[]
-@AdultMales    # <1>
+@AdultMales()  # <1>
 @Singleton     # <2>
 class AdultMalesFilterFactory(FilterFactory["AdultMales", Person]):
 

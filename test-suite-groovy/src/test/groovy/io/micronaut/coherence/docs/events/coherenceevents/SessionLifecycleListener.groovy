@@ -50,6 +50,6 @@ class SessionLifecycleListener {
     // end::defaultName[]
 
     private void record(String listener, SessionLifecycleEvent event) {
-        events.add("$listener:${event.type}:${event.session.name}")
+        events.add("$listener:${event.type}:${event.session.name}".toString())
     }
 }

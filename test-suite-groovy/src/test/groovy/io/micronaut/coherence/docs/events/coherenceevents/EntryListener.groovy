@@ -58,6 +58,6 @@ class EntryListener {
     // end::sessionName[]
 
     private void record(String listener, EntryEvent<?, ?> event) {
-        events.add("$listener:${event.type}:${event.key}")
+        events.add("$listener:${event.type}:${event.key}".toString())
     }
 }

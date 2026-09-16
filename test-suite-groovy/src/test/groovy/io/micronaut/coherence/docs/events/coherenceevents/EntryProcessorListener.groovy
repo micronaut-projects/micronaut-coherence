@@ -57,6 +57,6 @@ class EntryProcessorListener {
     // end::sessionName[]
 
     private void record(String listener, EntryProcessorEvent event) {
-        events.add("$listener:${event.type}:${event.cacheName}")
+        events.add("$listener:${event.type}:${event.cacheName}".toString())
     }
 }

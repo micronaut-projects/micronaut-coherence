@@ -58,6 +58,6 @@ class CacheLifecycleListener {
     // end::sessionName[]
 
     private void record(String listener, CacheLifecycleEvent event) {
-        events.add("$listener:${event.type}:${event.cacheName}")
+        events.add("$listener:${event.type}:${event.cacheName}".toString())
     }
 }

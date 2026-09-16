@@ -2,6 +2,9 @@ View (or link:{coherenceApi}/com/tangosol/net/ContinuousQueryCache.html[Continuo
 link:{api}/io/micronaut/coherence/annotation/View.html[@View] annotation at the injection point.
 A view is a sub-set of the data in an underlying cache, controlled by a link:{coherenceApi}/com/tangosol/util/Filter.html[Filter].
 
+[.lang-python]
+NOTE: Injecting a `NamedMap`, `NamedCache` or view into a Python bean is not supported yet: the Python runtime copies injected Java `Map` values into a plain Python mapping, so the injected object is a snapshot without the `NamedMap` API. Inject a `Session` instead and obtain the map with `session.getMap("people")`; the injection syntax shown below is the intended one.
+
 snippet::io.micronaut.coherence.docs.injection.maps.PeopleViews[tags="view"]
 <1> The injection point has been annotated with `@View`, so the injected `NamedMap` will actually be an implementation
 of a `ContinuousQueryCache`.

@@ -12,7 +12,7 @@ from micronaut.context.annotation import Requires
 
 @Requires(property="spec.name", value="ExtractorBindingTest")
 # tag::clazz[]
-@PersonAge     # <1>
+@PersonAge()   # <1>
 @Singleton     # <2>
 class PersonAgeExtractorFactory(ExtractorFactory["PersonAge", Person, int]):
 

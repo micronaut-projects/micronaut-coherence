@@ -6,10 +6,11 @@ list for the final migration wave.
 
 ## Reconciliation
 
-- Last generated active `@Disabled` count: see the "Active `@Disabled` Tests" table below.
+- Last generated active `@Disabled` count: 6 (`NamedMapInjectionTest` x3, `FilterBindingTest`, `ExtractorBindingTest`, `XmlInjectionTest`).
 - Last generated command: `rg -n "@Disabled\\(" test-suite-python/src/test/python`.
-- Last full-suite command: `./gradlew :test-suite-python:test -Ppython-ci` (Coherence runs embedded in the test JVM, no
-  container is needed).
+- Last full-suite command: `./gradlew :test-suite-python:test -Ppython-ci --max-workers=1` (Coherence runs embedded in the
+  test JVM, no container is needed).
+- Last full-suite result: build successful, 18 tests, 6 skipped (see below), 0 failures.
 
 ## Migration Rules
 
@@ -30,14 +31,19 @@ list for the final migration wave.
   (`Mono`/`Flux` are wrapped with `Mono.from_(...)` / `Flux.from_(...)`).
 - Model classes stored in Coherence (`Person`, `Order`, `Product`, `Book`) are Java classes of this project
   (`src/test/java/io/micronaut/coherence/examples/model`), see below.
-- Tests are `@MicronautTest` classes with `@Property(name="spec.name", ...)` and injected beans; Java types used at
-  runtime are looked up with `java.type(...)`.
+- Tests are `@MicronautTest` classes with `@Property(name="spec.name", ...)` and injected beans; Java classes are
+  imported normally (`from com.tangosol.net import Session`, `from reactor.core.publisher import Mono`, the Java test
+  helpers of this project as `from micronaut.coherence.examples import EventsHelper`). The only `java.type(...)`
+  alias left is documented in the "Workarounds" table below.
 
 ## Active `@Disabled` Tests
 
 | Test | Reason |
 | --- | --- |
-| (none yet - see the "Not Ported" table) | |
+| `micronaut.coherence.docs.injection.maps.NamedMapInjectionTest` (3 tests) | A Java `Map` injected into a Python bean (attribute or constructor parameter) is coerced to a copy by `PythonCoercion.coerceToContext` (every `Map`/`List`/`Set` value is rebuilt as a plain collection), so an injected `NamedMap`/`NamedCache`/`ContinuousQueryCache` is a detached snapshot without the `NamedMap` API (`foreign object has no attribute 'getName'`, no live data). `AsyncNamedMap`, `NamedTopic`, `Publisher`, `Subscriber` and `Session` are injected correctly. The user guide carries a `[.lang-python]` note recommending `Session.getMap(...)`. |
+| `micronaut.coherence.docs.filterbinding.FilterBindingTest` | Same as above: the injected `@View` maps are copies. The filter factory and the custom binding annotation themselves work (they are resolved when the view is created). |
+| `micronaut.coherence.docs.extractorbinding.ExtractorBindingTest` | Same as above. |
+| `micronaut.coherence.docs.xmlinjection.XmlInjectionTest` | The `<m:bean>Foo</m:bean>` injection of the Python `MyInterceptor` bean into the cache configuration works and the interceptor is invoked, but the Coherence `@Interceptor` / `@EntryEvents([INSERTED, UPDATED, REMOVED])` annotations (non-Micronaut annotations) are not copied onto the generated Java class, so Coherence registers the interceptor for all entry event types: `['INSERTING:a', 'INSERTED:a', 'UPDATING:a', 'UPDATED:a', 'REMOVING:a', ...]` instead of the three post-events. |
 
 ## Commented Unsupported Snippet Ports
 
@@ -48,12 +54,15 @@ None.
 | Target | Reason |
 | --- | --- |
 | `io.micronaut.coherence.examples.model.*` (Java, `src/test/java`) | Coherence serializes the values stored in its caches and published to its topics. The Java classes generated for Python classes hold a reference to the GraalPy object and are not `java.io.Serializable` (nor POF serializable), so a Python `Person`/`Order`/`Product`/`Book` cannot be stored in a Coherence cache or topic: the model classes are Java. The package is deliberately not a sub-package of the `micronaut.coherence.docs` Python package, otherwise the Python import `micronaut.coherence.docs.model` is resolved against the Python package (`ModuleNotFoundError`) instead of the Java one. |
+| `messaging/MessagingTest.py`: `ProductClient = java.type("micronaut.coherence.docs.messaging.ProductClient")` | The `usage` snippet looks the publisher bean up by type with `ApplicationContext.getBean(...)`; an imported Python class is not usable as a runtime type argument (`UnsupportedOperationException: 'typeHashCode'`), only a `java.type(...)` alias is. |
+| `messaging/*CommitListener.py`, `messaging/ProductElementListener.py` | `@CoherenceTopicListener` is applied to the class instead of the `@Topic` method as in the Java examples: a decorated Python method is treated as a `@Bean` factory method ("Factory methods declared with @Bean must specify a return type"). Documented with a `[.lang-python]` note. |
 | `io.micronaut.coherence.docs.PythonRuntimeInitializer` (Java, `src/test/java`) | The Coherence event listener and topic listener processors are `ExecutableMethodProcessor`s created by `DefaultBeanContext.processExecutableMethodsProcessAtStartup()` before the `@Context` beans (among them the GraalPy runtime) are initialized; a no-op Java `TypeConverter<Object, Object>` injecting the `@Named("python") Context` forces the runtime first. |
 
 ## Not Ported (documented with `languages="java,kotlin,groovy"` and a `[.lang-python]` note)
 
 | Snippet | Reason |
 | --- | --- |
+| `io.micronaut.coherence.docs.repository.BookRepository` (commented out in `repository/BookRepository.py`) | The Java class generated for a Python interface extending `CrudRepository[Book, UUID]` with the *Java* entity class `Book` as type argument declares the inherited `deleteAll(Iterable<? extends E>)` method as `deleteAll(Iterable<? extends ? extends Book> entities)`: "illegal start of type" (`build/classes/python/test/.../BookRepository.java:98`). The same declaration with a Python entity class compiles (micronaut-data examples), but a Python entity cannot be stored in Coherence (see the model classes above). |
 | `io.micronaut.coherence.docs.repository.CoherenceBookRepository`, `CoherenceAsyncBookRepository` | A Python class cannot extend a Java class (`AbstractCoherenceRepository`, `AbstractCoherenceAsyncRepository`). The `CrudRepository` interface variant (`BookRepository`) is ported. |
 | `io.micronaut.coherence.docs.transientinjection.InjectableBean` | Transient objects deserialized by Coherence must be serializable Java classes (see the model classes above); the injected `ToUpperConverter` service is ported. |
 

@@ -50,6 +50,6 @@ class CoherenceLifecycleListener {
     // end::defaultName[]
 
     private void record(String listener, CoherenceLifecycleEvent event) {
-        events.add("$listener:${event.type}")
+        events.add("$listener:${event.type}".toString())
     }
 }

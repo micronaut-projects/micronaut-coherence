@@ -15,6 +15,9 @@ When using a Coherence topic link:{coherenceApi}/com/tangosol/net/topic/Subscrib
 For example
 snippet::io.micronaut.coherence.docs.messaging.ProductElementListener[tags="element"]
 
+[.lang-python]
+NOTE: In Python the `@CoherenceTopicListener` annotation is applied to the class of the `@Topic` methods (a decorated method would be treated as a `@Bean` factory method).
+
 The method above will be passed the link:{coherenceApi}/com/tangosol/net/topic/Subscriber.Element.html[Element] received from the topic. By receiving the element, the method has access to the message value and all the metadata stored with the message.
 
 Alternatively, just select parts of the metadata can be passed as parameters.

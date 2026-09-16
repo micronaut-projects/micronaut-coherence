@@ -1,6 +1,6 @@
 from typing import Annotated
 
-import java
+from com.tangosol.net import Coherence
 from jakarta.inject import Inject
 from micronaut.context.annotation import Property
 from micronaut.test.extensions.junit5.annotation import MicronautTest
@@ -10,8 +10,6 @@ from .NamedSessionBean import NamedSessionBean
 from .NamedSessionConstructorBean import NamedSessionConstructorBean
 from .SessionBean import SessionBean
 from .SessionConstructorBean import SessionConstructorBean
-
-Coherence = java.type("com.tangosol.net.Coherence")
 
 
 @Property(name="spec.name", value="SessionInjectionTest")

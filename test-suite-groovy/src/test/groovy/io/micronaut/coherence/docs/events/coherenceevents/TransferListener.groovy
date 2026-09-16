@@ -50,6 +50,6 @@ class TransferListener {
     // end::serviceName[]
 
     private void record(String listener, TransferEvent event) {
-        events.add("$listener:${event.type}")
+        events.add("$listener:${event.type}".toString())
     }
 }

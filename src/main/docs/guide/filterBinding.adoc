@@ -47,6 +47,9 @@ snippet::io.micronaut.coherence.docs.filterbinding.AdultsFilterFactory[tags="cla
 
 Now the application code where the view is to be injected can use the custom filter binding annotation.
 
+[.lang-python]
+NOTE: Injecting a `NamedMap`, `NamedCache` or view into a Python bean is not supported yet: the Python runtime copies injected Java `Map` values into a plain Python mapping, so the injected object is a snapshot without the `NamedMap` API. Inject a `Session` instead and obtain the map with `session.getMap("people")`; the injection syntax shown below is the intended one.
+
 snippet::io.micronaut.coherence.docs.filterbinding.AdultMalesView[tags="inject"]
 <1> The `@View` annotation indicates that this is a view rather than a plain `NamedMap`
 <2> The `@AdultMales` annotation links to the custom filter factory to use to create the filter for the view
