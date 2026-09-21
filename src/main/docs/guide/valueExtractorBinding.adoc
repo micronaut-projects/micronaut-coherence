@@ -43,9 +43,6 @@ In this case the annotation has no values, but if it did we could access those v
 
 Now the application code where the view is to be injected can use the custom extractor binding annotation.
 
-[.lang-python]
-NOTE: Injecting a `NamedMap`, `NamedCache` or view into a Python bean is not supported yet: the Python runtime copies injected Java `Map` values into a plain Python mapping, so the injected object is a snapshot without the `NamedMap` API. Inject a `Session` instead and obtain the map with `session.getMap("people")`; the injection syntax shown below is the intended one.
-
 snippet::io.micronaut.coherence.docs.extractorbinding.PersonAgeView[tags="inject"]
 <1> The `@View` annotation indicates that this is a view rather than a plain `NamedMap`
 <2> The `@PersonAge` annotation links to the custom extractor factory used to create the `ValueExtractor` for the view

@@ -32,7 +32,7 @@ snippet::io.micronaut.coherence.docs.xmlinjection.MyInterceptor[tags="imports,cl
 <1> The interceptor is a `@Singleton` bean `@Named` with the name `Foo`
 
 [.lang-python]
-NOTE: The Coherence `@Interceptor` and `@EntryEvents` annotations are not applied to Python beans yet: the Python interceptor is injected into the configuration and invoked, but it receives all the entry event types (the pre-events too).
+NOTE: Coherence reads the `@Interceptor` and `@EntryEvents` annotations reflectively from the Java class of the interceptor, so the Python class declares the `@AllowsReflection` hint (`micronaut.core.annotation`), which copies them onto the generated Java class.
 
 This bean can be referenced in the cache configuration file, for example as an interceptor in a cache mapping:
 

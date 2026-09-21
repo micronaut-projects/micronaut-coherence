@@ -1,5 +1,6 @@
 # tag::imports[]
 from com.tangosol.net.topic.Subscriber import Element
+from jakarta.inject import Singleton
 from micronaut.coherence.annotation import CoherenceTopicListener, CommitStrategy, Topic
 from micronaut.coherence.examples.model import Product
 # end::imports[]
@@ -8,13 +9,14 @@ from micronaut.context.annotation import Requires
 
 
 @Requires(property="spec.name", value="MessagingTest")
-# tag::manual[]
-@CoherenceTopicListener(commitStrategy=CommitStrategy.MANUAL)
+@Singleton
 class ManualCommitListener:
 
     def __init__(self):
         self.products: list[Product] = []
 
+    # tag::manual[]
+    @CoherenceTopicListener(commitStrategy=CommitStrategy.MANUAL)
     @Topic("products")
     def receive(self, element: Element[Product]) -> None:
         self.products.append(element.getValue())  # ... process message ...

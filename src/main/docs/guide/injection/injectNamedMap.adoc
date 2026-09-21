@@ -4,9 +4,6 @@ for example the asynchronous forms of both classes, and views.
 
 The simplest way to inject a `NamedMap` is to just annotate the injection point with `@jakarta.inject.Inject`.
 
-[.lang-python]
-NOTE: Injecting a `NamedMap`, `NamedCache` or view into a Python bean is not supported yet: the Python runtime copies injected Java `Map` values into a plain Python mapping, so the injected object is a snapshot without the `NamedMap` API. Inject a `Session` instead and obtain the map with `session.getMap("people")`; the injection syntax shown below is the intended one.
-
 snippet::io.micronaut.coherence.docs.injection.maps.PeopleService[tags="inject"]
 In this example the injection point field name is used to determine the cache name to inject,
 so a `NamedMap` bean with an underlying cache name of `people` will be injected.

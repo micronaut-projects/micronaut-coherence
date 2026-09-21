@@ -3,12 +3,14 @@ from com.tangosol.net.events import EventInterceptor
 from com.tangosol.net.events.annotation import EntryEvents, Interceptor
 from com.tangosol.net.events.partition.cache import EntryEvent
 from jakarta.inject import Named, Singleton
+from micronaut.core.annotation import AllowsReflection
 # end::imports[]
 
 
 # tag::clazz[]
 @Singleton
 @Named("Foo")   # <1>
+@AllowsReflection
 @Interceptor
 @EntryEvents([EntryEvent.Type.INSERTED, EntryEvent.Type.UPDATED, EntryEvent.Type.REMOVED])
 class MyInterceptor(EventInterceptor[EntryEvent]):

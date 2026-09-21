@@ -18,7 +18,6 @@ dependencies {
 
 tasks.withType(Test).configureEach {
     systemProperty "micronaut.python.pool.enabled", "false"
-    enableAssertions = false // a Truffle host-interop assertion trips on varargs overloads
 }
 
 // The Python sources reference the Java model classes of this project (src/test/java): the Python compiler

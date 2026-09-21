@@ -1,18 +1,17 @@
-from typing import Annotated
-
-from jakarta.inject import Inject
+from com.tangosol.io import DefaultSerializer
+from com.tangosol.util import ExternalizableHelper
 from micronaut.test.extensions.junit5.annotation import MicronautTest
 from org.junit.jupiter.api import Test
 
-from .ToUpperConverter import ToUpperConverter
+from .InjectableBean import InjectableBean
 
 
 @MicronautTest
 class TransientInjectionTest:
-    converter: Annotated[ToUpperConverter, Inject]
 
-    # TODO(python): the InjectableBean example cannot be ported: a Python class cannot be serialized by Coherence
-    # (the generated Java class holds a reference to the GraalPy object), so only the converter service is tested
     @Test
-    def test_converter(self):
-        assert self.converter.convert("hello") == "HELLO"
+    def test_injection_on_deserialization(self):
+        serializer = DefaultSerializer()
+        binary = ExternalizableHelper.toBinary(InjectableBean("hello"), serializer)
+        bean = ExternalizableHelper.fromBinary(binary, serializer)
+        assert bean.get_converted_text() == "HELLO"

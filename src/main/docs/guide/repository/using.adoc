@@ -35,13 +35,13 @@ the configuration.
 
 and the Repository could look something like:
 
-snippet::io.micronaut.coherence.docs.repository.BookRepository[tags="imports,clazz", languages="java,kotlin,groovy"]
+snippet::io.micronaut.coherence.docs.repository.BookRepository[tags="imports,clazz"]
 
 The developer may then start adding queries to the interface for Micronaut to implement, for example the
 `findByTitleStartingWith` method above.
 
 [.lang-python]
-NOTE: Coherence repositories are not available in Python yet: the entity class stored in Coherence must be a serializable Java class, and a Python repository interface with a Java entity class as type argument is not supported by the Python compiler.
+NOTE: In Python the repository is an abstract class whose query methods have `...` bodies; the entity class stored in Coherence (`Book`) is a Java class in this example. The `AbstractCoherenceRepository` / `AbstractCoherenceAsyncRepository` implementations below are not available in Python yet: the class generated for a Python class extending them does not leave the abstract methods to the implementation Micronaut Data generates.
 
 === Repository Implementations
 

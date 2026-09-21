@@ -23,10 +23,10 @@ all intents and purposes.
 All you need to do is add it to the `implements` clause of your class in order for injection on deserialization to
 kick in:
 
-[.lang-python]
-NOTE: Transient objects deserialized by Coherence must be Java classes: a Python class cannot be serialized by Coherence, so the `InjectableBean` example below is not available in Python. The services injected into them, like the `ToUpperConverter` below, can be Python beans.
+snippet::io.micronaut.coherence.docs.transientinjection.InjectableBean[tags="imports,clazz"]
 
-snippet::io.micronaut.coherence.docs.transientinjection.InjectableBean[tags="imports,clazz", languages="java,kotlin,groovy"]
+[.lang-python]
+NOTE: In Python the class is also `@Introspected`: the Java class generated for an introspected Python class is `java.io.Serializable`, and its serialized form consists of the introspected properties (`text`), from which the Python object is recreated after deserialization.
 
 Assuming that you have the following `Converter` service implementation in your application, it will be injected
 into `InjectableBean` during deserialization, and the `getConvertedText` method will return the value of the `text`
