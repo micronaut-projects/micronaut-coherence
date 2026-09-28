@@ -11,7 +11,7 @@ from .BookRepository import BookRepository
 # TODO(python): the CoherenceBookRepository / CoherenceAsyncBookRepository examples (a Python class extending the
 # abstract AbstractCoherenceRepository / AbstractCoherenceAsyncRepository) are not ported: the class generated for
 # the Python repository bridges the abstract getMapInternal() of the Java base to Python instead of leaving it to the
-# implementation Micronaut Data generates ("No Python member [getMapInternal] found").
+# implementation Micronaut Data generates ("No Python member [getMapInternal] found"). Re-checked against core 5.2.9.
 @MicronautTest
 class RepositoryTest:
     book_repository: Annotated[BookRepository, Inject]

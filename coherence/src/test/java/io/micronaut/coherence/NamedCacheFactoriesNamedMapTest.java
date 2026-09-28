@@ -187,7 +187,51 @@ class NamedCacheFactoriesNamedMapTest {
         assertThat(bean.getLetters().getNamedMap().getName(), is("letters"));
     }
 
+    @Test
+    void testSetterInjectionUsesThePropertyName() {
+        SetterBean bean = ctx.getBean(SetterBean.class);
+
+        // the resource name comes from the setter's property name, not from its parameter name
+        assertThat(bean.getNumbers(), notNullValue());
+        assertThat(bean.getNumbers().getName(), is("numbers"));
+    }
+
+    @Test
+    void testSetterInjectionHonoursAnExplicitName() {
+        SetterBean bean = ctx.getBean(SetterBean.class);
+
+        // an explicit @Name still wins over the setter's property name
+        assertThat(bean.getLetters(), notNullValue());
+        assertThat(bean.getLetters().getName(), is("letters"));
+    }
+
     // ----- test beans -----------------------------------------------------
+
+    @Singleton
+    @Requires(env = "NamedCacheFactoriesNamedMapTest")
+    static class SetterBean {
+        private NamedMap numbers;
+
+        private NamedMap letters;
+
+        @Inject
+        void setNumbers(NamedMap map) {
+            this.numbers = map;
+        }
+
+        @Inject
+        void setLetters(@Name("letters") NamedMap map) {
+            this.letters = map;
+        }
+
+        NamedMap getNumbers() {
+            return numbers;
+        }
+
+        NamedMap getLetters() {
+            return letters;
+        }
+    }
 
     @Singleton
     @Requires(env = "NamedCacheFactoriesNamedMapTest")

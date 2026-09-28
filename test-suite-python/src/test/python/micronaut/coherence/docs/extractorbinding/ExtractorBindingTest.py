@@ -24,6 +24,6 @@ class ExtractorBindingTest:
 
         # TODO(python): the view is read through its Java entrySet(): the Python mapping access to the injected
         # ContinuousQueryCache (ages["homer"], ages.get("homer"), dict(ages)) returns the untransformed Person
-        # although entrySet() and values() return the extracted ages
+        # although entrySet() and values() return the extracted ages. Re-checked against core 5.2.9.
         ages = {entry.getKey(): entry.getValue() for entry in self.view.ages.entrySet()}
         assert ages == {"homer": 39, "bart": 10}

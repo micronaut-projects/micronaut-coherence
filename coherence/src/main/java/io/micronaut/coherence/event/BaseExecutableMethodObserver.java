@@ -16,7 +16,9 @@
 package io.micronaut.coherence.event;
 
 import io.micronaut.coherence.annotation.Synchronous;
+import io.micronaut.core.annotation.AnnotationMetadata;
 import io.micronaut.inject.ExecutableMethod;
+import io.micronaut.inject.annotation.AnnotationMetadataHierarchy;
 
 import java.lang.annotation.Annotation;
 import java.util.Arrays;
@@ -64,8 +66,27 @@ abstract class BaseExecutableMethodObserver<E, T, R> {
         // target method, so that beans whose annotations only exist in the metadata (for example Python beans)
         // are observed like Java beans
         return Stream.concat(Arrays.stream(method.getArguments()[0].getAnnotationMetadata().synthesizeAll()),
-                Arrays.stream(method.getAnnotationMetadata().synthesizeAll()))
+                Arrays.stream(methodAnnotationMetadata().synthesizeAll()))
                 .collect(Collectors.toSet());
+    }
+
+    /**
+     * The annotation metadata of the method itself, excluding the declaring class.
+     *
+     * <p>An {@link ExecutableMethod}'s {@link ExecutableMethod#getAnnotationMetadata()} is an
+     * {@link AnnotationMetadataHierarchy} of the declaring class and the method, so reading it whole would
+     * turn class level annotations such as {@code @SessionName}, {@code @ScopeName} or a filter binding into
+     * qualifiers of every observer method of that class. Only the method level is a qualifier of the
+     * observed event.</p>
+     *
+     * @return the method level annotation metadata
+     */
+    private AnnotationMetadata methodAnnotationMetadata() {
+        AnnotationMetadata annotationMetadata = method.getAnnotationMetadata();
+        if (annotationMetadata instanceof AnnotationMetadataHierarchy hierarchy) {
+            return hierarchy.getDeclaredMetadata();
+        }
+        return annotationMetadata;
     }
 
     public boolean isAsync() {

@@ -4,8 +4,8 @@ plugins {
 }
 
 dependencies {
-    // The Java helpers in src/test/java (the Coherence-serializable model classes and the GraalPy runtime
-    // initializer) are processed by javac
+    // The Java helpers in src/test/java (the Coherence-serializable model classes and the event/messaging
+    // test helpers) are processed by javac
     testAnnotationProcessor mn.micronaut.inject.java
     testAnnotationProcessor mnData.micronaut.data.processor
     testAnnotationProcessor projects.micronautCoherenceData
@@ -14,10 +14,6 @@ dependencies {
     testImplementation mn.micronaut.inject.python.test
     testImplementation mn.micronaut.context.python
     testImplementation mnData.micronaut.data.processor
-}
-
-tasks.withType(Test).configureEach {
-    systemProperty "micronaut.python.pool.enabled", "false"
 }
 
 // The Python sources reference the Java model classes of this project (src/test/java): the Python compiler
