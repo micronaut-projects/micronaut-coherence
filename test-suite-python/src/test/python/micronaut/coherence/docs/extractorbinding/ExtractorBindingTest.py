@@ -22,8 +22,10 @@ class ExtractorBindingTest:
         self.people.put("homer", Person("Homer", "Simpson", 39, "male"))
         self.people.put("bart", Person("Bart", "Simpson", 10, "male"))
 
-        # TODO(python): the view is read through its Java entrySet(): the Python mapping access to the injected
-        # ContinuousQueryCache (ages["homer"], ages.get("homer"), dict(ages)) returns the untransformed Person
-        # although entrySet() and values() return the extracted ages. Re-checked against core 5.2.9.
+        # The view is read through its Java entrySet() rather than with dict(self.view.ages): the Python
+        # mapping protocol reads a Java Map with Map.getOrDefault(), and a Coherence view answers that
+        # from the cache it is a view of, so it returns the untransformed Person. That is not specific to
+        # Python - see #1066 - and once #1067 is merged into 7.1.x this becomes
+        #     assert dict(self.view.ages) == {"homer": 39, "bart": 10}
         ages = {entry.getKey(): entry.getValue() for entry in self.view.ages.entrySet()}
         assert ages == {"homer": 39, "bart": 10}
