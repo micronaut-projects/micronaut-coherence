@@ -230,6 +230,44 @@ class NamedCacheFactoriesViewTest {
     }
 
     @Test
+    void shouldGetOrDefaultFromViewWithTransformer() {
+        WithTransformersBean bean = ctx.getBean(WithTransformersBean.class);
+        NamedCache<String, Person> cache = bean.getNamedCache();
+        ContinuousQueryCache<String, Person, String> names = bean.getNames();
+
+        // populate the underlying cache
+        populate(cache);
+
+        // getOrDefault() must apply the value extractor of the view, exactly as get() does
+        for (Map.Entry<String, Person> entry : cache.entrySet()) {
+            MatcherAssert.assertThat(names.getOrDefault(entry.getKey(), "missing"),
+                                     CoreMatchers.is(entry.getValue().getFirstName()));
+        }
+        assertThat(names.getOrDefault("no-such-key", "missing"), is("missing"));
+    }
+
+    @Test
+    void shouldGetOrDefaultFromViewWithTransformerAndFilter() {
+        WithTransformersBean bean = ctx.getBean(WithTransformersBean.class);
+        NamedCache<String, Person> cache = bean.getNamedCache();
+        ContinuousQueryCache<String, Person, String> filtered = bean.getFilteredNames();
+
+        // populate the underlying cache
+        populate(cache);
+
+        for (Map.Entry<String, Person> entry : cache.entrySet(Filters.equal("lastName", "foo"))) {
+            MatcherAssert.assertThat(filtered.getOrDefault(entry.getKey(), "missing"),
+                                     CoreMatchers.is(entry.getValue().getPhoneNumber().getNumber()));
+        }
+
+        // a key that the filter of the view excludes is not contained in the view
+        for (Map.Entry<String, Person> entry : cache.entrySet(Filters.equal("lastName", "bar"))) {
+            MatcherAssert.assertThat(filtered.getOrDefault(entry.getKey(), "missing"),
+                                     CoreMatchers.is("missing"));
+        }
+    }
+
+    @Test
     void shouldInjectContinuousQueryCacheWithKeysOnly() {
         WithTransformersBean bean = ctx.getBean(WithTransformersBean.class);
         NamedCache<String, Person> cache = bean.getNamedCache();

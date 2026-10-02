@@ -162,6 +162,19 @@ class NamedCacheFactories {
                 if (cqc == null || !cqc.isActive()) {
                     cqc = new ContinuousQueryCache(cache, filter, hasValues, null, extractor) {
                         @Override
+                        public Object getOrDefault(Object key, Object defaultValue) {
+                            // com.tangosol.util.InvocableMap overrides Map.getOrDefault(Object, Object)
+                            // with an entry processor, and a view runs entry processors against the cache
+                            // that it is a view of. The result therefore ignores both the filter and the
+                            // value extractor of the view: a view of transformed values answers with the
+                            // underlying entity and a filtered view answers for keys the view does not
+                            // contain. Implement the java.util.Map contract against the view itself,
+                            // which is what get(Object) already does.
+                            Object value = get(key);
+                            return value == null && !containsKey(key) ? defaultValue : value;
+                        }
+
+                        @Override
                         public String toString() {
                             try {
                                 return super.toString();
