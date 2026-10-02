@@ -5,13 +5,7 @@ The method should have a single parameter of type `CacheLifecycleEvent`.
 
 For example, the `onEvent` method below will receive lifecycle events for all caches.
 
-[source,java]
-----
-@CoherenceEventListener
-public void onEvent(CacheLifecycleEvent event) {
-    // ToDo: process the event
-}
-----
+snippet::io.micronaut.coherence.docs.events.coherenceevents.CacheLifecycleListener[tags="all"]
 
 === Receive Specific CacheLifecycleEvent Types
 
@@ -23,13 +17,7 @@ There are three types of `CacheLifecycleEvent:
 
 For example, the method below will only receive `Created` and `Destroyed` events for all caches.
 
-[source,java]
-----
-@CoherenceEventListener
-public void onEvent(@Created @Destroyed CacheLifecycleEvent event) {
-    // ToDo: process the event
-}
-----
+snippet::io.micronaut.coherence.docs.events.coherenceevents.CacheLifecycleListener[tags="types"]
 
 === Receive CacheLifecycleEvents for a Specific NamedMap or NamedCache
 
@@ -42,13 +30,7 @@ The `@MapName` and `@CacheName` annotations are actually interchangeable so use 
 
 The method below will only receive events for the map named `orders`:
 
-[source,java]
-----
-@CoherenceEventListener
-public void onEvent(@MapName("orders") CacheLifecycleEvent event) {
-    // ToDo: process the event
-}
-----
+snippet::io.micronaut.coherence.docs.events.coherenceevents.CacheLifecycleListener[tags="mapName"]
 
 === Receive CacheLifecycleEvents from a Specific Cache Service
 
@@ -57,25 +39,13 @@ link:{api}/io/micronaut/coherence/annotation/ServiceName.html[@ServiceName] anno
 
 The method below will only receive events for the caches owned by the service named `StorageService`:
 
-[source,java]
-----
-@CoherenceEventListener
-public void onEvent(@ServiceName("StorageService") CacheLifecycleEvent event) {
-    // ToDo: process the event
-}
-----
+snippet::io.micronaut.coherence.docs.events.coherenceevents.CacheLifecycleListener[tags="serviceName"]
 
 === Receive CacheLifecycleEvents from a Specific Session
 
 A typical use case is to obtain `NamedCache` and `NamedMap` instances from a `Session`. It is possible to restrict events received by a method to only those related to caches owned by a specific `Session` by annotating the method parameter with the
-link:{api}/io/micronaut/coherence/annotation/SessionName.html[@SessionName] annotation.
+link:{api}/io/micronaut/coherence/annotation/ScopeName.html[@ScopeName] annotation, specifying the scope name of the `Session`.
 
-The method below will only receive events for the caches owned by the `Session` named `BackEnd`:
+The method below will only receive events for the caches owned by the `Session` with the scope name `BackEnd`:
 
-[source,java]
-----
-@CoherenceEventListener
-public void onEvent(@SessionName("BackEnd") CacheLifecycleEvent event) {
-    // ToDo: process the event
-}
-----
+snippet::io.micronaut.coherence.docs.events.coherenceevents.CacheLifecycleListener[tags="sessionName"]

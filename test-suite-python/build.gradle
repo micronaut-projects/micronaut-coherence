@@ -1,0 +1,24 @@
+plugins {
+    id 'io.micronaut.build.internal.coherence-test-suite'
+    id 'io.micronaut.build.internal.python'
+}
+
+dependencies {
+    // The Java helpers in src/test/java (the Coherence-serializable model classes and the event/messaging
+    // test helpers) are processed by javac
+    testAnnotationProcessor mn.micronaut.inject.java
+    testAnnotationProcessor mnData.micronaut.data.processor
+    testAnnotationProcessor projects.micronautCoherenceData
+    // Annotation processors of the Python sources MUST be testImplementation (not testAnnotationProcessor):
+    // the Python compiler takes the compile classpath as its annotation processor path.
+    testImplementation mn.micronaut.inject.python.test
+    testImplementation mn.micronaut.context.python
+    testImplementation mnData.micronaut.data.processor
+}
+
+// The Python sources reference the Java model classes of this project (src/test/java): the Python compiler
+// only sees the (jar) compile classpath by default, so add the Java classes of the test source set.
+tasks.named("compileTestPython") {
+    dependsOn(tasks.named("compileTestJava"))
+    classpath.from(sourceSets.test.java.classesDirectory)
+}

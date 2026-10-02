@@ -7,13 +7,7 @@ The method should have a single parameter of type `LifecycleEvent`.
 
 For example, the `onEvent` method below will receive lifecycle events for all `ConfigurableCacheFactory` instances in the current application:
 
-[source,java]
-----
-@CoherenceEventListener
-public void onEvent(LifecycleEvent event) {
-    // ToDo: process the event
-}
-----
+snippet::io.micronaut.coherence.docs.events.coherenceevents.LifecycleListener[tags="all"]
 
 === Receive Specific LifecycleEvent Types
 
@@ -26,10 +20,4 @@ By adding the corresponding annotation to the method parameter the method will o
 
 For example, the method below will only receive `Activated` and `Disposing` events.
 
-[source,java]
-----
-@CoherenceEventListener
-public void onEvent(@Activated @Disposing LifecycleEvent event) {
-    // ToDo: process the event
-}
-----
+snippet::io.micronaut.coherence.docs.events.coherenceevents.LifecycleListener[tags="types"]

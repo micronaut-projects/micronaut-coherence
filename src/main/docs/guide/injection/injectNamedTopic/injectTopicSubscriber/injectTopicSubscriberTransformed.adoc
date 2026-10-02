@@ -18,22 +18,6 @@ then a `@PropertyExtractor` annotation could be used. A `@PropertyExtractor` spe
 Both code snippets below will inject a `Subscriber` that just receives the `productId` property of `Orders` objects
 from the `orders` topic.
 
-[source,java]
-----
-@Inject
-@Name("orders")
-@PropertyExtractor("productId")
-private Subscriber<Order> orders;
-----
+snippet::io.micronaut.coherence.docs.injection.subscriber.OrderSubscribers[tags="transformed"]
 
-[source,java]
-----
-@Controller
-public class OrderController {
-    @Inject
-    public OrderController(@Name("orders") @PropertyExtractor("productId")
-                           Subscriber<Order> topic) {
-        // ToDo:
-    }
-}
-----
+snippet::io.micronaut.coherence.docs.injection.subscriber.TransformedOrderController[tags="imports,clazz"]

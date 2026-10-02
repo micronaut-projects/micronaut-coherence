@@ -4,11 +4,7 @@ If application code only needs to publish messages to a Coherence `NamedTopic` t
 The simplest way to inject a `Publisher` is just to annotate the injection point of type `Publisher` with `@Inject`,
 for example:
 
-[source,java]
-----
-@Inject
-private Publisher<Order> orders;
-----
+snippet::io.micronaut.coherence.docs.injection.publisher.OrderPublishers[tags="inject"]
 
 The example above will inject a `Publisher` bean, the name of the underlying `NamedTopic` will be taken from the
 name of the injection point, in this case `orders`.
@@ -19,23 +15,9 @@ If the name of the injection point cannot be used as the `NamedTopic` name, whic
 
 For example, both of the code snippets below inject a `Publisher` that published to the `orders` topic:
 
-[source,java]
-----
-@Inject
-@Name("orders")
-private Publisher<Order> orders;
-----
+snippet::io.micronaut.coherence.docs.injection.publisher.OrderPublishers[tags="name"]
 
-[source,java]
-----
-@Controller
-public class OrderController {
-    @Inject
-    public OrderController(@Name("orders") Publisher<Order> topic) {
-        // ToDo:
-    }
-}
-----
+snippet::io.micronaut.coherence.docs.injection.publisher.OrderController[tags="imports,clazz"]
 
 == Specify the Owning Session
 
@@ -43,10 +25,4 @@ As with injection of `NamedTopics`, in applications using multiple `Session` ins
 owns the underlying `NamedTopic` can be specified when injecting a `Publisher` by adding the
 link:{api}/io/micronaut/coherence/annotation/SessionName.html[@SessionName] annotation.
 
-[source,java]
-----
-@Inject
-@Name("orders")
-@SessionName("Customers")
-private Publisher<Order> orders;
-----
+snippet::io.micronaut.coherence.docs.injection.publisher.OrderPublishers[tags="session"]

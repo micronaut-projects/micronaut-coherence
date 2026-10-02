@@ -4,11 +4,7 @@ for example the asynchronous forms of both classes, and views.
 
 The simplest way to inject a `NamedMap` is to just annotate the injection point with `@jakarta.inject.Inject`.
 
-[source,java]
-----
-@Inject
-private NamedMap<String, Person> people;
-----
+snippet::io.micronaut.coherence.docs.injection.maps.PeopleService[tags="inject"]
 In this example the injection point field name is used to determine the cache name to inject,
 so a `NamedMap` bean with an underlying cache name of `people` will be injected.
 
@@ -20,24 +16,11 @@ annotation to specify the underlying cache name.
 
 The example below will inject a `NamedMap` that uses an underlying cache named `people`.
 
-[source,java]
-----
-@Inject
-@Name("people")
-private NamedMap<String, Person> map;
-----
+snippet::io.micronaut.coherence.docs.injection.maps.PeopleService[tags="name"]
 
 The same applies when injecting a constructor or method parameter:
-[source,java]
-----
-@Singleton
-public class SomeBean {
-    @Inject
-    public SomeBean(@Name("people") NamedMap<String, Person> map) {
-        // ToDo: initialize the bean...
-    }
-}
-----
+
+snippet::io.micronaut.coherence.docs.injection.maps.SomeBean[tags="imports,clazz"]
 
 == Specify the Owning Session Name
 
@@ -50,23 +33,8 @@ In the previous examples where no `@SessionName` was specified Coherence will us
 Assuming the application has multiple sessions configured, one of which is named `Catalog` the following example
 injects a `NamedMap` from an underlying cache named `products` in the `Catalog` session.
 
-[source,java]
-----
-@Inject
-@SessionName("Catalog")
-@Name("products")
-private NamedMap<String, Product> map;
-----
+snippet::io.micronaut.coherence.docs.injection.maps.CatalogService[tags="session"]
 
 Again, the same annotation can be used on method parameter injection points.
-[source,java]
-----
-@Controller
-public class CatalogController {
-    @Inject
-    public CatalogController(@SessionName("Catalog") @Name("products")
-                             NamedMap<String, Product> products) {
-        // ToDo: initialize the bean...
-    }
-}
-----
+
+snippet::io.micronaut.coherence.docs.injection.maps.CatalogController[tags="imports,clazz"]

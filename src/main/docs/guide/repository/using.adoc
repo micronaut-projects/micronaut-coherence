@@ -33,23 +33,15 @@ NOTE: As any repository, like ``book`` above, that doesn't have explicit session
 Coherence session.  If that's the desired configuration, then there is no need reference any repositories within
 the configuration.
 
-and the Java-based Repository could look something like:
+and the Repository could look something like:
 
-[source, java]
-----
-//...
-import io.micronaut.coherence.data.annotation.CoherenceRepository;
-import io.micronaut.data.repository.CrudRepository;
-//...
-@CoherenceRepository("book")
-public interface BookRepository extends CrudRepository<Book, UUID> {
-//    ...
-}
-----
+snippet::io.micronaut.coherence.docs.repository.BookRepository[tags="imports,clazz"]
 
-NOTE:
+The developer may then start adding queries to the interface for Micronaut to implement, for example the
+`findByTitleStartingWith` method above.
 
-The developer may then start adding queries to the interface for Micronaut to implement.
+[.lang-python]
+NOTE: In Python the repository is an abstract class whose query methods have `...` bodies; the entity class stored in Coherence (`Book`) is a Java class in this example. The `AbstractCoherenceRepository` / `AbstractCoherenceAsyncRepository` implementations below are not available in Python yet: the class generated for a Python class extending them does not leave the abstract methods to the implementation Micronaut Data generates.
 
 === Repository Implementations
 
@@ -66,29 +58,11 @@ data stereotype interfaces (e.g., ``CrudRepository`` and the like).  In fact, th
 be able to fully utilize Coherence.
 ====
 
-[source, java]
-----
-//...
-import io.micronaut.coherence.data.annotation.CoherenceRepository;
-import io.micronaut.coherence.data.AbstractCoherenceRepository;
-//...
-@CoherenceRepository("book")
-public abstract class CoherenceBookRepository extends AbstractCoherenceRepository<Book, UUID> {
-}
-----
+snippet::io.micronaut.coherence.docs.repository.CoherenceBookRepository[tags="imports,clazz", languages="java,kotlin,groovy"]
 
 or for an asynchronous repository:
 
-[source, java]
-----
-//...
-import io.micronaut.coherence.data.annotation.CoherenceRepository;
-import io.micronaut.coherence.data.AbstractCoherenceAsyncRepository;
-//...
-@CoherenceRepository("book")
-public abstract class CoherenceAsyncBookRepository extends AbstractCoherenceAsyncRepository<Book, UUID> {
-}
-----
+snippet::io.micronaut.coherence.docs.repository.CoherenceAsyncBookRepository[tags="imports,clazz", languages="java,kotlin,groovy"]
 
 Even though developers are restricted in what interfaces they can implement when extending
 ``AbstractCoherenceRepository``, it does provide the same features of ``CrudRepository`` and more!  We recommend

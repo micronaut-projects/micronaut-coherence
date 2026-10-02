@@ -20,6 +20,8 @@ import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.Arrays;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import io.micronaut.coherence.annotation.AlwaysFilter;
 import io.micronaut.coherence.annotation.FilterBinding;
@@ -35,6 +37,7 @@ import jakarta.inject.Singleton;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
+import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -63,6 +66,16 @@ class FilterFactoriesTest {
     @CustomFilterTwo("five.1")
     @CustomFilterTwo("five.2")
     Filter<?> filterFive;
+
+    @Inject
+    @CustomFilter("six.1")
+    @CustomFilterTwo("six.2")
+    Filter<?> filterSix;
+
+    @Inject
+    @WhereFilter("foo=1")
+    @CustomFilter("seven")
+    Filter<?> filterSeven;
 
     @FilterBinding
     @Documented
@@ -120,6 +133,29 @@ class FilterFactoriesTest {
         assertThat(((FilterStub<?>) filters[1]).getValue(), is("five.2"));
     }
 
+
+    @Test
+    void shouldCombineDifferentFilterBindings() {
+        // several filter bindings on one injection point are combined, rather than only the first being used
+        assertThat(filterSix, is(instanceOf(AllFilter.class)));
+        Filter<?>[] filters = ((AllFilter) filterSix).getFilters();
+        assertThat(filters.length, is(2));
+        assertThat(Arrays.stream(filters)
+                .map(f -> ((FilterStub<?>) f).getValue())
+                .collect(Collectors.toSet()), is(Set.of("six.1", "six.2")));
+    }
+
+    @Test
+    void shouldCombineABuiltInAndACustomFilterBinding() {
+        assertThat(filterSeven, is(instanceOf(AllFilter.class)));
+        Filter<?>[] filters = ((AllFilter) filterSeven).getFilters();
+        assertThat(filters.length, is(2));
+        assertThat(Arrays.asList(filters), hasItem(QueryHelper.createFilter("foo=1")));
+        assertThat(Arrays.stream(filters)
+                .filter(FilterStub.class::isInstance)
+                .map(f -> ((FilterStub<?>) f).getValue())
+                .collect(Collectors.toSet()), is(Set.of("seven")));
+    }
 
     @Singleton
     @CustomFilter("")

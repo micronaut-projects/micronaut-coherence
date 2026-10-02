@@ -7,10 +7,4 @@ The method should have a single parameter of type `UnsolicitedCommitEvent`.
 
 For example, the `onEvent` method below will receive all Unsolicited commit events emitted by storage enabled cache services in the same JVM.
 
-[source,java]
-----
-@CoherenceEventListener
-public void onEvent(UnsolicitedCommitEvent event) {
-    // ToDo: process the event
-}
-----
+snippet::io.micronaut.coherence.docs.events.coherenceevents.UnsolicitedCommitListener[tags="all"]

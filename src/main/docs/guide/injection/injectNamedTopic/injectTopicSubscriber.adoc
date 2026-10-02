@@ -4,11 +4,7 @@ If application code only needs to subscribe to messages from a Coherence `NamedT
 The simplest way to inject a `Subscriber` is just to annotate the injection point of type `Subscriber` with `@Inject`,
 for example:
 
-[source,java]
-----
-@Inject
-private Subscriber<Order> orders;
-----
+snippet::io.micronaut.coherence.docs.injection.subscriber.OrderSubscribers[tags="inject"]
 
 The example above will inject a `Subscriber` bean, the name of the underlying `NamedTopic` will be taken from the
 name of the injection point, in this case `orders`.
@@ -19,23 +15,9 @@ If the name of the injection point cannot be used as the `NamedTopic` name, whic
 
 For example, both of the code snippets below inject a `Subscriber` that subscribe to the `orders` topic:
 
-[source,java]
-----
-@Inject
-@Name("orders")
-private Subscriber<Order> orders;
-----
+snippet::io.micronaut.coherence.docs.injection.subscriber.OrderSubscribers[tags="name"]
 
-[source,java]
-----
-@Controller
-public class OrderController {
-    @Inject
-    public OrderController(@Name("orders") Subscriber<Order> topic) {
-        // ToDo:
-    }
-}
-----
+snippet::io.micronaut.coherence.docs.injection.subscriber.OrderController[tags="imports,clazz"]
 
 == Specify the Owning Session
 
@@ -43,10 +25,4 @@ As with injection of `NamedTopics`, in applications using multiple `Session` ins
 owns the underlying `NamedTopic` can be specified when injecting a `Subscriber` by adding the
 link:{api}/io/micronaut/coherence/annotation/SessionName.html[@SessionName] annotation.
 
-[source,java]
-----
-@Inject
-@Name("orders")
-@SessionName("Customers")
-private Subscriber<Order> orders;
-----
+snippet::io.micronaut.coherence.docs.injection.subscriber.OrderSubscribers[tags="session"]

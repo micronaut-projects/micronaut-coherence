@@ -2,21 +2,7 @@ To listen to Coherence topic messages you can use the link:{api}/io/micronaut/co
 
 The following example will listen for messages published by the `ProductClient` in the previous section:
 
-[source,java]
-.ProductListener.java
-----
-import io.micronaut.coherence.annotation.CoherenceTopicListener;
-import io.micronaut.coherence.annotation.Topic;
-
-@CoherenceTopicListener   // <1>
-public class ProductListener {
-
-    @Topic("my-products")   // <2>
-    public void receive(String product) { // <3>
-        System.out.println("Got Product - " + product);
-    }
-}
-----
+snippet::io.micronaut.coherence.docs.messaging.ProductListener[tags="imports,clazz"]
 
 <1> The link:{api}/io/micronaut/coherence/annotation/CoherenceTopicListener.html[@CoherenceTopicListener] annotation to indicate that this bean is a Coherence topic listener.
 <2> The link:{api}/io/micronaut/coherence/annotation/Topic.html[@Topic] annotation is again used to indicate which topic to subscribe to.
@@ -27,14 +13,8 @@ public class ProductListener {
 When using a Coherence topic link:{coherenceApi}/com/tangosol/net/topic/Subscriber.html[Subscriber] directly in application code, the `receive` method returns an link:{coherenceApi}/com/tangosol/net/topic/Subscriber.Element.html[Element], which contains the message value and metadata. The annotated subscriber method can take various parameter types that will bind to the element itself, the message, or the metadata fields of the element.
 
 For example
-[source,java]
-----
-@CoherenceTopicListener
-@Topic("my-products")
-public void receive(Element<Product> product) {
-    // ... process message ...
-}
-----
+
+snippet::io.micronaut.coherence.docs.messaging.ProductElementListener[tags="element"]
 
 The method above will be passed the link:{coherenceApi}/com/tangosol/net/topic/Subscriber.Element.html[Element] received from the topic. By receiving the element, the method has access to the message value and all the metadata stored with the message.
 
@@ -74,14 +54,7 @@ An important part of Coherence topic subscribers is committing messages to notif
 
 If no `commitStrategy` field has been provided to the `@CoherenceTopicListener` annotation the default behaviour is to synchronously call `Element.commit()` for every message received.
 
-[source,java]
-----
-@CoherenceTopicListener
-@Topic("my-products")
-public void receive(Element<Product> product) {
-    // ... process message ...
-}
-----
+snippet::io.micronaut.coherence.docs.messaging.ProductElementListener[tags="element"]
 No `commitStrategy` field has been supplied to the `@CoherenceTopicListener` annotation.
 
 ==== Setting Commit Strategy
@@ -90,38 +63,14 @@ The link:{api}/io/micronaut/coherence/annotation/CoherenceTopicListener.html[@Co
 
 * CommitStrategy.SYNC - This strategy is the default, and will synchronously commit every message upon successful completion of the handler method, by calling `Element.commit()`.
 
-[source,java]
-----
-@CoherenceTopicListener(commitStrategy = CommitStrategy.SYNC)
-@Topic("my-products")
-public void receive(Product product) {
-    // ... process message ...
-}
-----
+snippet::io.micronaut.coherence.docs.messaging.SyncCommitListener[tags="sync"]
 
 * CommitStrategy.ASYNC - This strategy will asynchronously commit every message upon successful completion of the handler method, by calling `Element.commitAsync()`.
 
-[source,java]
-----
-@CoherenceTopicListener(commitStrategy = CommitStrategy.ASYNC)
-@Topic("my-products")
-public void receive(Product product) {
-    // ... process message ...
-}
-----
+snippet::io.micronaut.coherence.docs.messaging.AsyncCommitListener[tags="async"]
 
 * CommitStrategy.MANUAL - This strategy will not automatically commit messages, all handling of commits must be done as part of the handler method or by some external process.
 
-[source,java]
-----
-@CoherenceTopicListener(commitStrategy = CommitStrategy.MANUAL)
-@Topic("my-products")
-public void receive(Element<Product> product) {
-    // ... process message ...
+snippet::io.micronaut.coherence.docs.messaging.ManualCommitListener[tags="manual"]
 
-    // manually commit the element
-    element.commit();
-}
-----
-
-In the example above a `MANUAL` commit strategy has used. The element will be committed by the application code at the end of the handler method. To be able to manually commit a message the method must take the `Element` as a parameter so that application code can access the commit methods.
+In the example above a `MANUAL` commit strategy is used. The element will be committed by the application code at the end of the handler method. To be able to manually commit a message the method must take the `Element` as a parameter so that application code can access the commit methods.

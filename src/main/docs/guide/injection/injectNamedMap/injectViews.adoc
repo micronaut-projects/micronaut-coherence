@@ -2,13 +2,7 @@ View (or link:{coherenceApi}/com/tangosol/net/ContinuousQueryCache.html[Continuo
 link:{api}/io/micronaut/coherence/annotation/View.html[@View] annotation at the injection point.
 A view is a sub-set of the data in an underlying cache, controlled by a link:{coherenceApi}/com/tangosol/util/Filter.html[Filter].
 
-[source,java]
-----
-@Inject
-@Name("people")
-@View                                    // <1>
-private NamedMap<String, Person> map;
-----
+snippet::io.micronaut.coherence.docs.injection.maps.PeopleViews[tags="view"]
 <1> The injection point has been annotated with `@View`, so the injected `NamedMap` will actually be an implementation
 of a `ContinuousQueryCache`.
 
@@ -35,38 +29,24 @@ filter binding annotation could be used to specify the `Filter`.
 The `@WhereFilter` annotation produces a `Filter` created from a Coherence CohQL where clause,
 in this case `lastName == 'Simpson'`.
 
-[source,java]
-----
-@Inject
-@Name("people")
-@View
-@WhereFilter("lastName = 'Simpson'")
-private NamedMap<String, Person> simpsons;
-----
+snippet::io.micronaut.coherence.docs.injection.maps.PeopleViews[tags="filter"]
 
 Other built-in or custom filter binding annotations can be used.
 Multiple filter-binding annotations can be added to the same injection point to build up more complex
 views. The `Filter` instances produced from each filter binding annotation will all be collected together in
-an link:{coherenceApi}/com/tangosol/util/filter/AllFilter.html[AllFilter], which will logically AND then together.
+an link:{coherenceApi}/com/tangosol/util/filter/AllFilter.html[AllFilter], which will logically AND them together.
 
-For example:
+For example, combining `@WhereFilter` with the custom `@AdultMales` filter binding annotation created in the
+<<filterBinding,Filter Binding Annotation>> section:
 
-[source,java]
-----
-@Inject
-@Name("people")
-@View
-@WhereFilter("lastName = 'Simpson'")
-@WhereFilter("age > 10")
-private NamedMap<String, Person> simpsons;
-----
+snippet::io.micronaut.coherence.docs.injection.maps.PeopleViews[tags="filters"]
 
-The view injected above will be all `People` with a `lastName` attribute equal to `Simpson` and an `age`
-attribute greater than 10. Equivalent to `lastName = 'Simpson' && age > 10`.
+The view injected above will be all `People` with a `lastName` attribute equal to `Simpson` that are adult males.
+Equivalent to `lastName = 'Simpson' && gender = 'male' && age >= 18`.
 
 == Specify a View Transformer
 
-The values in a view map do not have to be the same as the value sin the underlying cache, a link:{coherenceApi}/com/tangosol/util/ValueExtractor.html[ValueExtractor] can be used to transform the actual cache value into a different value in the view.
+The values in a view map do not have to be the same as the values in the underlying cache, a link:{coherenceApi}/com/tangosol/util/ValueExtractor.html[ValueExtractor] can be used to transform the actual cache value into a different value in the view.
 ValueExtractor are specified for views using a special extractor binding annotation.
 These are annotations that are themselves annotated with the meta-annotation
 link:{api}/io/micronaut/coherence/annotation/ExtractorBinding.html[@ExtractorBinding].
@@ -77,14 +57,7 @@ and it is simple to implement other as required by applications
 
 For example, if there was a cache named "people", containing `Person` instances, and the application required a view where the value was just the `age` attribute of each `Person` rather than the whole cache value. A `@PropertyExtractor` annotation could be used to specify that the values should be transformed using a property extractor.
 
-[source,java]
-----
-@Inject
-@View                                       // <1>
-@Name("people")                             // <2>
-@PropertyExtractor("age")                   // <3>
-private NamedMap<String, Integer> ages;     // <4>
-----
+snippet::io.micronaut.coherence.docs.injection.maps.PeopleViews[tags="extractor"]
 <1> The `@View` annotation specifies that a view will be injected rather than a raw `NamedMap`.
 <2> The name of the underlying map for the view is `people`.
 <3> The `@PropertyExtractor` annotation specifies that a `ValueExtractor` should be used to transform the underlying cache values into different values in the view. In this case the `@PropertyExtractor` annotation will produce a value extractor to extract the `age` property.

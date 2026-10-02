@@ -1,0 +1,10 @@
+plugins {
+    id 'io.micronaut.build.internal.coherence-test-suite'
+    id 'groovy'
+}
+
+dependencies {
+    testCompileOnly mn.micronaut.inject.groovy
+    testCompileOnly mnData.micronaut.data.processor
+    testImplementation mnTest.micronaut.test.spock
+}

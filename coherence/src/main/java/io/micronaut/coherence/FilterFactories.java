@@ -106,6 +106,7 @@ public class FilterFactories {
     Filter<?> filter(InjectionPoint<?> injectionPoint) {
         AnnotationMetadata metadata = injectionPoint.getAnnotationMetadata();
         List<Class<? extends Annotation>> bindings = metadata.getAnnotationTypesByStereotype(FilterBinding.class);
+        List<Filter<?>> list = new ArrayList<>();
 
         for (Class<? extends Annotation> type : bindings) {
             Repeatable repeatable = type.getAnnotation(Repeatable.class);
@@ -115,11 +116,20 @@ public class FilterFactories {
             FilterFactory filterFactory = ctx.findBean(FilterFactory.class, new FactoryQualifier<>(type))
                     .orElse(null);
             if (filterFactory != null) {
-                return filterFactory.create(injectionPoint.synthesize(type));
+                Filter filter = filterFactory.create(injectionPoint.synthesize(type));
+                if (filter != null) {
+                    list.add(filter);
+                }
             }
         }
 
-        return Filters.always();
+        if (list.isEmpty()) {
+            return Filters.always();
+        } else if (list.size() == 1) {
+            return list.get(0);
+        } else {
+            return Filters.all(list.toArray(new Filter[0]));
+        }
     }
 
     /**

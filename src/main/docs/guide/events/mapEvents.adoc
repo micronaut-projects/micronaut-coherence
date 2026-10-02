@@ -8,22 +8,7 @@ A link:{coherenceApi}com/tangosol/util/MapEvent.html[MapEvent] observer method i
 
 For example, assuming that there is a map/cache named `people`, with keys of type `String` and values of type `Person`, and the application has logic that should be executed each time a new `Person` is inserted into the map:
 
-[source,java]
-----
-import com.tangosol.util.MapEvent;
-import io.micronaut.coherence.annotation.*;
-
-@Controller                                                    // <1>
-public class PersonController {
-
-    @CoherenceEventListener                                    // <2>
-    public void onNewPerson(@MapName("people")                 // <3>
-                            @Inserted                          // <4>
-                            MapEvent<String, Person> event) {
-        // ToDo: process the event
-    }
-}
-----
+snippet::io.micronaut.coherence.docs.events.mapevents.PersonController[tags="imports,clazz"]
 <1> The `PersonController` is a simple Micronaut bean, in this case a `Controller`.
 <2> The `onNewPerson` method is annotated with `@CoherenceEventListener` making it a Coherence event listener.
 <3> The `@MapName("people")` annotation specifies the name of the map to receive events from, in this case `people`.
@@ -41,34 +26,14 @@ Both annotations take a single `String` value that is the name of the map or cac
 
 For example,
 
-[source,java]
-----
-@CoherenceEventListener
-public void onEvent(MapEvent<String, String> event) {
-    // ToDo: process the event
-}
-----
+snippet::io.micronaut.coherence.docs.events.mapevents.MapEventListeners[tags="all"]
 The above method receives events for _all_ caches.
 
-[source,java]
-----
-@CoherenceEventListener
-public void onEvent(@MapName("foo")  // <1>
-                    MapEvent<String, String> event) {
-    // ToDo: process the event
-}
-----
+snippet::io.micronaut.coherence.docs.events.mapevents.MapEventListeners[tags="mapName"]
 <1> The above method receives events for the map named `foo`.
 
-[source,java]
-----
-@CoherenceEventListener
-public void onEvent(@CacheName("foo")  // <1>
-                    MapEvent<String, String> event) {
-    // ToDo: process the event
-}
-----
-<1> The above method receives events for the cache named `bar`.
+snippet::io.micronaut.coherence.docs.events.mapevents.MapEventListeners[tags="cacheName"]
+<1> The above method receives events for the cache named `foo`.
 
 
 === Specify the Cache Service name
@@ -79,36 +44,14 @@ If an applications Coherence configuration has multiple services, the events can
 
 For example,
 
-[source,java]
-----
-@CoherenceEventListener
-public void onEvent(@MapName("foo")  // <1>
-                    MapEvent<String, String> event) {
-    // ToDo: process the event
-}
-----
+snippet::io.micronaut.coherence.docs.events.mapevents.MapEventListeners[tags="mapName"]
 <1> The above method receives events for the map named `foo` on _all_ cache services.
 
-[source,java]
-----
-@CoherenceEventListener
-public void onEvent(@MapName("foo")
-                    @ServiceName("Storage")  // <1>
-                    MapEvent<String, String> event) {
-    // ToDo: process the event
-}
-----
-<1> The above method receives events for the cache named `foo` owned by the cache service named `Storage`.
+snippet::io.micronaut.coherence.docs.events.mapevents.MapEventListeners[tags="serviceName"]
+<1> The above method receives events for the cache named `foo` owned by the cache service named `StorageService`.
 
-[source,java]
-----
-@CoherenceEventListener
-public void onEvent(@ServiceName("Storage")  // <1>
-                    MapEvent<String, String> event) {
-    // ToDo: process the event
-}
-----
-<1> The above method receives events for the _all_ caches owned by the cache service named `Storage` as there is no `@MapName` or `@CacheName` annotation.
+snippet::io.micronaut.coherence.docs.events.mapevents.MapEventListeners[tags="serviceOnly"]
+<1> The above method receives events for the _all_ caches owned by the cache service named `StorageService` as there is no `@MapName` or `@CacheName` annotation.
 
 
 === Specify the Owning Session name
@@ -118,54 +61,18 @@ The events can be restricted to `maps` and/or `caches` in specific sessions usin
 
 For example,
 
-[source,java]
-----
-@CoherenceEventListener
-public void onEvent(@MapName("orders")  // <1>
-                    MapEvent<String, String> event) {
-    // ToDo: process the event
-}
-----
+snippet::io.micronaut.coherence.docs.events.mapevents.MapEventListeners[tags="allSessions"]
 <1> The above method receives events for the map named `orders` in _all_ sessions.
 
-[source,java]
-----
-@CoherenceEventListener
-public void onEvent(@MapName("orders")
-                    @SessionName("Customer")  // <1>
-                    MapEvent<String, Order> event) {
-    // ToDo: process the event
-}
-----
+snippet::io.micronaut.coherence.docs.events.mapevents.MapEventListeners[tags="sessionName"]
 <1> The above method receives events for the map named `orders` owned by the `Session` named `Customer`.
 
-[source,java]
-----
-@CoherenceEventListener
-public void onEvent(@SessionName("Customer")  // <1>
-                    MapEvent<String, Order> event) {
-    // ToDo: process the event
-}
-----
+snippet::io.micronaut.coherence.docs.events.mapevents.MapEventListeners[tags="sessionOnly"]
 <1> The above method receives events for the _all_ caches owned by the `Session` named `Customer` as there is no `@MapName` or `@CacheName` annotation.
 
 In an application with multiple sessions, events can be routed by session, for example:
-[source,java]
-----
-@CoherenceEventListener
-public void onCustomerOrders(@SessionName("Customer")  // <1>
-                             @MapName("orders")
-                             MapEvent<String, Order> event) {
-    // ToDo: process the event
-}
 
-@CoherenceEventListener
-public void onCatalogOrders(@SessionName("Catalog")   // <2>
-                            @MapName("orders")
-                            MapEvent<String, Order> event) {
-    // ToDo: process the event
-}
-----
+snippet::io.micronaut.coherence.docs.events.mapevents.MapEventListeners[tags="routing"]
 <1> The `onCustomerOrders` will receive events for the `orders` map owned by the `Session` named `Customer`.
 <2> The `onCatalogOrders` will receive events for the `orders` map owned by the `Session` named `Catalog`.
 
