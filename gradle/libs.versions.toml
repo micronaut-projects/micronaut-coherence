@@ -1,17 +1,17 @@
 [versions]
-managed-coherence = "26.04"
+managed-coherence = "26.07"
 
 bedrock = "7.0.9"
 hamcrest = "3.0"
 
 # Micronaut
-micronaut = "5.2.9"
+micronaut = "5.2.13"
 micronaut-cache = "6.1.1"
-micronaut-data = "5.1.4"
+micronaut-data = "5.2.0"
 micronaut-discovery-client = "5.1.0"
-micronaut-reactor = "4.2.0"
-micronaut-session = "5.1.0"
-micronaut-serde = "3.1.1"
+micronaut-reactor = "4.3.0"
+micronaut-session = "5.2.0"
+micronaut-serde = "3.2.4"
 micronaut-test = "5.0.0"
 
 [libraries]
@@ -30,6 +30,6 @@ managed-coherence-json = { module = "com.oracle.coherence.ce:coherence-json", ve
 # BOMs
 boms-coherence = { module = "com.oracle.coherence.ce:coherence-bom", version.ref = "managed-coherence" }
 
-slf4j-simple = { module = "org.slf4j:slf4j-simple", version = "2.0.18" }
+slf4j-simple = { module = "org.slf4j:slf4j-simple", version = "2.0.20" }
 bedrock-testing-support = { module = "com.oracle.bedrock:bedrock-testing-support", version.ref = "bedrock" }
 hamcrest = { module = "org.hamcrest:hamcrest", version.ref = "hamcrest" }
