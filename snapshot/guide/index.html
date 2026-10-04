@@ -385,7 +385,9 @@ coherence.role=storage</code></pre>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">coherence = {cluster = "test-cluster", role = "storage"}</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[coherence]
+cluster = "test-cluster"
+role = "storage"</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -564,7 +566,8 @@ Alternatively, if the application is a Coherence gRPC client, the default Sessio
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">coherence = {sessions = {default = {config = "coherence-config.xml"}}}</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[coherence.sessions.default]
+config = "coherence-config.xml"</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -643,7 +646,11 @@ coherence.sessions.customer.config=customer-config.xml</code></pre>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">coherence = {sessions = {catalog = {config = "catalog-config.xml"}, customer = {config = "customer-config.xml"}}}</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[coherence.sessions.catalog]
+config = "catalog-config.xml"
+
+[coherence.sessions.customer]
+config = "customer-config.xml"</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -724,7 +731,8 @@ For example, in the configuration below there wil be no <code>default</code> ses
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">coherence = {sessions = {catalog = {config = "catalog-config.xml"}}}</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[coherence.sessions.catalog]
+config = "catalog-config.xml"</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -789,7 +797,11 @@ coherence.sessions.default.config=coherence-config.xml</code></pre>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">coherence = {sessions = {catalog = {config = "catalog-config.xml"}, default = {config = "coherence-config.xml"}}}</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[coherence.sessions.catalog]
+config = "catalog-config.xml"
+
+[coherence.sessions.default]
+config = "coherence-config.xml"</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -877,7 +889,8 @@ If not specified, the default value will be <code>coherence-cache-config.xml</co
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">coherence = {sessions = {default = {config = "coherence-config.xml"}}}</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[coherence.sessions.default]
+config = "coherence-config.xml"</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -955,7 +968,13 @@ coherence.sessions.customer.config=customer-config.xml</code></pre>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">coherence = {sessions = {catalog = {scope = "Catalog", config = "catalog-config.xml"}, customer = {scope = "Customer", config = "customer-config.xml"}}}</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[coherence.sessions.catalog]
+scope = "Catalog"
+config = "catalog-config.xml"
+
+[coherence.sessions.customer]
+scope = "Customer"
+config = "customer-config.xml"</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -1042,7 +1061,9 @@ coherence.sessions.default.config=client-config.xml</code></pre>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">coherence = {sessions = {default = {scope = "Catalog", config = "client-config.xml"}}}</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[coherence.sessions.default]
+scope = "Catalog"
+config = "client-config.xml"</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -1131,7 +1152,10 @@ coherence.sessions.default.config=client-config.xml</code></pre>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">coherence = {sessions = {default = {type = "client", scope = "Catalog", config = "client-config.xml"}}}</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[coherence.sessions.default]
+type = "client"
+scope = "Catalog"
+config = "client-config.xml"</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -1388,7 +1412,8 @@ testAnnotationProcessor("io.micronaut.data:micronaut-data-processor:${micronautD
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">coherence = {data = {&lt;repository-name&gt; = [{session = "&lt;session-name&gt;"}]}}</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[[coherence.data."&lt;repository-name&gt;"]]
+session = "&lt;session-name&gt;"</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -1461,7 +1486,7 @@ like the following:</p>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">coherence = {data = {book = null}}</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[coherence.data]</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -8468,7 +8493,9 @@ micronaut.session.http.coherence.cache-name=http-session-cache</code></pre>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">micronaut = {session = {http = {coherence = {enabled = true, cache-name = "http-session-cache"}}}}</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[micronaut.session.http.coherence]
+enabled = true
+cache-name = "http-session-cache"</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -8640,7 +8667,8 @@ runtime = [
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">coherence = {cache = {enabled = false}}</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[coherence.cache]
+enabled = false</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -8780,8 +8808,18 @@ coherence:
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">micronaut = {application = {name = "hello-world"}, config-client = {enabled = true}}
-coherence = {sessions = {config = {type = "client"}}, configuration = {client = {enabled = true, session = "client"}}}</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[micronaut.application]
+name = "hello-world"
+
+[micronaut.config-client]
+enabled = true
+
+[coherence.sessions.config]
+type = "client"
+
+[coherence.configuration.client]
+enabled = true
+session = "client"</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
