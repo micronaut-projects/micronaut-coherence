@@ -20,6 +20,7 @@ import java.util.Optional;
 import com.tangosol.net.Coherence;
 import com.tangosol.net.SessionConfiguration;
 
+import io.micronaut.context.annotation.BootstrapContextCompatible;
 import io.micronaut.context.annotation.EachProperty;
 import io.micronaut.context.annotation.Parameter;
 
@@ -35,6 +36,7 @@ import io.micronaut.context.annotation.Parameter;
  * @author Jonathan Knight
  * @since 1.0
  */
+@BootstrapContextCompatible
 @EachProperty(value = "coherence.sessions", primary = "default")
 public class SessionConfigurationBean extends AbstractSessionConfigurationBean {
 

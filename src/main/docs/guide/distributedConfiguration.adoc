@@ -24,12 +24,18 @@ coherence:
   configuration:
     client:
       enabled: true
-      session: client
+      session: config
 ----
 
-This will create a configuration client using the session named `client` to connect to
+This will create a configuration client using the session named `config` to connect to
 a Coherence proxy server over extend and allow the application to lookup property sources for the application
 from Coherence.
+
+The configuration client runs in the bootstrap context, before the application context starts. It reads the
+configuration through a Coherence instance of its own, created for the configured session, which is closed with the
+other Coherence instances when the application stops. The default Coherence instance of the application is still
+created by the application context. The configuration is read when the application starts and again on each
+environment refresh.
 
 .Configuration Resolution Precedence
 |===

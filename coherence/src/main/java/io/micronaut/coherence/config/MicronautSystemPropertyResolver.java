@@ -20,6 +20,7 @@ import com.tangosol.coherence.config.SystemPropertyResolver;
 
 import io.micronaut.context.annotation.Context;
 import io.micronaut.context.env.Environment;
+import io.micronaut.core.annotation.Internal;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
@@ -43,7 +44,7 @@ public class MicronautSystemPropertyResolver
     /**
      * The Micronaut {@link io.micronaut.context.env.Environment}.
      */
-    private static Environment env;
+    private static volatile Environment env;
 
     /**
      * This constructor is required so that Coherence can discover
@@ -61,6 +62,21 @@ public class MicronautSystemPropertyResolver
     @Inject
     MicronautSystemPropertyResolver(Environment environment) {
         MicronautSystemPropertyResolver.env = environment;
+    }
+
+    /**
+     * Use the given {@link io.micronaut.context.env.Environment} until the application context creates this
+     * resolver. Coherence can be started before that, for example by the distributed configuration client in the
+     * bootstrap context.
+     *
+     * @param environment  the Micronaut {@link io.micronaut.context.env.Environment}
+     */
+    @Internal
+    public static synchronized void useUntilBound(Environment environment) {
+        Environment current = MicronautSystemPropertyResolver.env;
+        if (current == null || !current.isRunning()) {
+            MicronautSystemPropertyResolver.env = environment;
+        }
     }
 
     @Override

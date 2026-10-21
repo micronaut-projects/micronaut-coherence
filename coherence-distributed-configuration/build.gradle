@@ -27,6 +27,8 @@ dependencies {
 
 test {
     useJUnitPlatform()
+    // Coherence reads its operational configuration once per JVM
+    forkEvery = 1
     testLogging.showStandardStreams = true
     systemProperty("java.net.preferIPv4Stack", "true")
 }

@@ -15,15 +15,23 @@
  */
 package io.micronaut.coherence.discovery;
 
+import com.tangosol.net.Coherence;
+import com.tangosol.net.CoherenceConfiguration;
 import com.tangosol.net.NamedMap;
 import com.tangosol.net.Session;
+import com.tangosol.net.SessionConfiguration;
+import io.micronaut.coherence.SessionConfigurationProvider;
+import io.micronaut.coherence.config.MicronautSystemPropertyResolver;
 import io.micronaut.context.BeanContext;
 import io.micronaut.context.annotation.BootstrapContextCompatible;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.env.Environment;
 import io.micronaut.context.env.EnvironmentPropertySource;
 import io.micronaut.context.env.PropertySource;
+import io.micronaut.context.exceptions.ConfigurationException;
+import io.micronaut.core.util.StringUtils;
 import io.micronaut.discovery.config.ConfigurationClient;
+import io.micronaut.inject.qualifiers.Qualifiers;
 import io.micronaut.runtime.ApplicationConfiguration;
 import jakarta.inject.Singleton;
 import org.reactivestreams.Publisher;
@@ -40,6 +48,14 @@ import java.util.Set;
 
 /**
  * A {@link ConfigurationClient} that works with Coherence as a config source.
+ * <p>The client usually runs in the bootstrap context, before the application context exists. It reads the
+ * configuration through a Coherence instance of its own, created for the session named by
+ * {@code coherence.configuration.client.session}. It does not use the default Coherence instance, which the
+ * application context creates with the application's sessions, listeners and interceptors. The values are copied
+ * into the property sources.</p>
+ * <p>The client does not close its Coherence instance: a session with the same scope and configuration in the
+ * application shares the same services, and closing it would close them too. The instance is reused by later
+ * clients for the same session, and closed with the other Coherence instances when the application stops.</p>
  */
 @Singleton
 @BootstrapContextCompatible
@@ -48,9 +64,10 @@ public class CoherenceConfigurationClient implements ConfigurationClient {
 
     private static final Logger LOG = LoggerFactory.getLogger(CoherenceConfigurationClient.class);
     private static final String DEFAULT_APPLICATION = "application";
+    private static final String DEFAULT_SESSION = "default";
+    private static final String INSTANCE_NAME_PREFIX = "micronaut-configuration-client-";
 
     private final ApplicationConfiguration applicationConfiguration;
-    private final List<Flux<PropertySource>> propertySources = new ArrayList<>();
     private final CoherenceClientConfiguration coherenceClientConfiguration;
     private final BeanContext beanContext;
 
@@ -78,17 +95,19 @@ public class CoherenceConfigurationClient implements ConfigurationClient {
         if (!coherenceClientConfiguration.isEnabled()) {
             return Flux.empty();
         }
-        Session session = beanContext.createBean(Session.class, coherenceClientConfiguration.getSession());
+        // in the bootstrap context, Coherence reads its settings from the bootstrap configuration
+        MicronautSystemPropertyResolver.useUntilBound(environment);
+        Session configSession = getSession();
 
         Map<Integer, String> keys = buildSourceNames(applicationConfiguration, environment);
+        List<PropertySource> propertySources = new ArrayList<>(keys.size());
         for (Map.Entry<Integer, String> entry : keys.entrySet()) {
             final Integer priority = entry.getKey();
             final String propertySource = entry.getValue();
-            NamedMap<String, Object> configMap = session.getMap(propertySource);
-            Flux<PropertySource> propertySourceFlux = Flux.just(PropertySource.of(propertySource, configMap, priority));
-            propertySources.add(propertySourceFlux);
+            NamedMap<String, Object> configMap = configSession.getMap(propertySource);
+            propertySources.add(PropertySource.of(propertySource, new HashMap<>(configMap), priority));
         }
-        return Flux.merge(propertySources);
+        return Flux.fromIterable(propertySources);
     }
 
     /**
@@ -124,5 +143,37 @@ public class CoherenceConfigurationClient implements ConfigurationClient {
     @Override
     public String getDescription() {
         return "Reads configuration from Oracle Coherence";
+    }
+
+    private Session getSession() {
+        SessionConfiguration sessionConfiguration = sessionConfiguration();
+        String instanceName = INSTANCE_NAME_PREFIX + sessionConfiguration.getName();
+        Coherence coherence;
+        synchronized (CoherenceConfigurationClient.class) {
+            coherence = Coherence.getInstance(instanceName);
+            if (coherence == null || coherence.isClosed()) {
+                coherence = Coherence.create(CoherenceConfiguration.builder()
+                        .named(instanceName)
+                        .withSession(sessionConfiguration)
+                        .build(), sessionConfiguration.getMode().orElse(Coherence.Mode.ClusterMember));
+            }
+        }
+        coherence.start().join();
+        return coherence.getSession(sessionConfiguration.getName());
+    }
+
+    private SessionConfiguration sessionConfiguration() {
+        String name = coherenceClientConfiguration.getSession();
+        String sessionName = StringUtils.isNotEmpty(name) ? name : DEFAULT_SESSION;
+        Optional<SessionConfiguration> configuration = beanContext
+                .findBean(SessionConfigurationProvider.class, Qualifiers.byName(sessionName))
+                .flatMap(SessionConfigurationProvider::getConfiguration);
+        if (configuration.isPresent()) {
+            return configuration.get();
+        }
+        if (DEFAULT_SESSION.equals(sessionName)) {
+            return SessionConfiguration.defaultSession();
+        }
+        throw new ConfigurationException("No Session has been configured with the name " + sessionName);
     }
 }
